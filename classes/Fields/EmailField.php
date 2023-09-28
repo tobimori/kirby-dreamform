@@ -1,23 +1,18 @@
 <?php
 
-namespace tobimori\DreamForm\Actions;
+namespace tobimori\DreamForm\Fields;
 
-class EmailAction extends Action
+class EmailField extends Field
 {
 	public static $type = 'email';
 
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('send-email-action'),
+			'title' => t('email-field'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'email',
-			'tabs' => []
 		];
-	}
-
-	public function run(): void
-	{
 	}
 }

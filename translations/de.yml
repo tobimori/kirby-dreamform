@@ -1,0 +1,30 @@
+forms: Formulare
+form: Formular
+submission: Einsendung
+all-forms: Alle Formulare
+empty-forms: Keine Formulare
+form-name: Formularname
+form-draft: Dieses Formular ist ein Entwurf und kann nicht eingereicht werden oder in Blöcken verlinkt werden.
+form-listed: Dieses Formular ist veröffentlicht und kann eingereicht werden.
+
+# Actions
+actions: Aktionen
+empty-actions: Keine Aktionen definiert
+send-email-action: E-Mail senden
+redirect-action: Weiterleiten
+
+# Fields
+fields: Felder
+text-field: Textfeld
+recipient-field: Empfänger-Auswahlfeld
+checkbox-field: Auswahlkästchen
+email-field: E-Mail-Feld
+button-field: Absende-Button
+label: Beschriftung
+placeholder: Platzhaltertext
+error-message: Fehlermeldung
+error-message-help: Die Fehlermeldung wird angezeigt, wenn das Feld **nicht** oder im **falschen Format** ausgefüllt wurde.
+error-message-default: Dieses Feld muss ausgefüllt werden.
+required: Pflichtfeld
+required-off: Nein, optional
+required-on: Ja, Pflichtfeld

@@ -1,0 +1,32 @@
+title: form
+image:
+  icon: survey
+  query: icon
+
+options:
+  preview: false
+  changeSlug: false
+
+create:
+  title:
+    label: form-name
+  slug: false
+
+status:
+  draft:
+    text: form-draft
+  unlisted: false
+  listed:
+    text: form-listed
+
+tabs:
+  fields:
+    label: fields
+    icon: input-cursor-move
+    fields:
+      fields: dreamform/fields/fields
+  actions:
+    label: actions
+    icon: folder-structure
+    fields:
+      actions: dreamform/fields/actions

@@ -17,3 +17,7 @@ Uniform is a toolkit for creating forms, it especially helps with server-side va
 Kirby Dream Form is not free software. In order to run it on a public server, you'll have to purchase a valid Kirby license & a valid plugin license or subscription.
 
 Copyright 2023 © Tobias Möritz - Love & Kindness GmbH
+
+---
+
+The plugins name is a homage to Kirby's Dream Land.

@@ -2,17 +2,17 @@
 
 namespace tobimori\DreamForm\Actions;
 
-class EmailAction extends Action
+class RedirectAction extends Action
 {
-	public static $type = 'email';
+	public static $type = 'redirect';
 
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('send-email-action'),
+			'title' => t('redirect-action'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
-			'icon' => 'email',
+			'icon' => 'shuffle',
 			'tabs' => []
 		];
 	}

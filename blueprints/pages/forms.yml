@@ -1,0 +1,30 @@
+title: forms
+image:
+  icon: survey
+  query: icon
+
+options:
+  preview: false
+  delete: false
+  changeSlug: false
+  changeStatus: false
+  duplicate: false
+  changeTitle: false
+
+status:
+  draft: false
+  unlisted: true
+  listed: false
+
+tabs:
+  forms:
+    label: all-forms
+    icon: survey
+    columns:
+      - width: 3/4
+        sections:
+          forms:
+            label: forms
+            type: pages
+            empty: empty-forms
+            template: form

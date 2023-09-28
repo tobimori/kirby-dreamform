@@ -1,0 +1,6 @@
+label: required
+type: toggle
+width: 1/3
+text:
+  - required-off
+  - required-on
