@@ -13,4 +13,9 @@ class ButtonField extends Field
 			'icon' => 'ticket',
 		];
 	}
+
+	public function validate($value): true|string
+	{
+		return true;
+	}
 }

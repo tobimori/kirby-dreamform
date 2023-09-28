@@ -13,6 +13,22 @@ class EmailField extends Field
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'email',
+			'tabs' => [
+				'settings' => [
+					'label' => t('settings'),
+					'fields' => [
+						'label' => 'dreamform/fields/label',
+						'placeholder' => 'dreamform/fields/placeholder',
+						'required' => 'dreamform/fields/required',
+						'errorMessage' => 'dreamform/fields/error-message',
+					]
+				]
+			]
 		];
+	}
+
+	public function validate($value): true|string
+	{
+		return true;
 	}
 }

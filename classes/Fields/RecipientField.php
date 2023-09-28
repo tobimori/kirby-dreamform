@@ -15,4 +15,9 @@ class RecipientField extends Field
 			'icon' => 'email',
 		];
 	}
+
+	public function validate($value): true|string
+	{
+		return true;
+	}
 }

@@ -26,4 +26,9 @@ class TextField extends Field
 			]
 		];
 	}
+
+	public function validate($value): true|string
+	{
+		return true;
+	}
 }

@@ -15,4 +15,9 @@ class CheckboxField extends Field
 			'icon' => 'toggle-off',
 		];
 	}
+
+	public function validate($value): true|string
+	{
+		return true;
+	}
 }

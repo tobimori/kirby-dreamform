@@ -3,7 +3,7 @@
 namespace tobimori\DreamForm\Models;
 
 use Kirby\Cms\Blocks;
-use Kirby\Cms\Layout;
+use Kirby\Cms\Layouts;
 use Kirby\Cms\Page;
 use Kirby\Http\Request;
 use Kirby\Toolkit\Str;
@@ -27,7 +27,7 @@ class FormPage extends Page
 		return $fields;
 	}
 
-	public function fieldLayout(): Layout
+	public function fieldLayouts(): Layouts
 	{
 		return $this->content()->get('fields')->toLayouts();
 	}
@@ -37,7 +37,7 @@ class FormPage extends Page
 	{
 		$blocks = [];
 
-		foreach ($this->fieldLayout() as $layout) {
+		foreach ($this->fieldLayouts() as $layout) {
 			foreach ($layout->columns() as $column) {
 				foreach ($column->blocks() as $block) {
 					$blocks[] = $block;
