@@ -8,11 +8,13 @@ use Kirby\Content\Field;
 use Kirby\Data\Json;
 use Kirby\Http\Request;
 use Kirby\Toolkit\Str;
+use Kirby\Uuid\Uuid;
 
 class FormPage extends BasePage
 {
 	private Collection $fields;
 
+	/** Create a form page & Form Field objects */
 	public function __construct(array $props)
 	{
 		parent::__construct($props);
@@ -37,36 +39,38 @@ class FormPage extends BasePage
 		$this->fields = new Collection($fields, []);
 	}
 
-	public static function getFields(Request $request): array
-	{
-		$path = $request->path()->data()[2];
-		$page = page(Str::replace($path, '+', '/'));
-
-		$fields = [];
-
-		foreach ($page->fields() as $field) {
-			$fields[] = [
-				'label' => t($field->field()->type()) . ($field->field()->label()->isNotEmpty() ? ": {$field->field()->label()}" : ""),
-				'id' => $field->field()->id(),
-			];
-		}
-
-		return $fields;
-	}
-
+	/** Returns the form layouts */
 	public function fieldLayouts(): Layouts
 	{
 		return $this->content()->get('fields')->toLayouts();
 	}
 
+	/** Returns the fields for a form  */
 	public function fields(): Collection
 	{
 		return $this->fields;
 	}
 
-	/**
-	 * Main form handler
-	 */
+	/** Create actions for a submission */
+	public function actions(SubmissionPage $submission): Collection
+	{
+		$active = option('tobimori.dreamform.actions', []);
+		$actions = [];
+
+		foreach ($this->content()->get('actions')->toBlocks() as $block) {
+			$type = Str::replace($block->type(), '-action', '');
+
+			if (!key_exists($type, $active)) {
+				continue;
+			}
+
+			$actions[] = new $active[$type]($block, $this, $submission);
+		}
+
+		return new Collection($actions, []);
+	}
+
+	/** Main form handler */
 	public function run(): array|null
 	{
 		$request = kirby()->request();
@@ -74,7 +78,7 @@ class FormPage extends BasePage
 
 		foreach ($this->fields() as $field) {
 			$body = $request->body()->get($field->field()->id()) ?? null;
-			$field->setContent(new Field($this, $field->field()->id(), $body));
+			$field->setValue(new Field($this, $field->field()->id(), $body));
 
 			$validation = $field->validate();
 
@@ -84,12 +88,33 @@ class FormPage extends BasePage
 			}
 		}
 
-		foreach ($this->actions() as $action) {
+		if ($data !== null) {
+			return $data;
+		}
+
+		// this is just virtual for now and won't be stored
+		$submission = new SubmissionPage([
+			'slug' => $uuid = Uuid::generate(),
+			'fields' => $this->fields(),
+			'parent' => $this,
+			'content' => [
+				'uuid' => $uuid
+			]
+		]);
+
+		try {
+			foreach ($this->actions($submission) as $action) {
+				$action->run();
+			}
+		} catch (\Exception $e) {
+			$data ??= [];
+			$data['error'] = $e->getMessage();
 		}
 
 		return $data;
 	}
 
+	/** Runs the form handling, or renders a 404 page */
 	public function render(array $data = [], $contentType = 'html'): string
 	{
 		$kirby = kirby();
@@ -108,5 +133,26 @@ class FormPage extends BasePage
 
 		$kirby->response()->code(404);
 		return $this->site()->errorPage()->render();
+	}
+
+	/**
+	 * Static function to get page fields based on
+	 * the API request url for use in panel blueprints
+	 */
+	public static function getFields(Request $request): array
+	{
+		$path = $request->path()->data()[2];
+		$page = page(Str::replace($path, '+', '/'));
+
+		$fields = [];
+
+		foreach ($page->fields() as $field) {
+			$fields[] = [
+				'label' => t($field->field()->type()) . ($field->field()->label()->isNotEmpty() ? ": {$field->field()->label()}" : ""),
+				'id' => $field->field()->id(),
+			];
+		}
+
+		return $fields;
 	}
 }

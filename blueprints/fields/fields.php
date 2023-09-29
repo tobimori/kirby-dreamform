@@ -1,8 +1,6 @@
 <?php
 
-use Kirby\Cms\App;
-
-return function (App $kirby) {
+return function () {
 	$layouts = option('tobimori.dreamform.layouts', ['1/1']);
 	$fields = option('tobimori.dreamform.fields', []);
 	$fieldsets = [];

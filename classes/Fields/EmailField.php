@@ -31,8 +31,8 @@ class EmailField extends Field
 	{
 		if (
 			$this->field()->required()->toBool()
-			&& $this->content()->isEmpty()
-			|| !V::email($this->content()->value())
+			&& $this->value()->isEmpty()
+			|| !V::email($this->value()->value())
 		) {
 			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('error-message-default');
 		}

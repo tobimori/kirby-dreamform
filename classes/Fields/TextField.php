@@ -29,7 +29,7 @@ class TextField extends Field
 	{
 		if (
 			$this->field()->required()->toBool()
-			&& $this->content()->isEmpty()
+			&& $this->value()->isEmpty()
 		) {
 			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('error-message-default');
 		}

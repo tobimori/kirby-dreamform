@@ -2,7 +2,7 @@
 
 namespace tobimori\DreamForm\Actions;
 
-use tobimori\DreamForm\Models\SubmissionPage;
+use Kirby\Cms\User;
 
 class EmailAction extends Action
 {
@@ -17,11 +17,23 @@ class EmailAction extends Action
 		];
 	}
 
-	public function __construct(SubmissionPage $submission)
-	{
-	}
-
 	public function run(): void
 	{
+		$kirby = kirby();
+
+		// works for now
+		$kirby->email([
+			'template' => 'form',
+			'from' => new User([
+				'name' => $kirby->site()->name(),
+				'email' => $kirby->option('email.transport.username')
+			]),
+			'replyTo' => $this->submission()->fields()->findBy('id', '957a729e-6f0e-425e-b4cd-43edfbfd838c')->value()->value(),
+			'to' => $this->submission()->fields()->findBy('id', '89c4d3cd-59dc-41ac-93fe-ff3b8657fa9f')->value()->value(),
+			'subject' => 'Kontaktformular',
+			'data' => [
+				'fields' => $this->submission()->fields()
+			]
+		]);
 	}
 }

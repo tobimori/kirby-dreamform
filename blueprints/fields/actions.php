@@ -1,11 +1,7 @@
 <?php
 
-use Kirby\Cms\App;
-use tobimori\DreamForm\Models\FormPage;
-
-return function (App $kirby) {
-	$fields = FormPage::getFields($kirby->request());
-	$actions  = option('tobimori.dreamform.actions', []);
+return function () {
+	$actions = option('tobimori.dreamform.actions', []);
 	$fieldsets = [];
 
 	foreach ($actions as $type => $action) {

@@ -8,13 +8,20 @@ use Kirby\Exception\Exception;
 
 abstract class Field
 {
+	protected string $id;
 	protected Block $field;
-	protected ContentField|null $content;
+	protected ContentField|null $value;
 
-	public function __construct(Block $field, ContentField|null $content = null)
+	public function __construct(Block $field, ContentField|null $value = null)
 	{
+		$this->id = $field->id();
 		$this->field = $field;
-		$this->content = $content;
+		$this->value = $value;
+	}
+
+	public function id(): string
+	{
+		return $this->id;
 	}
 
 	public function field(): Block
@@ -22,13 +29,13 @@ abstract class Field
 		return $this->field;
 	}
 
-	public function content(): ContentField
+	public function value(): ContentField
 	{
-		if (!$this->content) {
-			return new Exception('Field content is not set');
+		if (!$this->value) {
+			return new Exception('Field value is not set');
 		}
 
-		return $this->content;
+		return $this->value;
 	}
 
 	/** Returns true or an error message for the user frontend */
@@ -37,17 +44,17 @@ abstract class Field
 		return true;
 	}
 
-	/** Returns the sanitzed content of the field */
+	/** Returns the sanitzed value of the field */
 	public function sanitize(): mixed
 	{
-		return $this->content()->value();
+		return $this->value()->value();
 	}
 
-	public function setContent(ContentField $content)
+	public function setValue(ContentField $value)
 	{
-		$this->content = $content;
+		$this->value = $value;
 	}
 
-	/** Returns the Blocks fieldset blueprint for the actions' settings */
+	/** Returns the values fieldset blueprint for the actions' settings */
 	abstract public static function blueprint(): array;
 }

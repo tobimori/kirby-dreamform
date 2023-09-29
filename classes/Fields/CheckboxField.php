@@ -57,9 +57,9 @@ class CheckboxField extends Field
 	{
 		if (
 			$this->field()->max()->isNotEmpty()
-			&& !V::max(count($this->content()->value() ?? []), $this->field()->max()->toInt())
+			&& !V::max(count($this->value()->value() ?? []), $this->field()->max()->toInt())
 			|| $this->field()->min()->isNotEmpty()
-			&& !V::min(count($this->content()->value() ?? []), $this->field()->min()->toInt())
+			&& !V::min(count($this->value()->value() ?? []), $this->field()->min()->toInt())
 		) {
 			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('error-message-default');
 		}
