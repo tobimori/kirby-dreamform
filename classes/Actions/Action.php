@@ -6,7 +6,6 @@ use tobimori\DreamForm\Models\FormPage;
 
 abstract class Action
 {
-	public static $type;
 	public FormPage $page;
 
 	public function ___construct(FormPage $page)

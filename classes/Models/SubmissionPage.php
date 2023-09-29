@@ -2,12 +2,10 @@
 
 namespace tobimori\DreamForm\Models;
 
-use Kirby\Cms\Page;
-
-class SubmissionPage extends Page
+class SubmissionPage extends BasePage
 {
-	public function render(array $data = [], $contentType = 'html'): string
+	public function __construct(array $props)
 	{
-		return $this->site()->errorPage()->render();
+		parent::__construct($props);
 	}
 }

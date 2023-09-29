@@ -8,8 +8,8 @@ return function (App $kirby) {
 	$actions  = option('tobimori.dreamform.actions', []);
 	$fieldsets = [];
 
-	foreach ($actions as $action) {
-		$fieldsets["{$action::$type}-action"] = $action::blueprint();
+	foreach ($actions as $type => $action) {
+		$fieldsets["{$type}-action"] = $action::blueprint();
 	}
 
 	return [

@@ -2,10 +2,10 @@
 
 namespace tobimori\DreamForm\Fields;
 
+use Kirby\Toolkit\V;
+
 class EmailField extends Field
 {
-	public static $type = 'email';
-
 	public static function blueprint(): array
 	{
 		return [
@@ -27,8 +27,16 @@ class EmailField extends Field
 		];
 	}
 
-	public function validate($value): true|string
+	public function validate(): true|string
 	{
+		if (
+			$this->field()->required()->toBool()
+			&& $this->content()->isEmpty()
+			|| !V::email($this->content()->value())
+		) {
+			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('error-message-default');
+		}
+
 		return true;
 	}
 }

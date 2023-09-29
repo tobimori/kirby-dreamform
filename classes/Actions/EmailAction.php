@@ -2,10 +2,10 @@
 
 namespace tobimori\DreamForm\Actions;
 
+use tobimori\DreamForm\Models\SubmissionPage;
+
 class EmailAction extends Action
 {
-	public static $type = 'email';
-
 	public static function blueprint(): array
 	{
 		return [
@@ -15,6 +15,10 @@ class EmailAction extends Action
 			'icon' => 'email',
 			'tabs' => []
 		];
+	}
+
+	public function __construct(SubmissionPage $submission)
+	{
 	}
 
 	public function run(): void

@@ -4,18 +4,21 @@ namespace tobimori\DreamForm\Fields;
 
 class ButtonField extends Field
 {
-	public static $type = 'button';
-
 	public static function blueprint(): array
 	{
 		return [
 			'title' => t('button-field'),
 			'icon' => 'ticket',
+			'preview' => 'fields',
+			'wysiwyg' => true,
+			'tabs' => [
+				'settings' => [
+					'label' => t('settings'),
+					'fields' => [
+						'label' => 'dreamform/fields/label',
+					]
+				]
+			]
 		];
-	}
-
-	public function validate($value): true|string
-	{
-		return true;
 	}
 }

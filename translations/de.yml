@@ -16,7 +16,7 @@ redirect-action: Weiterleiten
 # Fields
 fields: Felder
 text-field: Textfeld
-recipient-field: Empfänger-Auswahlfeld
+select-field: Auswahlfeld
 checkbox-field: Auswahlkästchen
 email-field: E-Mail-Feld
 button-field: Absende-Button
@@ -28,3 +28,8 @@ error-message-default: Dieses Feld muss ausgefüllt werden.
 required: Pflichtfeld
 required-off: Nein, optional
 required-on: Ja, Pflichtfeld
+value: Wert
+options-label-help: Wird als Beschriftung im Kontaktformular angezeigt.
+options-value-help: Wird intern als gespeicherter Wert verwendet.
+min-checked: Mindestanzahl
+max-checked: Maximalanzahl

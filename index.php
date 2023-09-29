@@ -13,7 +13,7 @@ use tobimori\DreamForm\Actions\RedirectAction;
 use tobimori\DreamForm\Fields\ButtonField;
 use tobimori\DreamForm\Fields\CheckboxField;
 use tobimori\DreamForm\Fields\EmailField;
-use tobimori\DreamForm\Fields\RecipientField;
+use tobimori\DreamForm\Fields\SelectField;
 use tobimori\DreamForm\Fields\TextField;
 
 if (
@@ -26,15 +26,15 @@ if (
 App::plugin('tobimori/dreamform', [
 	'options' => [
 		'actions' => [
-			EmailAction::class,
-			RedirectAction::class
+			'email' => EmailAction::class,
+			'redirect' => RedirectAction::class
 		],
 		'fields' => [
-			TextField::class,
-			EmailField::class,
-			RecipientField::class,
-			CheckboxField::class,
-			ButtonField::class
+			'text' => TextField::class,
+			'email' => EmailField::class,
+			'select' => SelectField::class,
+			'checkbox' => CheckboxField::class,
+			'button' => ButtonField::class
 		],
 		'layouts' => [ // https://getkirby.com/docs/reference/panel/fields/layout#defining-your-own-layouts
 			'1/1',

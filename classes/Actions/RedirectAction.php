@@ -4,8 +4,6 @@ namespace tobimori\DreamForm\Actions;
 
 class RedirectAction extends Action
 {
-	public static $type = 'redirect';
-
 	public static function blueprint(): array
 	{
 		return [

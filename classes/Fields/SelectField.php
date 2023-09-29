@@ -2,15 +2,15 @@
 
 namespace tobimori\DreamForm\Fields;
 
-class TextField extends Field
+class SelectField extends Field
 {
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('text-field'),
+			'title' => t('select-field'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
-			'icon' => 'title',
+			'icon' => 'list-bullet',
 			'tabs' => [
 				'settings' => [
 					'label' => t('settings'),
@@ -19,6 +19,22 @@ class TextField extends Field
 						'placeholder' => 'dreamform/fields/placeholder',
 						'required' => 'dreamform/fields/required',
 						'errorMessage' => 'dreamform/fields/error-message',
+						'options' => [
+							'label' => t('options'),
+							'type' => 'structure',
+							'fields' => [
+								'value' => [
+									'type' => 'text',
+									'label' => t('value'),
+									'help' => t('options-value-help'),
+									'width' => '1/2'
+								],
+								'label' => [
+									'extends' => 'dreamform/fields/label',
+									'help' => t('options-label-help')
+								]
+							]
+						]
 					]
 				]
 			]
