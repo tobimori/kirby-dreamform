@@ -20,29 +20,29 @@ class RedirectAction extends Action
 	public function run(): void
 	{
 		$parse = Str::split($this->submission()->fields()->findBy('id', '89c4d3cd-59dc-41ac-93fe-ff3b8657fa9f')->value()->value(), '@')[0];
-		$response = kirby()->response();
-		$response->redirect('/danke', 303);
-		return;
 
 		switch ($parse) {
 			case 'vermietung':
-				$redirect = '/danke/vermietung';
+				$redirect = '/services/bueros/danke-bueroanmietung';
 				break;
 			case 'bookings':
-				$redirect = '/danke/bookings';
+				$redirect = '/services/kreativ-konferenzraeume/danke-kreativ-konferenzraeume';
 				break;
-			case 'hello+virtualoffice':
-				$redirect = '/danke/virtualoffice';
+			case 'hello+geschaeftsadresse':
+				$redirect = '/services/geschaeftsadresse/danke-geschaeftsadresse';
 				break;
 			case 'hello+coworking':
-				$redirect = '/danke/coworking';
+				$redirect = '/services/coworking/danke-coworking';
 				break;
 			case 'hello+membership':
-				$redirect = '/danke/membership';
+				$redirect = '/services/membership/danke-membership';
 				break;
 			case 'hello+sonstiges':
-				$redirect = '/danke/sonstiges';
+				$redirect = '/services/danke-service';
 				break;
 		}
+
+		$response = kirby()->response();
+		$response->redirect('/danke', 303);
 	}
 }
