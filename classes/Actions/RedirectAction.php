@@ -43,6 +43,6 @@ class RedirectAction extends Action
 		}
 
 		$response = kirby()->response();
-		$response->redirect('/danke', 303);
+		$response->redirect($redirect, 303);
 	}
 }
