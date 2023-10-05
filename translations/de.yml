@@ -12,10 +12,13 @@ actions: Aktionen
 empty-actions: Keine Aktionen definiert
 send-email-action: E-Mail senden
 redirect-action: Weiterleiten
+conditional-action: Bedingte Aktion
 
 # Fields
 fields: Felder
 text-field: Textfeld
+textarea-field: Textfeld (mehrzeilig)
+hidden-field: Verstecktes Feld
 select-field: Auswahlfeld
 checkbox-field: Auswahlkästchen
 email-field: E-Mail-Feld
@@ -29,6 +32,7 @@ required: Pflichtfeld
 required-off: Nein, optional
 required-on: Ja, Pflichtfeld
 value: Wert
+key: Schlüssel
 options-label-help: Wird als Beschriftung im Kontaktformular angezeigt.
 options-value-help: Wird intern als gespeicherter Wert verwendet.
 min-checked: Mindestanzahl

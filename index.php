@@ -13,7 +13,9 @@ use tobimori\DreamForm\Actions\RedirectAction;
 use tobimori\DreamForm\Fields\ButtonField;
 use tobimori\DreamForm\Fields\CheckboxField;
 use tobimori\DreamForm\Fields\EmailField;
+use tobimori\DreamForm\Fields\HiddenField;
 use tobimori\DreamForm\Fields\SelectField;
+use tobimori\DreamForm\Fields\TextareaField;
 use tobimori\DreamForm\Fields\TextField;
 
 if (
@@ -31,6 +33,8 @@ App::plugin('tobimori/dreamform', [
 		],
 		'fields' => [
 			'text' => TextField::class,
+			'hidden' => HiddenField::class,
+			'textarea' => TextareaField::class,
 			'email' => EmailField::class,
 			'select' => SelectField::class,
 			'checkbox' => CheckboxField::class,
@@ -39,7 +43,8 @@ App::plugin('tobimori/dreamform', [
 		'layouts' => [ // https://getkirby.com/docs/reference/panel/fields/layout#defining-your-own-layouts
 			'1/1',
 			'1/2, 1/2'
-		]
+		],
+		'page' => 'page://forms' // Slug or URI to the page where the forms are located
 	],
 	'pageModels' => [
 		'forms' => 'tobimori\DreamForm\Models\FormsPage',
@@ -51,12 +56,14 @@ App::plugin('tobimori/dreamform', [
 		'pages/form' => __DIR__ . '/blueprints/pages/form.yml',
 		'pages/submission' => __DIR__ . '/blueprints/pages/submission.yml',
 
+		'dreamform/fields/key' => __DIR__ . '/blueprints/fields/key.yml',
 		'dreamform/fields/label' => __DIR__ . '/blueprints/fields/label.yml',
 		'dreamform/fields/placeholder' => __DIR__ . '/blueprints/fields/placeholder.yml',
 		'dreamform/fields/error-message' => __DIR__ . '/blueprints/fields/error-message.yml',
 		'dreamform/fields/required' => __DIR__ . '/blueprints/fields/required.yml',
 		'dreamform/fields/actions' => require_once __DIR__ . '/blueprints/fields/actions.php',
 		'dreamform/fields/fields' => require_once __DIR__ . '/blueprints/fields/fields.php',
+		'dreamform/fields/form' => require_once __DIR__ . '/blueprints/fields/form.php',
 	],
 	// get all files from /translations and register them as language files
 	'translations' => A::keyBy(A::map(

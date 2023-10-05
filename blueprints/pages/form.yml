@@ -3,6 +3,8 @@ image:
   icon: survey
   query: icon
 
+num: 0
+
 options:
   preview: false
   changeSlug: false

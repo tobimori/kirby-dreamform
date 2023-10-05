@@ -1,0 +1,5 @@
+label: key
+type: slug
+required: true
+width: 1/6
+icon: none

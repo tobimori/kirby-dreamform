@@ -15,6 +15,7 @@ class TextField extends Field
 				'settings' => [
 					'label' => t('settings'),
 					'fields' => [
+						'key' => 'dreamform/fields/key',
 						'label' => 'dreamform/fields/label',
 						'placeholder' => 'dreamform/fields/placeholder',
 						'required' => 'dreamform/fields/required',

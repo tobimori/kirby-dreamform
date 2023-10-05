@@ -15,7 +15,10 @@ class ButtonField extends Field
 				'settings' => [
 					'label' => t('settings'),
 					'fields' => [
-						'label' => 'dreamform/fields/label',
+						'label' => [
+							'extends' => 'dreamform/fields/label',
+							'width' => 1
+						],
 					]
 				]
 			]

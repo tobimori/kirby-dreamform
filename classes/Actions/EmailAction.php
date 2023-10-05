@@ -4,6 +4,10 @@ namespace tobimori\DreamForm\Actions;
 
 use Kirby\Cms\User;
 
+/**
+ * Action for sending an email with the submission data.
+ * @package tobimori\DreamForm\Actions
+ */
 class EmailAction extends Action
 {
 	public static function blueprint(): array

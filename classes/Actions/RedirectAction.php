@@ -4,6 +4,10 @@ namespace tobimori\DreamForm\Actions;
 
 use Kirby\Toolkit\Str;
 
+/**
+ * Action for redirecting the user to a success page after submitting.
+ * @package tobimori\DreamForm\Actions
+ */
 class RedirectAction extends Action
 {
 	public static function blueprint(): array

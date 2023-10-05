@@ -6,6 +6,10 @@ use Kirby\Cms\Block;
 use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
 
+/**
+ * Base class for all actions.
+ * @package tobimori\DreamForm\Actions
+ */
 abstract class Action
 {
 	private Block $action;
