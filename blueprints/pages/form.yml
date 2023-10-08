@@ -7,7 +7,7 @@ num: 0
 
 options:
   preview: false
-  changeSlug: false
+#  changeSlug: false
 
 create:
   title:

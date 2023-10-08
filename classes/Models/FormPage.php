@@ -88,14 +88,15 @@ class FormPage extends BasePage
 		$data = null;
 
 		foreach ($this->fields() as $field) {
-			$body = $request->body()->get($field->field()->id()) ?? null;
-			$field->setValue(new Field($this, $field->field()->id(), $body));
+			$key = $field->field()->key()->or($field->field()->id())->value();
+			$body = $request->body()->get($key) ?? null;
+			$field->setValue(new Field($this, $key, $body));
 
 			$validation = $field->validate();
 
 			if ($validation !== true) {
 				$data ??= [];
-				$data[$field->field()->id()] = $validation;
+				$data[$key] = $validation;
 			}
 		}
 

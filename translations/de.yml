@@ -24,7 +24,6 @@ template-type: Vorlagentyp
 template-type-default: Standardvorlage
 template-type-kirby: Kirby-Template
 template-type-field: Benutzerdefiniertes Template
-kirby-template: Kirby-Template
 
 # Fields
 fields: Felder

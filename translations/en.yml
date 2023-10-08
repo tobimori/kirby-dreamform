@@ -1,0 +1,52 @@
+forms: Forms
+form: Form
+submission: Submission
+all-forms: All Forms
+empty-forms: No forms
+form-name: Form name
+form-draft: This form is a draft and can not be submitted or linked in blocks.
+form-listed: This form is published and can be submitted.
+
+# Actions
+actions: Actions
+empty-actions: No actions defined
+send-email-action: Send E-Mail
+redirect-action: Redirect
+conditional-action: Conditional Action
+abort-action: Abort
+send-to: Send to...
+reply-to: Reply to...
+static: Static
+from-field: From Input Field
+addresses: Addresses
+subject: Subject
+template-type: Template Type
+template-type-default: Default Template
+template-type-kirby: Kirby Template
+template-type-field: Custom Template
+
+# Fields
+fields: Fields
+field: Field
+validation: Validation
+text-field: Text Field
+textarea-field: Text Field (multiline)
+hidden-field: Hidden Field
+select-field: Select Field
+checkbox-field: Checkbox Field
+email-field: E-Mail Field
+button-field: Send Button
+label: Label
+placeholder: Placeholder Text
+error-message: Error Message
+error-message-help: The error message will be displayed if the field is **not** or in the **wrong format** filled out.
+error-message-default: This field is required.
+required: Required
+required-off: No, optional
+required-on: Yes, required
+value: Value
+key: Key
+options-label-help: Will be displayed as label in the contact form.
+options-value-help: Will be used as value in the contact form.
+min-checked: Min. checked
+max-checked: Max. checked

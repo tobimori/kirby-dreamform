@@ -40,7 +40,7 @@ class EmailField extends Field
 			&& $this->value()->isEmpty()
 			|| !V::email($this->value()->value())
 		) {
-			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('error-message-default');
+			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage()->value() : t("error-message-default");
 		}
 
 		return true;
