@@ -75,7 +75,7 @@ class FormPage extends BasePage
 				continue;
 			}
 
-			$actions[] = new $active[$type]($block, $this, $submission);
+			$actions[] = new $registered[$type]($block, $this, $submission);
 		}
 
 		return new Collection($actions, []);
@@ -159,7 +159,7 @@ class FormPage extends BasePage
 		$fields = [];
 		foreach ($page->fields() as $field) {
 			$type = Str::replace($field->field()->type(), '-field', '');
-			$fields[$field->id()] = "{$field->field()->label()->value()} ({$type})";
+			$fields[$field->id()] = "{$field->field()->label()->or($field->field()->key())->value()} ({$type})";
 		}
 
 		return $fields;

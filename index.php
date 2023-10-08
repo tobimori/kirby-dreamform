@@ -44,6 +44,7 @@ SubmissionPage::$registeredFields['text'] = TextField::class;
 
 App::plugin('tobimori/dreamform', [
 	'options' => [
+		'email' => null,
 		'actions' => true,
 		'fields' => true,
 		'layouts' => [ // https://getkirby.com/docs/reference/panel/fields/layout#defining-your-own-layouts

@@ -26,4 +26,14 @@ class SubmissionPage extends BasePage
 	{
 		return $this->fields;
 	}
+
+	public function fieldValues(): array
+	{
+		$fieldValues = [];
+		foreach ($this->fields() as $field) {
+			$fieldValues[$field->field()->key()->or($field->id())->value()] = $field->value();
+		}
+
+		return $fieldValues;
+	}
 }

@@ -3,9 +3,11 @@
 namespace tobimori\DreamForm\Actions;
 
 use Kirby\Cms\User;
+use Kirby\Toolkit\A;
 
 /**
  * Action for sending an email with the submission data.
+ * 
  * @package tobimori\DreamForm\Actions
  */
 class EmailAction extends Action
@@ -37,7 +39,7 @@ class EmailAction extends Action
 							'label' => ' ',
 							'type' => 'text',
 							'width' => '3/4',
-							'placeholder' => 'tobimori@dreamform.com',
+							'placeholder' => t('email.placeholder'),
 							'when' => [
 								'sendTo' => 'static'
 							]
@@ -70,6 +72,7 @@ class EmailAction extends Action
 						'subject' => [
 							'label' => t('subject'),
 							'type' => 'text',
+							'required' => true
 						],
 						'templateType' => [
 							'label' => t('template-type'),
@@ -103,23 +106,88 @@ class EmailAction extends Action
 		];
 	}
 
+	public function template(): string|null
+	{
+		$type = $this->action()->templateType()->value();
+
+		if ($type === 'kirby') {
+			return $this->action()->kirbyTemplate()->value();
+		}
+
+		if ($type === 'default') {
+			return 'dreamform';
+		}
+
+		return null;
+	}
+
+	public function to(): string
+	{
+		if ($this->action()->sendTo()->value() === 'field') {
+			return $this->submission()->fields()->findBy('id', $this->action()->sendToField()->value())->value()->value();
+		}
+
+		return $this->action()->sendToStatic()->value();
+	}
+
+	public function replyTo(): string
+	{
+		if ($this->action()->replyTo()->value() === 'field') {
+			return $this->submission()->fields()->findBy('id', $this->action()->replyToField()->value())->value()->value();
+		}
+
+		if (($static = $this->action()->replyToStatic())->isNotEmpty()) {
+			return $static->value();
+		}
+
+		return kirby()->option('email.transport.username');
+	}
+
+
+	public function body(): array|null
+	{
+		if ($this->action()->templateType()->value() !== 'field') {
+			return null;
+		}
+
+		$html = $this->submission()->toSafeString(
+			$this->action()->fieldTemplate()->value(),
+			$this->submission()->fieldValues()
+		);
+
+		return [
+			'html' => $html,
+			'text' => strip_tags($html)
+		];
+	}
+
+	public function subject()
+	{
+		return $this->submission()->toSafeString(
+			$this->action()->subject()->value(),
+			$this->submission()->fieldValues()
+		);
+	}
+
 	public function run(): void
 	{
-		$kirby = kirby();
+		$action = $this->action();
 
-		// works for now
-		$kirby->email([
-			'template' => 'form',
+		kirby()->email([
+			'template' => $this->template(),
 			'from' => new User([
-				'name' => $kirby->site()->name(),
-				'email' => $kirby->option('email.transport.username')
+				'name' => site()->title(),
+				'email' => option('tobimori.dreamform.email', option('email.transport.username'))
 			]),
-			'replyTo' => $this->submission()->fields()->findBy('id', '957a729e-6f0e-425e-b4cd-43edfbfd838c')->value()->value(),
-			'to' => $this->submission()->fields()->findBy('id', '89c4d3cd-59dc-41ac-93fe-ff3b8657fa9f')->value()->value(),
-			'subject' => 'Kontaktformular',
+			'replyTo' => $this->replyTo(),
+			'to' => $this->to(),
+			'subject' => $this->subject(),
+			'body' => $this->body(),
 			'data' => [
-				'fields' => $this->submission()->fields()
-			]
+				'action' => $this,
+				'submission' => $this->submission(),
+				'fields' => $this->submission()->fields(),
+			],
 		]);
 	}
 }
