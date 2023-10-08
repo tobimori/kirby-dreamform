@@ -7,6 +7,7 @@ use Kirby\Cms\Layouts;
 use Kirby\Content\Field;
 use Kirby\Data\Json;
 use Kirby\Http\Request;
+use Kirby\Http\Url;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 
@@ -104,10 +105,19 @@ class FormPage extends BasePage
 			return $data;
 		}
 
+		$referer = null;
+		// try to get page from referer header
+		if (isset($request->headers()["Referer"])) {
+			$url = $request->headers()["Referer"];
+			$path = Url::path($url);
+			$referer = page($path);
+		}
+
 		// this is just virtual for now and won't be stored
 		$submission = new SubmissionPage([
 			'slug' => $uuid = Uuid::generate(),
 			'fields' => $this->fields(),
+			'referer' => $referer,
 			'parent' => $this,
 			'content' => [
 				'uuid' => $uuid

@@ -150,7 +150,7 @@ class EmailAction extends Action
 			return null;
 		}
 
-		$html = $this->submission()->toSafeString(
+		$html = ($this->submission()->referer() ?? $this->submission())->toSafeString(
 			$this->action()->fieldTemplate()->value(),
 			$this->submission()->fieldValues()
 		);
@@ -163,7 +163,7 @@ class EmailAction extends Action
 
 	public function subject()
 	{
-		return $this->submission()->toSafeString(
+		return ($this->submission()->referer() ?? $this->submission())->toSafeString(
 			$this->action()->subject()->value(),
 			$this->submission()->fieldValues()
 		);
@@ -171,8 +171,6 @@ class EmailAction extends Action
 
 	public function run(): void
 	{
-		$action = $this->action();
-
 		kirby()->email([
 			'template' => $this->template(),
 			'from' => new User([

@@ -5,6 +5,12 @@ return function () {
     'type' => 'writer',
     'toolbar' => [
       'inline' => false
+    ],
+    'marks' => [
+      'bold',
+      'italic',
+      'underline',
+      'strikethrough'
     ]
   ];
 };
