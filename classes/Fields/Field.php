@@ -55,6 +55,11 @@ abstract class Field
 		$this->value = $value;
 	}
 
+	public static function hasValue()
+	{
+		return true;
+	}
+
 	/** Returns the values fieldset blueprint for the actions' settings */
 	abstract public static function blueprint(): array;
 }

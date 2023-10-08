@@ -1,10 +1,17 @@
 <?php
 
+use tobimori\DreamForm\Models\SubmissionPage;
+
 return function () {
-	$actions = option('tobimori.dreamform.actions', []);
 	$fieldsets = [];
 
-	foreach ($actions as $type => $action) {
+	$active = option('tobimori.dreamform.actions', true);
+	$registered = SubmissionPage::$registeredActions;
+	foreach ($registered as $type => $action) {
+		if (is_array($active) ? !in_array($type, $active) : $active !== true) {
+			continue;
+		}
+
 		$fieldsets["{$type}-action"] = $action::blueprint();
 	}
 

@@ -1,0 +1,7 @@
+type: toggles
+required: true
+width: 1/4
+default: static
+options:
+  static: '{{ t("static") }}'
+  field: '{{ t("from-field") }}'

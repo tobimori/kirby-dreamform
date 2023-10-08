@@ -12,12 +12,17 @@ class TextField extends Field
 			'wysiwyg' => true,
 			'icon' => 'title',
 			'tabs' => [
-				'settings' => [
-					'label' => t('settings'),
+				'field' => [
+					'label' => t('field'),
 					'fields' => [
 						'key' => 'dreamform/fields/key',
 						'label' => 'dreamform/fields/label',
 						'placeholder' => 'dreamform/fields/placeholder',
+					]
+				],
+				'validation' => [
+					'label' => t('validation'),
+					'fields' => [
 						'required' => 'dreamform/fields/required',
 						'errorMessage' => 'dreamform/fields/error-message',
 					]

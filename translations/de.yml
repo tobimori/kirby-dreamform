@@ -13,9 +13,23 @@ empty-actions: Keine Aktionen definiert
 send-email-action: E-Mail senden
 redirect-action: Weiterleiten
 conditional-action: Bedingte Aktion
+abort-action: Abbrechen
+send-to: Senden an...
+reply-to: Antwort an...
+static: Statisch
+from-field: Von Eingabefeld
+addresses: Adressen
+subject: Betreff
+template-type: Vorlagentyp
+template-type-default: Standardvorlage
+template-type-kirby: Kirby-Template
+template-type-field: Benutzerdefiniertes Template
+kirby-template: Kirby-Template
 
 # Fields
 fields: Felder
+field: Feld
+validation: Validierung
 text-field: Textfeld
 textarea-field: Textfeld (mehrzeilig)
 hidden-field: Verstecktes Feld

@@ -8,18 +8,23 @@ namespace tobimori\DreamForm\Actions;
  */
 class ConditionalAction extends Action
 {
-  public static function blueprint(): array
-  {
-    return [
-      'title' => t('conditional-action'),
-      'preview' => 'fields',
-      'wysiwyg' => true,
-      'icon' => 'shuffle',
-      'tabs' => []
-    ];
-  }
+	public static function blueprint(): array
+	{
+		return [
+			'title' => t('conditional-action'),
+			'preview' => 'fields',
+			'wysiwyg' => true,
+			'icon' => 'split',
+			'tabs' => [
+				'conditions' => [
+					'label' => t('conditions'),
+					'fields' => []
+				]
+			]
+		];
+	}
 
-  public function run(): void
-  {
-  }
+	public function run(): void
+	{
+	}
 }

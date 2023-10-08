@@ -19,19 +19,25 @@ class FormPage extends BasePage
 	{
 		parent::__construct($props);
 
-		$active = option('tobimori.dreamform.fields', []);
 		$fields = [];
+
+		$active = option('tobimori.dreamform.fields', true);
+		$registered = SubmissionPage::$registeredFields;
 
 		foreach ($this->fieldLayouts() as $layout) {
 			foreach ($layout->columns() as $column) {
 				foreach ($column->blocks() as $block) {
 					$type = Str::replace($block->type(), '-field', '');
 
-					if (!key_exists($type, $active)) {
+					if (!key_exists($type, $registered)) {
 						continue;
 					}
 
-					$fields[] = new $active[$type]($block);
+					if (is_array($active) && !in_array($type, $active) || $active != true) {
+						continue;
+					}
+
+					$fields[] = new $registered[$type]($block);
 				}
 			}
 		}
@@ -54,13 +60,18 @@ class FormPage extends BasePage
 	/** Create actions for a submission */
 	public function actions(SubmissionPage $submission): Collection
 	{
-		$active = option('tobimori.dreamform.actions', []);
+		$active = option('tobimori.dreamform.actions', true);
+		$registered = SubmissionPage::$registeredActions;
 		$actions = [];
 
 		foreach ($this->content()->get('actions')->toBlocks() as $block) {
 			$type = Str::replace($block->type(), '-action', '');
 
-			if (!key_exists($type, $active)) {
+			if (!key_exists($type, $registered)) {
+				continue;
+			}
+
+			if (is_array($active) && !in_array($type, $active) || $active != true) {
 				continue;
 			}
 
@@ -145,12 +156,9 @@ class FormPage extends BasePage
 		$page = page(Str::replace($path, '+', '/'));
 
 		$fields = [];
-
 		foreach ($page->fields() as $field) {
-			$fields[] = [
-				'label' => t($field->field()->type()) . ($field->field()->label()->isNotEmpty() ? ": {$field->field()->label()}" : ""),
-				'id' => $field->field()->id(),
-			];
+			$type = Str::replace($field->field()->type(), '-field', '');
+			$fields[$field->id()] = "{$field->field()->label()->value()} ({$type})";
 		}
 
 		return $fields;

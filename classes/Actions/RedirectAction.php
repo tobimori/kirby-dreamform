@@ -16,7 +16,7 @@ class RedirectAction extends Action
 			'title' => t('redirect-action'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
-			'icon' => 'shuffle',
+			'icon' => 'share',
 			'tabs' => []
 		];
 	}

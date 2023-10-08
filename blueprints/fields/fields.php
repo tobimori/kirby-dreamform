@@ -1,11 +1,18 @@
 <?php
 
+use tobimori\DreamForm\Models\SubmissionPage;
+
 return function () {
 	$layouts = option('tobimori.dreamform.layouts', ['1/1']);
-	$fields = option('tobimori.dreamform.fields', []);
 	$fieldsets = [];
 
-	foreach ($fields as $type => $field) {
+	$active = option('tobimori.dreamform.fields', true);
+	$registered = SubmissionPage::$registeredFields;
+	foreach ($registered as $type => $field) {
+		if (is_array($active) ? !in_array($type, $active) : $active !== true) {
+			continue;
+		}
+
 		$fieldsets["{$type}-field"] = $field::blueprint();
 	}
 

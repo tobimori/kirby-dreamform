@@ -17,7 +17,89 @@ class EmailAction extends Action
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'email',
-			'tabs' => []
+			'tabs' => [
+				'addresses' => [
+					'label' => t('addresses'),
+					'fields' => [
+						'sendTo' => [
+							'label' => t('send-to'),
+							'extends' => 'dreamform/fields/static-dynamic-toggles',
+						],
+						'sendToField' => [
+							'label' => ' ',
+							'extends' => 'dreamform/fields/field',
+							'width' => '3/4',
+							'when' => [
+								'sendTo' => 'field'
+							]
+						],
+						'sendToStatic' => [
+							'label' => ' ',
+							'type' => 'text',
+							'width' => '3/4',
+							'placeholder' => 'tobimori@dreamform.com',
+							'when' => [
+								'sendTo' => 'static'
+							]
+						],
+						'replyTo' => [
+							'label' => t('reply-to'),
+							'extends' => 'dreamform/fields/static-dynamic-toggles',
+						],
+						'replyToField' => [
+							'label' => ' ',
+							'extends' => 'dreamform/fields/field',
+							'width' => '3/4',
+							'when' => [
+								'replyTo' => 'field'
+							]
+						],
+						'replyToStatic' => [
+							'label' => ' ',
+							'type' => 'text',
+							'width' => '3/4',
+							'when' => [
+								'replyTo' => 'static'
+							]
+						]
+					]
+				],
+				'template' => [
+					'label' => t('template'),
+					'fields' => [
+						'subject' => [
+							'label' => t('subject'),
+							'type' => 'text',
+						],
+						'templateType' => [
+							'label' => t('template-type'),
+							'type' => 'select',
+							'width' => '1/4',
+							'required' => true,
+							'options' => [
+								'default' => t('template-type-default'),
+								'kirby' => t('template-type-kirby'),
+								'field' => t('template-type-field')
+							],
+						],
+						'kirbyTemplate' => [
+							'extends' => 'dreamform/fields/email-template',
+							'width' => '3/4',
+							'when' => [
+								'templateType' => 'kirby'
+							]
+						],
+						'fieldTemplate' => [
+							'label' => t('template'),
+							'extends' => 'dreamform/fields/writer-with-fields',
+							'width' => '3/4',
+							'when' => [
+								'templateType' => 'field'
+							]
+						]
+					]
+				]
+			]
 		];
 	}
 

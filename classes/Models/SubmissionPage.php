@@ -7,6 +7,8 @@ use Kirby\Exception\Exception;
 
 class SubmissionPage extends BasePage
 {
+	public static $registeredFields = [];
+	public static $registeredActions = [];
 	private Collection $fields;
 
 	public function __construct(array $props)
