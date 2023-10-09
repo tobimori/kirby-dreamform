@@ -6,6 +6,7 @@ use Kirby\Toolkit\Str;
 
 /**
  * Action for redirecting the user to a success page after submitting.
+ *
  * @package tobimori\DreamForm\Actions
  */
 class RedirectAction extends Action
@@ -16,7 +17,7 @@ class RedirectAction extends Action
 			'title' => t('redirect-action'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
-			'icon' => 'share',
+			'icon' => 'shuffle',
 			'tabs' => []
 		];
 	}
@@ -27,26 +28,26 @@ class RedirectAction extends Action
 
 		switch ($parse) {
 			case 'vermietung':
-				$redirect = '/services/bueros/danke-bueroanmietung';
+				$redirect = '/services/bueros/danke';
 				break;
 			case 'bookings':
-				$redirect = '/services/kreativ-konferenzraeume/danke-kreativ-konferenzraeume';
+				$redirect = '/services/kreativ-konferenzraeume/danke';
 				break;
 			case 'hello+geschaeftsadresse':
-				$redirect = '/services/geschaeftsadresse/danke-geschaeftsadresse';
+				$redirect = '/services/geschaeftsadresse/danke';
 				break;
 			case 'hello+coworking':
-				$redirect = '/services/coworking/danke-coworking';
+				$redirect = '/services/coworking/danke';
 				break;
 			case 'hello+membership':
-				$redirect = '/services/membership/danke-membership';
+				$redirect = '/services/membership/danke';
 				break;
 			case 'hello+sonstiges':
-				$redirect = '/services/danke-service';
+				$redirect = '/services/danke';
 				break;
 		}
 
 		$response = kirby()->response();
-		$response->redirect($redirect, 303);
+		$response->redirect("{$redirect}?form=sent", 303);
 	}
 }
