@@ -6,6 +6,12 @@ Kirby Dream Form is an opiniated plugin for [Kirby CMS](https://getkirby.com/) t
 
 It is currently in development and used privately for my own projects.
 
+### Lifecycle of a Form Submission
+
+1. The form is submitted, either via AJAX or a regular POST request
+2. The `->validate()` method is called on every field
+3.
+
 ## Comparison
 
 ### Dream Form vs. Uniform

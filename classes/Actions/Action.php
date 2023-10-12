@@ -43,7 +43,7 @@ abstract class Action
 	}
 
 	/** Run the action */
-	abstract public function run(): void;
+	abstract public function run();
 
 	/** Returns the Blocks fieldset blueprint for the actions' settings */
 	abstract public static function blueprint(): array;

@@ -3,7 +3,6 @@
 namespace tobimori\DreamForm\Actions;
 
 use Kirby\Cms\User;
-use Kirby\Toolkit\A;
 
 /**
  * Action for sending an email with the submission data.

@@ -86,7 +86,12 @@ class FormPage extends BasePage
 	public function run(): array|null
 	{
 		$request = kirby()->request();
-		$data = null;
+		$data = [
+			'success' => true,
+			'error' => null,
+			'errors' => null,
+			'actions' => null
+		];
 
 		foreach ($this->fields() as $field) {
 			$key = $field->field()->key()->or($field->field()->id())->value();
@@ -96,12 +101,13 @@ class FormPage extends BasePage
 			$validation = $field->validate();
 
 			if ($validation !== true) {
-				$data ??= [];
-				$data[$key] = $validation;
+				$data['errors'] ??= [];
+				$data['errors'][$key] = $validation;
 			}
 		}
 
-		if ($data !== null) {
+		if ($data['errors'] !== null) {
+			$data['success'] = false;
 			return $data;
 		}
 
@@ -126,10 +132,19 @@ class FormPage extends BasePage
 
 		try {
 			foreach ($this->actions($submission) as $action) {
-				$action->run();
+				$actionData = $action->run();
+
+				if ($actionData !== null) {
+					$data['actions'] ??= [];
+					$data['actions'][] = [
+						'type' => Str::replace($action->action()->type(), '-action', ''), // TODO; find a better way for this -> type() static
+						'id' => $action->action()->id(),
+						...$actionData
+					];
+				}
 			}
 		} catch (\Exception $e) {
-			$data ??= [];
+			$data['success'] = false;
 			$data['error'] = $e->getMessage();
 		}
 
@@ -142,15 +157,9 @@ class FormPage extends BasePage
 		$kirby = kirby();
 
 		if ($kirby->request()->method() === 'POST') {
-			$errors = $this->run();
-
-			if ($errors === null) {
-				$kirby->response()->code(200);
-				return Json::encode(['success' => true]);
-			}
-
-			$kirby->response()->code(400);
-			return Json::encode(['success' => false, ...$errors]);
+			$data = $this->run();
+			$kirby->response()->code($data['success'] ? 200 : 400);
+			return Json::encode($data);
 		}
 
 		$kirby->response()->code(404);

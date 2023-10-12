@@ -22,7 +22,7 @@ class RedirectAction extends Action
 		];
 	}
 
-	public function run(): void
+	public function run()
 	{
 		$parse = Str::split($this->submission()->fields()->findBy('id', '89c4d3cd-59dc-41ac-93fe-ff3b8657fa9f')->value()->value(), '@')[0];
 
@@ -49,5 +49,9 @@ class RedirectAction extends Action
 
 		$response = kirby()->response();
 		$response->redirect("{$redirect}?form=sent", 303);
+
+		return [
+			'redirect' => "{$redirect}?form=sent"
+		];
 	}
 }
