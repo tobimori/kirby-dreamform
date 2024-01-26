@@ -60,6 +60,11 @@ abstract class Field
 		return true;
 	}
 
-	/** Returns the values fieldset blueprint for the actions' settings */
+	/** Returns the values fieldset blueprint for the fields' settings */
 	abstract public static function blueprint(): array;
+
+	public function submissionBlueprint(): array|null
+	{
+		return null;
+	}
 }

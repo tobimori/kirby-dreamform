@@ -1,12 +1,12 @@
 <?php
 
-use tobimori\DreamForm\Models\SubmissionPage;
+use tobimori\DreamForm\Models\FormPage;
 
 return function () {
 	$fieldsets = [];
 
 	$active = option('tobimori.dreamform.actions', true);
-	$registered = SubmissionPage::$registeredActions;
+	$registered = FormPage::$registeredActions;
 	foreach ($registered as $type => $action) {
 		if (is_array($active) ? !in_array($type, $active) : $active !== true) {
 			continue;

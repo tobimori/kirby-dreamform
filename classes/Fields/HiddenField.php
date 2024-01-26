@@ -25,6 +25,15 @@ class HiddenField extends Field
 		];
 	}
 
+	public function submissionBlueprint(): array|null
+	{
+		return [
+			'label' => t('hidden-field') . ': ' . $this->field()->key()->value(),
+			'icon' => 'hidden',
+			'type' => 'text'
+		];
+	}
+
 	public static function hasValue()
 	{
 		return false;

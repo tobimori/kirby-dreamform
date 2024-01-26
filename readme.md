@@ -10,7 +10,8 @@ It is currently in development and used privately for my own projects.
 
 1. The form is submitted, either via AJAX or a regular POST request
 2. The `->validate()` method is called on every field
-3.
+3. If validation fails, the form is re-rendered with the error messages
+4. If the validation succeeds, actions are run one by one
 
 ## Comparison
 
@@ -30,7 +31,7 @@ It is currently in development and used privately for my own projects.
 
 Kirby Dream Form is not free software. In order to run it on a public server, you'll have to purchase a valid Kirby license & a valid plugin license or subscription.
 
-Copyright 2023 © Tobias Möritz - Love & Kindness GmbH
+Copyright 2024 © Tobias Möritz - Love & Kindness GmbH
 
 ---
 

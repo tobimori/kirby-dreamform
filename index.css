@@ -1,3 +1,4 @@
+.k-panel[data-template='submission'] .k-header-buttons,
 .k-panel[data-template='forms'] .k-header-buttons {
   display: none;
 }

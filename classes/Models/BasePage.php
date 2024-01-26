@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Models;
 
 use Kirby\Cms\Page;
+use Kirby\Content\Field;
 
 class BasePage extends Page
 {
@@ -11,5 +12,14 @@ class BasePage extends Page
 	{
 		kirby()->response()->code(404);
 		return $this->site()->errorPage()->render();
+	}
+
+	/**
+	 * Override the page title to be static
+	 * to the template name
+	 */
+	public function title(): Field
+	{
+		return new Field($this, 'title', t($this->intendedTemplate()->name()));
 	}
 }

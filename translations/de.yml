@@ -1,6 +1,8 @@
 forms: Formulare
 form: Formular
-submission: Einsendung
+submissions: Antworten
+submission: Antwort
+empty-submissions: Keine Antworten
 all-forms: Alle Formulare
 empty-forms: Keine Formulare
 form-name: Formularname
@@ -24,6 +26,7 @@ template-type: Vorlagentyp
 template-type-default: Standardvorlage
 template-type-kirby: Kirby-Template
 template-type-field: Benutzerdefiniertes Template
+submission-action: Antwort speichern
 
 # Fields
 fields: Felder

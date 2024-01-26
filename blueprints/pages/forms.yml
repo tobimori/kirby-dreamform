@@ -10,6 +10,7 @@ options:
   changeStatus: false
   duplicate: false
   changeTitle: false
+  update: false
 
 status:
   draft: false
@@ -21,10 +22,25 @@ tabs:
     label: all-forms
     icon: survey
     columns:
-      - width: 3/4
+      main:
+        width: 3/4
         sections:
           forms:
             label: forms
             type: pages
             empty: empty-forms
             template: form
+  submissions:
+    label: submissions
+    icon: archive
+    columns:
+      main:
+        width: 3/4
+        sections:
+          submissions:
+            label: submissions
+            type: pages
+            empty: empty-submissions
+            template: submission
+            create: false
+            query: page.index.filterBy('intendedTemplate', 'submission')

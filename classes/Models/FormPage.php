@@ -2,6 +2,7 @@
 
 namespace tobimori\DreamForm\Models;
 
+use Kirby\Cms\App;
 use Kirby\Cms\Collection;
 use Kirby\Cms\Layouts;
 use Kirby\Content\Field;
@@ -10,9 +11,12 @@ use Kirby\Http\Request;
 use Kirby\Http\Url;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
+use Kirby\Toolkit\A;
 
 class FormPage extends BasePage
 {
+	public static $registeredFields = [];
+	public static $registeredActions = [];
 	private Collection $fields;
 
 	/** Create a form page & Form Field objects */
@@ -23,7 +27,7 @@ class FormPage extends BasePage
 		$fields = [];
 
 		$active = option('tobimori.dreamform.fields', true);
-		$registered = SubmissionPage::$registeredFields;
+		$registered = static::$registeredFields;
 
 		foreach ($this->fieldLayouts() as $layout) {
 			foreach ($layout->columns() as $column) {
@@ -62,7 +66,7 @@ class FormPage extends BasePage
 	public function actions(SubmissionPage $submission): Collection
 	{
 		$active = option('tobimori.dreamform.actions', true);
-		$registered = SubmissionPage::$registeredActions;
+		$registered = static::$registeredActions;
 		$actions = [];
 
 		foreach ($this->content()->get('actions')->toBlocks() as $block) {
@@ -93,6 +97,7 @@ class FormPage extends BasePage
 			'actions' => null
 		];
 
+		$values = [];
 		foreach ($this->fields() as $field) {
 			$key = $field->field()->key()->or($field->field()->id())->value();
 			$body = $request->body()->get($key) ?? null;
@@ -104,6 +109,8 @@ class FormPage extends BasePage
 				$data['errors'] ??= [];
 				$data['errors'][$key] = $validation;
 			}
+
+			$values[$key] = $field->sanitize();
 		}
 
 		if ($data['errors'] !== null) {
@@ -116,18 +123,18 @@ class FormPage extends BasePage
 		if (isset($request->headers()["Referer"])) {
 			$url = $request->headers()["Referer"];
 			$path = Url::path($url);
-			$referer = page($path);
+			$referer = App::instance()->site()->findPageOrDraft($path);
 		}
 
-		// this is just virtual for now and won't be stored
 		$submission = new SubmissionPage([
+			'template' => 'submission',
 			'slug' => $uuid = Uuid::generate(),
-			'fields' => $this->fields(),
-			'referer' => $referer,
 			'parent' => $this,
-			'content' => [
-				'uuid' => $uuid
-			]
+			'content' => A::merge($values, [
+				'dreamform-referer' => $referer?->uuid(),
+				'dreamform-submitted' => date('c'),
+				'uuid' => $uuid,
+			])
 		]);
 
 		try {
@@ -148,6 +155,7 @@ class FormPage extends BasePage
 			$data['error'] = $e->getMessage();
 		}
 
+		$submission->save($submission->content()->toArray());
 		return $data;
 	}
 
@@ -173,7 +181,7 @@ class FormPage extends BasePage
 	public static function getFields(Request $request): array
 	{
 		$path = $request->path()->data()[2];
-		$page = page(Str::replace($path, '+', '/'));
+		$page = App::instance()->site()->findPageOrDraft(Str::replace($path, '+', '/'));
 
 		$fields = [];
 		foreach ($page->fields() as $field) {

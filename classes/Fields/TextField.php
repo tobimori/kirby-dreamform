@@ -31,6 +31,15 @@ class TextField extends Field
 		];
 	}
 
+	public function submissionBlueprint(): array|null
+	{
+		return [
+			'label' => $this->field()->label()->value() ?? t('text-field'),
+			'icon' => 'text-left',
+			'type' => 'text'
+		];
+	}
+
 	public function validate(): true|string
 	{
 		if (

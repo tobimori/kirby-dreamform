@@ -12,7 +12,6 @@ options:
 create:
   title:
     label: form-name
-  slug: false
 
 status:
   draft:
@@ -32,3 +31,20 @@ tabs:
     icon: folder-structure
     fields:
       actions: dreamform/fields/actions
+  submissions:
+    label: submissions
+    icon: archive
+    columns:
+      sidebar:
+        width: 1/4
+        sections:
+          stats: false
+      main:
+        width: 3/4
+        sections:
+          submissions:
+            label: submissions
+            type: pages
+            empty: empty-submissions
+            template: submission
+            create: false
