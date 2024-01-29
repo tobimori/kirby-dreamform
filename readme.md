@@ -18,6 +18,7 @@ Kirby Dream Form is an opiniated plugin for [Kirby CMS](https://getkirby.com/) t
 
 ### Long term
 
+- [ ] Data retention (delete submissions after X)
 - [ ] Attachments & file handling
 - [ ] Conditional fields
 - [ ] Interactive fields

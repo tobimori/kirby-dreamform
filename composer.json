@@ -1,10 +1,10 @@
 {
-  "name": "tobimori/kirby-oh-dear",
-  "description": "Oh Dear Application Checks for Kirby",
+  "name": "tobimori/kirby-dreamform",
+  "description": "Kirby Dream Form",
   "type": "kirby-plugin",
   "version": "0.1.0",
   "license": "proprietary",
-  "homepage": "https://github.com/tobimori/kirby-oh-dear",
+  "homepage": "https://github.com/tobimori/kirby-dreamform",
   "authors": [
     {
       "name": "Tobias Möritz",
