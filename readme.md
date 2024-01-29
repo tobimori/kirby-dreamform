@@ -4,14 +4,24 @@
 
 Kirby Dream Form is an opiniated plugin for [Kirby CMS](https://getkirby.com/) that allows you to create forms with a layout builder interface. It's easy to expand and customize, and built with Kirby's native field types.
 
-It is currently in development and used privately for my own projects.
+## Roadmap
 
-### Lifecycle of a Form Submission
+### Initial release
 
-1. The form is submitted, either via AJAX or a regular POST request
-2. The `->validate()` method is called on every field
-3. If validation fails, the form is re-rendered with the error messages
-4. If the validation succeeds, actions are run one by one
+- [x] Basic form creation
+- [x] Submission storage
+- [x] API/AJAX form submissions
+- [ ] Default snippets & templates
+- [ ] Regular SSR form submissions
+- [ ] Permissions
+- [ ] Generic webhook action
+
+### Long term
+
+- [ ] Attachments & file handling
+- [ ] Conditional fields
+- [ ] Interactive fields
+- [ ] Multi-page forms
 
 ## Comparison
 
@@ -23,13 +33,13 @@ It is currently in development and used privately for my own projects.
 
 [Form Block Suite](https://github.com/youngcut/kirby-form-block-suite) is a great plugin with a similiar feature set to Dream Form, although with the following disadvantages over Dream Form:
 
-- Requires the use of a proprietary AJAX script for submissions
+- Requires the use of a proprietary script for submissions
 - No custom sending behaviour, e.g. adding a CRM integration, possible
 - Limited to use as Blocks, no standalone forms
 
 ## License
 
-Kirby Dream Form is not free software. In order to run it on a public server, you'll have to purchase a valid Kirby license & a valid plugin license or subscription.
+Kirby Dream Form is not free software. In order to run it on a public server, you'll have to purchase a valid Kirby license & a valid plugin license. Plugin licenses are tied to Kirby licenses.
 
 Copyright 2024 © Tobias Möritz - Love & Kindness GmbH
 
