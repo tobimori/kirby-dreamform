@@ -2,4 +2,4 @@ label: key
 type: slug
 required: true
 width: 1/6
-icon: none
+icon: false # none would show an empty icon which cuts of the input too early
