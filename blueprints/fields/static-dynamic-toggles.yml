@@ -1,7 +1,7 @@
-type: toggles
+type: dreamform.toggles
 required: true
 width: 1/4
 default: static
 options:
-  static: '{{ t("static") }}'
-  field: '{{ t("from-field") }}'
+  static: '{{ t("dreamform.static") }}'
+  field: '{{ t("dreamform.from-field") }}'

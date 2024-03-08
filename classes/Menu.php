@@ -23,7 +23,7 @@ final class Menu
 	public static function forms()
 	{
 		return [
-			'label' => t('forms'),
+			'label' => t('dreamform.forms'),
 			'link' => static::formPath(),
 			'icon' => 'survey',
 			'current' => fn () =>

@@ -6,7 +6,7 @@ return function () {
 	$fields = FormPage::getFields(kirby()->request());
 
 	return [
-		'label' => t('field'),
+		'label' => t('dreamform.field'),
 		'type' => 'select',
 		'options' => $fields,
 	];

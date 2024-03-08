@@ -7,13 +7,13 @@ class TextareaField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('textarea-field'),
+			'title' => t('dreamform.textarea-field'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'text-left',
 			'tabs' => [
 				'field' => [
-					'label' => t('field'),
+					'label' => t('dreamform.field'),
 					'fields' => [
 						'key' => 'dreamform/fields/key',
 						'label' => 'dreamform/fields/label',
@@ -21,7 +21,7 @@ class TextareaField extends Field
 					]
 				],
 				'validation' => [
-					'label' => t('validation'),
+					'label' => t('dreamform.validation'),
 					'fields' => [
 						'required' => 'dreamform/fields/required',
 						'errorMessage' => 'dreamform/fields/error-message',
@@ -31,13 +31,22 @@ class TextareaField extends Field
 		];
 	}
 
+	public function submissionBlueprint(): array|null
+	{
+		return [
+			'label' => $this->field()->label()->value() ?? t('dreamform.textarea-field'),
+			'type' => 'textarea',
+			'size' => 'medium',
+		];
+	}
+
 	public function validate(): true|string
 	{
 		if (
 			$this->field()->required()->toBool()
 			&& $this->value()->isEmpty()
 		) {
-			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('error-message-default');
+			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('dreamform.error-message-default');
 		}
 
 		return true;

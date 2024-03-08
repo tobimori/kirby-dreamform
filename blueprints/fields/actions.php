@@ -16,9 +16,9 @@ return function () {
 	}
 
 	return [
-		'label' => t('actions'),
+		'label' => t('dreamform.actions'),
 		'type' => 'blocks',
-		'empty' => t('empty-actions'),
+		'empty' => t('dreamform.empty-actions'),
 		'fieldsets' => $fieldsets
 	];
 };

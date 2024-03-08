@@ -7,13 +7,13 @@ class ButtonField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('button-field'),
+			'title' => t('dreamform.button-field'),
 			'icon' => 'ticket',
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'tabs' => [
 				'settings' => [
-					'label' => t('settings'),
+					'label' => t('dreamform.settings'),
 					'fields' => [
 						'label' => [
 							'extends' => 'dreamform/fields/label',
@@ -23,5 +23,10 @@ class ButtonField extends Field
 				]
 			]
 		];
+	}
+
+	public static function hasValue(): bool
+	{
+		return false;
 	}
 }

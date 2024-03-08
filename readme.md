@@ -18,6 +18,7 @@ Kirby Dream Form is an opiniated plugin for [Kirby CMS](https://getkirby.com/) t
 
 ### Long term
 
+- [ ] HTMX form submissions with server-side validation/"pre-cognition"
 - [ ] Data retention (delete submissions after X)
 - [ ] Attachments & file handling
 - [ ] Conditional fields

@@ -7,13 +7,13 @@ class SelectField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('select-field'),
+			'title' => t('dreamform.select-field'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'list-bullet',
 			'tabs' => [
 				'settings' => [
-					'label' => t('settings'),
+					'label' => t('dreamform.settings'),
 					'fields' => [
 						'key' => 'dreamform/fields/key',
 						'label' => 'dreamform/fields/label',
@@ -21,18 +21,18 @@ class SelectField extends Field
 						'required' => 'dreamform/fields/required',
 						'errorMessage' => 'dreamform/fields/error-message',
 						'options' => [
-							'label' => t('options'),
+							'label' => t('dreamform.options'),
 							'type' => 'structure',
 							'fields' => [
 								'value' => [
 									'type' => 'text',
-									'label' => t('value'),
-									'help' => t('options-value-help'),
+									'label' => t('dreamform.value'),
+									'help' => t('dreamform.options-value-help'),
 									'width' => '1/2'
 								],
 								'label' => [
 									'extends' => 'dreamform/fields/label',
-									'help' => t('options-label-help')
+									'help' => t('dreamform.options-label-help')
 								]
 							]
 						]
@@ -48,7 +48,7 @@ class SelectField extends Field
 			$this->field()->required()->toBool()
 			&& $this->value()->isEmpty()
 		) {
-			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('error-message-default');
+			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('dreamform.error-message-default');
 		}
 
 		return true;

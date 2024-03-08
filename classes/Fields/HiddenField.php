@@ -7,13 +7,13 @@ class HiddenField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('hidden-field'),
+			'title' => t('dreamform.hidden-field'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'hidden',
 			'tabs' => [
 				'settings' => [
-					'label' => t('settings'),
+					'label' => t('dreamform.settings'),
 					'fields' => [
 						'key' => [
 							'extends' => 'dreamform/fields/key',
@@ -28,14 +28,9 @@ class HiddenField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => t('hidden-field') . ': ' . $this->field()->key()->value(),
+			'label' => t('dreamform.hidden-field') . ': ' . $this->field()->key()->value(),
 			'icon' => 'hidden',
 			'type' => 'text'
 		];
-	}
-
-	public static function hasValue()
-	{
-		return false;
 	}
 }

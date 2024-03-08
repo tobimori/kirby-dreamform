@@ -14,7 +14,7 @@ class RedirectAction extends Action
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('redirect-action'),
+			'title' => t('dreamform.redirect-action'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'shuffle',

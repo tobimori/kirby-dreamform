@@ -55,7 +55,12 @@ abstract class Field
 		$this->value = $value;
 	}
 
-	public static function hasValue()
+	/**
+	 * Returns true if the field is able to have/store a value
+	 * Set it to false, if your component is a field without user input,
+	 * like a headline or a separator
+	 */
+	public static function hasValue(): bool
 	{
 		return true;
 	}

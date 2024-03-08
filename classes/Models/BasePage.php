@@ -20,6 +20,6 @@ class BasePage extends Page
 	 */
 	public function title(): Field
 	{
-		return new Field($this, 'title', t($this->intendedTemplate()->name()));
+		return new Field($this, 'title', t("dreamform.{$this->intendedTemplate()->name()}"));
 	}
 }

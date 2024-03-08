@@ -12,12 +12,22 @@ use Kirby\Http\Url;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 use Kirby\Toolkit\A;
+use tobimori\DreamForm\Actions\Action;
+use tobimori\DreamForm\DreamForm;
 
 class FormPage extends BasePage
 {
 	public static $registeredFields = [];
 	public static $registeredActions = [];
 	private Collection $fields;
+
+	/**
+	 * Returns the title field or the slug as fallback
+	 */
+	public function title(): Field
+	{
+		return $this->content()->get('title')->or($this->slug());
+	}
 
 	/** Create a form page & Form Field objects */
 	public function __construct(array $props)
@@ -62,31 +72,9 @@ class FormPage extends BasePage
 		return $this->fields;
 	}
 
-	/** Create actions for a submission */
-	public function actions(SubmissionPage $submission): Collection
-	{
-		$active = option('tobimori.dreamform.actions', true);
-		$registered = static::$registeredActions;
-		$actions = [];
-
-		foreach ($this->content()->get('actions')->toBlocks() as $block) {
-			$type = Str::replace($block->type(), '-action', '');
-
-			if (!key_exists($type, $registered)) {
-				continue;
-			}
-
-			if (is_array($active) && !in_array($type, $active) || $active != true) {
-				continue;
-			}
-
-			$actions[] = new $registered[$type]($block, $this, $submission);
-		}
-
-		return new Collection($actions, []);
-	}
-
 	/** Main form handler */
+	// TODO: I don't like the way this is structured yet
+	// (especially how AJAX/non-AJAX is handled)
 	public function run(): array|null
 	{
 		$request = kirby()->request();
@@ -115,7 +103,6 @@ class FormPage extends BasePage
 
 		if ($data['errors'] !== null) {
 			$data['success'] = false;
-			return $data;
 		}
 
 		$referer = null;
@@ -137,25 +124,33 @@ class FormPage extends BasePage
 			])
 		]);
 
-		try {
-			foreach ($this->actions($submission) as $action) {
-				$actionData = $action->run();
+		// Only run actions if the field validations where successful
+		if ($data['success']) {
+			try {
+				foreach (Action::createFromBlocks($this->content()->get('actions')->toBlocks(), $this, $submission) as $action) {
+					$actionData = $action->run();
 
-				if ($actionData !== null) {
-					$data['actions'] ??= [];
-					$data['actions'][] = [
-						'type' => Str::replace($action->action()->type(), '-action', ''), // TODO; find a better way for this -> type() static
-						'id' => $action->action()->id(),
-						...$actionData
-					];
+					if ($actionData !== null) {
+						$data['actions'] ??= [];
+						$data['actions'][] = [
+							'type' => Str::replace($action->action()->type(), '-action', ''),
+							'id' => $action->action()->id(),
+							...$actionData
+						];
+					}
 				}
+			} catch (\Exception $e) {
+				$data['success'] = false;
+				$data['error'] = $e->getMessage();
 			}
-		} catch (\Exception $e) {
-			$data['success'] = false;
-			$data['error'] = $e->getMessage();
 		}
 
-		$submission->save($submission->content()->toArray());
+		$submission->content = $submission->content()->update(['data' => $data]);
+		if ($data['success']) {
+			$submission->save($submission->content()->toArray());
+		}
+
+		$submission->storeSession();
 		return $data;
 	}
 
@@ -166,8 +161,15 @@ class FormPage extends BasePage
 
 		if ($kirby->request()->method() === 'POST') {
 			$data = $this->run();
-			$kirby->response()->code($data['success'] ? 200 : 400);
-			return Json::encode($data);
+			// Content-Type is application/json, the request has to be sent manually, so we send JSON data back
+			if ($kirby->request()->header('Content-Type') === 'application/json') {
+				$kirby->response()->code($data['success'] ? 200 : 400);
+				return Json::encode($data);
+			}
+
+			// otherwise, redirect to origin page (referer header)
+			// TODO: security validation (is referer from same domain?)
+			return $kirby->response()->redirect($kirby->request()->header('Referer'));
 		}
 
 		$kirby->response()->code(404);
@@ -178,10 +180,12 @@ class FormPage extends BasePage
 	 * Static function to get page fields based on
 	 * the API request url for use in panel blueprints
 	 */
-	public static function getFields(Request $request): array
+	public static function getFields(): array
 	{
-		$path = $request->path()->data()[2];
-		$page = App::instance()->site()->findPageOrDraft(Str::replace($path, '+', '/'));
+		$page = DreamForm::currentPage();
+		if (!$page) {
+			return [];
+		}
 
 		$fields = [];
 		foreach ($page->fields() as $field) {

@@ -9,13 +9,13 @@ class EmailField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('email-field'),
+			'title' => t('dreamform.email-field'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'email',
 			'tabs' => [
 				'field' => [
-					'label' => t('field'),
+					'label' => t('dreamform.field'),
 					'fields' => [
 						'key' => 'dreamform/fields/key',
 						'label' => 'dreamform/fields/label',
@@ -23,13 +23,22 @@ class EmailField extends Field
 					]
 				],
 				'validation' => [
-					'label' => t('validation'),
+					'label' => t('dreamform.validation'),
 					'fields' => [
 						'required' => 'dreamform/fields/required',
 						'errorMessage' => 'dreamform/fields/error-message',
 					]
 				]
 			]
+		];
+	}
+
+	public function submissionBlueprint(): array|null
+	{
+		return [
+			'label' => $this->field()->label()->value() ?? t('dreamform.email-field'),
+			'icon' => 'email',
+			'type' => 'text'
 		];
 	}
 

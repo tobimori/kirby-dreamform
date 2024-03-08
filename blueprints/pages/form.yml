@@ -1,4 +1,4 @@
-title: form
+title: dreamform.form
 image:
   icon: survey
   query: icon
@@ -11,28 +11,30 @@ options:
 
 create:
   title:
-    label: form-name
+    label: dreamform.form-name
 
 status:
   draft:
-    text: form-draft
+    label: dreamform.form-draft-label
+    text: dreamform.form-draft
   unlisted: false
   listed:
-    text: form-listed
+    label: dreamform.form-listed-label
+    text: dreamform.form-listed
 
 tabs:
   fields:
-    label: fields
+    label: dreamform.fields
     icon: input-cursor-move
     fields:
       fields: dreamform/fields/fields
-  actions:
-    label: actions
+  workflow:
+    label: dreamform.workflow
     icon: folder-structure
     fields:
       actions: dreamform/fields/actions
   submissions:
-    label: submissions
+    label: dreamform.submissions
     icon: archive
     columns:
       sidebar:
@@ -43,7 +45,7 @@ tabs:
         width: 3/4
         sections:
           submissions:
-            label: submissions
+            label: dreamform.submissions
             type: pages
             empty: empty-submissions
             template: submission

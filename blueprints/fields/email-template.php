@@ -9,7 +9,7 @@ return function () {
 	$templates = array_unique(A::map($templates, fn ($name) => Str::split($name, '.')[0]));
 
 	return [
-		'label' => t('template-type-kirby'),
+		'label' => t('dreamform.template-type-kirby'),
 		'type' => 'select',
 		'options' => $templates,
 	];

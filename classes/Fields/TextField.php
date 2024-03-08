@@ -7,13 +7,13 @@ class TextField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('text-field'),
+			'title' => t('dreamform.text-field'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'title',
 			'tabs' => [
 				'field' => [
-					'label' => t('field'),
+					'label' => t('dreamform.field'),
 					'fields' => [
 						'key' => 'dreamform/fields/key',
 						'label' => 'dreamform/fields/label',
@@ -21,7 +21,7 @@ class TextField extends Field
 					]
 				],
 				'validation' => [
-					'label' => t('validation'),
+					'label' => t('dreamform.validation'),
 					'fields' => [
 						'required' => 'dreamform/fields/required',
 						'errorMessage' => 'dreamform/fields/error-message',
@@ -34,7 +34,7 @@ class TextField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => $this->field()->label()->value() ?? t('text-field'),
+			'label' => $this->field()->label()->value() ?? t('dreamform.text-field'),
 			'icon' => 'text-left',
 			'type' => 'text'
 		];

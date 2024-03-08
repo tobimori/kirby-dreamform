@@ -1,5 +1,5 @@
-label: error-message
+label: dreamform.error-message
 type: text
-help: error-message-help
-placeholder: error-message-default
+help: dreamform.error-message-help
+placeholder: dreamform.error-message-default
 width: 2/3

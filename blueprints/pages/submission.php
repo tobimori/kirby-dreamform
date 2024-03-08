@@ -1,12 +1,9 @@
 <?php
 
-use Kirby\Cms\App;
-use Kirby\Toolkit\Str;
+use tobimori\DreamForm\DreamForm;
 
 return function () {
-	$path = App::instance()->request()->url()->toString();
-	$matches = Str::match($path, "/pages\/([a-zA-Z0-9+]+)\/?/m");
-	$page = App::instance()->site()->findPageOrDraft(Str::replace($matches[1], '+', '/'));
+	$page = DreamForm::currentPage();
 
 	$blueprint = [];
 	if ($page?->intendedTemplate()?->name() === 'submission') {
@@ -18,7 +15,7 @@ return function () {
 	}
 
 	return [
-		'title' => 'submission',
+		'title' => 'dreamform.submission',
 		'image' => [
 			'icon' => 'archive',
 			'query' => 'icon'

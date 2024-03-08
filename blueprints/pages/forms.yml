@@ -1,4 +1,4 @@
-title: forms
+title: dreamform.forms
 image:
   icon: survey
   query: icon
@@ -19,26 +19,26 @@ status:
 
 tabs:
   forms:
-    label: all-forms
+    label: dreamform.all-forms
     icon: survey
     columns:
       main:
         width: 3/4
         sections:
           forms:
-            label: forms
+            label: dreamform.forms
             type: pages
             empty: empty-forms
             template: form
   submissions:
-    label: submissions
+    label: dreamform.submissions
     icon: archive
     columns:
       main:
         width: 3/4
         sections:
           submissions:
-            label: submissions
+            label: dreamform.submissions
             type: pages
             empty: empty-submissions
             template: submission

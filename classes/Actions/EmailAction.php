@@ -14,16 +14,16 @@ class EmailAction extends Action
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('send-email-action'),
+			'title' => t('dreamform.send-email-action'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'email',
 			'tabs' => [
 				'addresses' => [
-					'label' => t('addresses'),
+					'label' => t('dreamform.addresses'),
 					'fields' => [
 						'sendTo' => [
-							'label' => t('send-to'),
+							'label' => t('dreamform.send-to'),
 							'extends' => 'dreamform/fields/static-dynamic-toggles',
 						],
 						'sendToField' => [
@@ -44,7 +44,7 @@ class EmailAction extends Action
 							]
 						],
 						'replyTo' => [
-							'label' => t('reply-to'),
+							'label' => t('dreamform.reply-to'),
 							'extends' => 'dreamform/fields/static-dynamic-toggles',
 						],
 						'replyToField' => [
