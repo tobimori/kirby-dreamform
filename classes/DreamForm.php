@@ -8,7 +8,7 @@ use Kirby\Toolkit\Str;
 
 final class DreamForm
 {
-	const SESSION_KEY = '_dreamform_submission';
+	public const SESSION_KEY = '_dreamform_submission';
 
 	public static function currentPage(): Page|null
 	{

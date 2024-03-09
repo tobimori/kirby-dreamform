@@ -22,22 +22,22 @@ if (!$form || $form->status() === 'draft') {
 } ?>
 
 <form <?= attr([
-				'action' => $form->url(),
-				'method' => 'POST',
-				'class' => $formClass ?? null,
-				'novalidate' => 'novalidate'
-			]) ?>>
+	'action' => $form->url(),
+	'method' => 'POST',
+	'class' => $formClass ?? null,
+	'novalidate' => 'novalidate'
+]) ?>>
 	<div <?= attr(['class' => $errorClass ?? null, 'data-error' => true]) ?>><?= $submission?->error() ?></div>
 	<?php foreach ($form->fieldLayouts() as $row) : ?>
 		<div <?= attr([
-						'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
-						'class' => $rowClass ?? null,
-					]) ?>>
+			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
+			'class' => $rowClass ?? null,
+		]) ?>>
 			<?php foreach ($row->columns() as $column) : ?>
 				<div <?= attr([
-								'style' => "grid-column-start: span {$column->span(12)};",
-								'class' => $columnClass ?? null,
-							]) ?>>
+					'style' => "grid-column-start: span {$column->span(12)};",
+					'class' => $columnClass ?? null,
+				]) ?>>
 					<?php foreach ($column->blocks() as $field) {
 						snippet(
 							"dreamform/fields/{$field->type()}",

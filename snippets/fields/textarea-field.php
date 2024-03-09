@@ -16,14 +16,14 @@
 			<em>*</em>
 		<?php endif ?></label>
 	<textarea <?= attr([
-							'type' => $type ?? 'text',
-							'id' => $block->id(),
-							'name' => $block->key(),
-							'placeholder' => $block->placeholder(),
-							'required' => $required ?? null,
-						]) ?>></textarea>
+		'type' => $type ?? 'text',
+		'id' => $block->id(),
+		'name' => $block->key(),
+		'placeholder' => $block->placeholder(),
+		'required' => $required ?? null,
+	]) ?>></textarea>
 	<span <?= attr([
-					'class' => $errorClass ?? null,
-					'data-error' => $block->key()
-				]) ?>><?= $submission?->errorFor($block->key()) ?></span>
+		'class' => $errorClass ?? null,
+		'data-error' => $block->key()
+	]) ?>><?= $submission?->errorFor($block->key()) ?></span>
 </div>

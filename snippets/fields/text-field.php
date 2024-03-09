@@ -16,16 +16,16 @@
 			<em>*</em>
 		<?php endif ?></label>
 	<input <?= attr([
-						'type' => $type ?? 'text',
-						'id' => $block->id(),
-						'name' => $block->key(),
-						'placeholder' => $block->placeholder(),
-						'required' => $required ?? null,
-					]) ?>>
+		'type' => $type ?? 'text',
+		'id' => $block->id(),
+		'name' => $block->key(),
+		'placeholder' => $block->placeholder(),
+		'required' => $required ?? null,
+	]) ?>>
 	<span <?= attr([
-					'class' => $errorClass ?? null,
-					'data-error' => $block->key()
-				]) ?>>
+		'class' => $errorClass ?? null,
+		'data-error' => $block->key()
+	]) ?>>
 		<?= $submission?->errorFor($block->key()) ?>
 	</span>
 </div>

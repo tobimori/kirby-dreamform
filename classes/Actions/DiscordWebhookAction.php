@@ -11,8 +11,8 @@ use Kirby\Http\Remote;
  */
 class DiscordWebhookAction extends Action
 {
-	const TYPE = 'discord-webhook';
-	const CATEGORY = 'integrations';
+	public const TYPE = 'discord-webhook';
+	public const CATEGORY = 'integrations';
 
 	public static function blueprint(): array
 	{

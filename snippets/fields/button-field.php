@@ -7,8 +7,8 @@
  */ ?>
 
 <button <?= attr([
-					'class' => $btnClass ?? '',
-					'type' => 'submit'
-				]) ?>>
+	'class' => $btnClass ?? '',
+	'type' => 'submit'
+]) ?>>
 	<?= $block->label() ?>
 </button>
