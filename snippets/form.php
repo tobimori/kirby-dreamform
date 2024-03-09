@@ -15,7 +15,11 @@
  * @var string|null $errorClass
  */
 
-ray($submission); ?>
+// don't show the form if it's a draft
+// TODO: inactive form snippet
+if ($form->status() === 'draft') {
+	return;
+} ?>
 
 <form <?= attr([
 				'action' => $form->url(),

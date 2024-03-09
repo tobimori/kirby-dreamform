@@ -18,7 +18,8 @@ return function () {
 		'title' => 'dreamform.submission',
 		'image' => [
 			'icon' => 'archive',
-			'query' => 'icon'
+			'back' => '#f3f3f3',
+			'query' => 'page.gravatar()'
 		],
 		'options' => [
 			'preview' => false,

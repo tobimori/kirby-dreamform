@@ -3,7 +3,7 @@
 use tobimori\DreamForm\Models\FormPage;
 
 return function () {
-	$fields = FormPage::getFields(kirby()->request());
+	$fields = FormPage::getFields();
 
 	return [
 		'label' => t('dreamform.field'),

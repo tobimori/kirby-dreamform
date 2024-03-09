@@ -36,17 +36,5 @@ tabs:
   submissions:
     label: dreamform.submissions
     icon: archive
-    columns:
-      sidebar:
-        width: 1/4
-        sections:
-          stats: false
-      main:
-        width: 3/4
-        sections:
-          submissions:
-            label: dreamform.submissions
-            type: pages
-            empty: empty-submissions
-            template: submission
-            create: false
+    sections:
+      submissions: dreamform/sections/submissions-table

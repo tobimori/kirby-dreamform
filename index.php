@@ -9,6 +9,7 @@ use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\Actions\AbortAction;
 use tobimori\DreamForm\Actions\ConditionalAction;
+use tobimori\DreamForm\Actions\DiscordWebhookAction;
 use tobimori\DreamForm\Actions\EmailAction;
 use tobimori\DreamForm\Actions\RedirectAction;
 use tobimori\DreamForm\Actions\WebhookAction;
@@ -35,6 +36,7 @@ Form::$registeredActions['email'] = EmailAction::class;
 Form::$registeredActions['conditional'] = ConditionalAction::class;
 Form::$registeredActions['abort'] = AbortAction::class;
 Form::$registeredActions['webhook'] = WebhookAction::class;
+Form::$registeredActions['discord-webhook'] = DiscordWebhookAction::class;
 
 Form::$registeredFields['button'] = ButtonField::class;
 Form::$registeredFields['checkbox'] = CheckboxField::class;
@@ -54,7 +56,8 @@ App::plugin('tobimori/dreamform', [
 			'1/1',
 			'1/2, 1/2'
 		],
-		'page' => 'page://forms' // Slug or URI to the page where the forms are located
+		'page' => 'page://forms', // Slug or URI to the page where the forms are located
+		'gravatar' => true, // Get profile pictures for email fields from Gravatar
 	],
 	'pageModels' => [
 		'forms' => 'tobimori\DreamForm\Models\FormsPage',
@@ -67,6 +70,7 @@ App::plugin('tobimori/dreamform', [
 		'pages/form' => __DIR__ . '/blueprints/pages/form.yml',
 		'pages/submission' => require_once __DIR__ . '/blueprints/pages/submission.php',
 
+		'dreamform/sections/submissions-table' => require_once __DIR__ . '/blueprints/sections/submissions-table.php',
 		'dreamform/fields/key' => __DIR__ . '/blueprints/fields/key.yml',
 		'dreamform/fields/label' => __DIR__ . '/blueprints/fields/label.yml',
 		'dreamform/fields/placeholder' => __DIR__ . '/blueprints/fields/placeholder.yml',

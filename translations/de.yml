@@ -71,3 +71,10 @@ contains: enthält
 not-contains: enthält nicht
 starts-with: beginnt mit
 ends-with: endet mit
+
+submitted-at: Eingereicht am
+webhook-url: Webhook-URL
+exposed-fields: Freigegebene Felder
+discord: Discord
+slack: Slack
+webhook-error: Fehler beim Senden des Webhooks

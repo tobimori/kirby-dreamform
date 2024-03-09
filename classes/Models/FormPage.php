@@ -7,7 +7,6 @@ use Kirby\Cms\Collection;
 use Kirby\Cms\Layouts;
 use Kirby\Content\Field;
 use Kirby\Data\Json;
-use Kirby\Http\Request;
 use Kirby\Http\Url;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;

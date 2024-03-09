@@ -14,6 +14,8 @@ By default, Kirby Dream Form includes the following Actions:
   > Execute nested actions based on a condition
 - Abort Action
   > Rejects the submission with a custom error message
+- Webhook Action (for Zapier, Make.com, n8n.io, etc.)
+  > Sends the submitted field data to a specified URL
 
 Combining these actions, you can create complex, multi-dimensional workflows for your forms, without leaving the Kirby Panel.
 
