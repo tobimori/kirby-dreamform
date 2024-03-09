@@ -7,5 +7,13 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'tobimori\\DreamForm\\' => array($baseDir . '/classes'),
-    'Kirby\\' => array($vendorDir . '/getkirby/composer-installer/src'),
+    'Seld\\CliPrompt\\' => array($vendorDir . '/seld/cli-prompt/src'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
+    'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
+    'League\\CLImate\\' => array($vendorDir . '/league/climate/src'),
+    'Kirby\\' => array($vendorDir . '/getkirby/cli/src', $vendorDir . '/getkirby/cli/tests', $vendorDir . '/getkirby/composer-installer/src'),
+    'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
+    'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
+    'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
 );

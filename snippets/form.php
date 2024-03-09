@@ -17,7 +17,7 @@
 
 // don't show the form if it's a draft
 // TODO: inactive form snippet
-if ($form->status() === 'draft') {
+if (!$form || $form->status() === 'draft') {
 	return;
 } ?>
 

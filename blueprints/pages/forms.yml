@@ -2,6 +2,7 @@ title: dreamform.forms
 image:
   icon: survey
   query: icon
+  back: '#fafafa'
 
 options:
   preview: false
@@ -31,16 +32,25 @@ tabs:
             empty: empty-forms
             template: form
   submissions:
-    label: dreamform.submissions
+    label: dreamform.recent-submissions
     icon: archive
-    columns:
-      main:
-        width: 3/4
-        sections:
-          submissions:
-            label: dreamform.submissions
-            type: pages
-            empty: empty-submissions
-            template: submission
-            create: false
-            query: page.index.filterBy('intendedTemplate', 'submission')
+    sections:
+      submissions:
+        label: dreamform.recent-submissions
+        type: pages
+        empty: empty-submissions
+        template: submission
+        layout: table
+        create: false
+        text: false
+        query: page.index.filterBy('intendedTemplate', 'submission').sortBy('sortDate', 'desc').limit(20)
+        columns:
+          date:
+            label: dreamform.submitted-at
+            type: html
+            value: <a href="{{ page.panel.url }}">{{ page.title }}</a>
+            mobile: true
+          form:
+            label: dreamform.form
+            type: html
+            value: <a href="{{ page.parent.panel.url }}?tab=submissions">{{ page.parent.title }}</a>

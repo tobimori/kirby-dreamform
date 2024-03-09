@@ -18,12 +18,12 @@
   },
   "require": {
     "php": ">=8.1.0",
-    "getkirby/composer-installer": "^1.2.1"
+    "getkirby/composer-installer": "^1.2.1",
+    "getkirby/cli": "^1.4"
   },
   "require-dev": {
     "getkirby/cms": "^4.0-alpha.7",
-    "friendsofphp/php-cs-fixer": "^3.24",
-    "getkirby/cli": "dev-develop"
+    "friendsofphp/php-cs-fixer": "^3.24"
   },
   "scripts": {
     "dist": "composer install --no-dev --optimize-autoloader",

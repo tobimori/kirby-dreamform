@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+namespace Kirby\CLI;
+
+require_once __DIR__ . '/../bootstrap.php';
+
+// try to load the kirby instance
+bootstrap();
+
+// load dependencies
+require_once $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
+
+// run the command
+CLI::command(...array_slice($argv, 1));

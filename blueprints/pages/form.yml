@@ -2,6 +2,7 @@ title: dreamform.form
 image:
   icon: survey
   query: icon
+  back: '#fafafa'
 
 num: 0
 

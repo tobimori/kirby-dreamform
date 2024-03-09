@@ -78,3 +78,5 @@ exposed-fields: Freigegebene Felder
 discord: Discord
 slack: Slack
 webhook-error: Fehler beim Senden des Webhooks
+empty-form: Kein Formular ausgewählt
+recent-submissions: Letzte Antworten

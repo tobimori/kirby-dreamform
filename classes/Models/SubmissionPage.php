@@ -62,6 +62,11 @@ class SubmissionPage extends BasePage
 		return App::instance()->session()->get(DreamForm::SESSION_KEY, null);
 	}
 
+	public function sortDate(): string
+	{
+		return $this->content()->get('dreamform_submitted')->toDate();
+	}
+
 	/**
 	 * Downloads a gravatar image for the submission,
 	 * to be used in the panel as page icon.
