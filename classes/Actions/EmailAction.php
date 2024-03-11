@@ -69,19 +69,19 @@ class EmailAction extends Action
 					'label' => t('template'),
 					'fields' => [
 						'subject' => [
-							'label' => t('subject'),
+							'label' => t('dreamform.subject'),
 							'type' => 'text',
 							'required' => true
 						],
 						'templateType' => [
-							'label' => t('template-type'),
+							'label' => t('dreamform.template-type'),
 							'type' => 'select',
 							'width' => '1/4',
 							'required' => true,
 							'options' => [
-								'default' => t('template-type-default'),
-								'kirby' => t('template-type-kirby'),
-								'field' => t('template-type-field')
+								'default' => t('dreamform.template-type-default'),
+								'kirby' => t('dreamform.template-type-kirby'),
+								'field' => t('dreamform.template-type-field')
 							],
 						],
 						'kirbyTemplate' => [

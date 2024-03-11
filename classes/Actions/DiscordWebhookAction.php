@@ -2,8 +2,6 @@
 
 namespace tobimori\DreamForm\Actions;
 
-use Kirby\Http\Remote;
-
 /**
  * Action for sending a message in a discord channel.
  *
@@ -11,13 +9,10 @@ use Kirby\Http\Remote;
  */
 class DiscordWebhookAction extends Action
 {
-	public const TYPE = 'discord-webhook';
-	public const CATEGORY = 'integrations';
-
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.discord'),
+			'title' => t('dreamform.discord-webhook-action'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'discord',

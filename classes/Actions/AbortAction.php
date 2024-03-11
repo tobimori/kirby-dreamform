@@ -19,9 +19,18 @@ class AbortAction extends Action
 				'settings' => [
 					'label' => t('dreamform.settings'),
 					'fields' => [
+						'showError' => [
+							'label' => t('dreamform.show-error'),
+							'type' => 'toggle',
+							'default' => true,
+							'width' => '1/3',
+						],
 						'errorMessage' => [
 							'extends' => 'dreamform/fields/error-message',
-							'help' => false
+							'help' => false,
+							'when' => [
+								'showError' => true
+							]
 						],
 					]
 				]
@@ -31,6 +40,10 @@ class AbortAction extends Action
 
 	public function run(): void
 	{
-		$this->abort($this->action()->errorMessage()->or(t('dreamform.error-message-default')), true);
+		if ($this->action()->showError()->toBool()) {
+			$this->error($this->action()->errorMessage()->or(t('dreamform.error-message-default')), true);
+		} else {
+			$this->success();
+		}
 	}
 }

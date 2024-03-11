@@ -73,7 +73,7 @@ class SubmissionPage extends BasePage
 	 */
 	public function gravatar(): File|null
 	{
-		if (!App::instance()->option('tobimori.dreamform.gravatar', true)) {
+		if (!App::instance()->option('tobimori.dreamform.integrations.gravatar', true)) {
 			return null;
 		}
 

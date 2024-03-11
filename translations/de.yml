@@ -18,7 +18,7 @@ send-email-action: E-Mail senden
 redirect-action: Weiterleiten
 conditional-action: Bedingte Aktion
 abort-action: Abbrechen
-webhook-action: Webhook
+webhook-action: Webhook senden
 send-to: Senden an...
 reply-to: Antwort an...
 static: Statisch
@@ -29,7 +29,7 @@ template-type: Vorlagentyp
 template-type-default: Standardvorlage
 template-type-kirby: Kirby-Template
 template-type-field: Benutzerdefiniertes Template
-submission-action: Antwort speichern
+store-submissions: Antwort speichern
 
 # Fields
 fields: Felder
@@ -75,8 +75,18 @@ ends-with: endet mit
 submitted-at: Eingereicht am
 webhook-url: Webhook-URL
 exposed-fields: Freigegebene Felder
-discord: Discord
+discord-webhook-action: Discord-Nachricht senden
 slack: Slack
 webhook-error: Fehler beim Senden des Webhooks
 empty-form: Kein Formular ausgewählt
 recent-submissions: Letzte Antworten
+redirect-to: Weiterleiten zu
+show-error: Fehlermeldung anzeigen?
+
+# Mailchimp
+mailchimp-action: Mailchimp-Newsletter abonnieren
+mailchimp-list: Liste
+mailchimp-field-mapping: Feldzuordnung
+mailchimp-field-mapping-help: Wähle die Felder aus dem Formular, die mit den Feldern in Mailchimp übereinstimmen.
+double-opt-in: Erfordere Double-Opt-In?
+double-opt-in-help: Benötigt für eine DSGVO-konforme Anmeldung.

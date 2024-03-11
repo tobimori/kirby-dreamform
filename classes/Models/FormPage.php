@@ -2,6 +2,7 @@
 
 namespace tobimori\DreamForm\Models;
 
+use Exception;
 use Kirby\Cms\App;
 use Kirby\Cms\Collection;
 use Kirby\Cms\Layouts;
@@ -13,6 +14,7 @@ use Kirby\Uuid\Uuid;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\Actions\Action;
 use tobimori\DreamForm\DreamForm;
+use tobimori\DreamForm\Exceptions\SuccessException;
 
 class FormPage extends BasePage
 {
@@ -138,13 +140,15 @@ class FormPage extends BasePage
 						];
 					}
 				}
-			} catch (\Exception $e) {
-				$data['success'] = false;
-				$data['error'] = $e->getMessage();
+			} catch (Exception $e) {
+				if (!($e instanceof SuccessException)) {
+					$data['success'] = false;
+					$data['error'] = $e->getMessage();
+				}
 			}
 		}
 
-		$submission->content = $submission->content()->update(['data' => $data]);
+		$submission->content = $submission->content()->update(['dreamform-data' => $data]);
 		if ($data['success']) {
 			$submission->save($submission->content()->toArray());
 		}

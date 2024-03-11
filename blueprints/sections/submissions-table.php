@@ -27,6 +27,7 @@ return function () {
 		'layout' => 'table',
 		'create' => false,
 		'text' => false,
+		'search' => true,
 		'sortBy' => 'sortDate desc',
 		'columns' => A::merge([
 			'date' => [

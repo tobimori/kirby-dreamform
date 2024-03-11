@@ -11,6 +11,7 @@ use tobimori\DreamForm\Actions\AbortAction;
 use tobimori\DreamForm\Actions\ConditionalAction;
 use tobimori\DreamForm\Actions\DiscordWebhookAction;
 use tobimori\DreamForm\Actions\EmailAction;
+use tobimori\DreamForm\Actions\MailchimpAction;
 use tobimori\DreamForm\Actions\RedirectAction;
 use tobimori\DreamForm\Actions\WebhookAction;
 use tobimori\DreamForm\Fields\ButtonField;
@@ -31,12 +32,14 @@ if (
 
 
 // TODO: autoload?
+// we specify a manual key for the field or action so they can be overwritten by other plugins
+//Form::$registeredActions['mailchimp'] = MailchimpAction::class;
 Form::$registeredActions['redirect'] = RedirectAction::class;
 Form::$registeredActions['email'] = EmailAction::class;
 Form::$registeredActions['conditional'] = ConditionalAction::class;
 Form::$registeredActions['abort'] = AbortAction::class;
 Form::$registeredActions['webhook'] = WebhookAction::class;
-Form::$registeredActions['discord-webhook'] = DiscordWebhookAction::class;
+//Form::$registeredActions['discord-webhook'] = DiscordWebhookAction::class;
 
 Form::$registeredFields['button'] = ButtonField::class;
 Form::$registeredFields['checkbox'] = CheckboxField::class;
@@ -48,6 +51,9 @@ Form::$registeredFields['text'] = TextField::class;
 
 App::plugin('tobimori/dreamform', [
 	'options' => [
+		'cache' => [
+			'actions' => true // Cache API calls from actions
+		],
 		'silentErrors' => fn () => !option('debug'), // will supress non-validation errors (like a webhook request failing) for the user
 		'email' => null,
 		'actions' => true,
@@ -57,7 +63,10 @@ App::plugin('tobimori/dreamform', [
 			'1/2, 1/2'
 		],
 		'page' => 'page://forms', // Slug or URI to the page where the forms are located
-		'gravatar' => true, // Get profile pictures for email fields from Gravatar
+		'integrations' => [
+			'gravatar' => true, // Get profile pictures for email fields from Gravatar
+			'mailchimp' => null,
+		]
 	],
 	'pageModels' => [
 		'forms' => 'tobimori\DreamForm\Models\FormsPage',

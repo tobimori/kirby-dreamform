@@ -12,6 +12,10 @@ return function () {
 			continue;
 		}
 
+		if (!$action::isAvailable()) {
+			continue;
+		}
+
 		$fieldsets["{$type}-action"] = $action::blueprint();
 	}
 

@@ -20,7 +20,7 @@ class WebhookAction extends Action
 			'icon' => 'webhook',
 			'tabs' => [
 				'settings' => [
-					'label' => t('settings'),
+					'label' => t('dreamform.settings'),
 					'fields' => [
 						'webhookUrl' => [
 							'label' => 'dreamform.webhook-url',
@@ -73,7 +73,7 @@ class WebhookAction extends Action
 		// silently abort if the request was not successful
 		// (this will only be shown in the frontend if debug mode is enabled)
 		if ($request->code() !== 200) {
-			$this->abort(t('dreamform.webhook-error'));
+			$this->error(t('dreamform.webhook-error'));
 		}
 	}
 }

@@ -39,3 +39,12 @@ tabs:
     icon: archive
     sections:
       submissions: dreamform/sections/submissions-table
+#  settings:
+#    label: dreamform.settings
+#    icon: cog
+#    fields:
+#      storeSubmissions:
+#        label: dreamform.store-submissions
+#        type: toggle
+#        default: true
+#        width: 1/3
