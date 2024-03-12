@@ -2,6 +2,7 @@
 
 namespace tobimori\DreamForm\Fields;
 
+use Kirby\Cms\App;
 use Kirby\Cms\Block;
 use Kirby\Content\Field as ContentField;
 use Kirby\Exception\Exception;
@@ -9,24 +10,32 @@ use Kirby\Exception\Exception;
 abstract class Field
 {
 	protected string $id;
-	protected Block $field;
+	protected Block $block;
 	protected ContentField|null $value;
 
-	public function __construct(Block $field, ContentField|null $value = null)
+	public function __construct(Block $block, ContentField|null $value = null)
 	{
-		$this->id = $field->id();
-		$this->field = $field;
+		$this->id = $block->id();
+		$this->block = $block;
 		$this->value = $value;
 	}
 
+	/** Returns the fields' ID */
 	public function id(): string
 	{
 		return $this->id;
 	}
 
-	public function field(): Block
+	/** Returns the fields' key or ID as fallback */
+	public function key(): string
 	{
-		return $this->field;
+		return $this->block()->key()->or($this->id())->value();
+	}
+
+	/** Returns the fields' block, which stores configuration of the instance */
+	public function block(): Block
+	{
+		return $this->block;
 	}
 
 	public function value(): ContentField
@@ -44,15 +53,17 @@ abstract class Field
 		return true;
 	}
 
+	// TODO: figure out whether we need to run sanitization by default
 	/** Returns the sanitzed value of the field */
-	public function sanitize(): mixed
+	protected function sanitize(ContentField $value): ContentField
 	{
-		return $this->value()->value();
+		return $value;
 	}
 
-	public function setValue(ContentField $value)
+	public function setValue(ContentField $value): static
 	{
-		$this->value = $value;
+		$this->value = $this->sanitize($value);
+		return $this;
 	}
 
 	/**

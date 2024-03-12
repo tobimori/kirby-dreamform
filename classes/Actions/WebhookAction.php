@@ -44,7 +44,7 @@ class WebhookAction extends Action
 	public function run(): void
 	{
 		// get all fields that should be exposed, or use all fields if none are specified
-		$exposed = $this->action()->exposedFields()->split();
+		$exposed = $this->block()->exposedFields()->split();
 		if (empty($exposed)) {
 			$exposed = $this->form()->fields()->keys();
 		}
@@ -57,12 +57,12 @@ class WebhookAction extends Action
 
 			if ($field && $value) {
 				// add the field key and the value to the webhook content
-				$content[$field->field()->key()->value()] = $value->value();
+				$content[$field->block()->key()->value()] = $value->value();
 			}
 		}
 
 		// send the webhook
-		$request = Remote::post($this->action()->webhookUrl()->value(), [
+		$request = Remote::post($this->block()->webhookUrl()->value(), [
 			'headers' => [
 				'User-Agent' => 'Kirby DreamForm',
 				'Content-Type' => 'application/json'

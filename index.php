@@ -65,7 +65,7 @@ App::plugin('tobimori/dreamform', [
 		'page' => 'page://forms', // Slug or URI to the page where the forms are located
 		'integrations' => [
 			'gravatar' => true, // Get profile pictures for email fields from Gravatar
-			'mailchimp' => null,
+			'mailchimp' => null, // mailchimp API key
 		]
 	],
 	'pageModels' => [

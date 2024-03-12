@@ -34,7 +34,7 @@ class TextField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => $this->field()->label()->value() ?? t('dreamform.text-field'),
+			'label' => $this->block()->label()->value() ?? t('dreamform.text-field'),
 			'icon' => 'text-left',
 			'type' => 'text'
 		];
@@ -43,10 +43,10 @@ class TextField extends Field
 	public function validate(): true|string
 	{
 		if (
-			$this->field()->required()->toBool()
+			$this->block()->required()->toBool()
 			&& $this->value()->isEmpty()
 		) {
-			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('error-message-default');
+			return $this->block()->errorMessage()->isNotEmpty() ? $this->block()->errorMessage() : t('dreamform.error-message-default');
 		}
 
 		return true;

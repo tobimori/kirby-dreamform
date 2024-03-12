@@ -35,8 +35,8 @@ Kirby Dream Form is an opiniated plugin for [Kirby CMS](https://getkirby.com/) t
 
 [Form Block Suite](https://github.com/youngcut/kirby-form-block-suite) is a great plugin with a similiar feature set to Dream Form, although with the following disadvantages over Dream Form:
 
-- Requires the use of a proprietary script for submissions
-- No custom sending behaviour, e.g. adding a CRM integration, possible
+- Requires the use of a proprietary script for submissions; does not support normal Form submissions
+- Building custom sending behaviour, e.g. adding a CRM integration, using hooks is tedious
 - Limited to use as Blocks, no standalone forms
 
 ## License

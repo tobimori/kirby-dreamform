@@ -45,10 +45,10 @@ class SelectField extends Field
 	public function validate(): true|string
 	{
 		if (
-			$this->field()->required()->toBool()
+			$this->block()->required()->toBool()
 			&& $this->value()->isEmpty()
 		) {
-			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('dreamform.error-message-default');
+			return $this->block()->errorMessage()->isNotEmpty() ? $this->block()->errorMessage() : t('dreamform.error-message-default');
 		}
 
 		return true;

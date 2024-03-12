@@ -107,10 +107,10 @@ class EmailAction extends Action
 
 	public function template(): string|null
 	{
-		$type = $this->action()->templateType()->value();
+		$type = $this->block()->templateType()->value();
 
 		if ($type === 'kirby') {
-			return $this->action()->kirbyTemplate()->value();
+			return $this->block()->kirbyTemplate()->value();
 		}
 
 		if ($type === 'default') {
@@ -122,20 +122,20 @@ class EmailAction extends Action
 
 	public function to(): string
 	{
-		if ($this->action()->sendTo()->value() === 'field') {
-			return $this->submission()->fields()->findBy('id', $this->action()->sendToField()->value())->value()->value();
+		if ($this->block()->sendTo()->value() === 'field') {
+			return $this->submission()->fields()->findBy('id', $this->block()->sendToField()->value())->value()->value();
 		}
 
-		return $this->action()->sendToStatic()->value();
+		return $this->block()->sendToStatic()->value();
 	}
 
 	public function replyTo(): string
 	{
-		if ($this->action()->replyTo()->value() === 'field') {
-			return $this->submission()->fields()->findBy('id', $this->action()->replyToField()->value())->value()->value();
+		if ($this->block()->replyTo()->value() === 'field') {
+			return $this->submission()->fields()->findBy('id', $this->block()->replyToField()->value())->value()->value();
 		}
 
-		if (($static = $this->action()->replyToStatic())->isNotEmpty()) {
+		if (($static = $this->block()->replyToStatic())->isNotEmpty()) {
 			return $static->value();
 		}
 
@@ -145,12 +145,12 @@ class EmailAction extends Action
 
 	public function body(): array|null
 	{
-		if ($this->action()->templateType()->value() !== 'field') {
+		if ($this->block()->templateType()->value() !== 'field') {
 			return null;
 		}
 
 		$html = ($this->submission()->referer() ?? $this->submission())->toSafeString(
-			$this->action()->fieldTemplate()->value(),
+			$this->block()->fieldTemplate()->value(),
 			$this->submission()->fieldValues()
 		);
 
@@ -163,7 +163,7 @@ class EmailAction extends Action
 	public function subject()
 	{
 		return ($this->submission()->referer() ?? $this->submission())->toSafeString(
-			$this->action()->subject()->value(),
+			$this->block()->subject()->value(),
 			$this->submission()->fieldValues()
 		);
 	}

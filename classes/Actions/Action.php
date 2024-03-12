@@ -20,21 +20,8 @@ use tobimori\DreamForm\Models\SubmissionPage;
  */
 abstract class Action
 {
-	private Block $action;
-	private FormPage $form;
-	private SubmissionPage $submission;
-
-	public function __construct(Block $action, FormPage $form, SubmissionPage $submission)
+	public function __construct(private Block $block, private SubmissionPage $submission)
 	{
-		$this->action = $action;
-		$this->form = $form;
-		$this->submission = $submission;
-	}
-
-	/** Returns the Form this action is being run on */
-	public function form(): FormPage
-	{
-		return $this->form;
 	}
 
 	/** Returns the Submission this action is being run on */
@@ -43,10 +30,17 @@ abstract class Action
 		return $this->submission;
 	}
 
-	/** Returns the action configuration */
-	public function action(): Block
+	/** Returns the Form this action is being run on */
+	public function form(): FormPage
 	{
-		return $this->action;
+		return $this->submission()->form();
+	}
+
+
+	/** Returns the action configuration */
+	public function block(): Block
+	{
+		return $this->block;
 	}
 
 	/** Abort the form submission */
@@ -82,37 +76,6 @@ abstract class Action
 	public static function isAvailable(): bool
 	{
 		return true;
-	}
-
-	public static function createFromBlocks(Blocks $blocks, FormPage $formPage, SubmissionPage $submissionPage): Collection
-	{
-		$active = option('tobimori.dreamform.actions', true);
-		$registered = FormPage::$registeredActions;
-		$actions = [];
-
-		foreach ($blocks as $block) {
-			$type = Str::replace($block->type(), '-action', '');
-
-			// check if the action wanted is registered
-			if (!key_exists($type, $registered)) {
-				continue;
-			}
-
-			// check if the action wanted is set as active in config
-			if (is_array($active) && !in_array($type, $active) || $active != true) {
-				continue;
-			}
-
-			// check if the action is available
-			// (e.g. MailchimpAction requires the Mailchimp API to be set up)
-			if ($registered[$type]::isAvailable() === false) {
-				continue;
-			}
-
-			$actions[] = new $registered[$type]($block, $formPage, $submissionPage);
-		}
-
-		return new Collection($actions, []);
 	}
 
 	public static function cache(string $key, callable $callback): mixed

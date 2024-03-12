@@ -74,7 +74,7 @@ class ConditionalAction extends Action
 
 	public function conditionsMet(): bool
 	{
-		foreach ($this->action()->conditions()->toStructure() as $condition) {
+		foreach ($this->block()->conditions()->toStructure() as $condition) {
 			$submitted = $this->submission()->getFieldById($condition->content()->get('field')->value())?->value();
 			$expected = $condition->value()->value();
 
@@ -120,8 +120,8 @@ class ConditionalAction extends Action
 	public function run(): array|null
 	{
 		$data = null;
-		$collection = $this->conditionsMet() ? $this->action()->thatActions() : $this->action()->elseActions();
-		foreach (Action::createFromBlocks($collection->toBlocks(), $this->form(), $this->submission()) as $action) {
+		$collection = $this->conditionsMet() ? $this->block()->thatActions() : $this->block()->elseActions();
+		foreach ($this->submission()->createActions($collection->toBlocks()) as $action) {
 			$actionData = $action->run();
 
 			if ($actionData) {

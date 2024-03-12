@@ -38,7 +38,7 @@ class RedirectAction extends Action
 
 	public function run()
 	{
-		$redirect = $this->action()->redirectTo()->toUrl();
+		$redirect = $this->block()->redirectTo()->toUrl();
 
 		return [
 			'redirect' => $redirect

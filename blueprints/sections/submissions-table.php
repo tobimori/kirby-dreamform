@@ -14,8 +14,8 @@ return function () {
 
 	$columns = [];
 	foreach ($page?->fields()->limit(4) as $field) {
-		$columns[$field->field()->key()->value()] = [
-			'label' => $field->field()->label()->value(),
+		$columns[$field->block()->key()->value()] = [
+			'label' => $field->block()->label()->value(),
 		];
 	}
 

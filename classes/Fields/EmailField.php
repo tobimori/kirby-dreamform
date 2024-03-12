@@ -36,7 +36,7 @@ class EmailField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => $this->field()->label()->value() ?? t('dreamform.email-field'),
+			'label' => $this->block()->label()->value() ?? t('dreamform.email-field'),
 			'icon' => 'email',
 			'type' => 'text'
 		];
@@ -45,11 +45,11 @@ class EmailField extends Field
 	public function validate(): true|string
 	{
 		if (
-			$this->field()->required()->toBool()
+			$this->block()->required()->toBool()
 			&& $this->value()->isEmpty()
 			|| !V::email($this->value()->value())
 		) {
-			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage()->value() : t("error-message-default");
+			return $this->block()->errorMessage()->isNotEmpty() ? $this->block()->errorMessage()->value() : t("dreamform.error-message-default");
 		}
 
 		return true;

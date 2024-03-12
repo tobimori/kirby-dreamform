@@ -12,6 +12,7 @@ use Kirby\Http\Url;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 use Kirby\Toolkit\A;
+use Random\RandomException;
 use tobimori\DreamForm\Actions\Action;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\SuccessException;
@@ -30,7 +31,9 @@ class FormPage extends BasePage
 		return $this->content()->get('title')->or($this->slug());
 	}
 
-	/** Create a form page & Form Field objects */
+	/**
+	 * Create a form page, resolve the stored field layout to a flat collection
+	 */
 	public function __construct(array $props)
 	{
 		parent::__construct($props);
@@ -73,106 +76,100 @@ class FormPage extends BasePage
 		return $this->fields;
 	}
 
-	/** Main form handler */
-	// TODO: I don't like the way this is structured yet
-	// (especially how AJAX/non-AJAX is handled)
-	public function run(): array|null
+	/**
+	 * Create a new (virtual) submission page
+	 */
+	public function initSubmission(): SubmissionPage
 	{
-		$request = kirby()->request();
-		$data = [
-			'success' => true,
-			'error' => null,
-			'errors' => null,
-			'actions' => null
-		];
+		$request = App::instance()->request();
 
-		$values = [];
-		foreach ($this->fields() as $field) {
-			$key = $field->field()->key()->or($field->field()->id())->value();
-			$body = $request->body()->get($key) ?? null;
-			$field->setValue(new Field($this, $key, $body));
-
-			$validation = $field->validate();
-
-			if ($validation !== true) {
-				$data['errors'] ??= [];
-				$data['errors'][$key] = $validation;
-			}
-
-			$values[$key] = $field->sanitize();
-		}
-
-		if ($data['errors'] !== null) {
-			$data['success'] = false;
-		}
-
-		$referer = null;
 		// try to get page from referer header
+		$referer = null;
 		if (isset($request->headers()["Referer"])) {
 			$url = $request->headers()["Referer"];
 			$path = Url::path($url);
 			$referer = App::instance()->site()->findPageOrDraft($path);
 		}
 
-		$submission = new SubmissionPage([
+		return new SubmissionPage([
 			'template' => 'submission',
 			'slug' => $uuid = Uuid::generate(),
 			'parent' => $this,
-			'content' => A::merge($values, [
-				'dreamform-referer' => $referer?->uuid(),
+			'content' => [
 				'dreamform-submitted' => date('c'),
+				'dreamform-referer' => $referer,
+				'dreamform-values' => [], // this will store the validated and sanitized values
+				'dreamform-state' => [
+					'success' => true,
+					'redirect' => null, // this is the redirect URL if the form was successful
+					'error' => null, // this is a common error message for the whole form
+					'errors' => [], // this is an array of field-specific error messages
+				],
 				'uuid' => $uuid,
-			])
+			]
 		]);
+	}
 
-		// Only run actions if the field validations where successful
-		if ($data['success']) {
+	/**
+	 * Main form handler
+	 */
+	public function submit(): SubmissionPage
+	{
+		// create a new submission
+		$submission = $this->initSubmission();
+
+		// TODO: handle guards like honeypot upfront
+
+		// handle fields
+		foreach ($this->fields() as $field) {
+			// create a field instance & set the value from the request
+			$submission->createFieldFromRequest($field);
+
+			// validate the field
+			$validation = $field->validate();
+
+			if (!$validation) {
+				// if the validation fails, set an error in the submission state
+				$submission->setError(field: $field->key(), message: $validation);
+			} else {
+				// otherwise add it to the content of the submission
+				$submission->setField($field);
+			}
+		}
+
+		// only run actions if the field validations where successful
+		if ($submission->isSuccessful()) {
 			try {
-				foreach (Action::createFromBlocks($this->content()->get('actions')->toBlocks(), $this, $submission) as $action) {
-					$actionData = $action->run();
-
-					if ($actionData !== null) {
-						$data['actions'] ??= [];
-						$data['actions'][] = [
-							'type' => Str::replace($action->action()->type(), '-action', ''),
-							'id' => $action->action()->id(),
-							...$actionData
-						];
-					}
+				foreach ($submission->createActions() as $action) {
+					$action->run();
 				}
 			} catch (Exception $e) {
 				if (!($e instanceof SuccessException)) {
-					$data['success'] = false;
-					$data['error'] = $e->getMessage();
+					$submission->setError($e->getMessage());
 				}
 			}
 		}
 
-		$submission->content = $submission->content()->update(['dreamform-data' => $data]);
-		if ($data['success']) {
-			$submission->save($submission->content()->toArray());
-		}
-
-		$submission->storeSession();
-		return $data;
+		$submission->finish();
+		return $submission;
 	}
 
 	/** Runs the form handling, or renders a 404 page */
 	public function render(array $data = [], $contentType = 'html'): string
 	{
-		$kirby = kirby();
+		$kirby = App::instance();
 
 		if ($kirby->request()->method() === 'POST') {
-			$data = $this->run();
+			$submission = $this->submit();
+
 			// Content-Type is application/json, the request has to be sent manually, so we send JSON data back
 			if ($kirby->request()->header('Content-Type') === 'application/json') {
-				$kirby->response()->code($data['success'] ? 200 : 400);
-				return Json::encode($data);
+				$kirby->response()->code($submission->isSuccessful() ? 200 : 400);
+				return Json::encode($submission->state()->toArray());
 			}
 
 			// otherwise, redirect to origin page (referer header)
-			// TODO: security validation (is referer from same domain?)
-			return $kirby->response()->redirect($kirby->request()->header('Referer'));
+			return $submission->redirect();
 		}
 
 		$kirby->response()->code(404);
@@ -192,8 +189,8 @@ class FormPage extends BasePage
 
 		$fields = [];
 		foreach ($page->fields() as $field) {
-			$type = Str::replace($field->field()->type(), '-field', '');
-			$fields[$field->id()] = "{$field->field()->label()->or($field->field()->key())->value()} ({$type})";
+			$type = Str::replace($field->block()->type(), '-field', '');
+			$fields[$field->id()] = "{$field->block()->label()->or($field->key())} ({$type})";
 		}
 
 		return $fields;

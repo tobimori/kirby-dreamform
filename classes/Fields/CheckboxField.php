@@ -56,12 +56,12 @@ class CheckboxField extends Field
 	public function validate(): true|string
 	{
 		if (
-			$this->field()->max()->isNotEmpty()
-			&& !V::max(count($this->value()->value() ?? []), $this->field()->max()->toInt())
-			|| $this->field()->min()->isNotEmpty()
-			&& !V::min(count($this->value()->value() ?? []), $this->field()->min()->toInt())
+			$this->block()->max()->isNotEmpty()
+			&& !V::max(count($this->value()->value() ?? []), $this->block()->max()->toInt())
+			|| $this->block()->min()->isNotEmpty()
+			&& !V::min(count($this->value()->value() ?? []), $this->block()->min()->toInt())
 		) {
-			return $this->field()->errorMessage()->isNotEmpty() ? $this->field()->errorMessage() : t('error-message-default');
+			return $this->block()->errorMessage()->isNotEmpty() ? $this->block()->errorMessage() : t('dreamform.error-message-default');
 		}
 
 		return true;

@@ -40,8 +40,8 @@ class AbortAction extends Action
 
 	public function run(): void
 	{
-		if ($this->action()->showError()->toBool()) {
-			$this->error($this->action()->errorMessage()->or(t('dreamform.error-message-default')), true);
+		if ($this->block()->showError()->toBool()) {
+			$this->error($this->block()->errorMessage()->or(t('dreamform.error-message-default')), true);
 		} else {
 			$this->success();
 		}
