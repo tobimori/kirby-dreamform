@@ -19,6 +19,11 @@
 // TODO: inactive form snippet
 if (!$form || $form->status() === 'draft') {
 	return;
+}
+
+if ($submission?->isFinished()) {
+	snippet('dreamform/success', ['form' => $form]);
+	return;
 } ?>
 
 <form <?= attr([

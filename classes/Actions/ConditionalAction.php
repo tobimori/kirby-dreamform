@@ -75,10 +75,8 @@ class ConditionalAction extends Action
 	public function conditionsMet(): bool
 	{
 		foreach ($this->block()->conditions()->toStructure() as $condition) {
-			$submitted = $this->submission()->getFieldById($condition->content()->get('field')->value())?->value();
+			$submitted = $this->submission()->valueForId($condition->content()->get('field')->value())?->value();
 			$expected = $condition->value()->value();
-
-			ray($submitted, $expected);
 
 			switch ($condition->operator()->value()) {
 				case 'equals':

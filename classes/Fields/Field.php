@@ -6,6 +6,7 @@ use Kirby\Cms\App;
 use Kirby\Cms\Block;
 use Kirby\Content\Field as ContentField;
 use Kirby\Exception\Exception;
+use Kirby\Toolkit\Str;
 
 abstract class Field
 {
@@ -29,7 +30,7 @@ abstract class Field
 	/** Returns the fields' key or ID as fallback */
 	public function key(): string
 	{
-		return $this->block()->key()->or($this->id())->value();
+		return Str::replace($this->block()->key()->or($this->id())->value(), '-', '_');
 	}
 
 	/** Returns the fields' block, which stores configuration of the instance */

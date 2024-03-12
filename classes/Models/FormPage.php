@@ -11,9 +11,6 @@ use Kirby\Data\Json;
 use Kirby\Http\Url;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
-use Kirby\Toolkit\A;
-use Random\RandomException;
-use tobimori\DreamForm\Actions\Action;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\SuccessException;
 
@@ -85,10 +82,10 @@ class FormPage extends BasePage
 
 		// try to get page from referer header
 		$referer = null;
-		if (isset($request->headers()["Referer"])) {
-			$url = $request->headers()["Referer"];
+		$url = $request->header("Referer");
+		if (isset($url)) {
 			$path = Url::path($url);
-			$referer = App::instance()->site()->findPageOrDraft($path);
+			$referer = App::instance()->site()->findPageOrDraft($path)?->uuid()->toString() ?? null;
 		}
 
 		return new SubmissionPage([
@@ -96,11 +93,11 @@ class FormPage extends BasePage
 			'slug' => $uuid = Uuid::generate(),
 			'parent' => $this,
 			'content' => [
-				'dreamform-submitted' => date('c'),
-				'dreamform-referer' => $referer,
-				'dreamform-values' => [], // this will store the validated and sanitized values
-				'dreamform-state' => [
+				'dreamform_submitted' => date('c'),
+				'dreamform_referer' => $referer,
+				'dreamform_state' => [
 					'success' => true,
+					'partial' => true,
 					'redirect' => null, // this is the redirect URL if the form was successful
 					'error' => null, // this is a common error message for the whole form
 					'errors' => [], // this is an array of field-specific error messages
@@ -122,13 +119,18 @@ class FormPage extends BasePage
 
 		// handle fields
 		foreach ($this->fields() as $field) {
+			// skip "decorative" fields that don't have a value
+			if (!$field::hasValue()) {
+				continue;
+			}
+
 			// create a field instance & set the value from the request
-			$submission->createFieldFromRequest($field);
+			$field = $submission->createFieldFromRequest($field);
 
 			// validate the field
 			$validation = $field->validate();
 
-			if (!$validation) {
+			if ($validation !== true) {
 				// if the validation fails, set an error in the submission state
 				$submission->setError(field: $field->key(), message: $validation);
 			} else {
@@ -137,20 +139,29 @@ class FormPage extends BasePage
 			}
 		}
 
-		// only run actions if the field validations where successful
+		// run actions if the field validations where successful
 		if ($submission->isSuccessful()) {
 			try {
 				foreach ($submission->createActions() as $action) {
+					// TODO: log data for action log?
 					$action->run();
 				}
 			} catch (Exception $e) {
+				// if an action fails, set a common error and stop the form submission
 				if (!($e instanceof SuccessException)) {
 					$submission->setError($e->getMessage());
 				}
 			}
 		}
 
-		$submission->finish();
+		// store the submission if it was successful
+		if ($submission->isSuccessful()) {
+			$submission->finish();
+		}
+
+		// store the submission in the session
+		$submission->storeSession();
+
 		return $submission;
 	}
 
@@ -168,12 +179,31 @@ class FormPage extends BasePage
 				return Json::encode($submission->state()->toArray());
 			}
 
+			if (!$submission->isSuccessful()) {
+				return $submission->redirectToReferer();
+			}
+
 			// otherwise, redirect to origin page (referer header)
 			return $submission->redirect();
 		}
 
 		$kirby->response()->code(404);
 		return $this->site()->errorPage()->render();
+	}
+
+	public function valueFor(string $key): string|null
+	{
+		$submission = SubmissionPage::fromSession();
+		if (!$submission) {
+			return SubmissionPage::valueFromRequest($key);
+		}
+
+		return $submission->valueFor($key);
+	}
+
+	public function errorFor(string $key): string|null
+	{
+		return SubmissionPage::fromSession()?->errorFor($key);
 	}
 
 	/**

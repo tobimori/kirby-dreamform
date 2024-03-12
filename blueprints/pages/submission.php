@@ -9,8 +9,7 @@ return function () {
 	if ($page?->intendedTemplate()?->name() === 'submission') {
 		$fields = $page->parent()->fields();
 		foreach ($fields as $field) {
-			$key = $field->block()->key()->or($field->block()->id())->value();
-			$blueprint[$key] = $field->submissionBlueprint() ?? false;
+			$blueprint[$field->key()] = $field->submissionBlueprint() ?? false;
 		}
 	}
 

@@ -40,7 +40,7 @@ tabs:
       submissions:
         label: dreamform.recent-submissions
         type: pages
-        empty: empty-submissions
+        empty: dreamform.empty-submissions
         template: submission
         layout: table
         create: false

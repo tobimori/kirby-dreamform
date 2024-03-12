@@ -9,6 +9,7 @@ use Kirby\Cms\Blocks;
 use Kirby\Cms\Collection;
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
+use Kirby\Cms\Responder;
 use Kirby\Content\Content;
 use Kirby\Content\Field;
 use Kirby\Exception\InvalidArgumentException;
@@ -30,18 +31,15 @@ class SubmissionPage extends BasePage
 			return $this->referer;
 		}
 
-		return $this->referer = App::instance()->site()->findPageOrDraft($this->content()->get('dreamform_referer')->value());
+		return $this->referer = $this->content()->get('dreamform_referer')->toPage();
 	}
 
-	public function getFieldById(string $id): Field|null
+	public function valueForId(string $id): Field|null
 	{
-		/** @var FormPage $parent */
-		$parent = $this->parent();
-
 		/** @var tobimori\DreamForm\Fields\Field|null $field */
-		$field = $parent->fields()->find($id);
+		$field = $this->form()->fields()->find($id);
 		if ($field) {
-			if (!($key = $field->block()->key()->value())) {
+			if (!($key = $field->key())) {
 				return null;
 			}
 
@@ -51,12 +49,41 @@ class SubmissionPage extends BasePage
 		return null;
 	}
 
+	public static function valueFromRequest(string $key): Field|null
+	{
+		$key = Str::replace($key, '-', '_');
+		return new Field(DreamForm::currentPage(), $key, App::instance()->request()->query()->get($key));
+	}
+
+	public function valueFor(string $key): Field|null
+	{
+		$key = Str::replace($key, '-', '_');
+		$field = $this->content()->get($key);
+		if ($field->isEmpty()) {
+			// check if the field is prefillable from url params
+			$field = static::valueFromRequest($key);
+		}
+
+		return $field;
+	}
+
+	public function errorFor(string $key = null): string|null
+	{
+		if ($key === null) {
+			return $this->state()->get('error')->value();
+		}
+
+		$key = Str::replace($key, '-', '_');
+		$errors = $this->state()->get('errors')->toObject();
+		return $errors->get($key)->value();
+	}
+
 	/**
 	 * Sets an error in the submission state
 	 */
 	public function setError(string $message, string $field = null): static
 	{
-		$state = $this->content()->get('dreamform-state')->value();
+		$state = $this->state()->toArray();
 		$state['success'] = false;
 		if ($field) {
 			$state['errors'][$field] = $message;
@@ -66,7 +93,7 @@ class SubmissionPage extends BasePage
 
 		// manually update content to avoid saving it to disk before the form submission is finished
 		$this->content = $this->content()->update([
-			'dreamform-state' => $state
+			'dreamform_state' => $state
 		]);
 
 		return $this;
@@ -77,7 +104,16 @@ class SubmissionPage extends BasePage
 	 */
 	public function createFieldFromRequest(FormField $field): FormField
 	{
-		$raw = App::instance()->request()->body()->get($key = $field->key()) ?? null;
+		$body = App::instance()->request()->body()->toArray();
+
+		$body = array_combine(
+			A::map(array_keys($body), function ($key) {
+				return str_replace('-', '_', $key);
+			}),
+			array_values($body)
+		);
+
+		$raw = $body[$key = $field->key()] ?? null;
 		$field->setValue(new Field($this, $key, $raw));
 
 		return $field;
@@ -88,11 +124,8 @@ class SubmissionPage extends BasePage
 	 */
 	public function setField(FormField $field): static
 	{
-		$previousFields = $this->content()->get('dreamform-values')->toArray();
 		$this->content = $this->content()->update([
-			'dreamform-values' => A::merge($previousFields, [
-				$field->key() => $field->value()->value()
-			])
+			$field->key() => $field->value()->value()
 		]);
 
 		return $this;
@@ -139,28 +172,59 @@ class SubmissionPage extends BasePage
 	 */
 	public function setRedirect(string $url): static
 	{
-		$state = $this->content()->get('dreamform-state')->value();
+		$state = $this->state()->toArray();
 		$state['redirect'] = $url;
 
-		$this->content = $this->content()->update([
-			'dreamform-state' => $state
-		]);
+		$this->content = $this->content()->update(['dreamform_state' => $state]);
 
 		return $this;
 	}
 
-	public function redirect(): string|null
+	/**
+	 * Returns a Response that redirects the user to the URL set in the submission state
+	 */
+	public function redirect(): Responder
 	{
+		if (!$this->state()->get('redirect')->value()) {
+			return $this->redirectToReferer();
+		}
+
 		return App::instance()->response()->redirect(
 			$this->state()->get('redirect')->value()
 		);
 	}
+
+	/**
+	 * Returns a Response that redirects the user to the referer URL
+	 */
+	public function redirectToReferer(): Responder
+	{
+		return App::instance()->response()->redirect(
+			$this->referer()?->url()
+		);
+	}
+
 	/**
 	 * Finish the submission and save it to the disk
 	 */
 	public function finish(): static
 	{
-		return $this->save($this->content()->toArray());
+		// set partial state for showing "success"
+		$state = $this->state()->toArray();
+		$state['partial'] = false;
+		$this->content = $this->content()->update(['dreamform_state' => $state]);
+
+		// elevate permissions to save the submission
+		App::instance()->impersonate('kirby');
+		$submission = $this->save($this->content()->toArray());
+		App::instance()->impersonate();
+
+		return $submission;
+	}
+
+	public function isFinished(): bool
+	{
+		return !$this->state()->get('partial')->toBool();
 	}
 
 	public function isSuccessful(): bool
@@ -170,8 +234,11 @@ class SubmissionPage extends BasePage
 
 	public function state(): Content
 	{
-		return $this->content()->get('dreamform-state')->toObject();
+		return $this->content()->get('dreamform_state')->toObject();
 	}
+
+	/** @var SubmissionPage|null */
+	private static $session = null;
 
 	/**
 	 * Store submission in session for use with PRG pattern
@@ -179,7 +246,7 @@ class SubmissionPage extends BasePage
 	public function storeSession(): static
 	{
 		App::instance()->session()->set(DreamForm::SESSION_KEY, $this);
-		return $this;
+		return static::$session = $this;
 	}
 
 	/**
@@ -187,7 +254,11 @@ class SubmissionPage extends BasePage
 	 */
 	public static function fromSession(): SubmissionPage|null
 	{
-		return App::instance()->session()->get(DreamForm::SESSION_KEY, null);
+		if (static::$session) {
+			return static::$session;
+		}
+
+		return static::$session = App::instance()->session()->pull(DreamForm::SESSION_KEY, null);
 	}
 
 	/**
@@ -231,7 +302,7 @@ class SubmissionPage extends BasePage
 		}
 
 		// if we previously found no image for the entry, we don't need to check again
-		if ($this->content()->get('dreamform-gravatar')->toBool()) {
+		if ($this->content()->get('dreamform_gravatar')->toBool()) {
 			return null;
 		}
 
@@ -264,7 +335,7 @@ class SubmissionPage extends BasePage
 		}
 
 		$this->update([
-			'dreamform-gravatar' => false
+			'dreamform_gravatar' => false
 		]);
 
 		return null;

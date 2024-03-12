@@ -53,11 +53,11 @@ class WebhookAction extends Action
 		$content = [];
 		foreach ($exposed as $fieldId) {
 			$field = $this->form()->fields()->find($fieldId);
-			$value = $this->submission()->getFieldById($fieldId);
+			$value = $this->submission()->valueForId($fieldId);
 
 			if ($field && $value) {
 				// add the field key and the value to the webhook content
-				$content[$field->block()->key()->value()] = $value->value();
+				$content[$field->key()] = $value->value();
 			}
 		}
 

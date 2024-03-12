@@ -1,5 +1,6 @@
 <?php
 
+use Kirby\Cms\App;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 
@@ -14,7 +15,7 @@ return function () {
 
 	$columns = [];
 	foreach ($page?->fields()->limit(4) as $field) {
-		$columns[$field->block()->key()->value()] = [
+		$columns[$field->key()] = [
 			'label' => $field->block()->label()->value(),
 		];
 	}
@@ -26,6 +27,7 @@ return function () {
 		'template' => 'submission',
 		'layout' => 'table',
 		'create' => false,
+		'image' => App::instance()->option('tobimori.dreamform.integrations.gravatar'),
 		'text' => false,
 		'search' => true,
 		'sortBy' => 'sortDate desc',

@@ -21,6 +21,7 @@
 		'name' => $block->key(),
 		'placeholder' => $block->placeholder(),
 		'required' => $required ?? null,
+		'value' => $form->valueFor($block->key())
 	]) ?>>
 	<span <?= attr([
 		'class' => $errorClass ?? null,
