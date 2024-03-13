@@ -28,7 +28,7 @@ class HiddenField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => t('dreamform.hidden-field') . ': ' . $this->block()->key()->value(),
+			'label' => t('dreamform.hidden-field') . ': ' . $this->key(),
 			'icon' => 'hidden',
 			'type' => 'text'
 		];

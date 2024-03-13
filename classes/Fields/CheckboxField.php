@@ -2,7 +2,10 @@
 
 namespace tobimori\DreamForm\Fields;
 
+use Kirby\Toolkit\A;
 use Kirby\Toolkit\V;
+use Kirby\Content\Field as ContentField;
+use Kirby\Toolkit\Str;
 
 class CheckboxField extends Field
 {
@@ -38,6 +41,10 @@ class CheckboxField extends Field
 						]
 					]
 				],
+				'key' => [
+					'extends' => 'dreamform/fields/key',
+					'wizard' => false
+				],
 				'min' => [
 					'label' => t('dreamform.min-checked'),
 					'type' => 'number',
@@ -48,22 +55,48 @@ class CheckboxField extends Field
 					'type' => 'number',
 					'width' => '1/6'
 				],
-				'errorMessage' => 'dreamform/fields/error-message',
+				'errorMessage' => [
+					'extends' => 'dreamform/fields/error-message',
+					'width' => '1/2'
+				],
 			]
+		];
+	}
+
+
+	public function submissionBlueprint(): array|null
+	{
+		$options = [];
+		foreach ($this->block()->options()->toStructure() as $option) {
+			$options[$option->value()->value()] = $option->label()->value();
+		}
+
+		return [
+			'label' => t('dreamform.checkbox-field') . ': ' . $this->key(),
+			'icon' => 'toggle-off',
+			'type' => 'checkboxes',
+			'options' => $options
 		];
 	}
 
 	public function validate(): true|string
 	{
+		$value = $this->value()->split() ?? [];
+
 		if (
 			$this->block()->max()->isNotEmpty()
-			&& !V::max(count($this->value()->value() ?? []), $this->block()->max()->toInt())
+			&& !V::max(count($value), $this->block()->max()->toInt())
 			|| $this->block()->min()->isNotEmpty()
-			&& !V::min(count($this->value()->value() ?? []), $this->block()->min()->toInt())
+			&& !V::min(count($value), $this->block()->min()->toInt())
 		) {
 			return $this->block()->errorMessage()->isNotEmpty() ? $this->block()->errorMessage() : t('dreamform.error-message-default');
 		}
 
 		return true;
+	}
+
+	protected function sanitize(ContentField $value): ContentField
+	{
+		return new ContentField($this->block()->parent(), $this->key(), A::join($value->value() ?? [], ','));
 	}
 }

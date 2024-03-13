@@ -14,11 +14,13 @@ form-draft-label: Entwurf
 # Actions
 actions: Aktionen
 empty-actions: Keine Aktionen definiert
-send-email-action: E-Mail senden
 redirect-action: Weiterleiten
 conditional-action: Bedingte Aktion
 abort-action: Abbrechen
 webhook-action: Webhook senden
+
+# Email Action
+send-email-action: E-Mail senden
 send-to: Senden an...
 reply-to: Antwort an...
 static: Statisch
@@ -46,7 +48,6 @@ label: Beschriftung
 placeholder: Platzhaltertext
 error-message: Fehlermeldung
 error-message-help: Die Fehlermeldung wird angezeigt, wenn das Feld **nicht** oder im **falschen Format** ausgefüllt wurde.
-error-message-default: Dieses Feld muss ausgefüllt werden.
 required: Pflichtfeld
 required-off: Nein, optional
 required-on: Ja, Pflichtfeld
@@ -91,7 +92,10 @@ mailchimp-field-mapping-help: Wähle die Felder aus dem Formular, die mit den Fe
 double-opt-in: Erfordere Double-Opt-In?
 double-opt-in-help: Benötigt für eine DSGVO-konforme Anmeldung.
 
+# Categories
 text-fields: Textfelder
 
+# Shown in the frontend
 successful-submission: Vielen Dank für deine Antwort!
 inactive-form: Dieses Formular ist inaktiv und nimmt zurzeit keine Antworten entgegen.
+error-message-default: Dieses Feld muss ausgefüllt werden.

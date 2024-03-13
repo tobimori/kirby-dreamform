@@ -6,11 +6,15 @@ return function () {
 	$page = DreamForm::currentPage();
 
 	$blueprint = [];
-	if ($page?->intendedTemplate()?->name() === 'submission') {
-		$fields = $page->parent()->fields();
-		foreach ($fields as $field) {
-			$blueprint[$field->key()] = $field->submissionBlueprint() ?? false;
-		}
+	$fields = [];
+	if ($page?->intendedTemplate()?->name() === 'form') {
+		$fields = $page->fields();
+	} else if ($page?->intendedTemplate()?->name() === 'submission') {
+		$fields = $page->form()->fields();
+	}
+
+	foreach ($fields as $field) {
+		$blueprint[$field->key()] = $field->submissionBlueprint() ?? false;
 	}
 
 	return [
@@ -34,12 +38,7 @@ return function () {
 			'listed' => false,
 		],
 		'columns' => [
-			'sidebar' => [
-				'width' => '1/3',
-				'sections' => [],
-			],
 			'main' => [
-				'width' => '2/3',
 				'fields' => $blueprint
 			]
 		]

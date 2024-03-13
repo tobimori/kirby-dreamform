@@ -32,7 +32,6 @@ tabs:
             empty: empty-forms
             template: form
             image: false
-            info: '{{ page.children.count }}'
   submissions:
     label: dreamform.recent-submissions
     icon: archive

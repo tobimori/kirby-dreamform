@@ -191,7 +191,7 @@ class FormPage extends BasePage
 		return $this->site()->errorPage()->render();
 	}
 
-	public function valueFor(string $key): string|null
+	public function valueFor(string $key): Field|null
 	{
 		$submission = SubmissionPage::fromSession();
 		if (!$submission) {

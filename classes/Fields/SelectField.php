@@ -42,6 +42,21 @@ class SelectField extends Field
 		];
 	}
 
+	public function submissionBlueprint(): array|null
+	{
+		$options = [];
+		foreach ($this->block()->options()->toStructure() as $option) {
+			$options[$option->value()->value()] = $option->label()->value();
+		}
+
+		return [
+			'label' => $this->block()->label()->value() ?? t('dreamform.text-field'),
+			'type' => 'select',
+			'placeholder' => $this->block()->placeholder()->value() ?? '',
+			'options' => $options
+		];
+	}
+
 	public function validate(): true|string
 	{
 		if (

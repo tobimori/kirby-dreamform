@@ -2,7 +2,6 @@
 
 namespace tobimori\DreamForm\Fields;
 
-use Kirby\Cms\App;
 use Kirby\Cms\Block;
 use Kirby\Content\Field as ContentField;
 use Kirby\Exception\Exception;
