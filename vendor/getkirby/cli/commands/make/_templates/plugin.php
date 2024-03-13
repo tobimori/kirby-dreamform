@@ -1,5 +1,0 @@
-<?php
-
-Kirby::plugin('{{ name }}', [
-
-]);
