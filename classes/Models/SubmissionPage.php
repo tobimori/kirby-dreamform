@@ -23,15 +23,15 @@ use tobimori\DreamForm\Fields\Field as FormField;
 
 class SubmissionPage extends BasePage
 {
-	private Page|null $referer = null;
+	private string|null $referer = null;
 
-	public function referer(): Page|null
+	public function referer(): string|null
 	{
 		if ($this->referer) {
 			return $this->referer;
 		}
 
-		return $this->referer = $this->content()->get('dreamform_referer')->toPage();
+		return $this->referer = $this->content()->get('dreamform_referer')->value();
 	}
 
 	public function valueForId(string $id): Field|null
@@ -200,7 +200,7 @@ class SubmissionPage extends BasePage
 	public function redirectToReferer(): Responder
 	{
 		return App::instance()->response()->redirect(
-			$this->referer()?->url()
+			$this->referer() ?? $this->site()->url()
 		);
 	}
 
@@ -216,7 +216,7 @@ class SubmissionPage extends BasePage
 
 		// elevate permissions to save the submission
 		App::instance()->impersonate('kirby');
-		$submission = $this->save($this->content()->toArray());
+		$submission = $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null);
 		App::instance()->impersonate();
 
 		return $submission;

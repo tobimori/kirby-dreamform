@@ -80,12 +80,17 @@ class FormPage extends BasePage
 	{
 		$request = App::instance()->request();
 
-		// try to get page from referer header
 		$referer = null;
 		$url = $request->header("Referer");
 		if (isset($url)) {
-			$path = Url::path($url);
-			$referer = App::instance()->site()->findPageOrDraft($path)?->uuid()->toString() ?? null;
+			$site = Url::toObject($this->site()->url());
+			$path = Url::toObject($url);
+
+			// if the referer is from the same site, we can assume
+			// a "safe" PRG redirect
+			if ($site->host() === $path->host()) {
+				$referer = $path->path();
+			}
 		}
 
 		return new SubmissionPage([
