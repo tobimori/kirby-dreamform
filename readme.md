@@ -4,27 +4,6 @@
 
 Kirby Dream Form is an opiniated plugin for [Kirby CMS](https://getkirby.com/) that allows you to create forms with a layout builder interface. It's easy to expand and customize, and built with Kirby's native field types.
 
-## Roadmap
-
-### Initial release
-
-- [x] Basic form creation
-- [x] Submission storage
-- [x] API/AJAX form submissions
-- [ ] Default snippets & templates
-- [ ] Regular SSR form submissions
-- [ ] Permissions
-- [ ] Generic webhook action
-
-### Long term
-
-- [ ] HTMX form submissions with server-side validation/"pre-cognition"
-- [ ] Data retention (delete submissions after X)
-- [ ] Attachments & file handling
-- [ ] Conditional fields
-- [ ] Interactive fields
-- [ ] Multi-page forms
-
 ## Comparison
 
 ### Dream Form vs. Uniform
