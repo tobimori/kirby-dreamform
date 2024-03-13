@@ -20,10 +20,10 @@ use Kirby\Toolkit\A;
 			<em>*</em>
 		<?php endif ?></label>
 	<select <?= attr([
-						'id' => $block->id(),
-						'name' => $block->key(),
-						'required' => $required ?? null,
-					]) ?>>
+		'id' => $block->id(),
+		'name' => $block->key(),
+		'required' => $required ?? null,
+	]) ?>>
 		<option value="" disabled selected hidden><?= $block->placeholder() ?></option>
 		<?php foreach ($block->options()->toStructure() as $option) : ?>
 			<option <?= attr(['value' => $option->value()]) ?>>
@@ -32,8 +32,8 @@ use Kirby\Toolkit\A;
 		<?php endforeach ?>
 	</select>
 	<span <?= attr(A::merge($error ?? [], [
-					'data-error' => $block->key()
-				])) ?>>
+		'data-error' => $block->key()
+	])) ?>>
 		<?= $submission?->errorFor($block->key()) ?>
 	</span>
 </div>

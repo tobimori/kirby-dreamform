@@ -9,7 +9,7 @@ return function () {
 	$fields = [];
 	if ($page?->intendedTemplate()?->name() === 'form') {
 		$fields = $page->fields();
-	} else if ($page?->intendedTemplate()?->name() === 'submission') {
+	} elseif ($page?->intendedTemplate()?->name() === 'submission') {
 		$fields = $page->form()->fields();
 	}
 
