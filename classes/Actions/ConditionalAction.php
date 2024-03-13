@@ -56,14 +56,22 @@ class ConditionalAction extends Action
 							'label' => 'dreamform.that-actions',
 							'extends' => 'dreamform/fields/actions',
 							'fieldsets' => [
-								'conditional-action' => false // prevent infinite recursion
+								static::group() => [
+									'fieldsets' => [
+										'conditional-action' => false // prevent infinite recursion
+									]
+								]
 							]
 						],
 						'elseActions' => [
 							'label' => 'dreamform.else-actions',
 							'extends' => 'dreamform/fields/actions',
 							'fieldsets' => [
-								'conditional-action' => false // prevent infinite recursion
+								static::group() => [
+									'fieldsets' => [
+										'conditional-action' => false // prevent infinite recursion
+									]
+								]
 							]
 						]
 					]

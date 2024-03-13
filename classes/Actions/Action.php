@@ -96,6 +96,6 @@ abstract class Action
 
 	public static function group(): string
 	{
-		return 'basic';
+		return 'actions';
 	}
 }

@@ -16,7 +16,15 @@ return function () {
 			continue;
 		}
 
-		$fieldsets["{$type}-action"] = $action::blueprint();
+		if (!isset($fieldsets[$group = $action::group()])) {
+			$fieldsets[$group] = [
+				'label' => t("dreamform.{$group}"),
+				'type' => 'group',
+				'fieldsets' => []
+			];
+		}
+
+		$fieldsets[$group]['fieldsets']["{$type}-action"] = $action::blueprint();
 	}
 
 	return [

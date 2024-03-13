@@ -13,7 +13,15 @@ return function () {
 			continue;
 		}
 
-		$fieldsets["{$type}-field"] = $field::blueprint();
+		if (!isset($fieldsets[$group = $field::group()])) {
+			$fieldsets[$group] = [
+				'label' => t("dreamform.{$group}"),
+				'type' => 'group',
+				'fieldsets' => []
+			];
+		}
+
+		$fieldsets[$group]['fieldsets']["{$type}-field"] = $field::blueprint();
 	}
 
 	return [

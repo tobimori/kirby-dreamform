@@ -51,4 +51,9 @@ class TextField extends Field
 
 		return true;
 	}
+
+	public static function group(): string
+	{
+		return 'text-fields';
+	}
 }

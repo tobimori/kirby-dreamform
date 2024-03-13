@@ -84,4 +84,9 @@ abstract class Field
 	{
 		return null;
 	}
+
+	public static function group(): string
+	{
+		return 'fields';
+	}
 }
