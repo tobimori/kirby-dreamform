@@ -2,13 +2,8 @@
 
 namespace tobimori\DreamForm\Actions;
 
-use Kirby\Cms\Api;
 use Kirby\Cms\App;
 use Kirby\Cms\Block;
-use Kirby\Cms\Blocks;
-use Kirby\Cms\Collection;
-use Kirby\Toolkit\A;
-use Kirby\Toolkit\Str;
 use tobimori\DreamForm\Exceptions\ActionException;
 use tobimori\DreamForm\Exceptions\SuccessException;
 use tobimori\DreamForm\Models\FormPage;
@@ -35,7 +30,6 @@ abstract class Action
 	{
 		return $this->submission()->form();
 	}
-
 
 	/** Returns the action configuration */
 	public function block(): Block

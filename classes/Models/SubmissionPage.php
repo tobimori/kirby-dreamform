@@ -67,6 +67,16 @@ class SubmissionPage extends BasePage
 		return $field;
 	}
 
+	public function values(): Content
+	{
+		$values = [];
+		foreach ($this->form()->fields() as $field) {
+			$values[$field->key()] = $this->valueFor($field->key());
+		}
+
+		return new Content($values, $this);
+	}
+
 	public function errorFor(string $key = null): string|null
 	{
 		if ($key === null) {

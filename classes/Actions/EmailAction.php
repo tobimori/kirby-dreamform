@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Actions;
 
 use Kirby\Cms\User;
+use Kirby\Toolkit\A;
 
 /**
  * Action for sending an email with the submission data.
@@ -78,8 +79,9 @@ class EmailAction extends Action
 							'type' => 'select',
 							'width' => '1/4',
 							'required' => true,
+							'default' => 'field',
 							'options' => [
-								'default' => t('dreamform.template-type-default'),
+								//'default' => t('dreamform.template-type-default'),
 								'kirby' => t('dreamform.template-type-kirby'),
 								'field' => t('dreamform.template-type-field')
 							],
@@ -123,7 +125,7 @@ class EmailAction extends Action
 	public function to(): string
 	{
 		if ($this->block()->sendTo()->value() === 'field') {
-			return $this->submission()->fields()->findBy('id', $this->block()->sendToField()->value())->value()->value();
+			return $this->submission()->valueForId($this->block()->sendToField())->value();
 		}
 
 		return $this->block()->sendToStatic()->value();
@@ -132,7 +134,7 @@ class EmailAction extends Action
 	public function replyTo(): string
 	{
 		if ($this->block()->replyTo()->value() === 'field') {
-			return $this->submission()->fields()->findBy('id', $this->block()->replyToField()->value())->value()->value();
+			return $this->submission()->valueForId($this->block()->replyToField())->value();
 		}
 
 		if (($static = $this->block()->replyToStatic())->isNotEmpty()) {
@@ -149,9 +151,9 @@ class EmailAction extends Action
 			return null;
 		}
 
-		$html = ($this->submission()->referer() ?? $this->submission())->toSafeString(
+		$html = $this->submission()->toString(
 			$this->block()->fieldTemplate()->value(),
-			$this->submission()->fieldValues()
+			$this->submission()->values()->toArray()
 		);
 
 		return [
@@ -162,9 +164,9 @@ class EmailAction extends Action
 
 	public function subject()
 	{
-		return ($this->submission()->referer() ?? $this->submission())->toSafeString(
+		return $this->submission()->toString(
 			$this->block()->subject()->value(),
-			$this->submission()->fieldValues()
+			$this->submission()->values()->toArray()
 		);
 	}
 
@@ -183,7 +185,7 @@ class EmailAction extends Action
 			'data' => [
 				'action' => $this,
 				'submission' => $this->submission(),
-				'fields' => $this->submission()->fields(),
+				'form' => $this->submission()->form(),
 			],
 		]);
 	}

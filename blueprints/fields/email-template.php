@@ -11,6 +11,7 @@ return function () {
 	return [
 		'label' => t('dreamform.template-type-kirby'),
 		'type' => 'select',
+		'default' => $templates[0] ?? null,
 		'options' => $templates,
 	];
 };

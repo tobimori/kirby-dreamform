@@ -29,19 +29,19 @@ if ($submission?->isFinished()) {
 } ?>
 
 <form <?= attr(A::merge($attr ?? [], [
-	'action' => $form->url(),
-	'method' => 'POST',
-	'novalidate' => 'novalidate'
-])) ?>>
-	<div <?= attr(A::merge(['data-error' => true], $error ?? [])) ?>><?= $submission?->error() ?></div>
+				'action' => $form->url(),
+				'method' => 'POST',
+				'novalidate' => 'novalidate'
+			])) ?>>
+	<div <?= attr(A::merge(['data-error' => true], $error ?? [])) ?>><?= $submission?->errorFor() ?></div>
 	<?php foreach ($form->fieldLayouts() as $layoutRow) : ?>
 		<div <?= attr(A::merge($row ?? [], [
-			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
-		])) ?>>
+						'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
+					])) ?>>
 			<?php foreach ($layoutRow->columns() as $layoutColumn) : ?>
 				<div <?= attr(A::merge($column ?? [], [
-					'style' => "grid-column-start: span {$layoutColumn->span(12)};",
-				])) ?>>
+								'style' => "grid-column-start: span {$layoutColumn->span(12)};",
+							])) ?>>
 					<?php foreach ($layoutColumn->blocks() as $field) {
 						snippet(
 							"dreamform/fields/{$field->type()}",
