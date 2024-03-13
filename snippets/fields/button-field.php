@@ -3,12 +3,15 @@
 /**
  * @var \Kirby\Cms\Block $block
  * @var \DreamForm\Models\FormPage $form
- * @var string $btnClass
- */ ?>
+ * @var array|null $button
+ */
 
-<button <?= attr([
-	'class' => $btnClass ?? '',
-	'type' => 'submit'
-]) ?>>
+use Kirby\Toolkit\A;
+
+?>
+
+<button <?= attr(A::merge($button ?? [], [
+	'type' => 'submit',
+])) ?>>
 	<?= $block->label() ?>
 </button>

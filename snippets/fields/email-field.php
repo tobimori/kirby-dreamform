@@ -3,14 +3,14 @@
 /**
  * @var \Kirby\Cms\Block $block
  * @var \DreamForm\Models\FormPage $form
- * @var string $inputClass
- * @var string $errorClass
+ * @var array|null $input
+ * @var array|null $error
  */
 
 snippet('dreamform/fields/text-field', [
 	'block' => $block,
 	'form' => $form,
 	'type' => 'email',
-	'inputClass' => $inputClass ?? null,
-	'errorClass' => $errorClass ?? null
+	'input' => $input ?? null,
+	'error' => $error ?? null
 ]);

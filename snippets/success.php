@@ -1,3 +1,3 @@
 <div>
-	party!
+	<p><?= t('dreamform.successful-submission') ?></p>
 </div>

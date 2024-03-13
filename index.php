@@ -96,6 +96,7 @@ App::plugin('tobimori/dreamform', [
 	'snippets' => [
 		'dreamform/form' => __DIR__ . '/snippets/form.php',
 		'dreamform/success' => __DIR__ . '/snippets/success.php',
+		'dreamform/inactive' => __DIR__ . '/snippets/inactive.php',
 		'dreamform/fields/text-field' => __DIR__ . '/snippets/fields/text-field.php',
 		'dreamform/fields/textarea-field' => __DIR__ . '/snippets/fields/textarea-field.php',
 		'dreamform/fields/email-field' => __DIR__ . '/snippets/fields/email-field.php',

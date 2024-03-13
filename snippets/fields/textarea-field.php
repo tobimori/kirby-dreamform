@@ -3,11 +3,15 @@
 /**
  * @var \Kirby\Cms\Block $block
  * @var \DreamForm\Models\FormPage $form
- * @var string $inputClass
- * @var string $errorClass
- */ ?>
+ * @var array|null $input
+ * @var array|null $error
+ */
 
-<div <?= attr(['class' => $inputClass ?? null]) ?>>
+use Kirby\Toolkit\A;
+
+?>
+
+<div <?= attr(A::merge($input ?? [], ['data-has-error' => !!$form->errorFor($block->key())])) ?>>
 	<label for="<?= $block->id() ?>">
 		<span>
 			<?= $block->label() ?>
@@ -21,8 +25,7 @@
 		'placeholder' => $block->placeholder(),
 		'required' => $required ?? null,
 	]) ?>><?= $form->valueFor($block->key()) ?></textarea>
-	<span <?= attr([
-		'class' => $errorClass ?? null,
+	<span <?= attr(A::merge($error ?? [], [
 		'data-error' => $block->key()
-	]) ?>><?= $form->errorFor($block->key()) ?></span>
+	])) ?>><?= $form->errorFor($block->key()) ?></span>
 </div>

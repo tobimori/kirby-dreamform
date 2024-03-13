@@ -6,18 +6,20 @@
  *
  * @var FormPage $form
  *
- * @var string|null $formClass
- * @var string|null $rowClass
- * @var string|null $columnClass
-
- * @var string|null $inputClass
- * @var string|null $btnClass
- * @var string|null $errorClass
+ * @var array|null $attr
+ * @var array|null $row
+ * @var array|null $column
+ * @var array|null $input
+ * @var array|null $button
+ * @var array|null $error
  */
+
+use Kirby\Toolkit\A;
 
 // don't show the form if it's a draft
 // TODO: inactive form snippet
 if (!$form || $form->status() === 'draft') {
+	snippet('dreamform/inactive', ['form' => $form]);
 	return;
 }
 
@@ -26,31 +28,29 @@ if ($submission?->isFinished()) {
 	return;
 } ?>
 
-<form <?= attr([
+<form <?= attr(A::merge($attr ?? [], [
 	'action' => $form->url(),
 	'method' => 'POST',
-	'class' => $formClass ?? null,
 	'novalidate' => 'novalidate'
-]) ?>>
-	<div <?= attr(['class' => $errorClass ?? null, 'data-error' => true]) ?>><?= $submission?->error() ?></div>
-	<?php foreach ($form->fieldLayouts() as $row) : ?>
-		<div <?= attr([
+])) ?>>
+	<div <?= attr(A::merge(['data-error' => true], $error ?? [])) ?>><?= $submission?->error() ?></div>
+	<?php foreach ($form->fieldLayouts() as $layoutRow) : ?>
+		<div <?= attr(A::merge($row ?? [], [
 			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
-			'class' => $rowClass ?? null,
-		]) ?>>
-			<?php foreach ($row->columns() as $column) : ?>
-				<div <?= attr([
-					'style' => "grid-column-start: span {$column->span(12)};",
-					'class' => $columnClass ?? null,
-				]) ?>>
-					<?php foreach ($column->blocks() as $field) {
+		])) ?>>
+			<?php foreach ($layoutRow->columns() as $layoutColumn) : ?>
+				<div <?= attr(A::merge($column ?? [], [
+					'style' => "grid-column-start: span {$layoutColumn->span(12)};",
+				])) ?>>
+					<?php foreach ($layoutColumn->blocks() as $field) {
 						snippet(
 							"dreamform/fields/{$field->type()}",
 							[
 								'block' => $field,
 								'form' => $form,
-								'inputClass' => $inputClass ?? null,
-								'btnClass' => $btnClass ?? null
+								'input' => $input ?? null,
+								'button' => $button ?? null,
+								'error' => $error ?? null,
 							]
 						);
 					} ?>

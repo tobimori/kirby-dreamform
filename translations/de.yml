@@ -92,3 +92,6 @@ double-opt-in: Erfordere Double-Opt-In?
 double-opt-in-help: Benötigt für eine DSGVO-konforme Anmeldung.
 
 text-fields: Textfelder
+
+successful-submission: Vielen Dank für deine Antwort!
+inactive-form: Dieses Formular ist inaktiv und nimmt zurzeit keine Antworten entgegen.
