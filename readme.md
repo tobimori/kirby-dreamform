@@ -4,19 +4,52 @@
 
 Kirby Dream Form is an opiniated plugin for [Kirby CMS](https://getkirby.com/) that allows you to create forms with a layout builder interface. It's easy to expand and customize, and built with Kirby's native field types.
 
+## Sites using Dream Form
+
+- [Vierbeiner in Not](https://www.vierbeinerinnot.de/)
+- [Factory Campus](https://factorycampus.de/)
+
 ## Comparison
 
-### Dream Form vs. Uniform
+| _Feature Comparison_                        | Dream Form  | [Form Block Suite](https://github.com/youngcut/kirby-form-block-suite) | [Uniform](https://kirby-uniform.readthedocs.io/en/latest/) |
+| ------------------------------------------- | ----------- | ---------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Pricing (per license/site)                  | 39 €        | 25 US$                                                                 | Free                                                       |
+|                                             |             |                                                                        |                                                            |
+| **Create custom forms**                     | ✅          | ✅                                                                     | ✅                                                         |
+| ...with Blocks in the panel                 | ✅          | ✅                                                                     |                                                            |
+| ...with Layouts (multi-column) in the panel | ✅          |                                                                        |                                                            |
+|                                             |             |                                                                        |                                                            |
+| **Customize behaviour after submission**    | ✅          | ✅                                                                     | ✅                                                         |
+| ...in the panel                             | ✅          |                                                                        |                                                            |
+| ...using hooks                              | ✅          | ✅                                                                     |                                                            |
+|                                             |             |                                                                        |                                                            |
+| Use with JavaScript (API submission)        | ✅          | ✅                                                                     | ✅                                                         |
+| Use without JavaScript (Form submission)    | ✅          |                                                                        | ✅                                                         |
+|                                             |             |                                                                        |                                                            |
+| **_Built-in fields_**                       |             |                                                                        |                                                            |
+| Email                                       | ✅          | ✅ _(using Input)_                                                     | <a href="#1"><sup>1</sup></a>                              |
+| Text                                        | ✅          | ✅                                                                     | <a href="#1"><sup>1</sup></a>                              |
+| Multi-line text                             | ✅          | ✅                                                                     | <a href="#1"><sup>1</sup></a>                              |
+| Select                                      | ✅          | ✅                                                                     | <a href="#1"><sup>1</sup></a>                              |
+| Radio                                       | ✅          | ✅                                                                     | <a href="#1"><sup>1</sup></a>                              |
+| Checkboxes                                  | ✅          | ✅                                                                     | <a href="#1"><sup>1</sup></a>                              |
+| File uploads                                | In Progress | ✅                                                                     | <a href="#1"><sup>1</sup></a>                              |
+|                                             |             |                                                                        |                                                            |
+| **_Built-in integrations_**                 |             |                                                                        |                                                            |
+| Email                                       | ✅          | ✅                                                                     | ✅                                                         |
+| Generic Webhook                             | ✅          |                                                                        | ✅                                                         |
+| Gravatar                                    | ✅          |                                                                        |                                                            |
+| Mailchimp                                   | In Progress |                                                                        |                                                            |
+| Discord                                     | In Progress |                                                                        |                                                            |
+| Slack                                       | In Progress |                                                                        |                                                            |
+| Payments (Stripe/Adyen)                     | _Roadmap_   |                                                                        |                                                            |
+|                                             |             |                                                                        |                                                            |
+| **_Other_**                                 |             |                                                                        |                                                            |
+| Re-use forms in different places            | ✅          | _Each block is a unique form_                                          | ✅                                                         |
+| Stores submissions in the panel             | ✅          | _Sent emails will be stored_                                           |                                                            |
+| Permissions for limiting access             | ✅          |                                                                        |                                                            |
 
-[Uniform](https://kirby-uniform.readthedocs.io/en/latest/) is a toolkit for creating forms, it especially helps with server-side validation. Dream Form heavily takes inspiration and expands upon some concepts of Uniform and adds panel controls. Dream Form is not a drop-in replacement, but you can imagine it as Uniform with a panel interface.
-
-### Dream Form vs. Form Block Suite
-
-[Form Block Suite](https://github.com/youngcut/kirby-form-block-suite) is a great plugin with a similiar feature set to Dream Form, although with the following disadvantages over Dream Form:
-
-- Requires the use of a proprietary script for submissions; does not support normal Form submissions
-- Building custom sending behaviour, e.g. adding a CRM integration, using hooks is tedious
-- Limited to use as Blocks, no standalone forms
+<small id="1"><sup>1</sup> Uniform only handles validation, so you can theoretically built any kind of form, but no pre-built fields are included.</small>
 
 ## License
 
