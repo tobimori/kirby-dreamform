@@ -10,13 +10,18 @@ final class DreamForm
 {
 	public const SESSION_KEY = '_dreamform_submission';
 
+	/**
+	 * Get the page the request was made from using the URL path
+	 */
 	public static function currentPage(): Page|null
 	{
 		$path = App::instance()->request()->url()->toString();
 		$matches = Str::match($path, "/pages\/([a-zA-Z0-9-_+]+)\/?/m");
+
 		if (!$matches) {
 			return null;
 		}
+
 		$page = App::instance()->site()->findPageOrDraft(Str::replace($matches[1], '+', '/'));
 
 		return $page;

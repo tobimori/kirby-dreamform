@@ -8,7 +8,6 @@ use Kirby\Cms\App;
 use Kirby\Cms\Blocks;
 use Kirby\Cms\Collection;
 use Kirby\Cms\File;
-use Kirby\Cms\Page;
 use Kirby\Cms\Responder;
 use Kirby\Content\Content;
 use Kirby\Content\Field;
@@ -21,19 +20,19 @@ use Kirby\Toolkit\V;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\Field as FormField;
 
-class SubmissionPage extends BasePage
+final class SubmissionPage extends BasePage
 {
-	private string|null $referer = null;
-
+	/**
+	 * Returns the submission referer (for PRG redirects)
+	 */
 	public function referer(): string|null
 	{
-		if ($this->referer) {
-			return $this->referer;
-		}
-
-		return $this->referer = $this->content()->get('dreamform_referer')->value();
+		return $this->content()->get('dreamform_referer')->value();
 	}
 
+	/**
+	 * Returns the value of a field in the submission content by its ID
+	 */
 	public function valueForId(string $id): Field|null
 	{
 		/** @var tobimori\DreamForm\Fields\Field|null $field */
@@ -49,12 +48,22 @@ class SubmissionPage extends BasePage
 		return null;
 	}
 
+	/**
+	 * Returns the value of a field from the URL query
+	 */
 	public static function valueFromRequest(string $key): Field|null
 	{
 		$key = Str::replace($key, '-', '_');
-		return new Field(DreamForm::currentPage(), $key, App::instance()->request()->query()->get($key));
+		if (!($value = App::instance()->request()->query()->get($key))) {
+			return null;
+		}
+
+		return new Field(DreamForm::currentPage(), $key, $value);
 	}
 
+	/**
+	 * Returns the value of a field in the submission content by its key
+	 */
 	public function valueFor(string $key): Field|null
 	{
 		$key = Str::replace($key, '-', '_');
@@ -67,6 +76,9 @@ class SubmissionPage extends BasePage
 		return $field;
 	}
 
+	/**
+	 * Returns the values of all fields in the submission content as content object
+	 */
 	public function values(): Content
 	{
 		$values = [];
@@ -77,6 +89,9 @@ class SubmissionPage extends BasePage
 		return new Content($values, $this);
 	}
 
+	/**
+	 * Returns the error message for a field in the submission state
+	 */
 	public function errorFor(string $key = null): string|null
 	{
 		if ($key === null) {
@@ -232,16 +247,25 @@ class SubmissionPage extends BasePage
 		return $submission;
 	}
 
+	/**
+	 * Returns a boolean whether the submission is finished
+	 */
 	public function isFinished(): bool
 	{
 		return !$this->state()->get('partial')->toBool();
 	}
 
+	/**
+	 * Returns a boolean whether the submission was successful so far
+	 */
 	public function isSuccessful(): bool
 	{
 		return $this->state()->get('success')->toBool();
 	}
 
+	/**
+	 * Returns the submission state as content object
+	 */
 	public function state(): Content
 	{
 		return $this->content()->get('dreamform_state')->toObject();
@@ -255,6 +279,10 @@ class SubmissionPage extends BasePage
 	 */
 	public function storeSession(): static
 	{
+		if (App::instance()->option('tobimori.dreamform.mode', 'prg') === 'api') {
+			return $this;
+		}
+
 		App::instance()->session()->set(DreamForm::SESSION_KEY, $this);
 		return static::$session = $this;
 	}
@@ -264,6 +292,10 @@ class SubmissionPage extends BasePage
 	 */
 	public static function fromSession(): SubmissionPage|null
 	{
+		if (App::instance()->option('tobimori.dreamform.mode', 'prg') === 'api') {
+			return null;
+		}
+
 		if (static::$session) {
 			return static::$session;
 		}

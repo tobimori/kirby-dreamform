@@ -54,6 +54,7 @@ App::plugin('tobimori/dreamform', [
 		'cache' => [
 			'actions' => true // Cache API calls from actions
 		],
+		'mode' => 'prg', // prg or api
 		'silentErrors' => fn () => !option('debug'), // will supress non-validation errors (like a webhook request failing) for the user
 		'email' => null,
 		'actions' => true,

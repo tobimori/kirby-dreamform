@@ -2,7 +2,7 @@
 
 namespace tobimori\DreamForm\Models;
 
-class FormsPage extends BasePage
+final class FormsPage extends BasePage
 {
 	// does nothing for now
 }

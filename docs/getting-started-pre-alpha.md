@@ -40,3 +40,13 @@ You can also add attributes to some elements for styling.
 > **Make sure caching is disabled if you're sending the form via SSR.**
 
 8. You can now submit the form and see the result in the panel.
+
+If you want to use API submissions, you can set `tobimori.dreamform.mode` to `api` in your `config.php` file.
+
+```php
+return [
+	'tobimori.dreamform.mode' => 'api'
+];
+```
+
+(Other options are available as well but not documented yet.)

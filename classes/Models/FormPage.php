@@ -14,7 +14,7 @@ use Kirby\Uuid\Uuid;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\SuccessException;
 
-class FormPage extends BasePage
+final class FormPage extends BasePage
 {
 	public static $registeredFields = [];
 	public static $registeredActions = [];
@@ -61,13 +61,17 @@ class FormPage extends BasePage
 		$this->fields = new Collection($fields, []);
 	}
 
-	/** Returns the form layouts */
+	/**
+	 * Returns the form layouts
+	 */
 	public function fieldLayouts(): Layouts
 	{
 		return $this->content()->get('fields')->toLayouts();
 	}
 
-	/** Returns the fields for a form  */
+	/**
+	 * Returns the fields for a form
+	 */
 	public function fields(): Collection
 	{
 		return $this->fields;
@@ -170,7 +174,9 @@ class FormPage extends BasePage
 		return $submission;
 	}
 
-	/** Runs the form handling, or renders a 404 page */
+	/**
+	 * Runs the form handling, or renders a 404 page
+	 */
 	public function render(array $data = [], $contentType = 'html'): string
 	{
 		$kirby = App::instance();
@@ -178,8 +184,8 @@ class FormPage extends BasePage
 		if ($kirby->request()->method() === 'POST') {
 			$submission = $this->submit();
 
-			// Content-Type is application/json, the request has to be sent manually, so we send JSON data back
-			if ($kirby->request()->header('Content-Type') === 'application/json') {
+			// if dreamform is used in API mode, return the submission state as JSON
+			if (App::instance()->option('tobimori.dreamform.mode', 'prg') === 'api') {
 				$kirby->response()->code($submission->isSuccessful() ? 200 : 400);
 				return Json::encode($submission->state()->toArray());
 			}
@@ -194,6 +200,14 @@ class FormPage extends BasePage
 
 		$kirby->response()->code(404);
 		return $this->site()->errorPage()->render();
+	}
+
+	/**
+	 * Never cache the API response
+	 */
+	public function isCacheable(): bool
+	{
+		return false;
 	}
 
 	public function valueFor(string $key): Field|null

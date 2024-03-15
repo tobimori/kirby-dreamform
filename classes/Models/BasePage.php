@@ -7,7 +7,9 @@ use Kirby\Content\Field;
 
 class BasePage extends Page
 {
-	/** Render a 404 page to lock pages */
+	/**
+	 * Render a 404 page to lock pages
+	 */
 	public function render(array $data = [], $contentType = 'html'): string
 	{
 		kirby()->response()->code(404);
@@ -15,8 +17,7 @@ class BasePage extends Page
 	}
 
 	/**
-	 * Override the page title to be static
-	 * to the template name
+	 * Override the page title to be static to the template name
 	 */
 	public function title(): Field
 	{
