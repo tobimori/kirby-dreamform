@@ -22,7 +22,7 @@ use Kirby\Toolkit\A;
 	<textarea <?= attr([
 		'id' => $block->id(),
 		'name' => $block->key(),
-		'placeholder' => $block->placeholder(),
+		'placeholder' => $block->placeholder()->or(" "),
 		'required' => $required ?? null,
 	]) ?>><?= $form->valueFor($block->key()) ?></textarea>
 	<span <?= attr(A::merge($error ?? [], [

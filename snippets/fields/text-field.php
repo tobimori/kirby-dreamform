@@ -23,7 +23,7 @@ use Kirby\Toolkit\A;
 		'type' => $type ?? 'text',
 		'id' => $block->id(),
 		'name' => $block->key(),
-		'placeholder' => $block->placeholder(),
+		'placeholder' => $block->placeholder()->or(" "),
 		'required' => $required ?? null,
 		'value' => $form->valueFor($block->key())
 	]) ?>>
