@@ -8,6 +8,7 @@ class SelectField extends Field
 	{
 		return [
 			'title' => t('dreamform.select-field'),
+			'label' => '{{ label }}',
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'list-bullet',

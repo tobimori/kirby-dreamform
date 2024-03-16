@@ -8,6 +8,7 @@ class ButtonField extends Field
 	{
 		return [
 			'title' => t('dreamform.button-field'),
+			'label' => '{{ label }}',
 			'icon' => 'ticket',
 			'preview' => 'fields',
 			'wysiwyg' => true,

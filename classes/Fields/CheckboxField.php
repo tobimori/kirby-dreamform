@@ -5,7 +5,6 @@ namespace tobimori\DreamForm\Fields;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\V;
 use Kirby\Content\Field as ContentField;
-use Kirby\Toolkit\Str;
 
 class CheckboxField extends Field
 {
@@ -13,6 +12,7 @@ class CheckboxField extends Field
 	{
 		return [
 			'title' => t('dreamform.checkbox-field'),
+			'label' => '{{ key }}',
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'toggle-off',
