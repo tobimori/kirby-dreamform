@@ -1,24 +1,71 @@
-forms: Forms
+# Shown in the frontend
+successful-submission: Thank you for your submission!
+inactive-form: This form is inactive and doesn't accept answers.
+error-message-default: This field is required.
+webhook-error: An error occurred while sending the webhook.
+
+# Forms
 form: Form
-submission: Submission
+forms: Forms
 all-forms: All Forms
-empty-forms: No forms
-form-name: Form name
-form-draft: This form is a draft and can not be submitted or linked in blocks.
+empty-forms: No Forms
+form-name: Form Name
+form-draft: This form is a draft and can't be submitted or linked to in fields.
 form-listed: This form is published and can be submitted.
+form-listed-label: Active form
+form-draft-label: Draft
+empty-form: No form selected
+
+# Categories
+text-fields: Text Fields
+
+# Submissions
+submission: Submission
+submissions: Submissions
+empty-submissions: No Submissions
+submitted-at: Submitted at
+recent-submissions: Recent Submissions
+
+# Fields
+field: Field
+fields: Fields
+validation: Validation
+label: Label
+placeholder: Placeholder
+error-message: Error Message
+error-message-help: The error message is shown when the field is **not** or in the **wrong format**.
+required: Required
+required-off: No, optional
+required-on: Yes, required
+value: Value
+key: Key
+
+# Field Types
+text-field: Text
+textarea-field: Multiline Text
+hidden-field: Hidden
+select-field: Select
+checkbox-field: Checkboxes
+email-field: Email
+button-field: Button
+
+# Checkboxes / Select
+options-label-help: The label is shown to the user.
+options-value-help: The value is saved in the submission.
+min-checked: Min checked
+max-checked: Max checked
 
 # Actions
+workflow: Workflow
 actions: Actions
 empty-actions: No actions defined
-send-email-action: Send E-Mail
-redirect-action: Redirect
-conditional-action: Conditional Action
-abort-action: Abort
-webhook-action: Webhook
+
+# Email Action
+send-email-action: Send Email
 send-to: Send to...
 reply-to: Reply to...
 static: Static
-from-field: From Input Field
+from-field: From User Input
 addresses: Addresses
 subject: Subject
 template-type: Template Type
@@ -26,28 +73,40 @@ template-type-default: Default Template
 template-type-kirby: Kirby Template
 template-type-field: Custom Template
 
-# Fields
-fields: Fields
-field: Field
-validation: Validation
-text-field: Text Field
-textarea-field: Text Field (multiline)
-hidden-field: Hidden Field
-select-field: Select Field
-checkbox-field: Checkbox Field
-email-field: E-Mail Field
-button-field: Send Button
-label: Label
-placeholder: Placeholder Text
-error-message: Error Message
-error-message-help: The error message will be displayed if the field is **not** or in the **wrong format** filled out.
-error-message-default: This field is required.
-required: Required
-required-off: No, optional
-required-on: Yes, required
-value: Value
-key: Key
-options-label-help: Will be displayed as label in the contact form.
-options-value-help: Will be used as value in the contact form.
-min-checked: Min. checked
-max-checked: Max. checked
+# Conditional Action
+conditional-action: Conditional Action
+conditions: Conditions
+if-field: If field...
+is-operator: is...
+is-value: Value
+that-actions: Then...
+else-actions: Else...
+equals: equals
+not-equals: not equals
+contains: contains
+not-contains: not contains
+starts-with: starts with
+ends-with: ends with
+
+# Abort Action
+abort-action: Abort
+show-error: Show error message?
+
+# Webhook Action
+webhook-action: Send Webhook
+discord-webhook-action: Send Discord Message
+slack-webhook-action: Send Slack Message
+webhook-url: Webhook URL
+exposed-fields: Exposed Fields
+
+# Redirect Action
+redirect-action: Redirect
+redirect-to: Redirect to...
+
+# Mailchimp Action
+mailchimp-action: Subscribe to Mailchimp Newsletter
+mailchimp-list: List
+mailchimp-field-mapping: Field Mapping
+mailchimp-field-mapping-help: Map the form fields to the Mailchimp fields.
+double-opt-in: Require Double Opt In?
+double-opt-in-help: Required for a GDPR compliant subscription.

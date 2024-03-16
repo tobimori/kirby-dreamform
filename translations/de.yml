@@ -1,23 +1,64 @@
-forms: Formulare
+# Shown in the frontend
+successful-submission: Vielen Dank für deine Antwort!
+inactive-form: Dieses Formular ist inaktiv und nimmt zur Zeit keine Antworten entgegen.
+error-message-default: Dieses Feld muss ausgefüllt werden.
+webhook-error: Fehler beim Senden des Webhooks.
+
+# Forms
 form: Formular
-submissions: Antworten
-submission: Antwort
-empty-submissions: Keine Antworten
+forms: Formulare
 all-forms: Alle Formulare
 empty-forms: Keine Formulare
 form-name: Formularname
-form-draft: Dieses Formular ist ein Entwurf und kann nicht eingereicht werden oder in Blöcken verlinkt werden.
+form-draft: Dieses Formular ist ein Entwurf und kann nicht eingereicht werden oder in Feldern verlinkt werden.
 form-listed: Dieses Formular ist veröffentlicht und kann eingereicht werden.
 form-listed-label: Formular aktiv
 form-draft-label: Entwurf
+empty-form: Kein Formular ausgewählt
+
+# Categories
+text-fields: Textfelder
+
+# Submissions
+submission: Antwort
+submissions: Antworten
+empty-submissions: Keine Antworten
+submitted-at: Eingereicht am
+recent-submissions: Letzte Antworten
+
+# Fields
+field: Feld
+fields: Felder
+validation: Validierung
+label: Beschriftung
+placeholder: Platzhaltertext
+error-message: Fehlermeldung
+error-message-help: Die Fehlermeldung wird angezeigt, wenn das Feld **nicht** oder im **falschen Format** ausgefüllt wurde.
+required: Pflichtfeld
+required-off: Nein, optional
+required-on: Ja, Pflichtfeld
+value: Wert
+key: Schlüssel
+
+# Field Types
+text-field: Text
+textarea-field: Mehrzeiliger Text
+hidden-field: Verstecktes Feld
+select-field: Auswahl
+checkbox-field: Auswahlkästchen
+email-field: E-Mail
+button-field: Absende-Button
+
+# Checkboxes / Select
+options-label-help: Wird als Beschriftung im Kontaktformular angezeigt.
+options-value-help: Wird intern als gespeicherter Wert verwendet.
+min-checked: Mindestanzahl
+max-checked: Maximalanzahl
 
 # Actions
+workflow: Workflow
 actions: Aktionen
 empty-actions: Keine Aktionen definiert
-redirect-action: Weiterleiten
-conditional-action: Bedingte Aktion
-abort-action: Abbrechen
-webhook-action: Webhook senden
 
 # Email Action
 send-email-action: E-Mail senden
@@ -31,41 +72,15 @@ template-type: Vorlagentyp
 template-type-default: Standardvorlage
 template-type-kirby: Kirby-Template
 template-type-field: Benutzerdefiniertes Template
-store-submissions: Antwort speichern
 
-# Fields
-fields: Felder
-field: Feld
-validation: Validierung
-text-field: Textfeld
-textarea-field: Mehrzeiliges Textfeld
-hidden-field: Verstecktes Feld
-select-field: Auswahlfeld
-checkbox-field: Auswahlkästchen
-email-field: E-Mail-Feld
-button-field: Absende-Button
-label: Beschriftung
-placeholder: Platzhaltertext
-error-message: Fehlermeldung
-error-message-help: Die Fehlermeldung wird angezeigt, wenn das Feld **nicht** oder im **falschen Format** ausgefüllt wurde.
-required: Pflichtfeld
-required-off: Nein, optional
-required-on: Ja, Pflichtfeld
-value: Wert
-key: Schlüssel
-options-label-help: Wird als Beschriftung im Kontaktformular angezeigt.
-options-value-help: Wird intern als gespeicherter Wert verwendet.
-min-checked: Mindestanzahl
-max-checked: Maximalanzahl
-
+# Conditional Action
+conditional-action: Bedingte Aktion
+conditions: Bedingungen
 if-field: Wenn Feld...
 is-operator: ist...
 is-value: Wert
 that-actions: Dann...
 else-actions: Andernfalls...
-conditions: Bedingungen
-workflow: Workflow
-
 equals: gleich
 not-equals: ungleich
 contains: enthält
@@ -73,29 +88,25 @@ not-contains: enthält nicht
 starts-with: beginnt mit
 ends-with: endet mit
 
-submitted-at: Eingereicht am
-webhook-url: Webhook-URL
-exposed-fields: Freigegebene Felder
-discord-webhook-action: Discord-Nachricht senden
-slack: Slack
-webhook-error: Fehler beim Senden des Webhooks
-empty-form: Kein Formular ausgewählt
-recent-submissions: Letzte Antworten
-redirect-to: Weiterleiten zu
+# Abort Action
+abort-action: Abbrechen
 show-error: Fehlermeldung anzeigen?
 
-# Mailchimp
+# Webhook Action
+webhook-action: Webhook senden
+discord-webhook-action: Discord-Nachricht senden
+slack-webhook-action: Slack-Nachricht senden
+webhook-url: Webhook-URL
+exposed-fields: Freigegebene Felder
+
+# Redirect Action
+redirect-action: Weiterleiten
+redirect-to: Weiterleiten zu
+
+# Mailchimp Action
 mailchimp-action: Mailchimp-Newsletter abonnieren
 mailchimp-list: Liste
 mailchimp-field-mapping: Feldzuordnung
 mailchimp-field-mapping-help: Wähle die Felder aus dem Formular, die mit den Feldern in Mailchimp übereinstimmen.
 double-opt-in: Erfordere Double-Opt-In?
 double-opt-in-help: Benötigt für eine DSGVO-konforme Anmeldung.
-
-# Categories
-text-fields: Textfelder
-
-# Shown in the frontend
-successful-submission: Vielen Dank für deine Antwort!
-inactive-form: Dieses Formular ist inaktiv und nimmt zurzeit keine Antworten entgegen.
-error-message-default: Dieses Feld muss ausgefüllt werden.
