@@ -8,6 +8,15 @@ use Kirby\Content\Field;
 class BasePage extends Page
 {
 	/**
+	 * Disable sitemap for all pages
+	 * Integration into tobimori/kirby-seo
+	 */
+	public function metaDefaults()
+	{
+		return ['robotsIndex' => false];
+	}
+
+	/**
 	 * Render a 404 page to lock pages
 	 */
 	public function render(array $data = [], $contentType = 'html'): string
