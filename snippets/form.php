@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the base form snippet for Dream Form.
+ * This is the base form snippet for DreamForm.
  * You can use this snippet in your site or copy it to customize it.
  *
  * @var FormPage $form
@@ -29,19 +29,19 @@ if ($submission?->isFinished()) {
 } ?>
 
 <form <?= attr(A::merge($attr ?? [], [
-	'action' => $form->url(),
-	'method' => 'POST',
-	'novalidate' => 'novalidate'
-])) ?>>
+				'action' => $form->url(),
+				'method' => 'POST',
+				'novalidate' => 'novalidate'
+			])) ?>>
 	<div <?= attr(A::merge(['data-error' => true], $error ?? [])) ?>><?= $submission?->errorFor() ?></div>
 	<?php foreach ($form->currentLayouts() as $layoutRow) : ?>
 		<div <?= attr(A::merge($row ?? [], [
-			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
-		])) ?>>
+						'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
+					])) ?>>
 			<?php foreach ($layoutRow->columns() as $layoutColumn) : ?>
 				<div <?= attr(A::merge($column ?? [], [
-					'style' => "grid-column-start: span {$layoutColumn->span(12)};",
-				])) ?>>
+								'style' => "grid-column-start: span {$layoutColumn->span(12)};",
+							])) ?>>
 					<?php foreach ($layoutColumn->blocks() as $field) {
 						snippet(
 							"dreamform/fields/{$field->type()}",

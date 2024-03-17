@@ -1,40 +1,40 @@
 {
-  "name": "tobimori/kirby-dreamform",
-  "description": "Kirby Dream Form",
-  "type": "kirby-plugin",
-  "version": "0.1.0",
-  "license": "proprietary",
-  "homepage": "https://github.com/tobimori/kirby-dreamform",
-  "authors": [
-    {
-      "name": "Tobias Möritz",
-      "email": "tobias@moeritz.io"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "tobimori\\DreamForm\\": "classes"
-    }
-  },
-  "require": {
-    "php": ">=8.2.0",
-    "getkirby/composer-installer": "^1.2.1"
-  },
-  "require-dev": {
-    "getkirby/cms": "^4.0-alpha.7",
-    "friendsofphp/php-cs-fixer": "^3.24"
-  },
-  "scripts": {
-    "dist": "composer install --no-dev --optimize-autoloader",
-    "fix": "php-cs-fixer fix"
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "allow-plugins": {
-      "getkirby/composer-installer": true
-    }
-  },
-  "extra": {
-    "kirby-cms-path": false
-  }
+	"name": "tobimori/kirby-dreamform",
+	"description": "Kirby DreamForm",
+	"type": "kirby-plugin",
+	"version": "0.1.0",
+	"license": "proprietary",
+	"homepage": "https://github.com/tobimori/kirby-dreamform",
+	"authors": [
+		{
+			"name": "Tobias Möritz",
+			"email": "tobias@moeritz.io"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"tobimori\\DreamForm\\": "classes"
+		}
+	},
+	"require": {
+		"php": ">=8.2.0",
+		"getkirby/composer-installer": "^1.2.1"
+	},
+	"require-dev": {
+		"getkirby/cms": "^4.0-alpha.7",
+		"friendsofphp/php-cs-fixer": "^3.24"
+	},
+	"scripts": {
+		"dist": "composer install --no-dev --optimize-autoloader",
+		"fix": "php-cs-fixer fix"
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"allow-plugins": {
+			"getkirby/composer-installer": true
+		}
+	},
+	"extra": {
+		"kirby-cms-path": false
+	}
 }

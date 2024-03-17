@@ -4,7 +4,7 @@
 
 Actions are ran after form submission & field validation. They can utilize the submitted field data, change them, or ultimately still reject the submission.
 
-By default, Kirby Dream Form includes the following Actions:
+By default, Kirby DreamForm includes the following Actions:
 
 - Email Action
   > Sends an email to any specified email address with the submitted field data

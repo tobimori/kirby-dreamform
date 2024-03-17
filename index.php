@@ -27,7 +27,7 @@ if (
 	version_compare(App::version() ?? '0.0.0', '4.0.0', '<') === true ||
 	version_compare(App::version() ?? '0.0.0', '5.0.0', '>') === true
 ) {
-	throw new Exception('Kirby Dream Form requires Kirby 4');
+	throw new Exception('Kirby DreamForm requires Kirby 4');
 }
 
 
@@ -54,8 +54,9 @@ App::plugin('tobimori/dreamform', [
 		'cache' => [
 			'actions' => true // Cache API calls from actions
 		],
+		'multiStep' => true, // true, false
 		'mode' => 'prg', // prg or api
-		'silentErrors' => fn () => !option('debug'), // will supress non-validation errors (like a webhook request failing) for the user
+		'silentErrors' => fn () => !App::instance()->option('debug'), // will supress non-validation errors (like a webhook request failing) for the user
 		'email' => null,
 		'actions' => true,
 		'fields' => true,

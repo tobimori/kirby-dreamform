@@ -12,25 +12,25 @@ The Slack action sends submission details to a Slack channel.
 
 ```json
 {
-  "display_information": {
-    "name": "Kirby Dream Form"
-  },
-  "features": {
-    "bot_user": {
-      "display_name": "Kirby",
-      "always_online": false
-    }
-  },
-  "oauth_config": {
-    "scopes": {
-      "bot": ["incoming-webhook"]
-    }
-  },
-  "settings": {
-    "org_deploy_enabled": false,
-    "socket_mode_enabled": false,
-    "token_rotation_enabled": false
-  }
+	"display_information": {
+		"name": "Kirby DreamForm"
+	},
+	"features": {
+		"bot_user": {
+			"display_name": "Kirby",
+			"always_online": false
+		}
+	},
+	"oauth_config": {
+		"scopes": {
+			"bot": ["incoming-webhook"]
+		}
+	},
+	"settings": {
+		"org_deploy_enabled": false,
+		"socket_mode_enabled": false,
+		"token_rotation_enabled": false
+	}
 }
 ```
 

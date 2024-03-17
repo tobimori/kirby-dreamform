@@ -1,5 +1,6 @@
 <?php
 
+use Kirby\Cms\App;
 use tobimori\DreamForm\Models\FormPage;
 
 return function () {
@@ -27,7 +28,7 @@ return function () {
 	return [
 		'label' => t('dreamform.fields'),
 		'type' => 'layout',
-		'layouts' => ["dreamform-page", ...$layouts],
+		'layouts' => App::instance()->option('tobimori.dreamform.multiStep', true) ? ["dreamform-page", ...$layouts] : $layouts,
 		'fieldsets' => $fieldsets
 	];
 };
