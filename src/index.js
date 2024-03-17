@@ -1,4 +1,5 @@
 import Layout from "./components/Layout.vue";
+import LayoutSelector from "./components/LayoutSelector.vue";
 import "./index.scss";
 
 panel.plugin("tobimori/dreamform", {
@@ -11,5 +12,6 @@ panel.plugin("tobimori/dreamform", {
   },
   components: {
     "k-layout": Layout,
+    "k-layout-selector": LayoutSelector,
   },
 });

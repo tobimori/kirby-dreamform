@@ -5,6 +5,7 @@ use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 
 return function () {
+	/** @var tobimori\DreamForm\Models\FormPage $page */
 	$page = DreamForm::currentPage();
 
 	// this fixes some edge cases where the current page
@@ -14,7 +15,7 @@ return function () {
 	}
 
 	$columns = [];
-	foreach ($page?->fields()->limit(4) as $field) {
+	foreach ($page?->fields()->filterBy(fn ($field) => $field::hasValue())->limit(4) as $field) {
 		$columns[$field->key()] = [
 			'label' => $field->block()->label()->value(),
 		];

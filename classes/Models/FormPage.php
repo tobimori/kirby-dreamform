@@ -42,6 +42,16 @@ final class FormPage extends BasePage
 		return $this->steps()[$step - 1];
 	}
 
+	public function currentLayouts(): Layouts
+	{
+		$submission = SubmissionPage::fromSession();
+		if ($submission) {
+			return $this->layouts($submission->currentStep());
+		}
+
+		return $this->layouts();
+	}
+
 	/**
 	 * Returns an array of steps for a multi-step form
 	 * This is an array, because Kirby's collection class does not allow
@@ -192,7 +202,7 @@ final class FormPage extends BasePage
 		}
 
 		// run actions if the field validations where successful
-		$isFinalStep = !$this->isMultiStep() || $submission->step() === count($this->steps());
+		$isFinalStep = !$this->isMultiStep() || $submission->currentStep() === count($this->steps());
 		if ($isFinalStep && $submission->isSuccessful()) {
 			try {
 				foreach ($submission->createActions() as $action) {
@@ -212,7 +222,7 @@ final class FormPage extends BasePage
 			if ($isFinalStep) {
 				$submission->finish();
 			} else {
-				$submission->nextStep();
+				$submission->advanceStep();
 			}
 		}
 

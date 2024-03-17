@@ -326,7 +326,7 @@ final class SubmissionPage extends BasePage
 		if (
 			static::$session && ( // if the session exists
 				static::$session->isFinished() // & if the submission is finished
-				|| (static::$session->step() === 1 && !static::$session->isSuccessful()) // or if it's the first step and not successful
+				|| (static::$session->currentStep() === 1 && !static::$session->isSuccessful()) // or if it's the first step and not successful
 			)
 		) {
 			App::instance()->session()->remove(DreamForm::SESSION_KEY);
