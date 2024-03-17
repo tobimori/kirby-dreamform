@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Models;
 
 use DateTime;
+use Exception;
 use IntlDateFormatter;
 use Kirby\Cms\App;
 use Kirby\Cms\Blocks;
@@ -229,6 +230,25 @@ final class SubmissionPage extends BasePage
 		);
 	}
 
+	public function currentStep(): int
+	{
+		return $this->state()->get('step')->toInt();
+	}
+
+	public function advanceStep(): static
+	{
+		$available = count($this->form()->steps());
+		if ($this->state()->get('step')->value() >= $available) {
+			return $this;
+		}
+
+		$state = $this->state()->toArray();
+		$state['step'] = $state['step'] + 1;
+		$this->content = $this->content()->update(['dreamform_state' => $state]);
+
+		return $this;
+	}
+
 	/**
 	 * Finish the submission and save it to the disk
 	 */
@@ -300,7 +320,19 @@ final class SubmissionPage extends BasePage
 			return static::$session;
 		}
 
-		return static::$session = App::instance()->session()->pull(DreamForm::SESSION_KEY, null);
+		static::$session = App::instance()->session()->get(DreamForm::SESSION_KEY, null);
+
+		// remove it from the session for subsequent loads
+		if (
+			static::$session && ( // if the session exists
+				static::$session->isFinished() // & if the submission is finished
+				|| (static::$session->step() === 1 && !static::$session->isSuccessful()) // or if it's the first step and not successful
+			)
+		) {
+			App::instance()->session()->remove(DreamForm::SESSION_KEY);
+		}
+
+		return static::$session;
 	}
 
 	/**

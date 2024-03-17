@@ -34,7 +34,7 @@ if ($submission?->isFinished()) {
 	'novalidate' => 'novalidate'
 ])) ?>>
 	<div <?= attr(A::merge(['data-error' => true], $error ?? [])) ?>><?= $submission?->errorFor() ?></div>
-	<?php foreach ($form->fieldLayouts() as $layoutRow) : ?>
+	<?php foreach ($form->layouts() as $layoutRow) : ?>
 		<div <?= attr(A::merge($row ?? [], [
 			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
 		])) ?>>

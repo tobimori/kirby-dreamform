@@ -18,7 +18,9 @@ final class FormPage extends BasePage
 {
 	public static $registeredFields = [];
 	public static $registeredActions = [];
-	private Collection $fields;
+
+	private array $fields;
+	private array $steps;
 
 	/**
 	 * Returns the title field or the slug as fallback
@@ -29,52 +31,88 @@ final class FormPage extends BasePage
 	}
 
 	/**
-	 * Create a form page, resolve the stored field layout to a flat collection
+	 * Returns the field layouts for the given step
 	 */
-	public function __construct(array $props)
+	public function layouts(int $step = 1): Layouts
 	{
-		parent::__construct($props);
-
-		$fields = [];
-
-		$active = option('tobimori.dreamform.fields', true);
-		$registered = static::$registeredFields;
-
-		foreach ($this->fieldLayouts() as $layout) {
-			foreach ($layout->columns() as $column) {
-				foreach ($column->blocks() as $block) {
-					$type = Str::replace($block->type(), '-field', '');
-
-					if (!key_exists($type, $registered)) {
-						continue;
-					}
-
-					if (is_array($active) && !in_array($type, $active) || $active != true) {
-						continue;
-					}
-
-					$fields[] = new $registered[$type]($block);
-				}
-			}
+		if (count($this->steps()) < $step) {
+			throw new Exception("Step {$step} does not exist");
 		}
 
-		$this->fields = new Collection($fields, []);
+		return $this->steps()[$step - 1];
 	}
 
 	/**
-	 * Returns the form layouts
+	 * Returns an array of steps for a multi-step form
+	 * This is an array, because Kirby's collection class does not allow
+	 * for empty IDs and Layouts instances can't have an ID
 	 */
-	public function fieldLayouts(): Layouts
+	public function steps(): array
 	{
-		return $this->content()->get('fields')->toLayouts();
+		if (isset($this->steps)) {
+			return $this->steps;
+		}
+
+		$steps = [];
+		$step = Layouts::factory([], ['parent' => $this]);
+
+		foreach ($this->content()->get('fields')->toLayouts() as $layout) {
+			if ($layout->columns()->first()->width() === 'dreamform-page') {
+				$steps[] = $step;
+				$step = Layouts::factory([], ['parent' => $this]);
+			} else {
+				$step->append($layout);
+			}
+		}
+
+		$steps[] = $step;
+		return $this->steps = $steps;
+	}
+
+	/**
+	 * Returns true if the form is a multi-step form
+	 */
+	public function isMultiStep(): bool
+	{
+		return count($this->steps()) > 1;
 	}
 
 	/**
 	 * Returns the fields for a form
 	 */
-	public function fields(): Collection
+	public function fields(int $step = null): Collection
 	{
-		return $this->fields;
+		if (isset($step) && ($step < 1 || $step > count($this->steps()))) {
+			throw new Exception("Step {$step} does not exist");
+		}
+
+		if (isset($this->fields)) {
+			return new Collection($step ? $this->fields[$step - 1] : $this->fields, []);
+		}
+
+		$active = option('tobimori.dreamform.fields', true);
+		$steps = [];
+		foreach ($this->steps() as $stepLayout) {
+			$fields = [];
+			foreach ($stepLayout->toBlocks() as $block) {
+				$type = Str::replace($block->type(), '-field', '');
+
+				if (!key_exists($type, static::$registeredFields)) {
+					continue;
+				}
+
+				if (is_array($active) && !in_array($type, $active) || $active != true) {
+					continue;
+				}
+
+				$fields[] = new static::$registeredFields[$type]($block);
+			}
+
+			$steps[] = new Collection($fields, []);
+		}
+
+		$this->fields = $steps;
+		return new Collection($step ? $steps[$step - 1] : $steps, []);
 	}
 
 	/**
@@ -107,6 +145,7 @@ final class FormPage extends BasePage
 				'dreamform_state' => [
 					'success' => true,
 					'partial' => true,
+					'step' => 1,
 					'redirect' => null, // this is the redirect URL if the form was successful
 					'error' => null, // this is a common error message for the whole form
 					'errors' => [], // this is an array of field-specific error messages
@@ -121,13 +160,17 @@ final class FormPage extends BasePage
 	 */
 	public function submit(): SubmissionPage
 	{
-		// create a new submission
-		$submission = $this->initSubmission();
+		// create a new submission or get the existing one from the session
+		$submission = SubmissionPage::fromSession() ?? $this->initSubmission();
+		if ($submission->parent()->id() !== $this->id()) {
+			$submission = $this->initSubmission();
+		}
 
 		// TODO: handle guards like honeypot upfront
 
 		// handle fields
-		foreach ($this->fields() as $field) {
+		$currentStep = App::instance()->request()->query()->get('dreamform-step', 1);
+		foreach ($this->fields($currentStep) as $field) {
 			// skip "decorative" fields that don't have a value
 			if (!$field::hasValue()) {
 				continue;
@@ -149,7 +192,8 @@ final class FormPage extends BasePage
 		}
 
 		// run actions if the field validations where successful
-		if ($submission->isSuccessful()) {
+		$isFinalStep = !$this->isMultiStep() || $submission->step() === count($this->steps());
+		if ($isFinalStep && $submission->isSuccessful()) {
 			try {
 				foreach ($submission->createActions() as $action) {
 					// TODO: log data for action log?
@@ -163,9 +207,13 @@ final class FormPage extends BasePage
 			}
 		}
 
-		// store the submission if it was successful
+		// finish the submission or advance to the next step for multi-step forms
 		if ($submission->isSuccessful()) {
-			$submission->finish();
+			if ($isFinalStep) {
+				$submission->finish();
+			} else {
+				$submission->nextStep();
+			}
 		}
 
 		// store the submission in the session
@@ -203,6 +251,24 @@ final class FormPage extends BasePage
 	}
 
 	/**
+	 * Returns the URL for the form
+	 */
+	public function url($options = null): string
+	{
+		$url = parent::url($options);
+		if ($this->isMultiStep()) {
+			$submission = SubmissionPage::fromSession();
+			if ($submission) {
+				$url .= "?dreamform-step={$submission->currentStep()}";
+			} else {
+				$url .= "?dreamform-step=1";
+			}
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Never cache the API response
 	 */
 	public function isCacheable(): bool
@@ -210,6 +276,9 @@ final class FormPage extends BasePage
 		return false;
 	}
 
+	/**
+	 * Returns the value for a given field key from the submission or URL params
+	 */
 	public function valueFor(string $key): Field|null
 	{
 		$submission = SubmissionPage::fromSession();
@@ -220,14 +289,16 @@ final class FormPage extends BasePage
 		return $submission->valueFor($key);
 	}
 
+	/**
+	 * Returns the error message for a given field key
+	 */
 	public function errorFor(string $key): string|null
 	{
 		return SubmissionPage::fromSession()?->errorFor($key);
 	}
 
 	/**
-	 * Static function to get page fields based on
-	 * the API request url for use in panel blueprints
+	 * Static function to get page fields based on the API request url for use in panel blueprints
 	 */
 	public static function getFields(): array
 	{

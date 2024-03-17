@@ -27,7 +27,7 @@ return function () {
 	return [
 		'label' => t('dreamform.fields'),
 		'type' => 'layout',
-		'layouts' => $layouts,
+		'layouts' => ["dreamform-page", ...$layouts],
 		'fieldsets' => $fieldsets
 	];
 };

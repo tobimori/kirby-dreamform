@@ -1,0 +1,6 @@
+.k-header-buttons {
+  .k-panel[data-template='submission'] &,
+  .k-panel[data-template='forms'] & {
+    display: none;
+  }
+}

@@ -29,7 +29,7 @@ tabs:
           forms:
             label: dreamform.forms
             type: pages
-            empty: empty-forms
+            empty: dreamform.empty-forms
             template: form
             image: false
   submissions:

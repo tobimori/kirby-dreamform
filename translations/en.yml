@@ -110,3 +110,6 @@ mailchimp-field-mapping: Field Mapping
 mailchimp-field-mapping-help: Map the form fields to the Mailchimp fields.
 double-opt-in: Require Double Opt In?
 double-opt-in-help: Required for a GDPR compliant subscription.
+
+# Multi-step forms
+next-page: Next form page
