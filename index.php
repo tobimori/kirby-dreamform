@@ -11,9 +11,9 @@ use tobimori\DreamForm\Actions\AbortAction;
 use tobimori\DreamForm\Actions\ConditionalAction;
 use tobimori\DreamForm\Actions\DiscordWebhookAction;
 use tobimori\DreamForm\Actions\EmailAction;
-use tobimori\DreamForm\Actions\MailchimpAction;
 use tobimori\DreamForm\Actions\RedirectAction;
 use tobimori\DreamForm\Actions\WebhookAction;
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\ButtonField;
 use tobimori\DreamForm\Fields\CheckboxField;
 use tobimori\DreamForm\Fields\EmailField;
@@ -21,7 +21,6 @@ use tobimori\DreamForm\Fields\HiddenField;
 use tobimori\DreamForm\Fields\SelectField;
 use tobimori\DreamForm\Fields\TextareaField;
 use tobimori\DreamForm\Fields\TextField;
-use tobimori\DreamForm\Models\FormPage as Form;
 
 if (
 	version_compare(App::version() ?? '0.0.0', '4.0.0', '<') === true ||
@@ -30,44 +29,44 @@ if (
 	throw new Exception('Kirby DreamForm requires Kirby 4');
 }
 
+// register all actions
+DreamForm::registerActions(
+	AbortAction::class,
+	ConditionalAction::class,
+	DiscordWebhookAction::class,
+	EmailAction::class,
+	RedirectAction::class,
+	WebhookAction::class
+);
 
-// TODO: autoload?
-// we specify a manual key for the field or action so they can be overwritten by other plugins
-//Form::$registeredActions['mailchimp'] = MailchimpAction::class;
-Form::$registeredActions['redirect'] = RedirectAction::class;
-Form::$registeredActions['email'] = EmailAction::class;
-Form::$registeredActions['conditional'] = ConditionalAction::class;
-Form::$registeredActions['abort'] = AbortAction::class;
-Form::$registeredActions['webhook'] = WebhookAction::class;
-//Form::$registeredActions['discord-webhook'] = DiscordWebhookAction::class;
-
-Form::$registeredFields['button'] = ButtonField::class;
-Form::$registeredFields['checkbox'] = CheckboxField::class;
-Form::$registeredFields['email'] = EmailField::class;
-Form::$registeredFields['hidden'] = HiddenField::class;
-Form::$registeredFields['select'] = SelectField::class;
-Form::$registeredFields['textarea'] = TextareaField::class;
-Form::$registeredFields['text'] = TextField::class;
+// register all fields
+DreamForm::registerFields(
+	ButtonField::class,
+	CheckboxField::class,
+	EmailField::class,
+	HiddenField::class,
+	SelectField::class,
+	TextareaField::class,
+	TextField::class
+);
 
 App::plugin('tobimori/dreamform', [
 	'options' => [
-		'cache' => [
-			'actions' => true // Cache API calls from actions
-		],
+		'cache.actions' => true, // Cache API calls from actions
 		'multiStep' => true, // true, false
 		'mode' => 'prg', // prg or api
-		'silentErrors' => fn () => !App::instance()->option('debug'), // will supress non-validation errors (like a webhook request failing) for the user
-		'email' => null,
-		'actions' => true,
-		'fields' => true,
+		'debug' => fn () => App::instance()->option('debug'),
 		'layouts' => [ // https://getkirby.com/docs/reference/panel/fields/layout#defining-your-own-layouts
-			'1/1',
-			'1/2, 1/2'
+			'1/1', '1/2, 1/2'
 		],
 		'page' => 'page://forms', // Slug or URI to the page where the forms are located
+		'guards' => ['honeypot', 'csrf'],
+		'actions' => true,
+		'fields' => true,
 		'integrations' => [
 			'gravatar' => true, // Get profile pictures for email fields from Gravatar
 			'mailchimp' => null, // mailchimp API key
+			'discord' => null, // default webhook url
 		]
 	],
 	'pageModels' => [

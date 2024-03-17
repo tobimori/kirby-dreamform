@@ -43,7 +43,8 @@ class ComposerStaticInit910c4189a868d9db3fa89792673c4e88
         'tobimori\\DreamForm\\Actions\\RedirectAction' => __DIR__ . '/../..' . '/classes/Actions/RedirectAction.php',
         'tobimori\\DreamForm\\Actions\\WebhookAction' => __DIR__ . '/../..' . '/classes/Actions/WebhookAction.php',
         'tobimori\\DreamForm\\DreamForm' => __DIR__ . '/../..' . '/classes/DreamForm.php',
-        'tobimori\\DreamForm\\Exceptions\\ActionException' => __DIR__ . '/../..' . '/classes/Exceptions/ActionException.php',
+        'tobimori\\DreamForm\\Exceptions\\PerformerException' => __DIR__ . '/../..' . '/classes/Exceptions/PerformerException.php',
+        'tobimori\\DreamForm\\Exceptions\\SilentPerformerException' => __DIR__ . '/../..' . '/classes/Exceptions/SilentPerformerException.php',
         'tobimori\\DreamForm\\Exceptions\\SuccessException' => __DIR__ . '/../..' . '/classes/Exceptions/SuccessException.php',
         'tobimori\\DreamForm\\Fields\\ButtonField' => __DIR__ . '/../..' . '/classes/Fields/ButtonField.php',
         'tobimori\\DreamForm\\Fields\\CheckboxField' => __DIR__ . '/../..' . '/classes/Fields/CheckboxField.php',
@@ -53,12 +54,13 @@ class ComposerStaticInit910c4189a868d9db3fa89792673c4e88
         'tobimori\\DreamForm\\Fields\\SelectField' => __DIR__ . '/../..' . '/classes/Fields/SelectField.php',
         'tobimori\\DreamForm\\Fields\\TextField' => __DIR__ . '/../..' . '/classes/Fields/TextField.php',
         'tobimori\\DreamForm\\Fields\\TextareaField' => __DIR__ . '/../..' . '/classes/Fields/TextareaField.php',
-        'tobimori\\DreamForm\\Guards\\Guard' => __DIR__ . '/../..' . '/classes/Guards/Guard.php',
+        'tobimori\\DreamForm\\Guards\\HoneypotGuard' => __DIR__ . '/../..' . '/classes/Guards/HoneypotGuard.php',
         'tobimori\\DreamForm\\Menu' => __DIR__ . '/../..' . '/classes/Menu.php',
         'tobimori\\DreamForm\\Models\\BasePage' => __DIR__ . '/../..' . '/classes/Models/BasePage.php',
         'tobimori\\DreamForm\\Models\\FormPage' => __DIR__ . '/../..' . '/classes/Models/FormPage.php',
         'tobimori\\DreamForm\\Models\\FormsPage' => __DIR__ . '/../..' . '/classes/Models/FormsPage.php',
         'tobimori\\DreamForm\\Models\\SubmissionPage' => __DIR__ . '/../..' . '/classes/Models/SubmissionPage.php',
+        'tobimori\\DreamForm\\Performer' => __DIR__ . '/../..' . '/classes/Performer.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

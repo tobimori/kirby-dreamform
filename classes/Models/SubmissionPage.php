@@ -164,33 +164,22 @@ final class SubmissionPage extends BasePage
 	{
 		$blocks ??= $this->form()->content()->get('actions')->toBlocks();
 
-		$active = option('tobimori.dreamform.actions', true);
-		$registered = FormPage::$registeredActions;
 		$actions = [];
-
 		foreach ($blocks as $block) {
 			$type = Str::replace($block->type(), '-action', '');
 
-			// check if the action wanted is registered
-			if (!key_exists($type, $registered)) {
-				continue;
+			$action = DreamForm::action($type, $block, $this);
+			if ($action) {
+				$actions[] = $action;
 			}
-
-			// check if the action wanted is set as active in config
-			if (is_array($active) && !in_array($type, $active) || $active != true) {
-				continue;
-			}
-
-			// check if the action is available
-			// (e.g. MailchimpAction requires the Mailchimp API to be set up)
-			if ($registered[$type]::isAvailable() === false) {
-				continue;
-			}
-
-			$actions[] = new $registered[$type]($block, $this);
 		}
 
 		return new Collection($actions, []);
+	}
+
+	public function createGuards(): Collection
+	{
+		return new Collection([]);
 	}
 
 	/**
@@ -252,17 +241,19 @@ final class SubmissionPage extends BasePage
 	/**
 	 * Finish the submission and save it to the disk
 	 */
-	public function finish(): static
+	public function finish(bool $saveToDisk = true): static
 	{
 		// set partial state for showing "success"
 		$state = $this->state()->toArray();
 		$state['partial'] = false;
 		$this->content = $this->content()->update(['dreamform_state' => $state]);
 
-		// elevate permissions to save the submission
-		App::instance()->impersonate('kirby');
-		$submission = $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null);
-		App::instance()->impersonate();
+		if ($saveToDisk) {
+			// elevate permissions to save the submission
+			App::instance()->impersonate('kirby');
+			$submission = $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null);
+			App::instance()->impersonate();
+		}
 
 		return $submission;
 	}

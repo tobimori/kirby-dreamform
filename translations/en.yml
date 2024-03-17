@@ -2,7 +2,7 @@
 successful-submission: Thank you for your submission!
 inactive-form: This form is inactive and doesn't accept answers.
 error-message-default: This field is required.
-webhook-error: An error occurred while sending the webhook.
+generic-error: Something went wrong. Please try again later.
 
 # Forms
 form: Form

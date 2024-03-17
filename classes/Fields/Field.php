@@ -47,6 +47,11 @@ abstract class Field
 		return $this->value;
 	}
 
+	public function label(): string
+	{
+		return $this->block()->label()->value() ?? $this->key();
+	}
+
 	/** Returns true or an error message for the user frontend */
 	public function validate(): true|string
 	{
@@ -84,8 +89,23 @@ abstract class Field
 		return null;
 	}
 
+	public static function type(): string
+	{
+		return Str::kebab(Str::match(static::class, "/Fields\\\([a-zA-Z]+)Field/")[1]);
+	}
+
 	public static function group(): string
 	{
 		return 'fields';
+	}
+
+	/**
+	 * Returns true if the field is available
+	 *
+	 * Use this to disable fields based on configuration or other factors
+	 */
+	public static function isAvailable(): bool
+	{
+		return true;
 	}
 }

@@ -4,7 +4,9 @@ namespace tobimori\DreamForm\Exceptions;
 
 use Kirby\Exception\Exception;
 
-// TODO: Add custom exception handling
+/**
+ * Finish the form submission early
+ */
 class SuccessException extends Exception
 {
 }

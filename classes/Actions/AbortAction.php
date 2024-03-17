@@ -28,6 +28,7 @@ class AbortAction extends Action
 						'errorMessage' => [
 							'extends' => 'dreamform/fields/error-message',
 							'help' => false,
+							'placeholder' => t('dreamform.generic-error'),
 							'when' => [
 								'showError' => true
 							]
@@ -41,7 +42,7 @@ class AbortAction extends Action
 	public function run(): void
 	{
 		if ($this->block()->showError()->toBool()) {
-			$this->error($this->block()->errorMessage()->or(t('dreamform.error-message-default')), true);
+			$this->cancel($this->block()->errorMessage()->or(t('dreamform.generic-error')), true);
 		} else {
 			$this->success();
 		}

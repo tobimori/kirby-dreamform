@@ -2,7 +2,7 @@
 successful-submission: Vielen Dank für deine Antwort!
 inactive-form: Dieses Formular ist inaktiv und nimmt zur Zeit keine Antworten entgegen.
 error-message-default: Dieses Feld muss ausgefüllt werden.
-webhook-error: Fehler beim Senden des Webhooks.
+generic-error: Etwas ist schiefgelaufen. Bitte versuche es später noch einmal.
 
 # Forms
 form: Formular

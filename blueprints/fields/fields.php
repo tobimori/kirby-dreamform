@@ -1,19 +1,13 @@
 <?php
 
 use Kirby\Cms\App;
-use tobimori\DreamForm\Models\FormPage;
+use tobimori\DreamForm\DreamForm;
 
 return function () {
-	$layouts = option('tobimori.dreamform.layouts', ['1/1']);
+	$layouts = App::instance()->option('tobimori.dreamform.layouts', ['1/1']);
 	$fieldsets = [];
 
-	$active = option('tobimori.dreamform.fields', true);
-	$registered = FormPage::$registeredFields;
-	foreach ($registered as $type => $field) {
-		if (is_array($active) ? !in_array($type, $active) : $active !== true) {
-			continue;
-		}
-
+	foreach (DreamForm::fields() as $type => $field) {
 		if (!isset($fieldsets[$group = $field::group()])) {
 			$fieldsets[$group] = [
 				'label' => t("dreamform.{$group}"),

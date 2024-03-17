@@ -1,21 +1,11 @@
 <?php
 
-use tobimori\DreamForm\Models\FormPage;
+use tobimori\DreamForm\DreamForm;
 
 return function () {
 	$fieldsets = [];
 
-	$active = option('tobimori.dreamform.actions', true);
-	$registered = FormPage::$registeredActions;
-	foreach ($registered as $type => $action) {
-		if (is_array($active) ? !in_array($type, $active) : $active !== true) {
-			continue;
-		}
-
-		if (!$action::isAvailable()) {
-			continue;
-		}
-
+	foreach (DreamForm::actions() as $type => $action) {
 		if (!isset($fieldsets[$group = $action::group()])) {
 			$fieldsets[$group] = [
 				'label' => t("dreamform.{$group}"),

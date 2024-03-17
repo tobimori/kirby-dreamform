@@ -4,74 +4,55 @@ namespace tobimori\DreamForm\Actions;
 
 use Kirby\Cms\App;
 use Kirby\Cms\Block;
-use tobimori\DreamForm\Exceptions\ActionException;
 use tobimori\DreamForm\Exceptions\SuccessException;
-use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
+use tobimori\DreamForm\Performer;
+use Kirby\Toolkit\Str;
 
 /**
  * Base class for all actions.
- * @package tobimori\DreamForm\Actions
  */
-abstract class Action
+abstract class Action extends Performer
 {
+	/**
+	 * Create a new Action instance.
+	 */
 	public function __construct(private Block $block, private SubmissionPage $submission)
 	{
 	}
 
-	/** Returns the Submission this action is being run on */
-	public function submission(): SubmissionPage
-	{
-		return $this->submission;
-	}
-
-	/** Returns the Form this action is being run on */
-	public function form(): FormPage
-	{
-		return $this->submission()->form();
-	}
-
-	/** Returns the action configuration */
+	/**
+	 * Returns the action configuration
+	 */
 	public function block(): Block
 	{
 		return $this->block;
 	}
 
-	/** Abort the form submission */
-	public function error(string $message, bool $force = false): void
-	{
-		if (!$force) {
-			$option = option('tobimori.dreamform.silentErrors');
-			if (is_callable($option)) {
-				$option = $option();
-			}
-
-			if ($option) {
-				// TODO: log error?
-				return;
-			}
-		}
-
-		throw new ActionException($message);
-	}
-
-	/** Finish the form submission early */
-	public function success(): void
+	/**
+	 * Finish the form submission early
+	 */
+	protected function success(): void
 	{
 		throw new SuccessException();
 	}
 
-	/** Run the action */
-	abstract public function run();
-
-	/** Returns the Blocks fieldset blueprint for the actions' settings */
+	/**
+	 * Returns the Blocks fieldset blueprint for the actions' settings
+	 */
 	abstract public static function blueprint(): array;
 
-	public static function isAvailable(): bool
+	/**
+	 * Returns the actions' blueprint group
+	 */
+	public static function group(): string
 	{
-		return true;
+		return 'actions';
 	}
 
+	/**
+	 * Use the action cache
+	 */
 	public static function cache(string $key, callable $callback): mixed
 	{
 		$cache = App::instance()->cache('tobimori.dreamform.actions');
@@ -88,8 +69,8 @@ abstract class Action
 		return $value;
 	}
 
-	public static function group(): string
+	public static function type(): string
 	{
-		return 'actions';
+		return Str::kebab(Str::match(static::class, "/Actions\\\([a-zA-Z]+)Action/")[1]);
 	}
 }

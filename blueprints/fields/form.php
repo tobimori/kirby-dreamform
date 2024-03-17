@@ -1,7 +1,9 @@
 <?php
 
+use Kirby\Cms\App;
+
 return function () {
-	$page = option('tobimori.dreamform.page', 'page://forms');
+	$page = App::instance()->option('tobimori.dreamform.page', 'page://forms');
 
 	return [
 		'label' => t('dreamform.form'),

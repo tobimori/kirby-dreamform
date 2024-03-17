@@ -12,13 +12,11 @@ use Kirby\Http\Url;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 use tobimori\DreamForm\DreamForm;
-use tobimori\DreamForm\Exceptions\SuccessException;
+use tobimori\DreamForm\Exceptions\PerformerException;
+use tobimori\DreamForm\Exceptions\SilentPerformerException;
 
 final class FormPage extends BasePage
 {
-	public static $registeredFields = [];
-	public static $registeredActions = [];
-
 	private array $fields;
 	private array $steps;
 
@@ -100,22 +98,16 @@ final class FormPage extends BasePage
 			return new Collection($step ? $this->fields[$step - 1] : $this->fields, []);
 		}
 
-		$active = option('tobimori.dreamform.fields', true);
 		$steps = [];
 		foreach ($this->steps() as $stepLayout) {
 			$fields = [];
 			foreach ($stepLayout->toBlocks() as $block) {
 				$type = Str::replace($block->type(), '-field', '');
 
-				if (!key_exists($type, static::$registeredFields)) {
-					continue;
+				$field = DreamForm::field($type, $block);
+				if ($field) {
+					$fields[] = $field;
 				}
-
-				if (is_array($active) && !in_array($type, $active) || $active != true) {
-					continue;
-				}
-
-				$fields[] = new static::$registeredFields[$type]($block);
 			}
 
 			$steps[] = new Collection($fields, []);
@@ -176,7 +168,21 @@ final class FormPage extends BasePage
 			$submission = $this->initSubmission();
 		}
 
-		// TODO: handle guards like honeypot upfront
+		// handle guards (honeypot, csrf, etc.)
+		try {
+			foreach ($submission->createGuards() as $guard) {
+				$guard->run();
+			}
+		} catch (Exception $e) {
+			// if an guard fails, set a common error and stop the form submission
+			if ($e instanceof PerformerException) {
+				$submission->setError($e->getMessage());
+
+				// if the exception is silent, stop the form submission early as "successful"
+			} elseif ($e instanceof SilentPerformerException) {
+				return $submission->storeSession()->finish(false);
+			}
+		}
 
 		// handle fields
 		$currentStep = App::instance()->request()->query()->get('dreamform-step', 1);
@@ -201,7 +207,7 @@ final class FormPage extends BasePage
 			}
 		}
 
-		// run actions if the field validations where successful
+		// run actions if the field validations where successful and the form is complete
 		$isFinalStep = !$this->isMultiStep() || $submission->currentStep() === count($this->steps());
 		if ($isFinalStep && $submission->isSuccessful()) {
 			try {
@@ -211,8 +217,11 @@ final class FormPage extends BasePage
 				}
 			} catch (Exception $e) {
 				// if an action fails, set a common error and stop the form submission
-				if (!($e instanceof SuccessException)) {
+				if ($e instanceof PerformerException) {
 					$submission->setError($e->getMessage());
+					// if the exception is silent, stop the form submission as "successful"
+				} elseif ($e instanceof SilentPerformerException) {
+					return $submission->storeSession()->finish(false);
 				}
 			}
 		}

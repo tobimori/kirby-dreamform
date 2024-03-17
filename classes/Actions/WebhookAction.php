@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Actions;
 
 use Kirby\Http\Remote;
+use Throwable;
 
 /**
  * Action for sending webhooks, e.g. for use with Zapier.
@@ -55,25 +56,28 @@ class WebhookAction extends Action
 			$field = $this->form()->fields()->find($fieldId);
 			$value = $this->submission()->valueForId($fieldId);
 
-			if ($field && $value) {
+			if ($field && $value?->isNotEmpty()) {
 				// add the field key and the value to the webhook content
 				$content[$field->key()] = $value->value();
 			}
 		}
 
 		// send the webhook
-		$request = Remote::post($this->block()->webhookUrl()->value(), [
-			'headers' => [
-				'User-Agent' => 'Kirby DreamForm',
-				'Content-Type' => 'application/json'
-			],
-			'data' => json_encode($content)
-		]);
+		try {
+			$request = Remote::post($this->block()->webhookUrl()->value(), [
+				'headers' => [
+					'User-Agent' => 'Kirby DreamForm',
+					'Content-Type' => 'application/json'
+				],
+				'data' => json_encode($content)
+			]);
 
-		// silently abort if the request was not successful
-		// (this will only be shown in the frontend if debug mode is enabled)
-		if ($request->code() !== 200) {
-			$this->error(t('dreamform.webhook-error'));
+			if ($request->code() > 299) {
+				$this->cancel();
+			}
+		} catch (Throwable $e) {
+			// (this will only be shown in the frontend if debug mode is enabled)
+			$this->cancel($e->getMessage());
 		}
 	}
 }
