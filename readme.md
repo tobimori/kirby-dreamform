@@ -12,47 +12,56 @@ Kirby DreamForm is an opiniated plugin for [Kirby CMS](https://getkirby.com/) th
 
 ## Comparison
 
-| _Feature Comparison_                        | DreamForm | [Form Block Suite](https://github.com/youngcut/kirby-form-block-suite) | [Uniform](https://kirby-uniform.readthedocs.io/en/latest/)<a href="#1"><sup>1</sup></a> |
-| ------------------------------------------- | --------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Pricing (per license/site)                  | 49 €      | 25 US$                                                                 | Free                                                                                    |
-|                                             |           |                                                                        |                                                                                         |
-| Single-step forms                           | ✅        | ✅                                                                     | ✅                                                                                      |
-| Multi-step forms                            | ✅        |                                                                        |                                                                                         |
-|                                             |           |                                                                        |                                                                                         |
-| **Create custom forms**                     | ✅        | ✅                                                                     | ✅                                                                                      |
-| ...with Blocks in the panel                 | ✅        | ✅                                                                     |                                                                                         |
-| ...with Layouts (multi-column) in the panel | ✅        |                                                                        |                                                                                         |
-|                                             |           |                                                                        |                                                                                         |
-| **Customize behaviour after submission**    | ✅        | ✅                                                                     | ✅                                                                                      |
-| ...in the panel                             | ✅        |                                                                        |                                                                                         |
-| ...using hooks                              | todo      | ✅                                                                     |                                                                                         |
-|                                             |           |                                                                        |                                                                                         |
-| Use with JavaScript (API submission)        | ✅        | ✅                                                                     | ✅                                                                                      |
-| Use without JavaScript (Form submission)    | ✅        |                                                                        | ✅                                                                                      |
-|                                             |           |                                                                        |                                                                                         |
-| **_Built-in fields_**                       |           |                                                                        |                                                                                         |
-| Text                                        | ✅        | ✅                                                                     | <a href="#2"><sup>2</sup></a>                                                           |
-| Multi-line text                             | ✅        | ✅                                                                     | <a href="#2"><sup>2</sup></a>                                                           |
-| Email                                       | ✅        | ✅ _(using Input)_                                                     | <a href="#2"><sup>2</sup></a>                                                           |
-| Number                                      | ✅        | ✅ _(using Input)_                                                     | <a href="#2"><sup>2</sup></a>                                                           |
-| Select                                      | ✅        | ✅                                                                     | <a href="#2"><sup>2</sup></a>                                                           |
-| Radio                                       | ✅        | ✅                                                                     | <a href="#2"><sup>2</sup></a>                                                           |
-| Checkboxes                                  | ✅        | ✅                                                                     | <a href="#2"><sup>2</sup></a>                                                           |
-| File uploads                                | todo      | ✅                                                                     | <a href="#2"><sup>2</sup></a>                                                           |
-|                                             |           |                                                                        |                                                                                         |
-| **_Built-in integrations_**                 |           |                                                                        |                                                                                         |
-| Email                                       | ✅        | ✅                                                                     | ✅                                                                                      |
-| Generic Webhook                             | ✅        |                                                                        | ✅                                                                                      |
-| Gravatar                                    | ✅        |                                                                        |                                                                                         |
-| Mailchimp                                   | todo      |                                                                        |                                                                                         |
-| Discord                                     | todo      |                                                                        |                                                                                         |
-| Slack                                       | todo      |                                                                        |                                                                                         |
-| Payments (Stripe/Adyen)                     | _Roadmap_ |                                                                        |                                                                                         |
-|                                             |           |                                                                        |                                                                                         |
-| **_Other_**                                 |           |                                                                        |                                                                                         |
-| Re-use forms in different places            | ✅        | _Each block is a unique form_                                          |                                                                                         |
-| Stores submissions in the panel             | ✅        | _Sent emails will be stored_                                           |                                                                                         |
-| Permissions for limiting access             | todo      |                                                                        |                                                                                         |
+| _Feature Comparison_                                  | DreamForm | [Form Block Suite](https://git.new/k/form-block-suite) | [Uniform](https://git.new/k/uniform)<sup>1</sup> |
+| ----------------------------------------------------- | --------- | ------------------------------------------------------ | ------------------------------------------------ |
+| Pricing (per license/site)                            | 49 €      | 25 US$                                                 | Free                                             |
+|                                                       |           |                                                        |                                                  |
+| Single-step forms                                     | ✅        | ✅                                                     | ✅                                               |
+| Multi-step forms                                      | ✅        |                                                        |                                                  |
+|                                                       |           |                                                        |                                                  |
+| **Create custom forms**                               | ✅        | ✅                                                     | ✅                                               |
+| ...with Blocks in the panel                           | ✅        | ✅                                                     |                                                  |
+| ...with Layouts (multi-column) in the panel           | ✅        |                                                        |                                                  |
+|                                                       |           |                                                        |                                                  |
+| **Customize behaviour after submission**              | ✅        | ✅                                                     | ✅                                               |
+| ...in the panel                                       | ✅        |                                                        |                                                  |
+| ...using hooks                                        | todo      | ✅                                                     |                                                  |
+|                                                       |           |                                                        |                                                  |
+| Use with JavaScript (API submission)                  | ✅        | ✅                                                     | ✅                                               |
+| Use without JavaScript (Form submission)              | ✅        |                                                        | ✅                                               |
+| On-demand validation before submission (Precognition) | _Roadmap_ |                                                        |                                                  |
+| Use in headless environments                          | _Roadmap_ |                                                        |                                                  |
+| First-party HTMX support                              | _Roadmap_ |                                                        |                                                  |
+|                                                       |           |                                                        |                                                  |
+| **_Built-in fields_**                                 |           |                                                        |                                                  |
+| Text                                                  | ✅        | ✅                                                     | <sup>2</sup>                                     |
+| Multi-line text                                       | ✅        | ✅                                                     | <sup>2</sup>                                     |
+| Email                                                 | ✅        | ✅ _(using Input)_                                     | <sup>2</sup>                                     |
+| Number                                                | todo      | ✅ _(using Input)_                                     | <sup>2</sup>                                     |
+| Select                                                | ✅        | ✅                                                     | <sup>2</sup>                                     |
+| Radio                                                 | todo      | ✅                                                     | <sup>2</sup>                                     |
+| Checkboxes                                            | ✅        | ✅                                                     | <sup>2</sup>                                     |
+| File uploads                                          | todo      | ✅                                                     | <sup>2</sup>                                     |
+|                                                       |           |                                                        |                                                  |
+| **_Built-in guards_**                                 |           |                                                        |                                                  |
+| [CSRF](https://owasp.org/www-community/attacks/csrf)  | todo      |                                                        | ✅                                               |
+| Rate limiting                                         | todo      |                                                        |                                                  |
+| Honeypot                                              | todo      |                                                        | ✅                                               |
+| Captcha (tbd)                                         | todo      |                                                        |                                                  |
+|                                                       |           |                                                        |                                                  |
+| **_Built-in integrations_**                           |           |                                                        |                                                  |
+| Email                                                 | ✅        | ✅                                                     | ✅                                               |
+| Generic Webhook                                       | ✅        |                                                        | ✅                                               |
+| Gravatar                                              | ✅        |                                                        |                                                  |
+| Mailchimp                                             | todo      |                                                        |                                                  |
+| Discord                                               | ✅        |                                                        |                                                  |
+| Slack                                                 | todo      |                                                        |                                                  |
+| Payments (Stripe/Adyen)                               | _Roadmap_ |                                                        |                                                  |
+|                                                       |           |                                                        |                                                  |
+| **_Other_**                                           |           |                                                        |                                                  |
+| Re-use forms in different places                      | ✅        | _Each block is a unique form_                          |                                                  |
+| Stores submissions in the panel                       | ✅        | _Sent emails will be stored_                           |                                                  |
+| Permissions for limiting access                       | todo      |                                                        |                                                  |
 
 <small id="1"><sup>1</sup> Technically, you can built most of the features that DreamForm offers yourself using Uniform. For a fair comparison, this table only includes features that can be solved by copying code from the official docs & without writing custom code. </small>
 

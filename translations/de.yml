@@ -114,3 +114,4 @@ double-opt-in-help: Benötigt für eine DSGVO-konforme Anmeldung.
 # Multi-step forms
 next-page: Nächste Formularseite
 new-page: Neue Formularseite
+duplicate-key: "Das Formular konnte nicht gespeichert werden: Ein Feld mit dem Schlüssel \"{{ key }}\" existiert bereits."

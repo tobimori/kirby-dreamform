@@ -1,0 +1,5 @@
+{
+	"intelephense.environment.includePaths": [
+		"./../../.." // root of kirby site
+	]
+}

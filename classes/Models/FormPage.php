@@ -288,6 +288,29 @@ final class FormPage extends BasePage
 	}
 
 	/**
+	 * Saves the form and checks for duplicate keys
+	 */
+	public function save(?array $data = null, ?string $languageCode = null, bool $overwrite = false): static
+	{
+		$page = clone $this; // clone the page to avoid side effects
+		unset($page->steps, $page->fields); // reset layout calculations cache
+		$page->content = $page->content($languageCode)->update($data); // update the content
+
+		// check for duplicate keys
+		$keys = [];
+		foreach ($page->fields() as $field) {
+			$key = $field->key();
+			if (in_array($key, $keys)) {
+				throw new Exception(tt('dreamform.duplicate-key', ['key' => $key]));
+			}
+
+			$keys[] = $key;
+		}
+
+		return parent::save($data, $languageCode, $overwrite);
+	}
+
+	/**
 	 * Never cache the API response
 	 */
 	public function isCacheable(): bool

@@ -15,6 +15,7 @@ form-listed: This form is published and can be submitted.
 form-listed-label: Active form
 form-draft-label: Draft
 empty-form: No form selected
+duplicate-key: "This form can't be saved: The key \"{{ key }}\" is already used in this form."
 
 # Categories
 text-fields: Text Fields

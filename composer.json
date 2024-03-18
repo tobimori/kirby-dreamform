@@ -20,10 +20,6 @@
 		"php": ">=8.2.0",
 		"getkirby/composer-installer": "^1.2.1"
 	},
-	"require-dev": {
-		"getkirby/cms": "^4.0-alpha.7",
-		"friendsofphp/php-cs-fixer": "^3.24"
-	},
 	"scripts": {
 		"dist": "composer install --no-dev --optimize-autoloader",
 		"fix": "php-cs-fixer fix"

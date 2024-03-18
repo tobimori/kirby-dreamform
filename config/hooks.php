@@ -11,5 +11,5 @@ return [
 			...$data,
 			'submission' => SubmissionPage::fromSession()
 		];
-	}
+	},
 ];
