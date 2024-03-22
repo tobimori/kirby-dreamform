@@ -24,7 +24,7 @@ use Kirby\Toolkit\A;
 		'name' => $block->key(),
 		'placeholder' => $block->placeholder()->or(" "),
 		'required' => $required ?? null,
-	]) ?>><?= $form->valueFor($block->key()) ?></textarea>
+	]) ?>><?= $form->valueFor($block->key())->escape() ?></textarea>
 	<span <?= attr(A::merge($error ?? [], [
 		'data-error' => $block->key()
 	])) ?>><?= $form->errorFor($block->key()) ?></span>

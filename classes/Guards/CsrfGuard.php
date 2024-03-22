@@ -9,7 +9,7 @@ class CsrfGuard extends Guard
 {
 	// ensure the same token is used for all forms
 	// even if the session storage is disabled
-	static $token = null;
+	public static $token = null;
 
 	/**
 	 * Returns the CSRF token for the current session

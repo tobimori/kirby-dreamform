@@ -9,5 +9,5 @@
 	'type' => 'hidden',
 	'id' => $block->id(),
 	'name' => $block->key(),
-	'value' => $form->valueFor($block->key())
+	'value' => $form->valueFor($block->key())->escape()
 ]) ?>>
