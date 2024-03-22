@@ -15,6 +15,7 @@
  */
 
 use Kirby\Toolkit\A;
+use Kirby\Toolkit\Str;
 
 // don't show the form if it's a draft
 // TODO: inactive form snippet
@@ -44,7 +45,7 @@ if ($submission?->isFinished()) {
 				])) ?>>
 					<?php foreach ($layoutColumn->blocks() as $field) {
 						snippet(
-							"dreamform/fields/{$field->type()}",
+							"dreamform/fields/" . Str::replace($field->type(), '-field', ''),
 							[
 								'block' => $field,
 								'form' => $form,
@@ -58,4 +59,5 @@ if ($submission?->isFinished()) {
 			<?php endforeach ?>
 		</div>
 	<?php endforeach ?>
+	<?php snippet('dreamform/guards', ['form' => $form]) ?>
 </form>

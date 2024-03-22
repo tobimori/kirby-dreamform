@@ -3,6 +3,7 @@ successful-submission: Thank you for your submission!
 inactive-form: This form is inactive and doesn't accept answers.
 error-message-default: This field is required.
 generic-error: Something went wrong. Please try again later.
+honeypot-error: The honeypot field was filled and the answer wasn't sent.
 
 # Forms
 form: Form
@@ -16,6 +17,7 @@ form-listed-label: Active form
 form-draft-label: Draft
 empty-form: No form selected
 duplicate-key: "This form can't be saved: The key \"{{ key }}\" is already used in this form."
+reserved-key: "This form can't be saved: The key \"{{ key }}\" is a reserved keyword."
 
 # Categories
 text-fields: Text Fields

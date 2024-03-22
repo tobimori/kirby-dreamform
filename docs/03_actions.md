@@ -2,13 +2,21 @@
 
 ### What are Actions?
 
-Actions are ran after form submission & field validation. They can utilize the submitted field data, change them, or ultimately still reject the submission.
+Actions are ran after form submission & field validation. They can utilize the submitted field data or ultimately still reject the submission.
 
 Combining these actions, you can create complex, multi-dimensional workflows for your forms, without leaving the Kirby Panel.
 
 ### Available Actions
 
-#### Discord Action
+#### Abort
+
+The Abort action allows you to stop the submission process and display a custom message to the user.
+
+#### Conditional
+
+TODO
+
+#### Discord
 
 The Discord action allows you to send answers of a submission to a Discord channel by utilizing [Webhooks](https://discord.com/developers/docs/resources/webhook).
 
@@ -25,3 +33,19 @@ The Discord action allows you to send answers of a submission to a Discord chann
 6. Paste the Webhook URL into the "Webhook URL" field. You can also specify a default webhook URL in your `config.php` file. (See below)
 
 7. Optionally, you can customize the exposed fields that are sent to Discord.
+
+#### Email
+
+TODO
+
+#### Redirect
+
+TODO
+
+#### Webhook
+
+TODO
+
+### Creating your own actions
+
+TODO

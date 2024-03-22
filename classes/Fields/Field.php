@@ -9,35 +9,43 @@ use Kirby\Toolkit\Str;
 
 abstract class Field
 {
-	protected string $id;
-	protected Block $block;
-	protected ContentField|null $value;
+	private string $id;
 
-	public function __construct(Block $block, ContentField|null $value = null)
+	/**
+	 * Create a new Field instance from the corresponding block instance
+	 */
+	public function __construct(protected Block $block, protected ContentField|null $value = null)
 	{
 		$this->id = $block->id();
-		$this->block = $block;
-		$this->value = $value;
 	}
 
-	/** Returns the fields' ID */
+	/**
+	 * Returns the fields' ID
+	 */
 	public function id(): string
 	{
 		return $this->id;
 	}
 
-	/** Returns the fields' key or ID as fallback */
+	/**
+	 * Returns the fields' key or ID as fallback
+	 */
 	public function key(): string
 	{
 		return Str::replace($this->block()->key()->or($this->id())->value(), '-', '_');
 	}
 
-	/** Returns the fields' block, which stores configuration of the instance */
+	/**
+	 * Returns the fields' block, which stores configuration of the instance
+	 */
 	public function block(): Block
 	{
 		return $this->block;
 	}
 
+	/**
+	 * Returns the fields' value
+	 */
 	public function value(): ContentField
 	{
 		if (!$this->value) {
@@ -47,24 +55,35 @@ abstract class Field
 		return $this->value;
 	}
 
+	/**
+	 * Returns the fields' label or key as fallback
+	 */
 	public function label(): string
 	{
 		return $this->block()->label()->value() ?? $this->key();
 	}
 
-	/** Returns true or an error message for the user frontend */
+	/**
+	 * Validate the field value
+	 * Returns true or an error message for the user frontend
+	 */
 	public function validate(): true|string
 	{
 		return true;
 	}
 
-	// TODO: figure out whether we need to run sanitization by default
-	/** Returns the sanitzed value of the field */
+	// TODO: figure out what we need to run as sanitization by default
+	/**
+	 * Returns the sanitzed value of the field
+	 */
 	protected function sanitize(ContentField $value): ContentField
 	{
 		return $value;
 	}
 
+	/**
+	 * Set the fields' value
+	 */
 	public function setValue(ContentField $value): static
 	{
 		$this->value = $this->sanitize($value);
@@ -81,19 +100,30 @@ abstract class Field
 		return true;
 	}
 
-	/** Returns the values fieldset blueprint for the fields' settings */
+	/**
+	 * Returns the values fieldset blueprint for the fields' settings
+	 */
 	abstract public static function blueprint(): array;
 
+	/**
+	 * Returns the fields' submission blueprint
+	 */
 	public function submissionBlueprint(): array|null
 	{
 		return null;
 	}
 
+	/**
+	 * Returns the fields' type
+	 */
 	public static function type(): string
 	{
 		return Str::kebab(Str::match(static::class, "/Fields\\\([a-zA-Z]+)Field/")[1]);
 	}
 
+	/**
+	 * Returns the fields' blueprint group
+	 */
 	public static function group(): string
 	{
 		return 'fields';

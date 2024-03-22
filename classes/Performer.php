@@ -2,11 +2,8 @@
 
 namespace tobimori\DreamForm;
 
-use Kirby\Toolkit\Str;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SilentPerformerException;
-use tobimori\DreamForm\Models\FormPage;
-use tobimori\DreamForm\Models\SubmissionPage;
 
 /**
  * Performer run something on submission.
@@ -14,29 +11,6 @@ use tobimori\DreamForm\Models\SubmissionPage;
  */
 abstract class Performer
 {
-	/**
-	 * Create a new Performer instance
-	 */
-	public function __construct(private SubmissionPage $submission)
-	{
-	}
-
-	/**
-	 * Returns the submission the performer is being run on
-	 */
-	public function submission(): SubmissionPage
-	{
-		return $this->submission;
-	}
-
-	/**
-	 * Returns the form the performer is being run on
-	 */
-	public function form(): FormPage
-	{
-		return $this->submission()->form();
-	}
-
 	/**
 	 * Cancel the form submission
 	 *
@@ -84,10 +58,5 @@ abstract class Performer
 	public static function isAvailable(): bool
 	{
 		return true;
-	}
-
-	public static function type(): string
-	{
-		return Str::kebab(Str::match(static::class, "/Guards\\\([a-zA-Z]+)Guard/")[1]);
 	}
 }

@@ -15,7 +15,7 @@ use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SilentPerformerException;
 
-final class FormPage extends BasePage
+class FormPage extends BasePage
 {
 	private array $fields;
 	private array $steps;
@@ -95,7 +95,7 @@ final class FormPage extends BasePage
 		}
 
 		if (isset($this->fields)) {
-			return new Collection($step ? $this->fields[$step - 1] : $this->fields, []);
+			return new Collection($step ? $this->fields[$step - 1] : $this->fields);
 		}
 
 		$steps = [];
@@ -114,7 +114,28 @@ final class FormPage extends BasePage
 		}
 
 		$this->fields = $steps;
-		return new Collection($step ? $steps[$step - 1] : $steps, []);
+		return new Collection($step ? $steps[$step - 1] : $steps);
+	}
+
+	private array $guards;
+
+	/**
+	 * Returns all guards for the form
+	 */
+	public function guards(): array
+	{
+		if (isset($this->guards)) {
+			return $this->guards;
+		}
+
+		$availableGuards = DreamForm::guards();
+		$guards = [];
+
+		foreach ($availableGuards as $guard) {
+			$guards[] = new $guard($this);
+		}
+
+		return $this->guards = $guards;
 	}
 
 	/**
@@ -164,13 +185,14 @@ final class FormPage extends BasePage
 	{
 		// create a new submission or get the existing one from the session
 		$submission = SubmissionPage::fromSession() ?? $this->initSubmission();
+		// if the submission is from a different form, create a new one
 		if ($submission->parent()->id() !== $this->id()) {
 			$submission = $this->initSubmission();
 		}
 
 		// handle guards (honeypot, csrf, etc.)
 		try {
-			foreach ($submission->createGuards() as $guard) {
+			foreach ($this->guards() as $guard) {
 				$guard->run();
 			}
 		} catch (Exception $e) {
@@ -193,7 +215,7 @@ final class FormPage extends BasePage
 			}
 
 			// create a field instance & set the value from the request
-			$field = $submission->createFieldFromRequest($field);
+			$field = $submission->updateFieldFromRequest($field);
 
 			// validate the field
 			$validation = $field->validate();
@@ -304,6 +326,10 @@ final class FormPage extends BasePage
 				throw new Exception(tt('dreamform.duplicate-key', ['key' => $key]));
 			}
 
+			if (Str::startsWith($key, 'dreamform')) {
+				throw new Exception(tt('dreamform.reserved-key', ['key' => $key]));
+			}
+
 			$keys[] = $key;
 		}
 
@@ -325,7 +351,7 @@ final class FormPage extends BasePage
 	{
 		$submission = SubmissionPage::fromSession();
 		if (!$submission) {
-			return SubmissionPage::valueFromRequest($key);
+			return SubmissionPage::valueFromQuery($key);
 		}
 
 		return $submission->valueFor($key);

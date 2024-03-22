@@ -7,36 +7,39 @@ use Kirby\Cms\Page;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\Actions\Action;
 use tobimori\DreamForm\Fields\Field;
+use tobimori\DreamForm\Guards\Guard;
 
 final class DreamForm
 {
+	/**
+	 * The session key for storing the submission data
+	 */
 	public const SESSION_KEY = 'dreamform.submission';
 
-	// TODO: refactor
-	private static $registeredGuards = [];
-	private static $registeredFields = [];
-	private static $registeredActions = [];
+	/**
+	 * Stores registered guards
+	 */
+	private static array $registeredGuards = [];
 
-	public static function registerGuard(string $type, string $class)
+	/**
+	 * Registers a guard class with a custom type
+	 */
+	public static function registerGuard(string $type, string $class): void
 	{
 		static::$registeredGuards[$type] = $class;
 	}
 
-	public static function registerGuards(string ...$guards)
-	{
-		foreach ($guards as $guard) {
-			static::registerGuard($guard::type(), $guard);
-		}
-	}
-
+	/**
+	 * Returns all registered and active guard classes
+	 */
 	public static function guards(): array
 	{
-		$active = App::instance()->option('tobimori.dreamform.guards', true);
+		$active = App::instance()->option('tobimori.dreamform.guards', ['csrf']);
 		$registered = static::$registeredGuards;
 
 		$guards = [];
 		foreach ($registered as $type => $guard) {
-			if (is_array($active) ? !in_array($type, $active) : $active !== true) {
+			if (!in_array($type, $active)) {
 				continue;
 			}
 
@@ -50,30 +53,23 @@ final class DreamForm
 		return $guards;
 	}
 
-	public static function guard(string $type, mixed ...$data): Performer|null
-	{
-		$guards = DreamForm::guards();
-		if (!key_exists($type, $guards)) {
-			return null;
-		}
+	/**
+	 * Stores registered fields
+	 */
+	private static array $registeredFields = [];
 
-		$guard = static::$registeredGuards[$type];
-		return new $guard(...$data);
-	}
-
+	/**
+	 * Registers a field class with a custom type
+	 */
 	public static function registerField(string $type, string $class)
 	{
 		static::$registeredFields[$type] = $class;
 	}
 
-	public static function registerFields(string ...$fields)
-	{
-		foreach ($fields as $field) {
-			static::registerField($field::type(), $field);
-		}
-	}
-
-	public static function fields()
+	/**
+	 * Returns all registered and active field classes
+	 */
+	public static function fields(): array
 	{
 		$active = App::instance()->option('tobimori.dreamform.fields', true);
 		$registered = static::$registeredFields;
@@ -94,7 +90,9 @@ final class DreamForm
 		return $fields;
 	}
 
-
+	/**
+	 * Create a field instance from the registered fields
+	 */
 	public static function field(string $type, mixed ...$data): Field|null
 	{
 		$fields = DreamForm::fields();
@@ -106,19 +104,23 @@ final class DreamForm
 		return new $field(...$data);
 	}
 
-	public static function registerAction(string $type, string $class)
+	/**
+	 * Stores registered actions
+	 */
+	private static array $registeredActions = [];
+
+	/**
+	 * Registers an action class with a custom type
+	 */
+	public static function registerAction(string $type, string $class): void
 	{
 		static::$registeredActions[$type] = $class;
 	}
 
-	public static function registerActions(string ...$actions)
-	{
-		foreach ($actions as $action) {
-			static::registerAction($action::type(), $action);
-		}
-	}
-
-	public static function actions()
+	/**
+	 * Returns all registered and active action classes
+	 */
+	public static function actions(): array
 	{
 		$active = App::instance()->option('tobimori.dreamform.actions', true);
 		$registered = static::$registeredActions;
@@ -139,6 +141,9 @@ final class DreamForm
 		return $actions;
 	}
 
+	/**
+	 * Create an action instance from the registered actions
+	 */
 	public static function action(string $type, mixed ...$data): Action|null
 	{
 		$actions = DreamForm::actions();
@@ -148,6 +153,23 @@ final class DreamForm
 
 		$action = static::$registeredActions[$type];
 		return new $action(...$data);
+	}
+
+	/**
+	 * Register multiple classes at once using the generic type
+	 * If you need to override the type, use the type-specific register method after DreamForm is loaded
+	 */
+	public static function register(string ...$classes)
+	{
+		foreach ($classes as $class) {
+			if (is_subclass_of($class, Guard::class)) {
+				static::registerGuard($class::type(), $class);
+			} elseif (is_subclass_of($class, Field::class)) {
+				static::registerField($class::type(), $class);
+			} elseif (is_subclass_of($class, Action::class)) {
+				static::registerAction($class::type(), $class);
+			}
+		}
 	}
 
 	/**
@@ -178,5 +200,13 @@ final class DreamForm
 		}
 
 		return $option;
+	}
+
+	/**
+	 * We need to normalize keys since Kirby does not support dashes in field names properly
+	 */
+	public static function normalizeKey(string $key): string
+	{
+		return Str::replace($key, '-', '_');
 	}
 }

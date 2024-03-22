@@ -14,6 +14,7 @@ return [
 	'guards' => ['honeypot', 'csrf'],
 	'actions' => true,
 	'fields' => true,
+	'honeypotFields' => ['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject'],
 	'integrations' => [
 		'gravatar' => true, // Get profile pictures for email fields from Gravatar
 		'mailchimp' => null, // mailchimp API key

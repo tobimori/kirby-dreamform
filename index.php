@@ -7,20 +7,7 @@ use Kirby\Data\Yaml;
 use Kirby\Filesystem\Dir;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
-use tobimori\DreamForm\Actions\AbortAction;
-use tobimori\DreamForm\Actions\ConditionalAction;
-use tobimori\DreamForm\Actions\DiscordWebhookAction;
-use tobimori\DreamForm\Actions\EmailAction;
-use tobimori\DreamForm\Actions\RedirectAction;
-use tobimori\DreamForm\Actions\WebhookAction;
 use tobimori\DreamForm\DreamForm;
-use tobimori\DreamForm\Fields\ButtonField;
-use tobimori\DreamForm\Fields\CheckboxField;
-use tobimori\DreamForm\Fields\EmailField;
-use tobimori\DreamForm\Fields\HiddenField;
-use tobimori\DreamForm\Fields\SelectField;
-use tobimori\DreamForm\Fields\TextareaField;
-use tobimori\DreamForm\Fields\TextField;
 
 if (
 	version_compare(App::version() ?? '0.0.0', '4.0.0', '<') === true ||
@@ -29,27 +16,26 @@ if (
 	throw new Exception('Kirby DreamForm requires Kirby 4');
 }
 
-// register all actions
-DreamForm::registerActions(
-	AbortAction::class,
-	ConditionalAction::class,
-	DiscordWebhookAction::class,
-	EmailAction::class,
-	RedirectAction::class,
-	WebhookAction::class
+// register all classes (guards, fields, actions)
+DreamForm::register(
+	\tobimori\DreamForm\Actions\AbortAction::class,
+	\tobimori\DreamForm\Actions\ConditionalAction::class,
+	\tobimori\DreamForm\Actions\DiscordWebhookAction::class,
+	\tobimori\DreamForm\Actions\EmailAction::class,
+	\tobimori\DreamForm\Actions\RedirectAction::class,
+	\tobimori\DreamForm\Actions\WebhookAction::class,
+	\tobimori\DreamForm\Fields\ButtonField::class,
+	\tobimori\DreamForm\Fields\CheckboxField::class,
+	\tobimori\DreamForm\Fields\EmailField::class,
+	\tobimori\DreamForm\Fields\HiddenField::class,
+	\tobimori\DreamForm\Fields\SelectField::class,
+	\tobimori\DreamForm\Fields\TextareaField::class,
+	\tobimori\DreamForm\Fields\TextField::class,
+	\tobimori\DreamForm\Guards\CsrfGuard::class,
+	\tobimori\DreamForm\Guards\HoneypotGuard::class
 );
 
-// register all fields
-DreamForm::registerFields(
-	ButtonField::class,
-	CheckboxField::class,
-	EmailField::class,
-	HiddenField::class,
-	SelectField::class,
-	TextareaField::class,
-	TextField::class
-);
-
+// register plugin
 App::plugin('tobimori/dreamform', [
 	'options' => require __DIR__ . '/config/options.php',
 	'pageModels' => [
@@ -79,15 +65,18 @@ App::plugin('tobimori/dreamform', [
 	],
 	'snippets' => [
 		'dreamform/form' => __DIR__ . '/snippets/form.php',
+		'dreamform/guards' => __DIR__ . '/snippets/guards.php',
 		'dreamform/success' => __DIR__ . '/snippets/success.php',
 		'dreamform/inactive' => __DIR__ . '/snippets/inactive.php',
-		'dreamform/fields/text-field' => __DIR__ . '/snippets/fields/text-field.php',
-		'dreamform/fields/textarea-field' => __DIR__ . '/snippets/fields/textarea-field.php',
-		'dreamform/fields/email-field' => __DIR__ . '/snippets/fields/email-field.php',
-		'dreamform/fields/hidden-field' => __DIR__ . '/snippets/fields/hidden-field.php',
-		'dreamform/fields/select-field' => __DIR__ . '/snippets/fields/select-field.php',
-		'dreamform/fields/checkbox-field' => __DIR__ . '/snippets/fields/checkbox-field.php',
-		'dreamform/fields/button-field' => __DIR__ . '/snippets/fields/button-field.php',
+		'dreamform/fields/text' => __DIR__ . '/snippets/fields/text.php',
+		'dreamform/fields/textarea' => __DIR__ . '/snippets/fields/textarea.php',
+		'dreamform/fields/email' => __DIR__ . '/snippets/fields/email.php',
+		'dreamform/fields/hidden' => __DIR__ . '/snippets/fields/hidden.php',
+		'dreamform/fields/select' => __DIR__ . '/snippets/fields/select.php',
+		'dreamform/fields/checkbox' => __DIR__ . '/snippets/fields/checkbox.php',
+		'dreamform/fields/button' => __DIR__ . '/snippets/fields/button.php',
+		'dreamform/guards/csrf' => __DIR__ . '/snippets/guards/csrf.php',
+		'dreamform/guards/honeypot' => __DIR__ . '/snippets/guards/honeypot.php',
 	],
 	// get all files from /translations and register them as language files
 	'translations' => A::keyBy(

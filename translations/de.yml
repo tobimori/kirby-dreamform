@@ -3,6 +3,8 @@ successful-submission: Vielen Dank für deine Antwort!
 inactive-form: Dieses Formular ist inaktiv und nimmt zur Zeit keine Antworten entgegen.
 error-message-default: Dieses Feld muss ausgefüllt werden.
 generic-error: Etwas ist schiefgelaufen. Bitte versuche es später noch einmal.
+csrf-error: Beim Absenden des Formulars ist ein Fehler aufgetreten. Bitte lade die Seite neu und versuche es erneut.
+honeypot-error: Das Honeypot-Feld wurde ausgefüllt und die Antwort wurde nicht gesendet.
 
 # Forms
 form: Formular
@@ -15,6 +17,8 @@ form-listed: Dieses Formular ist veröffentlicht und kann eingereicht werden.
 form-listed-label: Formular aktiv
 form-draft-label: Entwurf
 empty-form: Kein Formular ausgewählt
+duplicate-key: "Das Formular konnte nicht gespeichert werden: Ein Feld mit dem Schlüssel \"{{ key }}\" existiert bereits."
+reserved-key: "Das Formular konnte nicht gespeichert werden: Der Schlüssel \"{{ key }}\" ist reserviert und kann nicht verwendet werden."
 
 # Categories
 text-fields: Textfelder
@@ -114,4 +118,3 @@ double-opt-in-help: Benötigt für eine DSGVO-konforme Anmeldung.
 # Multi-step forms
 next-page: Nächste Formularseite
 new-page: Neue Formularseite
-duplicate-key: "Das Formular konnte nicht gespeichert werden: Ein Feld mit dem Schlüssel \"{{ key }}\" existiert bereits."

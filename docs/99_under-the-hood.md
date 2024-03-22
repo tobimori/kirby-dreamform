@@ -12,13 +12,15 @@ This document explains the inner workings of DreamForm.
 
 3. The user fills out the form and submits it.
 
-4. The guards are checked.
+4. The submission page is created (virtually).
 
-5. The form fields are validated.
+5. The guards are checked.
 
-6. If the form validation was successful & the form is at the last stage, the form actions are executed.
+6. The form fields are validated.
 
-7. The form submission is saved as session data and as page if the action execution was successful.
+7. If the form validation was successful & the form is at the last stage, the form actions are executed.
+
+8. The form submission is saved as session data and as page if the action execution was successful.
 
 ### Performer
 

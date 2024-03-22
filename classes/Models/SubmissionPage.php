@@ -3,7 +3,6 @@
 namespace tobimori\DreamForm\Models;
 
 use DateTime;
-use Exception;
 use IntlDateFormatter;
 use Kirby\Cms\App;
 use Kirby\Cms\Blocks;
@@ -21,7 +20,7 @@ use Kirby\Toolkit\V;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\Field as FormField;
 
-final class SubmissionPage extends BasePage
+class SubmissionPage extends BasePage
 {
 	/**
 	 * Returns the submission referer (for PRG redirects)
@@ -52,7 +51,7 @@ final class SubmissionPage extends BasePage
 	/**
 	 * Returns the value of a field from the URL query
 	 */
-	public static function valueFromRequest(string $key): Field|null
+	public static function valueFromQuery(string $key): Field|null
 	{
 		$key = Str::replace($key, '-', '_');
 		if (!($value = App::instance()->request()->query()->get($key))) {
@@ -71,7 +70,7 @@ final class SubmissionPage extends BasePage
 		$field = $this->content()->get($key);
 		if ($field->isEmpty()) {
 			// check if the field is prefillable from url params
-			$field = static::valueFromRequest($key);
+			$field = static::valueFromQuery($key);
 		}
 
 		return $field;
@@ -126,23 +125,35 @@ final class SubmissionPage extends BasePage
 	}
 
 	/**
-	 * Creates a field with the value from the request
+	 * Returns the raw field value from the request body
 	 */
-	public function createFieldFromRequest(FormField $field): FormField
+	public static function valueFromBody(string $key): string|null
 	{
+		$key = DreamForm::normalizeKey($key);
 		$body = App::instance()->request()->body()->toArray();
 
 		$body = array_combine(
 			A::map(array_keys($body), function ($key) {
-				return str_replace('-', '_', $key);
+				return DreamForm::normalizeKey($key);
 			}),
 			array_values($body)
 		);
 
-		$raw = $body[$key = $field->key()] ?? null;
-		$field->setValue(new Field($this, $key, $raw));
+		return $body[$key] ?? null;
+	}
 
-		return $field;
+	/**
+	 * Set a field with the value from the request
+	 */
+	public function updateFieldFromRequest(FormField $field): FormField
+	{
+		return $field->setValue(
+			new Field(
+				$this,
+				$key = $field->key(),
+				$this->valueFromBody($key)
+			)
+		);
 	}
 
 	/**
@@ -175,11 +186,6 @@ final class SubmissionPage extends BasePage
 		}
 
 		return new Collection($actions, []);
-	}
-
-	public function createGuards(): Collection
-	{
-		return new Collection([]);
 	}
 
 	/**
