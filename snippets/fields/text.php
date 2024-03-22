@@ -14,7 +14,7 @@ use Kirby\Toolkit\A;
 <div <?= attr(A::merge($input ?? [], ['data-has-error' => !!$submission?->errorFor($block->key())])) ?>>
 	<label for="<?= $block->id() ?>">
 		<span>
-			<?= $block->label() ?>
+			<?= $block->label()->escape() ?>
 		</span>
 		<?php if ($required = $block->required()->toBool()) : ?>
 			<em>*</em>

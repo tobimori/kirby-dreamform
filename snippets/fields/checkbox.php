@@ -22,7 +22,7 @@ use Kirby\Toolkit\A;
 					'value' => $option->value(),
 					'checked' => A::has($form->valueFor($block->key())->value() ?? [], $option->value())
 				]) ?>>
-				<label for="<?= $block->id() ?>-<?= $option->indexOf() ?>"><?= $option->label() ?></label>
+				<label for="<?= $block->id() ?>-<?= $option->indexOf() ?>"><?= $option->label()->escape() ?></label>
 			</div>
 		<?php endforeach ?>
 	</div>

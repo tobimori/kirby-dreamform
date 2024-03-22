@@ -13,5 +13,5 @@ use Kirby\Toolkit\A;
 <button <?= attr(A::merge($button ?? [], [
 	'type' => 'submit',
 ])) ?>>
-	<?= $block->label() ?>
+	<?= $block->label()->escape() ?>
 </button>

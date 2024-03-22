@@ -14,7 +14,7 @@ use Kirby\Toolkit\A;
 <div <?= attr(A::merge($input ?? [], ['data-has-error' => !!$submission?->errorFor($block->key())])) ?>>
 	<label for="<?= $block->id() ?>">
 		<span>
-			<?= $block->label() ?>
+			<?= $block->label()->escape() ?>
 		</span>
 		<?php if ($required = $block->required()->toBool()) : ?>
 			<em>*</em>
@@ -24,10 +24,10 @@ use Kirby\Toolkit\A;
 		'name' => $block->key(),
 		'required' => $required ?? null,
 	]) ?>>
-		<option value="" disabled selected hidden><?= $block->placeholder() ?></option>
+		<option value="" disabled selected hidden><?= $block->placeholder()->escape() ?></option>
 		<?php foreach ($block->options()->toStructure() as $option) : ?>
 			<option <?= attr(['value' => $option->value()]) ?>>
-				<?= $option->label() ?>
+				<?= $option->label()->escape() ?>
 			</option>
 		<?php endforeach ?>
 	</select>
