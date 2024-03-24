@@ -1,19 +1,22 @@
 <?php
 
 /**
- * @var \Kirby\Cms\Block $block
- * @var \tobimori\DreamForm\Fields\ButtonField $field
- * @var \tobimori\DreamForm\Models\FormPage $form
  * @var \tobimori\DreamForm\Models\Submission|null $submission
- * @var array|null $button
+ *
+ * @var \Kirby\Cms\Block $block
+ * @var \tobimori\DreamForm\Fields\TextField $field
+ * @var \tobimori\DreamForm\Models\FormPage $form
+ * @var array $attr
  */
 
 use Kirby\Toolkit\A;
 
 ?>
 
-<button <?= attr(A::merge($button ?? [], [
-	'type' => 'submit',
-])) ?>>
+<?php snippet('dreamform/fields/partials/wrapper', compact('block', 'field', 'form', 'attr'), slots: true) ?>
+
+<button <?= attr(A::merge($attr['button'], ['type' => 'submit'])) ?>>
 	<?= $block->label()->escape() ?>
 </button>
+
+<?php endsnippet() ?>

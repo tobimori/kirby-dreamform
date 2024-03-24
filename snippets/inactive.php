@@ -1,3 +1,1 @@
-<div>
-	<p><?= t('dreamform.inactive-form') ?></p>
-</div>
+<div <?= attr($attr['inactive']) ?>><?= t('dreamform.inactive-form') ?></div>

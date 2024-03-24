@@ -28,6 +28,11 @@ class FormPage extends BasePage
 		return $this->content()->get('title')->or($this->slug());
 	}
 
+	public function htmxAttr(array $attr): array
+	{
+		return [];
+	}
+
 	/**
 	 * Returns the field layouts for the given step
 	 */

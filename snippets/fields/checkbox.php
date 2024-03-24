@@ -17,26 +17,25 @@ $type ??= 'checkbox';
 $previousValue = $form->valueFor($block->key())?->value() ?? [];
 if (!is_array($previousValue)) {
 	$previousValue = [$previousValue];
-} ?>
+}
 
-<div <?= attr(A::merge($input ?? [], ['data-has-error' => !!$submission?->errorFor($block->key())])) ?>>
-	<div>
-		<?php foreach ($block->options()->toStructure() as $option) : ?>
-			<div>
-				<input <?= attr([
-					'type' => $type,
-					'id' => $block->id() . '-' . $option->indexOf(),
-					'name' => $block->key() . ($type === 'checkbox' ? '[]' : null),
-					'value' => $option->value(),
-					'checked' => A::has($previousValue, $option->value())
-				]) ?>>
-				<label for="<?= $block->id() ?>-<?= $option->indexOf() ?>"><?= $option->label()->or($option->value())->escape() ?></label>
-			</div>
-		<?php endforeach ?>
+$attr = A::merge($attr, $attr[$type]);
+snippet('dreamform/fields/partials/wrapper', $arguments = compact('block', 'field', 'form', 'attr'), slots: true); ?>
+
+<?php foreach ($block->options()->toStructure() as $option) : ?>
+	<div <?= attr($attr[$type]['row'] ?? []) ?>>
+		<input <?= attr(A::merge($attr['input'], [
+			'type' => $type,
+			'id' => $block->id() . '-' . $option->indexOf(),
+			'name' => $block->key() . ($type === 'checkbox' ? '[]' : null),
+			'value' => $option->value(),
+			'checked' => A::has($previousValue, $option->value())
+		])) ?>>
+		<label for="<?= $block->id() ?>-<?= $option->indexOf() ?>"><?= $option->label()->or($option->value())->escape() ?></label>
 	</div>
-	<span <?= attr(A::merge($error ?? [], [
-		'data-error' => $block->key()
-	])) ?>>
-		<?= $submission?->errorFor($block->key()) ?>
-	</span>
-</div>
+<?php endforeach ?>
+
+<?php
+
+snippet('dreamform/fields/partials/error', $arguments);
+endsnippet(); ?>

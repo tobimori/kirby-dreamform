@@ -1,3 +1,1 @@
-<div>
-	<p><?= t('dreamform.successful-submission') ?></p>
-</div>
+<div <?= attr($attr['success']) ?>><?= t('dreamform.successful-submission') ?></div>

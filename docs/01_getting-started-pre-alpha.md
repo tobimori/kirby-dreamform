@@ -19,7 +19,7 @@ Uuid: forms
 ```yaml
 fields:
 	myForm:
-		extends: dreamform/form
+		extends: dreamform/fields/form
 ```
 
 7. In your template, render the form using the default snippet:

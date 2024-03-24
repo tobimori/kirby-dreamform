@@ -5,41 +5,105 @@
  * You can use this snippet in your site or copy it to customize it.
  *
  * @var FormPage $form
- *
  * @var array|null $attr
- * @var array|null $row
- * @var array|null $column
- * @var array|null $input
- * @var array|null $button
- * @var array|null $error
  */
 
 use Kirby\Toolkit\A;
 
+$attr = A::merge([
+	// general attributes
+	'form' => [],
+	'row' => [],
+	'column' => [],
+	'field' => [],
+	'label' => [],
+	'error' => [],
+	'input' => [],
+	'button' => [],
+	'success' => [],
+	'inactive' => [],
+
+	// field-specific attributes
+	'textarea' => [
+		'field' => [],
+		'label' => [],
+		'error' => [],
+		'input' => [],
+	],
+	'text' => [
+		'field' => [],
+		'label' => [],
+		'error' => [],
+		'input' => [],
+	],
+	'select' => [
+		'field' => [],
+		'label' => [],
+		'error' => [],
+		'input' => [],
+	],
+	'number' => [
+		'field' => [],
+		'label' => [],
+		'error' => [],
+		'input' => [],
+	],
+	'file' => [
+		'field' => [],
+		'label' => [],
+		'error' => [],
+		'input' => [],
+	],
+	'email' => [
+		'field' => [],
+		'label' => [],
+		'error' => [],
+		'input' => [],
+	],
+	'radio' => [
+		'field' => [],
+		'label' => [],
+		'error' => [],
+		'input' => [],
+		'row' => []
+	],
+	'checkbox' => [
+		'field' => [],
+		'label' => [],
+		'error' => [],
+		'input' => [],
+		'row' => []
+	],
+], $attr ?? []);
+
 // don't show the form if it's a draft
 if (!$form || $form->status() === 'draft') {
-	snippet('dreamform/inactive', ['form' => $form]);
+	snippet('dreamform/inactive', ['form' => $form, 'attr' => $attr]);
 	return;
 }
 
 if ($submission?->isFinished()) {
-	snippet('dreamform/success', ['form' => $form]);
+	snippet('dreamform/success', ['form' => $form, 'attr' => $attr]);
 	return;
 } ?>
 
-<form <?= attr(A::merge($attr ?? [], [
-	'enctype' => $form->enctype(),
-	'action' => $form->url(),
-	'method' => 'POST',
-	'novalidate' => 'novalidate'
-])) ?>>
-	<div <?= attr(A::merge(['data-error' => true], $error ?? [])) ?>><?= $submission?->errorFor() ?></div>
+<form <?= attr(A::merge(
+	$attr['form'],
+	$form->htmxAttr($attr),
+	[
+		'enctype' => $form->enctype(),
+		'action' => $form->url(),
+		'method' => 'POST',
+		'novalidate' => 'novalidate'
+	]
+)) ?>>
+	<div <?= attr(A::merge(['data-error' => true], $attr['error'])) ?>><?= $submission?->errorFor() ?></div>
 	<?php foreach ($form->currentLayouts() as $layoutRow) : ?>
-		<div <?= attr(A::merge($row ?? [], [
+		<div <?= attr(A::merge($attr['row'], [
 			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
 		])) ?>>
 			<?php foreach ($layoutRow->columns() as $layoutColumn) : ?>
-				<div <?= attr(A::merge($column ?? [], [
+				<div <?= attr(A::merge($attr['column'], [
 					'style' => "grid-column-start: span {$layoutColumn->span(12)};",
 				])) ?>>
 					<?php foreach ($layoutColumn->blocks() as $block) {
@@ -53,9 +117,7 @@ if ($submission?->isFinished()) {
 									'block' => $block,
 									'field' => $field,
 									'form' => $form,
-									'input' => $input ?? null,
-									'button' => $button ?? null,
-									'error' => $error ?? null,
+									'attr' => $attr
 								]
 							);
 						}
@@ -63,6 +125,6 @@ if ($submission?->isFinished()) {
 				</div>
 			<?php endforeach ?>
 		</div>
-	<?php endforeach ?>
-	<?php snippet('dreamform/guards', ['form' => $form]) ?>
+	<?php endforeach;
+snippet('dreamform/guards', ['form' => $form]) ?>
 </form>
