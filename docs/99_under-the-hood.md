@@ -24,7 +24,11 @@ This document explains the inner workings of DreamForm.
 
 9. `dreamform.submit:after` hook is called - even if the form submission is uncomplete (multi-step form).
 
-10. The form submission is saved as session data and as page if the action execution was successful.
+10. The form submission is saved as page if the submission has been successful so far.
+
+11. The fields `afterSubmit` methods are called (used for file uploads).
+
+12. The form submission is saved as session data.
 
 ### Performer
 

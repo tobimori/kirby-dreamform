@@ -10,7 +10,7 @@ use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 
 if (
-	version_compare(App::version() ?? '0.0.0', '4.0.0', '<') === true ||
+	version_compare(App::version() ?? '0.0.0', '4.1.0', '<') === true ||
 	version_compare(App::version() ?? '0.0.0', '5.0.0', '>') === true
 ) {
 	throw new Exception('Kirby DreamForm requires Kirby 4');
@@ -43,13 +43,14 @@ DreamForm::register(
 App::plugin('tobimori/dreamform', [
 	'options' => require __DIR__ . '/config/options.php',
 	'pageModels' => [
-		'forms' => 'tobimori\DreamForm\Models\FormsPage',
-		'form' => 'tobimori\DreamForm\Models\FormPage',
-		'submission' => 'tobimori\DreamForm\Models\SubmissionPage',
+		'forms' => \tobimori\DreamForm\Models\FormsPage::class,
+		'form' => \tobimori\DreamForm\Models\FormPage::class,
+		'submission' => \tobimori\DreamForm\Models\SubmissionPage::class,
 	],
 	'hooks' => require_once __DIR__ . '/config/hooks.php',
 	'blockMethods' => require_once __DIR__ . '/config/blockMethods.php',
 	'blueprints' => [
+		'files/dreamform-upload' => __DIR__ . '/blueprints/files/dreamform-upload.yml',
 		'pages/forms' => __DIR__ . '/blueprints/pages/forms.yml',
 		'pages/form' => __DIR__ . '/blueprints/pages/form.yml',
 		'pages/submission' => require_once __DIR__ . '/blueprints/pages/submission.php',

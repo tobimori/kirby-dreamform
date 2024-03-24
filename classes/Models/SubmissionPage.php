@@ -228,6 +228,8 @@ class SubmissionPage extends BasePage
 		$state['step'] = $state['step'] + 1;
 		$this->content = $this->content()->update(['dreamform_state' => $state]);
 
+		$this->saveSubmission();
+
 		return $this;
 	}
 
@@ -248,11 +250,25 @@ class SubmissionPage extends BasePage
 		);
 
 		if ($saveToDisk) {
-			// elevate permissions to save the submission
-			App::instance()->impersonate('kirby');
-			$submission = $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null);
-			App::instance()->impersonate();
+			return $submission->saveSubmission();
 		}
+
+		return $submission;
+	}
+
+	/**
+	 * Save the submission to the disk
+	 */
+	public function saveSubmission(): static
+	{
+		if (App::instance()->option('tobimori.dreamform.storeSubmissions', true) !== true) {
+			return $this;
+		}
+
+		// elevate permissions to save the submission
+		App::instance()->impersonate('kirby');
+		$submission = $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null);
+		App::instance()->impersonate();
 
 		return $submission;
 	}
@@ -293,8 +309,21 @@ class SubmissionPage extends BasePage
 			return $this;
 		}
 
-		App::instance()->session()->set(DreamForm::SESSION_KEY, $this);
+		App::instance()->session()->set(
+			DreamForm::SESSION_KEY,
+			// if the page exists on disk, we store the UUID only so we can save files since they can't be serialized
+			$this->exists() ? $this->uuid()->toString() : $this
+		);
+
 		return static::$session = $this;
+	}
+
+	/**
+	 * Returns the status of the submission
+	 */
+	public function status(): string
+	{
+		return $this->isFinished() ? 'listed' : 'draft';
 	}
 
 	/**
@@ -310,7 +339,16 @@ class SubmissionPage extends BasePage
 			return static::$session;
 		}
 
-		static::$session = App::instance()->session()->get(DreamForm::SESSION_KEY, null);
+		$session = App::instance()->session()->get(DreamForm::SESSION_KEY, null);
+		if (is_string($session)) { // if the page exists on disk, we store the UUID only so we can save files
+			$session = App::instance()->site()->findPageOrDraft($session);
+		}
+
+		if (!($session instanceof SubmissionPage)) {
+			return null;
+		}
+
+		static::$session = $session;
 
 		// remove it from the session for subsequent loads
 		if (

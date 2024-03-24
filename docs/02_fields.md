@@ -8,3 +8,7 @@ A field doesn't have to be a form input, it can also be a button or an image, ye
 ### Available Fields
 
 TODO
+
+#### File Uploads
+
+Protecting files? https://getkirby.com/docs/cookbook/security/files-firewall

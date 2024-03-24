@@ -7,6 +7,7 @@ return [
 	'multiStep' => true, // true, false
 	'mode' => 'prg', // prg or api
 	'debug' => fn () => App::instance()->option('debug'),
+	'storeSubmissions' => true, // Store submissions in the content folder
 	'layouts' => [ // https://getkirby.com/docs/reference/panel/fields/layout#defining-your-own-layouts
 		'1/1', '1/2, 1/2'
 	],
@@ -23,6 +24,20 @@ return [
 	'fields' => [
 		'available' => true,
 		'pages.query' => 'site.childrenAndDrafts.filterBy("intendedTemplate", "!=", "forms")', // Page query for the pages field type
+		'fileUpload' => [
+			'types' => [
+				// JPEG, PNG, GIF, AVIF, WEBP
+				'images' => ["image/jpeg", "image/png", "image/gif", "image/avif", "image/webp",],
+				// MP3, OGG, OPUS, WAV, WEBM
+				'audio' => ["audio/mpeg", "audio/ogg", "audio/opus", "audio/aac", "audio/wav", "audio/webm"],
+				// AVI, MP4, MPEG, OGG, WEBM
+				'video' => ["video/x-msvideo", "video/mp4", "video/mpeg", "video/ogg", "video/webm"],
+				// PDF, DOC, XLS, PPT
+				'documents' => ["application/pdf", "application/msword", "application/vnd.ms-excel", "application/vnd.ms-powerpoint"],
+				// ZIP, RAR, TAR, 7Z
+				'archives' => ["application/zip", "application/x-rar-compressed", "application/x-tar", "application/x-7z-compressed"]
+			]
+		]
 	],
 	'integrations' => [
 		'gravatar' => true, // Get profile pictures for email fields from Gravatar

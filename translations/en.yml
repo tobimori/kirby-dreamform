@@ -76,6 +76,15 @@ use-children-help: If activated, the listed child pages will be used as availabl
 # File Upload Field
 file-upload-field: File Upload
 max-filesize: Max Filesize
+min-filesize: Min Filesize
+limit-file-types: Limit File Types to...
+allow-multiple: Allow multiple files?
+max-filesize-ini: The maximum file size of the PHP configuration is {{ size }}.
+filetype-images: Images
+filetype-audio: Audio
+filetype-video: Video
+filetype-documents: Documents
+filetype-archives: Compressed Archives
 
 # Actions
 workflow: Workflow

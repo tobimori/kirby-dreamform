@@ -30,7 +30,7 @@ class DiscordWebhookAction extends Action
 							'type' => 'url',
 							'placeholder' => 'https://discord.com/api/webhooks/...',
 							'width' => '1/3',
-							'required' => !App::instance()->option('tobimori.dreamform.integrations.discord')
+							'required' => !App::instance()->option('tobimori.dreamform.actions.discord.webhook')
 						],
 						'exposedFields' => [
 							'label' => 'dreamform.exposed-fields',
@@ -46,7 +46,7 @@ class DiscordWebhookAction extends Action
 
 	public function webhookUrl(): string
 	{
-		return $this->block()->webhookUrl()->or(App::instance()->option('tobimori.dreamform.integrations.discord'));
+		return $this->block()->webhookUrl()->or(App::instance()->option('tobimori.dreamform.actions.discord.webhook'));
 	}
 
 	public function content(): string

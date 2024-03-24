@@ -77,6 +77,15 @@ use-children-help: Falls aktiviert, werden die veröffentlichten Unterseiten der
 # File Upload Field
 file-upload-field: Datei hochladen
 max-filesize: Maximale Dateigröße
+min-filesize: Minimale Dateigröße
+limit-file-types: Limitiere Dateitypen auf...
+allow-multiple: Mehrere Dateien erlauben?
+max-filesize-ini: Die maximale Dateigröße der PHP-Konfiguration ist {{ size }}.
+filetype-images: Bilder
+filetype-audio: Audio
+filetype-video: Video
+filetype-documents: Dokumente
+filetype-archives: Komprimierte Dateien
 
 # Actions
 workflow: Workflow

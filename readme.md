@@ -25,7 +25,7 @@ Kirby DreamForm is an opiniated plugin for [Kirby CMS](https://getkirby.com/) th
 |                                                       |           |                                                        |                                                  |
 | **Customize behaviour after submission**              | ✅        | ✅                                                     | ✅                                               |
 | ...in the panel                                       | ✅        |                                                        |                                                  |
-| ...using hooks                                        | todo      | ✅                                                     |                                                  |
+| ...using hooks                                        | ✅        | ✅                                                     |                                                  |
 |                                                       |           |                                                        |                                                  |
 | Use with JavaScript (API submission)                  | ✅        | ✅                                                     | ✅                                               |
 | Use without JavaScript (Form submission)              | ✅        |                                                        | ✅                                               |
@@ -37,26 +37,24 @@ Kirby DreamForm is an opiniated plugin for [Kirby CMS](https://getkirby.com/) th
 | Text                                                  | ✅        | ✅                                                     | <sup>2</sup>                                     |
 | Multi-line text                                       | ✅        | ✅                                                     | <sup>2</sup>                                     |
 | Email                                                 | ✅        | ✅ _(using Input)_                                     | <sup>2</sup>                                     |
-| Number                                                | todo      | ✅ _(using Input)_                                     | <sup>2</sup>                                     |
+| Number                                                | ✅        | ✅ _(using Input)_                                     | <sup>2</sup>                                     |
 | Select                                                | ✅        | ✅                                                     | <sup>2</sup>                                     |
-| Radio                                                 | todo      | ✅                                                     | <sup>2</sup>                                     |
+| Radio                                                 | ✅        | ✅                                                     | <sup>2</sup>                                     |
 | Checkboxes                                            | ✅        | ✅                                                     | <sup>2</sup>                                     |
-| File uploads                                          | todo      | ✅                                                     | <sup>2</sup>                                     |
+| File uploads                                          | ✅        | ✅                                                     | <sup>2</sup>                                     |
 |                                                       |           |                                                        |                                                  |
 | **_Built-in guards_**                                 |           |                                                        |                                                  |
-| [CSRF](https://owasp.org/www-community/attacks/csrf)  | todo      |                                                        | ✅                                               |
-| Rate limiting                                         | todo      |                                                        |                                                  |
-| Honeypot                                              | todo      |                                                        | ✅                                               |
+| [CSRF](https://owasp.org/www-community/attacks/csrf)  | ✅        |                                                        | ✅                                               |
+| IP-based Rate limiting                                | todo      |                                                        |                                                  |
+| Honeypot                                              | ✅        |                                                        | ✅                                               |
 | Captcha (tbd)                                         | todo      |                                                        |                                                  |
 |                                                       |           |                                                        |                                                  |
 | **_Built-in integrations_**                           |           |                                                        |                                                  |
 | Email                                                 | ✅        | ✅                                                     | ✅                                               |
 | Generic Webhook                                       | ✅        |                                                        | ✅                                               |
 | Gravatar                                              | ✅        |                                                        |                                                  |
-| Mailchimp                                             | todo      |                                                        |                                                  |
 | Discord                                               | ✅        |                                                        |                                                  |
 | Slack                                                 | todo      |                                                        |                                                  |
-| Payments (Stripe/Adyen)                               | _Roadmap_ |                                                        |                                                  |
 |                                                       |           |                                                        |                                                  |
 | **_Other_**                                           |           |                                                        |                                                  |
 | Re-use forms in different places                      | ✅        | _Each block is a unique form_                          |                                                  |
