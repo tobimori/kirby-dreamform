@@ -26,18 +26,11 @@ fields:
 
 ```php
 <?php snippet('dreamform/form', [
-	'form' => $page->myForm()->toPage(),
-	'row' => ["class" => "row"],
-	'column' => ["class" => "column"],
-	'button' => ["class" => 'button'],
-	'input' => ["class" => 'input'],
-	'error' => ["class" => 'error']
+	'form' => $page->myForm()->toPage()
 ]); ?>
 ```
 
-You can also add attributes to some elements for styling.
-
-> **Make sure caching is disabled if you're sending the form via SSR.**
+You can also add attributes to some elements for styling (see styling.md).
 
 8. You can now submit the form and see the result in the panel.
 

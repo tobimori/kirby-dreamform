@@ -173,6 +173,32 @@ final class DreamForm
 	}
 
 	/**
+	 * Find a page or draft recursively using the path
+	 */
+	public static function findPageOrDraftRecursive(string $path): Page|null
+	{
+		if (!$path) {
+			return null;
+		}
+
+		$page = App::instance()->site();
+		if (Str::startsWith($path, 'page://')) {
+			return $page->findPageOrDraft($path);
+		}
+
+		$segments = Str::split($path, '/');
+		foreach ($segments as $segment) {
+			if ($page = $page->findPageOrDraft($segment)) {
+				continue;
+			}
+
+			return null;
+		}
+
+		return $page;
+	}
+
+	/**
 	 * Get the page the request was made from using the URL path
 	 */
 	public static function currentPage(): Page|null
@@ -184,7 +210,7 @@ final class DreamForm
 			return null;
 		}
 
-		$page = App::instance()->site()->findPageOrDraft(Str::replace($matches[1], '+', '/'));
+		$page = static::findPageOrDraftRecursive(Str::replace($matches[1], '+', '/'));
 
 		return $page;
 	}

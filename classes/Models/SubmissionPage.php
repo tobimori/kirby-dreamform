@@ -19,6 +19,7 @@ use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\Field as FormField;
+use tobimori\DreamForm\Support\Htmx;
 
 class SubmissionPage extends BasePage
 {
@@ -112,6 +113,29 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
+	 * Removes an error from the submission state
+	 */
+	public function removeError(string $field = null): static
+	{
+		$state = $this->state()->toArray();
+		if ($field) {
+			unset($state['errors'][$field]);
+		} else {
+			$state['error'] = null;
+		}
+
+		if (empty($state['errors']) && !$state['error']) {
+			$state['success'] = true;
+		}
+
+		$this->content = $this->content()->update([
+			'dreamform_state' => $state
+		]);
+
+		return $this;
+	}
+
+	/**
 	 * Returns the raw field value from the request body
 	 */
 	public static function valueFromBody(string $key): mixed
@@ -188,6 +212,7 @@ class SubmissionPage extends BasePage
 		return $this;
 	}
 
+
 	/**
 	 * Returns a Response that redirects the user to the URL set in the submission state
 	 */
@@ -207,16 +232,27 @@ class SubmissionPage extends BasePage
 	 */
 	public function redirectToReferer(): Responder
 	{
-		return App::instance()->response()->redirect(
-			$this->referer() ?? $this->site()->url()
+		$kirby = App::instance();
+		if ($kirby->option('tobimori.dreamform.mode') !== 'api' && $kirby->option('cache.pages.active') === true) {
+			$append = '?x=';
+		}
+
+		return  $kirby->response()->redirect(
+			($this->referer() ?? $this->site()->url()) . $append ?? ''
 		);
 	}
 
+	/**
+	 * Returns the current step of the submission
+	 */
 	public function currentStep(): int
 	{
 		return $this->state()->get('step')->toInt();
 	}
 
+	/**
+	 * Advance the submission to the next step
+	 */
 	public function advanceStep(): static
 	{
 		$available = count($this->form()->steps());
@@ -305,15 +341,31 @@ class SubmissionPage extends BasePage
 	 */
 	public function storeSession(): static
 	{
-		if (App::instance()->option('tobimori.dreamform.mode', 'prg') === 'api') {
-			return $this;
+		$kirby = App::instance();
+		$mode = $kirby->option('tobimori.dreamform.mode', 'prg');
+		if ($mode === 'api' || $mode === 'htmx' && Htmx::isHtmxRequest()) {
+			return $this->storeSessionlessCache();
 		}
 
-		App::instance()->session()->set(
+		$kirby->session()->set(
 			DreamForm::SESSION_KEY,
 			// if the page exists on disk, we store the UUID only so we can save files since they can't be serialized
 			$this->exists() ? $this->uuid()->toString() : $this
 		);
+
+		return static::$session = $this;
+	}
+
+	public function storeSessionlessCache(): static
+	{
+		$kirby = App::instance();
+		if ($kirby->option('tobimori.dreamform.mode', 'prg') === 'prg' || !Htmx::isHtmxRequest()) {
+			return $this->storeSession();
+		}
+
+		if (!$this->exists()) {
+			$kirby->cache('tobimori.dreamform.sessionless')->set($this->uuid()->toString(), serialize($this));
+		}
 
 		return static::$session = $this;
 	}
@@ -331,17 +383,19 @@ class SubmissionPage extends BasePage
 	 */
 	public static function fromSession(): SubmissionPage|null
 	{
-		if (App::instance()->option('tobimori.dreamform.mode', 'prg') === 'api') {
-			return null;
+		$kirby = App::instance();
+		$mode = $kirby->option('tobimori.dreamform.mode', 'prg');
+		if ($mode === 'api' || $mode === 'htmx' && Htmx::isHtmxRequest()) {
+			return static::fromSessionlessCache();
 		}
 
 		if (static::$session) {
 			return static::$session;
 		}
 
-		$session = App::instance()->session()->get(DreamForm::SESSION_KEY, null);
+		$session = $kirby->session()->get(DreamForm::SESSION_KEY, null);
 		if (is_string($session)) { // if the page exists on disk, we store the UUID only so we can save files
-			$session = App::instance()->site()->findPageOrDraft($session);
+			$session = DreamForm::findPageOrDraftRecursive($session);
 		}
 
 		if (!($session instanceof SubmissionPage)) {
@@ -357,7 +411,51 @@ class SubmissionPage extends BasePage
 				|| (static::$session->currentStep() === 1 && !static::$session->isSuccessful()) // or if it's the first step and not successful
 			)
 		) {
-			App::instance()->session()->remove(DreamForm::SESSION_KEY);
+			$kirby->session()->remove(DreamForm::SESSION_KEY);
+		}
+
+		return static::$session;
+	}
+
+	/**
+	 * Get submission from sessionless cache
+	 */
+	public static function fromSessionlessCache(): SubmissionPage|null
+	{
+		$kirby = App::instance();
+		if ($kirby->option('tobimori.dreamform.mode', 'prg') === 'prg' || !Htmx::isHtmxRequest()) {
+			return static::fromSession();
+		}
+
+		if (static::$session) {
+			return static::$session;
+		}
+
+		$raw = $kirby->request()->body()->get('dreamform:session');
+		if (!$raw || $raw === 'null') {
+			return null;
+		}
+
+		$id = Htmx::decrypt($raw);
+		if (Str::startsWith($id, 'page://')) {
+			static::$session = DreamForm::findPageOrDraftRecursive($id);
+		}
+
+		$cache = $kirby->cache('tobimori.dreamform.sessionless');
+		$serialized = $cache->get($id);
+		if ($serialized) {
+			$submission = unserialize($serialized);
+			if ($submission instanceof SubmissionPage) {
+				static::$session = $submission;
+
+				// remove it from the session for subsequent loads
+				if (
+					$submission->isFinished() // & if the submission is finished
+					|| ($submission->currentStep() === 1 && !$submission->isSuccessful()) // or if it's the first step and not successful
+				) {
+					$cache->remove($id);
+				}
+			}
 		}
 
 		return static::$session;

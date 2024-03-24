@@ -29,9 +29,9 @@ Kirby DreamForm is an opiniated plugin for [Kirby CMS](https://getkirby.com/) th
 |                                                       |           |                                                        |                                                  |
 | Use with JavaScript (API submission)                  | ✅        | ✅                                                     | ✅                                               |
 | Use without JavaScript (Form submission)              | ✅        |                                                        | ✅                                               |
+| First-party HTMX support                              | ✅        |                                                        |                                                  |
 | On-demand validation before submission (Precognition) | _Roadmap_ |                                                        |                                                  |
 | Use in headless environments                          | _Roadmap_ |                                                        |                                                  |
-| First-party HTMX support                              | _Roadmap_ |                                                        |                                                  |
 |                                                       |           |                                                        |                                                  |
 | **_Built-in fields_**                                 |           |                                                        |                                                  |
 | Text                                                  | ✅        | ✅                                                     | <sup>2</sup>                                     |

@@ -1,6 +1,6 @@
 <?php
 
-namespace tobimori\DreamForm;
+namespace tobimori\DreamForm\Support;
 
 use Kirby\Cms\App;
 
@@ -9,6 +9,11 @@ use Kirby\Cms\App;
  */
 final class Menu
 {
+	private function __construct()
+	{
+		throw new \Error('This class cannot be instantiated');
+	}
+
 	/**
 	 * Returns the current path
 	 */

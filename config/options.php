@@ -3,11 +3,15 @@
 use Kirby\Cms\App;
 
 return [
-	'cache.actions' => true, // Cache API calls from actions
-	'multiStep' => true, // true, false
+	'cache' => [
+		'sessionless' => [
+			'active' => true,
+		]
+	],
 	'mode' => 'prg', // prg / api / htmx
-	'debug' => fn () => App::instance()->option('debug'),
+	'multiStep' => true, // Enable multi-step forms
 	'storeSubmissions' => true, // Store submissions in the content folder
+	'debug' => fn () => App::instance()->option('debug'),
 	'layouts' => [ // https://getkirby.com/docs/reference/panel/fields/layout#defining-your-own-layouts
 		'1/1', '1/2, 1/2'
 	],

@@ -88,24 +88,24 @@ if ($submission?->isFinished()) {
 } ?>
 
 <form <?= attr(A::merge(
-	$attr['form'],
-	$form->htmxAttr($attr),
-	[
-		'enctype' => $form->enctype(),
-		'action' => $form->url(),
-		'method' => 'POST',
-		'novalidate' => 'novalidate'
-	]
-)) ?>>
+				$attr['form'],
+				$form->htmxAttr($page, $attr, $submission),
+				[
+					'enctype' => $form->enctype(),
+					'action' => $form->url(),
+					'method' => 'POST',
+					'novalidate' => 'novalidate'
+				]
+			)) ?>>
 	<div <?= attr(A::merge(['data-error' => true], $attr['error'])) ?>><?= $submission?->errorFor() ?></div>
 	<?php foreach ($form->currentLayouts() as $layoutRow) : ?>
 		<div <?= attr(A::merge($attr['row'], [
-			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
-		])) ?>>
+						'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
+					])) ?>>
 			<?php foreach ($layoutRow->columns() as $layoutColumn) : ?>
 				<div <?= attr(A::merge($attr['column'], [
-					'style' => "grid-column-start: span {$layoutColumn->span(12)};",
-				])) ?>>
+								'style' => "grid-column-start: span {$layoutColumn->span(12)};",
+							])) ?>>
 					<?php foreach ($layoutColumn->blocks() as $block) {
 						// get the field instance to access field methods
 						$field = $block->toFormField($form->fields());
@@ -126,5 +126,5 @@ if ($submission?->isFinished()) {
 			<?php endforeach ?>
 		</div>
 	<?php endforeach;
-snippet('dreamform/guards', ['form' => $form]) ?>
+	snippet('dreamform/guards', ['form' => $form]) ?>
 </form>

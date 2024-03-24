@@ -6,6 +6,7 @@ use Exception;
 use Kirby\Cms\App;
 use Kirby\Cms\Collection;
 use Kirby\Cms\Layouts;
+use Kirby\Cms\Page;
 use Kirby\Content\Field;
 use Kirby\Data\Json;
 use Kirby\Http\Url;
@@ -14,6 +15,7 @@ use Kirby\Uuid\Uuid;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SilentPerformerException;
+use tobimori\DreamForm\Support\Htmx;
 
 class FormPage extends BasePage
 {
@@ -28,9 +30,23 @@ class FormPage extends BasePage
 		return $this->content()->get('title')->or($this->slug());
 	}
 
-	public function htmxAttr(array $attr): array
+	public function htmxAttr(Page $page, array $attr, SubmissionPage|null $submission): array
 	{
-		return [];
+		if (!Htmx::isActive()) {
+			return [];
+		}
+
+		$htmx = [
+			'hx-post' => $this->url(),
+			'hx-swap' => 'outerHTML',
+			'hx-vals' => Json::encode(array_filter([
+				'dreamform:session' => $submission && Htmx::isHtmxRequest() ? Htmx::encrypt($submission->uuid()->toString()) : null,
+				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
+				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
+			], fn ($value) => $value !== null))
+		];
+
+		return $htmx;
 	}
 
 	/**
@@ -237,6 +253,7 @@ class FormPage extends BasePage
 			} else {
 				// otherwise add it to the content of the submission
 				$submission->setField($field);
+				$submission->removeError($field->key());
 			}
 		}
 
@@ -275,9 +292,7 @@ class FormPage extends BasePage
 		}
 
 		// store the submission in the session
-		$submission->storeSession();
-
-		return $submission;
+		return $submission->storeSession();
 	}
 
 	/**
@@ -286,16 +301,44 @@ class FormPage extends BasePage
 	public function render(array $data = [], $contentType = 'html'): string
 	{
 		$kirby = App::instance();
+		$mode = $kirby->option('tobimori.dreamform.mode', 'prg');
 
 		if ($kirby->request()->method() === 'POST') {
 			$submission = $this->submit();
 
 			// if dreamform is used in API mode, return the submission state as JSON
-			if (App::instance()->option('tobimori.dreamform.mode', 'prg') === 'api') {
+			if ($mode === 'api') {
 				$kirby->response()->code($submission->isSuccessful() ? 200 : 400);
 				return Json::encode($submission->state()->toArray());
 			}
 
+			// if dreamform is used in htmx mode, return the enhanced HTML
+			if ($mode === 'htmx' && $kirby->request()->header('Hx-Request') === 'true') {
+				try {
+					$page = DreamForm::findPageOrDraftRecursive(Htmx::decrypt($kirby->request()->body()->get('dreamform:page')));
+					$attr = Json::decode(Htmx::decrypt($kirby->request()->body()->get('dreamform:attr')));
+
+					// if an error is thrown, this means the data must have been tampered with
+				} catch (Exception $e) {
+					return t('dreamform.generic-error');
+				}
+
+				// Inject these variables in all snippets
+				// similar to the page.render:before hook
+				$kirby->data = [
+					'kirby' => $kirby,
+					'site' => $kirby->site(),
+					'page' => $page,
+					'submission' => $submission,
+				];
+
+				return snippet('dreamform/form', [
+					'form' => $this,
+					'attr' => $attr
+				], true);
+			}
+
+			// continue with PRG submission
 			if (!$submission->isSuccessful()) {
 				return $submission->redirectToReferer();
 			}
