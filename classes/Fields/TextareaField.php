@@ -47,14 +47,9 @@ class TextareaField extends Field
 			$this->block()->required()->toBool()
 			&& $this->value()->isEmpty()
 		) {
-			return $this->block()->errorMessage()->isNotEmpty() ? $this->block()->errorMessage() : t('dreamform.error-message-default');
+			return $this->errorMessage();
 		}
 
 		return true;
-	}
-
-	public static function group(): string
-	{
-		return 'text-fields';
 	}
 }

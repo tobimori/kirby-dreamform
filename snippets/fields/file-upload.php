@@ -2,7 +2,7 @@
 
 /**
  * @var \Kirby\Cms\Block $block
- * @var \tobimori\DreamForm\Fields\EmailField $field
+ * @var \tobimori\DreamForm\Fields\TextField $field
  * @var \tobimori\DreamForm\Models\FormPage $form
  * @var \tobimori\DreamForm\Models\Submission|null $submission
  * @var array|null $input
@@ -13,7 +13,9 @@ snippet('dreamform/fields/text', [
 	'block' => $block,
 	'form' => $form,
 	'field' => $field,
-	'type' => 'email',
+	'type' => 'file',
+
 	'input' => $input ?? null,
-	'error' => $error ?? null
+	'error' => $error ?? null,
+	'attr' => []
 ]);

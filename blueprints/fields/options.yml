@@ -1,0 +1,16 @@
+label: dreamform.options
+type: structure
+width: 5/6
+fields:
+  value:
+    label: dreamform.value
+    help: dreamform.options-value-help
+    type: text
+    width: 1/2
+    required: true
+  label:
+    label: dreamform.label
+    help: dreamform.options-label-help
+    type: text
+    width: 1/2
+    required: true

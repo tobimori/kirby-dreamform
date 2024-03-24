@@ -11,13 +11,20 @@ return [
 		'1/1', '1/2, 1/2'
 	],
 	'page' => 'page://forms', // Slug or URI to the page where the forms are located
-	'guards' => ['honeypot', 'csrf'],
-	'actions' => true,
-	'fields' => true,
-	'honeypotFields' => ['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject'],
+	'guards' => [
+		'available' => ['honeypot', 'csrf'],
+		'honeypot.fields' => ['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject'],
+	],
+	'actions' => [
+		'available' => true,
+		'discord.webhook' => null, // Default webhook URL
+		'mailchimp.apiKey' => null, // Mailchimp API key
+	],
+	'fields' => [
+		'available' => true,
+		'pages.query' => 'site.childrenAndDrafts.filterBy("intendedTemplate", "!=", "forms")', // Page query for the pages field type
+	],
 	'integrations' => [
 		'gravatar' => true, // Get profile pictures for email fields from Gravatar
-		'mailchimp' => null, // mailchimp API key
-		'discord' => null, // default webhook url
 	]
 ];

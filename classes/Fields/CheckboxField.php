@@ -16,53 +16,36 @@ class CheckboxField extends Field
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'toggle-off',
-			'fields' => [
-				'options' => [
-					'label' => t('dreamform.options'),
-					'type' => 'structure',
+			'tabs' => [
+				'field' => [
+					'label' => t('dreamform.field'),
 					'fields' => [
-						'value' => [
-							'label' => t('dreamform.value'),
-							'help' => t('dreamform.options-value-help'),
-							'type' => 'text',
-							'width' => '1/2'
+						'key' => [
+							'extends' => 'dreamform/fields/key',
+							'wizard' => false
 						],
-						'label' => [
-							'label' => t('dreamform.label'),
-							'help' => t('dreamform.options-label-help'),
-							'type' => 'writer',
-							'inline' => true,
-							'width' => '1/2',
-							'marks' => [
-								'bold',
-								'italic',
-								'link'
-							],
-						]
+						'options' => 'dreamform/fields/options',
 					]
 				],
-				'key' => [
-					'extends' => 'dreamform/fields/key',
-					'wizard' => false
-				],
-				'min' => [
-					'label' => t('dreamform.min-checked'),
-					'type' => 'number',
-					'width' => '1/6'
-				],
-				'max' => [
-					'label' => t('dreamform.max-checked'),
-					'type' => 'number',
-					'width' => '1/6'
-				],
-				'errorMessage' => [
-					'extends' => 'dreamform/fields/error-message',
-					'width' => '1/2'
-				],
+				'validation' => [
+					'label' => t('dreamform.validation'),
+					'fields' => [
+						'min' => [
+							'label' => t('dreamform.min-checked'),
+							'type' => 'number',
+							'width' => '1/6'
+						],
+						'max' => [
+							'label' => t('dreamform.max-checked'),
+							'type' => 'number',
+							'width' => '1/6'
+						],
+						'errorMessage' => 'dreamform/fields/error-message',
+					]
+				]
 			]
 		];
 	}
-
 
 	public function submissionBlueprint(): array|null
 	{
@@ -73,7 +56,6 @@ class CheckboxField extends Field
 
 		return [
 			'label' => t('dreamform.checkbox-field') . ': ' . $this->key(),
-			'icon' => 'toggle-off',
 			'type' => 'checkboxes',
 			'options' => $options
 		];
@@ -89,7 +71,7 @@ class CheckboxField extends Field
 			|| $this->block()->min()->isNotEmpty()
 			&& !V::min(count($value), $this->block()->min()->toInt())
 		) {
-			return $this->block()->errorMessage()->isNotEmpty() ? $this->block()->errorMessage() : t('dreamform.error-message-default');
+			return $this->errorMessage();
 		}
 
 		return true;

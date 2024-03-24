@@ -15,10 +15,8 @@
  */
 
 use Kirby\Toolkit\A;
-use Kirby\Toolkit\Str;
 
 // don't show the form if it's a draft
-// TODO: inactive form snippet
 if (!$form || $form->status() === 'draft') {
 	snippet('dreamform/inactive', ['form' => $form]);
 	return;
@@ -30,6 +28,7 @@ if ($submission?->isFinished()) {
 } ?>
 
 <form <?= attr(A::merge($attr ?? [], [
+	'enctype' => $form->enctype(),
 	'action' => $form->url(),
 	'method' => 'POST',
 	'novalidate' => 'novalidate'
@@ -43,17 +42,23 @@ if ($submission?->isFinished()) {
 				<div <?= attr(A::merge($column ?? [], [
 					'style' => "grid-column-start: span {$layoutColumn->span(12)};",
 				])) ?>>
-					<?php foreach ($layoutColumn->blocks() as $field) {
-						snippet(
-							"dreamform/fields/" . Str::replace($field->type(), '-field', ''),
-							[
-								'block' => $field,
-								'form' => $form,
-								'input' => $input ?? null,
-								'button' => $button ?? null,
-								'error' => $error ?? null,
-							]
-						);
+					<?php foreach ($layoutColumn->blocks() as $block) {
+						// get the field instance to access field methods
+						$field = $block->toFormField($form->fields());
+
+						if ($field) {
+							snippet(
+								"dreamform/fields/{$field->type()}",
+								[
+									'block' => $block,
+									'field' => $field,
+									'form' => $form,
+									'input' => $input ?? null,
+									'button' => $button ?? null,
+									'error' => $error ?? null,
+								]
+							);
+						}
 					} ?>
 				</div>
 			<?php endforeach ?>

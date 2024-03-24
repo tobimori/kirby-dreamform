@@ -190,6 +190,12 @@ class FormPage extends BasePage
 			$submission = $this->initSubmission();
 		}
 
+		$submission = App::instance()->apply(
+			'dreamform.submit:before',
+			['submission' => $submission, 'form' => $this],
+			'submission'
+		);
+
 		// handle guards (honeypot, csrf, etc.)
 		try {
 			foreach ($this->guards() as $guard) {
@@ -208,7 +214,7 @@ class FormPage extends BasePage
 
 		// handle fields
 		$currentStep = App::instance()->request()->query()->get('dreamform-step', 1);
-		foreach ($this->fields($currentStep) as $field) {
+		foreach ($fields = $this->fields($currentStep) as $field) {
 			// skip "decorative" fields that don't have a value
 			if (!$field::hasValue()) {
 				continue;
@@ -254,6 +260,12 @@ class FormPage extends BasePage
 				$submission->finish();
 			} else {
 				$submission->advanceStep();
+			}
+
+			// run the afterSubmit method for all fields
+			// this can be used to store files or do other post-processing
+			foreach ($fields as $field) {
+				$field->afterSubmit($submission);
 			}
 		}
 
@@ -310,6 +322,18 @@ class FormPage extends BasePage
 	}
 
 	/**
+	 * Returns the form enctype based on the fields
+	 */
+	public function enctype(): string
+	{
+		if ($this->fields()->findBy('type', 'file-upload')) {
+			return 'multipart/form-data';
+		}
+
+		return 'application/x-www-form-urlencoded';
+	}
+
+	/**
 	 * Saves the form and checks for duplicate keys
 	 */
 	public function save(?array $data = null, ?string $languageCode = null, bool $overwrite = false): static
@@ -351,10 +375,35 @@ class FormPage extends BasePage
 	{
 		$submission = SubmissionPage::fromSession();
 		if (!$submission) {
-			return SubmissionPage::valueFromQuery($key);
+			return $this->valueFromQuery($key);
 		}
 
 		return $submission->valueFor($key);
+	}
+
+	/**
+	 * Returns the value of a field from the URL query
+	 *
+	 * TODO: check for field type and sanitize the value
+	 */
+	public function valueFromQuery(string $key): Field|null
+	{
+		$key = DreamForm::normalizeKey($key);
+
+		if (!($value = App::instance()->request()->query()->get($key))) {
+			return null;
+		}
+
+		$field = $this->fields()->findBy('key', $key);
+		if (!$field) {
+			$field = $this->fields()->findBy('id', $key);
+		}
+
+		if (!$field) {
+			return null;
+		}
+
+		return $field->sanitize(new Field($this, $key, $value));
 	}
 
 	/**

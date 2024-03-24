@@ -13,48 +13,49 @@ class SelectField extends Field
 			'wysiwyg' => true,
 			'icon' => 'list-bullet',
 			'tabs' => [
-				'settings' => [
-					'label' => t('dreamform.settings'),
+				'field' => [
+					'label' => t('dreamform.field'),
 					'fields' => [
 						'key' => 'dreamform/fields/key',
 						'label' => 'dreamform/fields/label',
 						'placeholder' => 'dreamform/fields/placeholder',
+						'options' => [
+							'extends' => 'dreamform/fields/options',
+							'width' => '1'
+						]
+					]
+				],
+				'validation' => [
+					'label' => t('dreamform.validation'),
+					'fields' => [
 						'required' => 'dreamform/fields/required',
 						'errorMessage' => 'dreamform/fields/error-message',
-						'options' => [
-							'label' => t('dreamform.options'),
-							'type' => 'structure',
-							'fields' => [
-								'value' => [
-									'type' => 'text',
-									'label' => t('dreamform.value'),
-									'help' => t('dreamform.options-value-help'),
-									'width' => '1/2'
-								],
-								'label' => [
-									'extends' => 'dreamform/fields/label',
-									'help' => t('dreamform.options-label-help')
-								]
-							]
-						]
 					]
 				]
 			]
 		];
 	}
 
-	public function submissionBlueprint(): array|null
+	/**
+	 * Returns the available options as a key-value array.
+	 */
+	public function options(): array
 	{
 		$options = [];
 		foreach ($this->block()->options()->toStructure() as $option) {
-			$options[$option->value()->value()] = $option->label()->value();
+			$options[$option->value()->value()] = $option->label()->or($option->value())->value();
 		}
 
+		return $options;
+	}
+
+	public function submissionBlueprint(): array|null
+	{
 		return [
-			'label' => $this->block()->label()->value() ?? t('dreamform.text-field'),
+			'label' => $this->block()->label()->value() ?? t('dreamform.select-field'),
 			'type' => 'select',
 			'placeholder' => $this->block()->placeholder()->value() ?? '',
-			'options' => $options
+			'options' => $this->options()
 		];
 	}
 
@@ -64,7 +65,7 @@ class SelectField extends Field
 			$this->block()->required()->toBool()
 			&& $this->value()->isEmpty()
 		) {
-			return $this->block()->errorMessage()->isNotEmpty() ? $this->block()->errorMessage() : t('dreamform.error-message-default');
+			return $this->errorMessage();
 		}
 
 		return true;

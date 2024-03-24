@@ -49,28 +49,15 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
-	 * Returns the value of a field from the URL query
-	 */
-	public static function valueFromQuery(string $key): Field|null
-	{
-		$key = Str::replace($key, '-', '_');
-		if (!($value = App::instance()->request()->query()->get($key))) {
-			return null;
-		}
-
-		return new Field(DreamForm::currentPage(), $key, $value);
-	}
-
-	/**
 	 * Returns the value of a field in the submission content by its key
 	 */
 	public function valueFor(string $key): Field|null
 	{
-		$key = Str::replace($key, '-', '_');
+		$key = DreamForm::normalizeKey($key);
 		$field = $this->content()->get($key);
 		if ($field->isEmpty()) {
 			// check if the field is prefillable from url params
-			$field = static::valueFromQuery($key);
+			$field = $this->parent()->valueFromQuery($key);
 		}
 
 		return $field;
@@ -127,7 +114,7 @@ class SubmissionPage extends BasePage
 	/**
 	 * Returns the raw field value from the request body
 	 */
-	public static function valueFromBody(string $key): string|null
+	public static function valueFromBody(string $key): mixed
 	{
 		$key = DreamForm::normalizeKey($key);
 		$body = App::instance()->request()->body()->toArray();
@@ -253,6 +240,12 @@ class SubmissionPage extends BasePage
 		$state = $this->state()->toArray();
 		$state['partial'] = false;
 		$this->content = $this->content()->update(['dreamform_state' => $state]);
+
+		$submission = App::instance()->apply(
+			'dreamform.submit:after',
+			['submission' => $this, 'form' => $this->form()],
+			'submission'
+		);
 
 		if ($saveToDisk) {
 			// elevate permissions to save the submission

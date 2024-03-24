@@ -34,4 +34,9 @@ class HiddenField extends Field
 			'type' => 'text'
 		];
 	}
+
+	public static function group(): string
+	{
+		return 'advanced-fields';
+	}
 }

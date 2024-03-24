@@ -50,14 +50,9 @@ class EmailField extends Field
 			&& $this->value()->isEmpty()
 			|| !V::email($this->value()->value())
 		) {
-			return $this->block()->errorMessage()->isNotEmpty() ? $this->block()->errorMessage()->value() : t("dreamform.error-message-default");
+			return $this->errorMessage();
 		}
 
 		return true;
-	}
-
-	public static function group(): string
-	{
-		return 'text-fields';
 	}
 }

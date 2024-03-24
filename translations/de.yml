@@ -21,7 +21,8 @@ duplicate-key: "Das Formular konnte nicht gespeichert werden: Ein Feld mit dem S
 reserved-key: "Das Formular konnte nicht gespeichert werden: Der Schlüssel \"{{ key }}\" ist reserviert und kann nicht verwendet werden."
 
 # Categories
-text-fields: Textfelder
+common-fields: Häufige Felder
+advanced-fields: Erweiterte Felder
 
 # Submissions
 submission: Antwort
@@ -49,15 +50,33 @@ text-field: Text
 textarea-field: Mehrzeiliger Text
 hidden-field: Verstecktes Feld
 select-field: Auswahl
+radio-field: Radiobuttons
 checkbox-field: Auswahlkästchen
 email-field: E-Mail
-button-field: Absende-Button
+button-field: Button (Absenden / Nächste Seite)
+
+# Number Field
+number-field: Nummer
+min-number: Mindestwert
+max-number: Maximalwert
+number-step: Schrittweite
+number-step-help: Der eingegebene Wert muss durch diese Zahl teilbar sein. Für Dezimalzahlen, verwende eine Zahl wie "0,1".
 
 # Checkboxes / Select
+options: Auswahlmöglichkeiten
 options-label-help: Wird als Beschriftung im Kontaktformular angezeigt.
 options-value-help: Wird intern als gespeicherter Wert verwendet.
 min-checked: Mindestanzahl
 max-checked: Maximalanzahl
+
+# Pages Field
+pages-field: Aus Seiten auswählen
+use-children: Nutze Unterseiten?
+use-children-help: Falls aktiviert, werden die veröffentlichten Unterseiten der ausgewählten Seiten als Auswahlmöglichkeiten verwendet.
+
+# File Upload Field
+file-upload-field: Datei hochladen
+max-filesize: Maximale Dateigröße
 
 # Actions
 workflow: Workflow

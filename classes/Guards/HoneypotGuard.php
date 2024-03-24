@@ -9,7 +9,7 @@ class HoneypotGuard extends Guard
 {
 	public function fieldName(): string
 	{
-		$available = App::instance()->option('tobimori.dreamform.honeypotFields', []);
+		$available = App::instance()->option('tobimori.dreamform.guards.honeypot.fields', []);
 		$used = $this->form()->fields()->map(fn ($field) => $field->key());
 
 		foreach ($available as $field) {

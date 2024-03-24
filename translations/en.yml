@@ -20,7 +20,8 @@ duplicate-key: "This form can't be saved: The key \"{{ key }}\" is already used 
 reserved-key: "This form can't be saved: The key \"{{ key }}\" is a reserved keyword."
 
 # Categories
-text-fields: Text Fields
+common-fields: Common Fields
+advanced-fields: Advanced Fields
 
 # Submissions
 submission: Submission
@@ -48,15 +49,33 @@ text-field: Text
 textarea-field: Multiline Text
 hidden-field: Hidden
 select-field: Select
+radio-field: Radio Buttons
 checkbox-field: Checkboxes
 email-field: Email
-button-field: Button
+button-field: Button (Submit / Next Page)
+
+# Number Field
+number-field: Number
+min-number: Min. value
+max-number: Max. value
+number-step: Step size
+number-step-help: The entered value must be divisible by this number. For decimals, use a number like "0,1".
 
 # Checkboxes / Select
+options: Options
 options-label-help: The label is shown to the user.
 options-value-help: The value is saved in the submission.
 min-checked: Min checked
 max-checked: Max checked
+
+# Pages Field
+pages-field: Select from Pages
+use-children: Use children?
+use-children-help: If activated, the listed child pages will be used as available options instead.
+
+# File Upload Field
+file-upload-field: File Upload
+max-filesize: Max Filesize
 
 # Actions
 workflow: Workflow

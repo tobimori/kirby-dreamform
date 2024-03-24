@@ -2,7 +2,9 @@
 
 /**
  * @var \Kirby\Cms\Block $block
- * @var \DreamForm\Models\FormPage $form
+ * @var \tobimori\DreamForm\Fields\ButtonField $field
+ * @var \tobimori\DreamForm\Models\FormPage $form
+ * @var \tobimori\DreamForm\Models\Submission|null $submission
  * @var array|null $button
  */
 

@@ -2,27 +2,35 @@
 
 /**
  * @var \Kirby\Cms\Block $block
- * @var \DreamForm\Models\FormPage $form
+ * @var \tobimori\DreamForm\Fields\CheckboxField $field
+ * @var \tobimori\DreamForm\Models\FormPage $form
+ * @var \tobimori\DreamForm\Models\Submission|null $submission
+ * @var string|null $type
  * @var array|null $input
  * @var array|null $error
  */
 
 use Kirby\Toolkit\A;
 
-?>
+$type ??= 'checkbox';
+
+$previousValue = $form->valueFor($block->key())?->value() ?? [];
+if (!is_array($previousValue)) {
+	$previousValue = [$previousValue];
+} ?>
 
 <div <?= attr(A::merge($input ?? [], ['data-has-error' => !!$submission?->errorFor($block->key())])) ?>>
 	<div>
 		<?php foreach ($block->options()->toStructure() as $option) : ?>
 			<div>
 				<input <?= attr([
-					'type' => 'checkbox',
+					'type' => $type,
 					'id' => $block->id() . '-' . $option->indexOf(),
-					'name' => $block->key() . '[]',
+					'name' => $block->key() . ($type === 'checkbox' ? '[]' : null),
 					'value' => $option->value(),
-					'checked' => A::has($form->valueFor($block->key())->value() ?? [], $option->value())
+					'checked' => A::has($previousValue, $option->value())
 				]) ?>>
-				<label for="<?= $block->id() ?>-<?= $option->indexOf() ?>"><?= $option->label()->escape() ?></label>
+				<label for="<?= $block->id() ?>-<?= $option->indexOf() ?>"><?= $option->label()->or($option->value())->escape() ?></label>
 			</div>
 		<?php endforeach ?>
 	</div>

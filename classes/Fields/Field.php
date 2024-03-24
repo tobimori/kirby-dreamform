@@ -6,6 +6,7 @@ use Kirby\Cms\Block;
 use Kirby\Content\Field as ContentField;
 use Kirby\Exception\Exception;
 use Kirby\Toolkit\Str;
+use tobimori\DreamForm\Models\SubmissionPage;
 
 abstract class Field
 {
@@ -44,6 +45,14 @@ abstract class Field
 	}
 
 	/**
+	 * Returns the fields' error message from the block content
+	 */
+	public function errorMessage(string $key = 'errorMessage'): string
+	{
+		return $this->block()->{$key}()->isNotEmpty() ? $this->block()->{$key}() : t('dreamform.error-message-default');
+	}
+
+	/**
 	 * Returns the fields' value
 	 */
 	public function value(): ContentField
@@ -72,7 +81,14 @@ abstract class Field
 		return true;
 	}
 
-	// TODO: figure out what we need to run as sanitization by default
+	/**
+	 * Run logic after the form submission
+	 * e.g. for storing an uploaded file
+	 */
+	public function afterSubmit(SubmissionPage $submission): void
+	{
+	}
+
 	/**
 	 * Returns the sanitzed value of the field
 	 */
@@ -126,7 +142,7 @@ abstract class Field
 	 */
 	public static function group(): string
 	{
-		return 'fields';
+		return 'common-fields';
 	}
 
 	/**

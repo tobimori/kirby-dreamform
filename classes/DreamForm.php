@@ -34,7 +34,7 @@ final class DreamForm
 	 */
 	public static function guards(): array
 	{
-		$active = App::instance()->option('tobimori.dreamform.guards', ['csrf']);
+		$active = App::instance()->option('tobimori.dreamform.guards.available', ['csrf']);
 		$registered = static::$registeredGuards;
 
 		$guards = [];
@@ -71,7 +71,7 @@ final class DreamForm
 	 */
 	public static function fields(): array
 	{
-		$active = App::instance()->option('tobimori.dreamform.fields', true);
+		$active = App::instance()->option('tobimori.dreamform.fields.available', true);
 		$registered = static::$registeredFields;
 
 		$fields = [];
@@ -122,7 +122,7 @@ final class DreamForm
 	 */
 	public static function actions(): array
 	{
-		$active = App::instance()->option('tobimori.dreamform.actions', true);
+		$active = App::instance()->option('tobimori.dreamform.actions.available', true);
 		$registered = static::$registeredActions;
 
 		$actions = [];

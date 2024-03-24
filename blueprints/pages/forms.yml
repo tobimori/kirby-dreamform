@@ -5,6 +5,7 @@ image:
   back: '#fafafa'
 
 options:
+  create: false
   preview: false
   delete: false
   changeSlug: false

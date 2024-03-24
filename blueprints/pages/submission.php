@@ -25,6 +25,7 @@ return function () {
 			'query' => 'page.gravatar()'
 		],
 		'options' => [
+			'create' => false,
 			'preview' => false,
 			'changeSlug' => false,
 			'changeStatus' => false,

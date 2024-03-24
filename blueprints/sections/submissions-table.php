@@ -5,7 +5,7 @@ use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 
 return function () {
-	/** @var tobimori\DreamForm\Models\FormPage $page */
+	/** @var \tobimori\DreamForm\Models\FormPage $page */
 	$page = DreamForm::currentPage();
 
 	// this fixes some edge cases where the current page

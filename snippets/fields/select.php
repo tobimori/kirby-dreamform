@@ -2,12 +2,15 @@
 
 /**
  * @var \Kirby\Cms\Block $block
- * @var \DreamForm\Models\FormPage $form
+ * @var \tobimori\DreamForm\Fields\SelectField $field
+ * @var \tobimori\DreamForm\Models\FormPage $form
+ * @var \tobimori\DreamForm\Models\Submission|null $submission
  * @var array|null $input
  * @var array|null $error
  */
 
 use Kirby\Toolkit\A;
+use Kirby\Toolkit\Escape;
 
 ?>
 
@@ -25,9 +28,9 @@ use Kirby\Toolkit\A;
 		'required' => $required ?? null,
 	]) ?>>
 		<option value="" disabled selected hidden><?= $block->placeholder()->escape() ?></option>
-		<?php foreach ($block->options()->toStructure() as $option) : ?>
-			<option <?= attr(['value' => $option->value()]) ?>>
-				<?= $option->label()->escape() ?>
+		<?php foreach ($field->options() as $value => $label) : ?>
+			<option <?= attr(['value' => $value]) ?>>
+				<?= Escape::html($label) ?>
 			</option>
 		<?php endforeach ?>
 	</select>
