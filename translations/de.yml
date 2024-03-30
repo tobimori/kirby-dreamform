@@ -146,3 +146,17 @@ double-opt-in-help: Benötigt für eine DSGVO-konforme Anmeldung.
 # Multi-step forms
 next-page: Nächste Formularseite
 new-page: Neue Formularseite
+
+# License Activation
+activate-license: Lizenz aktivieren
+buy-license: Lizenz kaufen
+ready-to-activate: Bereit, Formularantworten auf deiner Website anzunehmen?
+submissions-demo-mode: Antworten werden im Demo-Modus nur von angemeldeten Benutzern akzeptiert.
+activate-plugin: DreamForm aktivieren
+license-notice-local: Du aktivierst DreamForm auf deiner lokalen Domain <strong>{{ domain }}</strong>. Wenn diese Website später auf einer öffentlichen Domain betrieben werden soll, warte bitte mit der Aktivierung.
+license-notice-default: Deine Lizenz wird für die Domain <strong>{{ domain }}</strong> aktiviert.
+enter-license-key: Gebe deinen Lizenzschlüssel ein
+license-key-help: Du findest deinen Lizenzschlüssel nach dem Kauf im Kontobereich der Website von <a target="_blank" href="https://plugins.andkindness.com/account">Love & Kindness</a>.
+invalid-email: Bitte gebe eine gültige E-Mail-Adresse ein.
+invalid-license: Bitte gebe einen gültigen Lizenzschlüssel ein.
+license-demo-error: Diese Seite nutzt DreamForm im Demo-Modus. Antworten werden daher nur von angemeldeten Benutzern akzeptiert.

@@ -15,6 +15,7 @@ use Kirby\Uuid\Uuid;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SilentPerformerException;
+use tobimori\DreamForm\Guards\LicenseGuard;
 use tobimori\DreamForm\Support\Htmx;
 
 class FormPage extends BasePage
@@ -156,6 +157,7 @@ class FormPage extends BasePage
 			$guards[] = new $guard($this);
 		}
 
+		$guards[] = new LicenseGuard($this);
 		return $this->guards = $guards;
 	}
 

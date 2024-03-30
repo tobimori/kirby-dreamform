@@ -51,7 +51,7 @@ final class Menu
 	public static function site()
 	{
 		return [
-			'current' => fn (string $id) => $id === 'site' && !str_contains(static::path(), static::formPath())
+			'current' => fn (string|null $id) => $id === 'site' && !str_contains(static::path(), static::formPath())
 		];
 	}
 }

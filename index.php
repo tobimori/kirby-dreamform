@@ -42,6 +42,8 @@ DreamForm::register(
 // register plugin
 App::plugin('tobimori/dreamform', [
 	'options' => require __DIR__ . '/config/options.php',
+	'sections' => require __DIR__ . '/config/sections.php',
+	'areas' => require __DIR__ . '/config/areas.php',
 	'pageModels' => [
 		'forms' => \tobimori\DreamForm\Models\FormsPage::class,
 		'form' => \tobimori\DreamForm\Models\FormPage::class,

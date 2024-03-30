@@ -23,20 +23,21 @@ tabs:
   forms:
     label: dreamform.all-forms
     icon: survey
-    columns:
-      main:
-        width: 3/4
-        sections:
-          forms:
-            label: dreamform.forms
-            type: pages
-            empty: dreamform.empty-forms
-            template: form
-            image: false
+    sections:
+      license:
+        type: dreamform-license
+      forms:
+        label: dreamform.forms
+        type: pages
+        empty: dreamform.empty-forms
+        template: form
+        image: false
   submissions:
     label: dreamform.recent-submissions
     icon: archive
     sections:
+      license:
+        type: dreamform-license
       submissions:
         label: dreamform.recent-submissions
         type: pages

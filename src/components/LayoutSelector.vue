@@ -29,7 +29,7 @@
           />
         </k-grid>
         <k-grid v-else>
-          <div class="dreamform-layout-selector-page">
+          <div class="df-layout-selector-page">
             <k-icon type="survey" />
             <span>
               {{ $t("dreamform.new-page") }}
@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss">
-.dreamform-layout-selector-page {
+.df-layout-selector-page {
   grid-column: span 12;
   background: var(--color-gray-200);
   height: 100%;

@@ -11,7 +11,7 @@ We can solve this by creating an entire custom field similar to https://github.c
     :data-selected="isSelected"
     class="k-layout"
     :class="{
-      'dreamform-layout-page': isPageIndicator,
+      'df-layout-page': isPageIndicator,
     }"
     tabindex="0"
     @click="$emit('select')"
@@ -35,7 +35,7 @@ We can solve this by creating an entire custom field similar to https://github.c
         "
       />
     </k-grid>
-    <div class="k-layout-columns dreamform-layout-column" v-else>
+    <div class="k-layout-columns df-layout-column" v-else>
       <k-icon type="survey" />
       {{ $t("dreamform.next-page") }}
     </div>
@@ -76,7 +76,7 @@ export default {
 </script>
 
 <style lang="scss">
-.dreamform-layout-page {
+.df-layout-page {
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -95,7 +95,7 @@ export default {
   }
 }
 
-.dreamform-layout-column {
+.df-layout-column {
   min-height: 2rem;
   display: flex;
   align-items: center;
@@ -120,7 +120,7 @@ body:has(.k-page-view[data-template="form"]) {
   }
 }
 
-.k-layout-dreamform-page .k-layout-column {
+.k-layout-df-page .k-layout-column {
   min-height: 4rem;
 }
 </style>

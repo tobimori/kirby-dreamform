@@ -6,6 +6,12 @@ return [
 	'cache' => [
 		'sessionless' => [
 			'active' => true,
+		],
+		'ratelimit' => [
+			'active' => true
+		],
+		'license' => [
+			'active' => true
 		]
 	],
 	'mode' => 'prg', // prg / api / htmx
