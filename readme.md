@@ -1,14 +1,10 @@
 # Kirby DreamForm ✨
 
-**_Form creation, validation & handling as smooth as a Warp Star Ride._** 💫
+**_The form builder plugin for Kirby CMS that makes forms just work like magic_** 💫
 
 Kirby DreamForm is an opiniated plugin for [Kirby CMS](https://getkirby.com/) that allows you to create forms with a layout builder interface. It's easy to expand and customize, and built with Kirby's native field types.
 
-## Sites using DreamForm
-
-- [Vierbeiner in Not](https://www.vierbeinerinnot.de/)
-- [Factory Campus](https://factorycampus.de/)
-- [Skyflow](https://www.flyskyflow.com/)
+Read more about DreamForm on the [official plugin website](https://plugins.andkindness.com/dreamform).
 
 ## Comparison
 
@@ -67,7 +63,7 @@ Kirby DreamForm is an opiniated plugin for [Kirby CMS](https://getkirby.com/) th
 
 ## License
 
-Kirby DreamForm is not free software. In order to run it on a public server, you'll have to purchase a valid Kirby license & a valid plugin license. Plugin licenses are tied to Kirby licenses.
+Kirby DreamForm is not free software. In order to run it on a public server, you'll have to purchase a valid Kirby license & a valid DreamForm license.
 
 Copyright 2024 © Tobias Möritz - Love & Kindness GmbH
 

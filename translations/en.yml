@@ -19,6 +19,11 @@ empty-form: No form selected
 duplicate-key: "This form can't be saved: The key \"{{ key }}\" is already used in this form."
 reserved-key: "This form can't be saved: The key \"{{ key }}\" is a reserved keyword."
 
+# Settings
+settings: Settings
+store-submissions: Store Submissions
+store-submissions-help: "Save the answers as a Kirby page. Certain fields and actions may not be available if this option is disabled. For more information, see the (link: https://plugins.andkindness.com/dreamform/docs/feature-tour/data-retention text: documentation)."
+
 # Categories
 common-fields: Common Fields
 advanced-fields: Advanced Fields

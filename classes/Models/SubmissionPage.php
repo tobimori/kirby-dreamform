@@ -297,7 +297,10 @@ class SubmissionPage extends BasePage
 	 */
 	public function saveSubmission(): static
 	{
-		if (App::instance()->option('tobimori.dreamform.storeSubmissions', true) !== true) {
+		if (
+			App::instance()->option('tobimori.dreamform.storeSubmissions', true) !== true
+			|| !$this->form()->storeSubmissions()->toBool()
+		) {
 			return $this;
 		}
 

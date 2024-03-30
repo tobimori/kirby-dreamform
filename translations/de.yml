@@ -20,6 +20,11 @@ empty-form: Kein Formular ausgewählt
 duplicate-key: "Das Formular konnte nicht gespeichert werden: Ein Feld mit dem Schlüssel \"{{ key }}\" existiert bereits."
 reserved-key: "Das Formular konnte nicht gespeichert werden: Der Schlüssel \"{{ key }}\" ist reserviert und kann nicht verwendet werden."
 
+# Settings
+settings: Einstellungen
+store-submissions: Antworten speichern
+store-submissions-help: "Speichere die Antworten als Kirby-Seite. Bestimmte Felder und Aktionen können möglicherweise nicht verwendet werden, wenn diese Option deaktiviert ist. Weitere Informationen findest du in der (link: https://plugins.andkindness.com/dreamform/docs/feature-tour/data-retention text: Dokumentation)."
+
 # Categories
 common-fields: Häufige Felder
 advanced-fields: Erweiterte Felder

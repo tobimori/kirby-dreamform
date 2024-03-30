@@ -125,6 +125,5 @@ if ($submission?->isFinished()) {
 				</div>
 			<?php endforeach ?>
 		</div>
-	<?php endforeach;
-snippet('dreamform/guards', ['form' => $form]) ?>
+	<?php endforeach; ?>
 </form>
