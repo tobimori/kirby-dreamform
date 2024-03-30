@@ -10,10 +10,7 @@
  */
 
 use Kirby\Toolkit\A;
-
-?>
-
-<?php
+use tobimori\DreamForm\Support\Htmx;
 
 if (
 	// Output guards before the last button field of the current step
@@ -26,7 +23,10 @@ if (
 
 snippet('dreamform/fields/partials/wrapper', compact('block', 'field', 'form', 'attr'), slots: true) ?>
 
-<button <?= attr(A::merge($attr['button'], ['type' => 'submit'])) ?>>
+<button <?= attr(A::merge($attr['button'], [
+	'type' => 'submit',
+	'hx-disabled-elt' => Htmx::isActive() ? 'this' : null
+])) ?>>
 	<?= $block->label()->escape() ?>
 </button>
 

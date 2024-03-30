@@ -25,6 +25,12 @@ return [
 	'guards' => [
 		'available' => ['honeypot', 'csrf'],
 		'honeypot.fields' => ['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject'],
+		'turnstile' => [
+			'theme' => 'auto',
+			'siteKey' => null,
+			'secretKey' => null,
+			'injectScript' => true
+		]
 	],
 	'actions' => [
 		'available' => true,

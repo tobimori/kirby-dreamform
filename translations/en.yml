@@ -22,7 +22,7 @@ reserved-key: "This form can't be saved: The key \"{{ key }}\" is a reserved key
 # Settings
 settings: Settings
 store-submissions: Store Submissions
-store-submissions-help: "Save the answers as a Kirby page. Certain fields and actions may not be available if this option is disabled. For more information, see the (link: https://plugins.andkindness.com/dreamform/docs/feature-tour/data-retention text: documentation)."
+store-submissions-help: "Save the answers as a Kirby page. Certain fields and actions may not be available if this option is disabled. For more information, see the (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention text: documentation)."
 
 # Categories
 common-fields: Common Fields

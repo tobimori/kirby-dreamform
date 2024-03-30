@@ -36,7 +36,8 @@ DreamForm::register(
 	\tobimori\DreamForm\Fields\PagesField::class,
 	\tobimori\DreamForm\Fields\SelectField::class,
 	\tobimori\DreamForm\Guards\CsrfGuard::class,
-	\tobimori\DreamForm\Guards\HoneypotGuard::class
+	\tobimori\DreamForm\Guards\HoneypotGuard::class,
+	\tobimori\DreamForm\Guards\TurnstileGuard::class
 );
 
 // register plugin
@@ -93,6 +94,7 @@ App::plugin('tobimori/dreamform', [
 		'dreamform/fields/partials/wrapper' => __DIR__ . '/snippets/fields/partials/wrapper.php',
 		'dreamform/guards/csrf' => __DIR__ . '/snippets/guards/csrf.php',
 		'dreamform/guards/honeypot' => __DIR__ . '/snippets/guards/honeypot.php',
+		'dreamform/guards/turnstile' => __DIR__ . '/snippets/guards/turnstile.php',
 	],
 	// get all files from /translations and register them as language files
 	'translations' => A::keyBy(

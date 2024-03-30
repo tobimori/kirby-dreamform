@@ -23,7 +23,7 @@ reserved-key: "Das Formular konnte nicht gespeichert werden: Der Schlüssel \"{{
 # Settings
 settings: Einstellungen
 store-submissions: Antworten speichern
-store-submissions-help: "Speichere die Antworten als Kirby-Seite. Bestimmte Felder und Aktionen können möglicherweise nicht verwendet werden, wenn diese Option deaktiviert ist. Weitere Informationen findest du in der (link: https://plugins.andkindness.com/dreamform/docs/feature-tour/data-retention text: Dokumentation)."
+store-submissions-help: "Speichere die Antworten als Kirby-Seite. Bestimmte Felder und Aktionen können möglicherweise nicht verwendet werden, wenn diese Option deaktiviert ist. Weitere Informationen findest du in der (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention text: Dokumentation)."
 
 # Categories
 common-fields: Häufige Felder
