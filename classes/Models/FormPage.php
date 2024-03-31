@@ -9,6 +9,7 @@ use Kirby\Cms\Layouts;
 use Kirby\Cms\Page;
 use Kirby\Content\Field;
 use Kirby\Data\Json;
+use Kirby\Http\Response;
 use Kirby\Http\Url;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
@@ -192,9 +193,10 @@ class FormPage extends BasePage
 					'success' => true,
 					'partial' => true,
 					'step' => 1,
-					'redirect' => null, // this is the redirect URL if the form was successful
+					'redirect' => null, // this is a redirect URL for the form
 					'error' => null, // this is a common error message for the whole form
 					'errors' => [], // this is an array of field-specific error messages
+					'actions' => []
 				],
 				'uuid' => $uuid,
 			]
@@ -264,7 +266,6 @@ class FormPage extends BasePage
 		if ($isFinalStep && $submission->isSuccessful()) {
 			try {
 				foreach ($submission->createActions() as $action) {
-					// TODO: log data for action log?
 					$action->run();
 				}
 			} catch (Exception $e) {
@@ -323,6 +324,12 @@ class FormPage extends BasePage
 					// if an error is thrown, this means the data must have been tampered with
 				} catch (Exception $e) {
 					return t('dreamform.generic-error');
+				}
+
+				if ($this->state()->get('redirect')->value()) {
+					return new Response('', null, 200, [
+						'Hx-Redirect' => $this->state()->get('redirect')->value()
+					]);
 				}
 
 				// Inject these variables in all snippets

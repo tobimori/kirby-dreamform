@@ -36,12 +36,11 @@ class RedirectAction extends Action
 		];
 	}
 
-	public function run()
+	public function run(): void
 	{
 		$redirect = $this->block()->redirectTo()->toUrl();
-
-		return [
-			'redirect' => $redirect
-		];
+		if ($redirect) {
+			$this->submission()->setRedirect($redirect);
+		}
 	}
 }

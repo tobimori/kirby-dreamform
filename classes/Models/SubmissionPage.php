@@ -212,6 +212,26 @@ class SubmissionPage extends BasePage
 		return $this;
 	}
 
+	/**
+	 * Returns the action state
+	 */
+	public function actionState(): Content
+	{
+		return $this->state()->actions()->toObject();
+	}
+
+	/**
+	 * Sets the action state of the submission
+	 */
+	public function setActionState(array $data): static
+	{
+		$state = $this->state()->toArray();
+		$state['actions'] = A::merge($state['actions'], $data);
+
+		$this->content = $this->content()->update(['dreamform_state' => $state]);
+
+		return $this;
+	}
 
 	/**
 	 * Returns a Response that redirects the user to the URL set in the submission state

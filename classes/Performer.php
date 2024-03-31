@@ -48,7 +48,7 @@ abstract class Performer
 	/**
 	 * Run the action
 	 */
-	abstract public function run();
+	abstract public function run(): void;
 
 	/**
 	 * Returns true if the performer is available

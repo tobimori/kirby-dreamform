@@ -2,8 +2,6 @@
 
 namespace tobimori\DreamForm\Actions;
 
-use Kirby\Toolkit\Str;
-
 /**
  * Action for conditionally running other actions.
  * @package tobimori\DreamForm\Actions
@@ -123,22 +121,11 @@ class ConditionalAction extends Action
 		return true;
 	}
 
-	public function run(): array|null
+	public function run(): void
 	{
-		$data = null;
 		$collection = $this->conditionsMet() ? $this->block()->thatActions() : $this->block()->elseActions();
 		foreach ($this->submission()->createActions($collection->toBlocks()) as $action) {
-			$actionData = $action->run();
-
-			if ($actionData) {
-				$data ??= ['actions' => []];
-				$data['actions'][] = [
-					'type' => Str::replace($action->action()->type(), '-action', ''),
-					...$actionData
-				];
-			}
+			$action->run();
 		}
-
-		return $data;
 	}
 }
