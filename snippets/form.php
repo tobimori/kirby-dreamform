@@ -74,6 +74,9 @@ $attr = A::merge([
 		'input' => [],
 		'row' => []
 	],
+	'hidden' => [
+		'input' => []
+	],
 ], $attr ?? []);
 
 // don't show the form if it's a draft

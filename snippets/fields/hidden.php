@@ -1,13 +1,21 @@
 <?php
 
 /**
+ * @var \tobimori\DreamForm\Models\Submission|null $submission
+ *
  * @var \Kirby\Cms\Block $block
+ * @var \tobimori\DreamForm\Fields\HiddenField $field
  * @var \tobimori\DreamForm\Models\FormPage $form
- */ ?>
+ * @var array $attr
+ */
 
-<input <?= attr([
+use Kirby\Toolkit\A;
+
+$attr = A::merge($attr, $attr['hidden']); ?>
+
+<input <?= attr(A::merge($attr['input'], [
 	'type' => 'hidden',
 	'id' => $block->id(),
 	'name' => $block->key(),
 	'value' => $form->valueFor($block->key())
-]) ?>>
+])) ?>>
