@@ -134,7 +134,7 @@ class FormPage extends BasePage
 				}
 			}
 
-			$steps[] = new Collection($fields, []);
+			$steps[] = new Collection($fields);
 		}
 
 		$this->fields = $steps;

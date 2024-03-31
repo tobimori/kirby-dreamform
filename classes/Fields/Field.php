@@ -59,7 +59,7 @@ abstract class Field
 	public function value(): ContentField
 	{
 		if (!$this->value) {
-			return new Exception('Field value is not set');
+			throw new Exception('Field value is not set');
 		}
 
 		return $this->value;
