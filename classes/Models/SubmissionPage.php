@@ -8,6 +8,7 @@ use Kirby\Cms\App;
 use Kirby\Cms\Blocks;
 use Kirby\Cms\Collection;
 use Kirby\Cms\File;
+use Kirby\Cms\Page;
 use Kirby\Cms\Responder;
 use Kirby\Content\Content;
 use Kirby\Content\Field;
@@ -30,6 +31,14 @@ class SubmissionPage extends BasePage
 	public function referer(): string|null
 	{
 		return $this->content()->get('dreamform_referer')->value();
+	}
+
+	/**
+	 * Looks up the referer as page in the site structure
+	 */
+	public function findRefererPage(): Page|null
+	{
+		return DreamForm::findPageOrDraftRecursive($this->referer());
 	}
 
 	/**

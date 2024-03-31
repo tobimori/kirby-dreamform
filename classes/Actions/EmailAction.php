@@ -6,6 +6,7 @@ use Kirby\Cms\App;
 use Kirby\Cms\Email as CmsEmail;
 use Kirby\Cms\User;
 use Kirby\Email\Email;
+use Kirby\Toolkit\A;
 
 /**
  * Action for sending an email with the submission data.
@@ -144,6 +145,17 @@ class EmailAction extends Action
 		return $this::from()->email();
 	}
 
+	protected function templateValues(): array
+	{
+		return A::merge(
+			$this->submission()->values()->toArray(),
+			[
+				'page' => $this->submission()->findRefererPage(),
+				'submission' => $this->submission(),
+				'form' => $this->submission()->form(),
+			]
+		);
+	}
 
 	public function body(): array|null
 	{
@@ -153,7 +165,7 @@ class EmailAction extends Action
 
 		$html = $this->submission()->toString(
 			$this->block()->fieldTemplate()->value(),
-			$this->submission()->values()->toArray()
+			$this->templateValues()
 		);
 
 		return [
@@ -166,7 +178,7 @@ class EmailAction extends Action
 	{
 		return $this->submission()->toString(
 			$this->block()->subject()->value(),
-			$this->submission()->values()->toArray()
+			$this->templateValues()
 		);
 	}
 
@@ -187,6 +199,7 @@ class EmailAction extends Action
 
 	public function run(): void
 	{
+		ray($this->submission()->findRefererPage());
 		try {
 			App::instance()->email([
 				'template' => $this->template(),
