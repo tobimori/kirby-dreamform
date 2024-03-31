@@ -326,9 +326,9 @@ class FormPage extends BasePage
 					return t('dreamform.generic-error');
 				}
 
-				if ($this->state()->get('redirect')->value()) {
+				if ($submission->state()->get('redirect')->value()) {
 					return new Response('', null, 200, [
-						'Hx-Redirect' => $this->state()->get('redirect')->value()
+						'Hx-Redirect' => $submission->state()->get('redirect')->value()
 					]);
 				}
 
