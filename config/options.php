@@ -30,6 +30,10 @@ return [
 			'siteKey' => null,
 			'secretKey' => null,
 			'injectScript' => true
+		],
+		'ratelimit' => [
+			'limit' => 10,
+			'interval' => 3
 		]
 	],
 	'actions' => [

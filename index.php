@@ -37,7 +37,8 @@ DreamForm::register(
 	\tobimori\DreamForm\Fields\SelectField::class,
 	\tobimori\DreamForm\Guards\CsrfGuard::class,
 	\tobimori\DreamForm\Guards\HoneypotGuard::class,
-	\tobimori\DreamForm\Guards\TurnstileGuard::class
+	\tobimori\DreamForm\Guards\TurnstileGuard::class,
+	\tobimori\DreamForm\Guards\RatelimitGuard::class
 );
 
 // register plugin

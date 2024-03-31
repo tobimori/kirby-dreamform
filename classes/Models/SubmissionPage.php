@@ -367,7 +367,7 @@ class SubmissionPage extends BasePage
 		}
 
 		if (!$this->exists()) {
-			$kirby->cache('tobimori.dreamform.sessionless')->set($this->uuid()->toString(), serialize($this));
+			$kirby->cache('tobimori.dreamform.sessionless')->set($this->uuid()->toString(), serialize($this), 60 * 24);
 		}
 
 		return static::$session = $this;

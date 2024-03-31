@@ -10,12 +10,22 @@ class TurnstileGuard extends Guard
 {
 	public static function siteKey(): string|null
 	{
-		return App::instance()->option('tobimori.dreamform.guards.turnstile.siteKey');
+		$option = App::instance()->option('tobimori.dreamform.guards.turnstile.siteKey');
+		if (is_callable($option)) {
+			return $option();
+		}
+
+		return $option;
 	}
 
 	protected static function secretKey(): string|null
 	{
-		return App::instance()->option('tobimori.dreamform.guards.turnstile.secretKey');
+		$option = App::instance()->option('tobimori.dreamform.guards.turnstile.secretKey');
+		if (is_callable($option)) {
+			return $option();
+		}
+
+		return $option;
 	}
 
 	public function run(): void

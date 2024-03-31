@@ -5,6 +5,8 @@ error-message-default: Dieses Feld muss ausgefüllt werden.
 generic-error: Etwas ist schiefgelaufen. Bitte versuche es später noch einmal.
 csrf-error: Beim Absenden des Formulars ist ein Fehler aufgetreten. Bitte lade die Seite neu und versuche es erneut.
 honeypot-error: Das Honeypot-Feld wurde ausgefüllt und die Antwort wurde nicht gesendet.
+captcha-error: Das Captcha wurde nicht korrekt ausgefüllt. Bitte versuche es erneut.
+ratelimit-error: Du hast das Formular zu häufig abgeschickt. Bitte warte einen Moment und versuche es erneut.
 
 # Forms
 form: Formular
