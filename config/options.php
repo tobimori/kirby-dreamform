@@ -40,6 +40,12 @@ return [
 		'available' => true,
 		'discord.webhook' => null, // Default webhook URL
 		'mailchimp.apiKey' => null, // Mailchimp API key
+		'email' => [
+			'from' => [
+				'email' => fn () => App::instance()->option('email.transport.username'),
+				'name' => fn () => App::instance()->site()->title()
+			]
+		]
 	],
 	'fields' => [
 		'available' => true,

@@ -4,7 +4,6 @@ namespace tobimori\DreamForm\Actions;
 
 /**
  * Action for aborting the submission process.
- * @package tobimori\DreamForm\Actions
  */
 class AbortAction extends Action
 {

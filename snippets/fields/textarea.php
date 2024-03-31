@@ -20,7 +20,7 @@ snippet('dreamform/fields/partials/label', $arguments); ?>
 	'name' => $block->key(),
 	'placeholder' => $block->placeholder()->or(" "),
 	'required' => $required ?? null,
-])) ?>><?= $form->valueFor($block->key())->escape() ?></textarea>
+])) ?>><?= $form->valueFor($block->key())?->escape() ?></textarea>
 
 <?php snippet('dreamform/fields/partials/error', $arguments);
 endsnippet() ?>

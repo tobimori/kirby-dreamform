@@ -4,7 +4,6 @@ namespace tobimori\DreamForm\Actions;
 
 /**
  * Action for conditionally running other actions.
- * @package tobimori\DreamForm\Actions
  */
 class ConditionalAction extends Action
 {

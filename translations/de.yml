@@ -111,6 +111,7 @@ template-type: Vorlagentyp
 template-type-default: Standardvorlage
 template-type-kirby: Kirby-Template
 template-type-field: Benutzerdefiniertes Template
+new-form-submission-for: Du hast eine neue Formularantwort für dein Formular {{ form }} erhalten.
 
 # Conditional Action
 conditional-action: Bedingte Aktion

@@ -7,9 +7,6 @@ use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 
-/**
- * @package tobimori\DreamForm\Actions
- */
 class MailchimpAction extends Action
 {
 	public static function blueprint(): array

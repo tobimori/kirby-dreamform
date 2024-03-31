@@ -4,8 +4,6 @@ namespace tobimori\DreamForm\Actions;
 
 /**
  * Action for redirecting the user to a success page after submitting.
- *
- * @package tobimori\DreamForm\Actions
  */
 class RedirectAction extends Action
 {

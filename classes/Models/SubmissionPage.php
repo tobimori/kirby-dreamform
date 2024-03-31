@@ -71,7 +71,9 @@ class SubmissionPage extends BasePage
 	{
 		$values = [];
 		foreach ($this->form()->fields() as $field) {
-			$values[$field->key()] = $this->valueFor($field->key());
+			if ($field::hasValue()) {
+				$values[$field->key()] = $this->valueFor($field->key());
+			}
 		}
 
 		return new Content($values, $this);

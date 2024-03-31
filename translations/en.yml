@@ -110,6 +110,7 @@ template-type: Template Type
 template-type-default: Default Template
 template-type-kirby: Kirby Template
 template-type-field: Custom Template
+new-form-submission-for: You have received a new form submission for your form "{{ form }}".
 
 # Conditional Action
 conditional-action: Conditional Action

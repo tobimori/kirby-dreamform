@@ -2,13 +2,13 @@
 
 namespace tobimori\DreamForm\Actions;
 
+use Kirby\Cms\App;
+use Kirby\Cms\Email as CmsEmail;
 use Kirby\Cms\User;
-use Kirby\Toolkit\A;
+use Kirby\Email\Email;
 
 /**
  * Action for sending an email with the submission data.
- *
- * @package tobimori\DreamForm\Actions
  */
 class EmailAction extends Action
 {
@@ -81,7 +81,7 @@ class EmailAction extends Action
 							'required' => true,
 							'default' => 'field',
 							'options' => [
-								//'default' => t('dreamform.template-type-default'),
+								'default' => t('dreamform.template-type-default'),
 								'kirby' => t('dreamform.template-type-kirby'),
 								'field' => t('dreamform.template-type-field')
 							],
@@ -141,7 +141,7 @@ class EmailAction extends Action
 			return $static->value();
 		}
 
-		return kirby()->option('email.transport.username');
+		return $this::from()->email();
 	}
 
 
@@ -170,23 +170,39 @@ class EmailAction extends Action
 		);
 	}
 
+	public static function from(): User
+	{
+		$name = App::instance()->option('tobimori.dreamform.actions.email.from.name');
+		if (is_callable($name)) {
+			$name = $name();
+		}
+
+		$email = App::instance()->option('tobimori.dreamform.actions.email.from.email');
+		if (is_callable($email)) {
+			$email = $email();
+		}
+
+		return new User(compact('name', 'email'));
+	}
+
 	public function run(): void
 	{
-		kirby()->email([
-			'template' => $this->template(),
-			'from' => new User([
-				'name' => site()->title(),
-				'email' => option('tobimori.dreamform.email', option('email.transport.username'))
-			]),
-			'replyTo' => $this->replyTo(),
-			'to' => $this->to(),
-			'subject' => $this->subject(),
-			'body' => $this->body(),
-			'data' => [
-				'action' => $this,
-				'submission' => $this->submission(),
-				'form' => $this->submission()->form(),
-			],
-		]);
+		try {
+			App::instance()->email([
+				'template' => $this->template(),
+				'from' => $this::from(),
+				'replyTo' => $this->replyTo(),
+				'to' => $this->to(),
+				'subject' => $this->subject(),
+				'body' => $this->body(),
+				'data' => [
+					'action' => $this,
+					'submission' => $this->submission(),
+					'form' => $this->submission()->form(),
+				],
+			]);
+		} catch (\Exception $e) {
+			$this->cancel($e->getMessage());
+		}
 	}
 }

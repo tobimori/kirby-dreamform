@@ -1,6 +1,7 @@
 {
 	"private": true,
 	"scripts": {
+		"mjml": "mjml templates/emails/dreamform.mjml -o templates/emails/dreamform.html.php",
 		"dev": "kirbyup serve src/index.js",
 		"build": "kirbyup src/index.js"
 	},

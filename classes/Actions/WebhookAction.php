@@ -7,8 +7,6 @@ use Throwable;
 
 /**
  * Action for sending webhooks, e.g. for use with Zapier.
- *
- * @package tobimori\DreamForm\Actions
  */
 class WebhookAction extends Action
 {

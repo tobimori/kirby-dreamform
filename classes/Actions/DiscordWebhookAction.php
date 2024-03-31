@@ -9,8 +9,6 @@ use Throwable;
 
 /**
  * Action for sending a message in a discord channel.
- *
- * @package tobimori\DreamForm\Actions
  */
 class DiscordWebhookAction extends Action
 {
