@@ -449,7 +449,7 @@ class SubmissionPage extends BasePage
 	public static function fromSessionlessCache(): SubmissionPage|null
 	{
 		$kirby = App::instance();
-		if ($kirby->option('tobimori.dreamform.mode', 'prg') === 'prg' || !Htmx::isHtmxRequest()) {
+		if ($kirby->option('tobimori.dreamform.mode', 'prg') === 'prg' && !Htmx::isHtmxRequest()) {
 			return static::fromSession();
 		}
 
