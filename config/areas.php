@@ -17,7 +17,7 @@ return [
 							'domain' => [
 								'label' => t('dreamform.activate-plugin'),
 								'type' => 'info',
-								'theme' => $isLocal = App::instance()->system()->isLocal() ? 'warning' : 'info',
+								'theme' => ($isLocal = App::instance()->system()->isLocal()) ? 'warning' : 'info',
 								'text' => tt(
 									'dreamform.license-notice-' . ($isLocal ? 'local' : 'default'),
 									['domain' => App::instance()->system()->indexUrl()]
