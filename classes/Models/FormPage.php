@@ -313,7 +313,7 @@ class FormPage extends BasePage
 			// if dreamform is used in API mode, return the submission state as JSON
 			if ($mode === 'api') {
 				$kirby->response()->code($submission->isSuccessful() ? 200 : 400);
-				return Json::encode($submission->state()->toArray());
+				return json_encode($submission->state()->toArray(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT);
 			}
 
 			// if dreamform is used in htmx mode, return the enhanced HTML
