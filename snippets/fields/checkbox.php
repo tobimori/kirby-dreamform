@@ -20,7 +20,11 @@ if (!is_array($previousValue)) {
 }
 
 $attr = A::merge($attr, $attr[$type]);
-snippet('dreamform/fields/partials/wrapper', $arguments = compact('block', 'field', 'form', 'attr'), slots: true); ?>
+snippet('dreamform/fields/partials/wrapper', $arguments = compact('block', 'field', 'form', 'attr'), slots: true);
+
+if ($block->label()->isNotEmpty()) {
+	snippet('dreamform/fields/partials/label', $arguments);
+} ?>
 
 <?php foreach ($block->options()->toStructure() as $option) : ?>
 	<div <?= attr($attr[$type]['row'] ?? []) ?>>

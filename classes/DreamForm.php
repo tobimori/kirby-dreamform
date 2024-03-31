@@ -3,11 +3,13 @@
 namespace tobimori\DreamForm;
 
 use Kirby\Cms\App;
+use Kirby\Cms\Block;
 use Kirby\Cms\Page;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\Actions\Action;
 use tobimori\DreamForm\Fields\Field;
 use tobimori\DreamForm\Guards\Guard;
+use tobimori\DreamForm\Models\FormPage;
 
 final class DreamForm
 {
@@ -69,7 +71,7 @@ final class DreamForm
 	/**
 	 * Returns all registered and active field classes
 	 */
-	public static function fields(): array
+	public static function fields(FormPage|null $formPage = null): array
 	{
 		$active = App::instance()->option('tobimori.dreamform.fields.available', true);
 		$registered = static::$registeredFields;
@@ -80,7 +82,7 @@ final class DreamForm
 				continue;
 			}
 
-			if (!$field::isAvailable()) {
+			if (!$field::isAvailable($formPage)) {
 				continue;
 			}
 
@@ -93,15 +95,15 @@ final class DreamForm
 	/**
 	 * Create a field instance from the registered fields
 	 */
-	public static function field(string $type, mixed ...$data): Field|null
+	public static function field(string $type, Block $block, FormPage|null $formPage = null): Field|null
 	{
-		$fields = DreamForm::fields();
+		$fields = DreamForm::fields($formPage);
 		if (!key_exists($type, $fields)) {
 			return null;
 		}
 
 		$field = static::$registeredFields[$type];
-		return new $field(...$data);
+		return new $field($block);
 	}
 
 	/**

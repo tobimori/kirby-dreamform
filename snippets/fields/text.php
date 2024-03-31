@@ -25,7 +25,7 @@ snippet('dreamform/fields/partials/label', $arguments); ?>
 	'id' => $block->id(),
 	'name' => $block->key(),
 	'placeholder' => $type !== 'file' ? $block->placeholder()->or(" ") : null,
-	'required' => $required ?? null,
+	'required' => $block->required()->toBool() ?? null,
 	'value' => $type !== 'file' ? $form->valueFor($block->key()) : null
 ], $input ?? [])) ?>>
 

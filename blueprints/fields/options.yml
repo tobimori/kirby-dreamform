@@ -1,6 +1,5 @@
 label: dreamform.options
 type: structure
-width: 5/6
 fields:
   value:
     label: dreamform.value

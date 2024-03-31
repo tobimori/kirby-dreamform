@@ -7,6 +7,7 @@ use Kirby\Content\Field as ContentField;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
+use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
 
 class FileUploadField extends Field
@@ -107,6 +108,10 @@ class FileUploadField extends Field
 	{
 		$file = App::instance()->request()->files()->get($this->key());
 
+		if (!$file) {
+			return new ContentField($value->parent(), $this->key(), []);
+		}
+
 		if (!array_is_list($file)) {
 			$file = [$file];
 		}
@@ -151,11 +156,12 @@ class FileUploadField extends Field
 	/**
 	 * Get the file from the submission
 	 */
-	public static function isAvailable(): bool
+	public static function isAvailable(FormPage|null $formPage = null): bool
 	{
-		return
-			App::instance()->option('tobimori.dreamform.storeSubmissions', true) === true
-			&& DreamForm::currentPage()?->storeSubmissions()->toBool();
+		$formPage ??= DreamForm::currentPage();
+
+		return App::instance()->option('tobimori.dreamform.storeSubmissions', true) === true
+			&& $formPage?->storeSubmissions()->toBool();
 	}
 
 	public function submissionBlueprint(): array|null

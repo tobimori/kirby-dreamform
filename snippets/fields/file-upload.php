@@ -17,6 +17,6 @@ snippet('dreamform/fields/text', [
 	'type' => 'file',
 	'input' => [
 		'name' => $block->key() . ($block->allowMultiple()->toBool() ? '[]' : ''),
-		$block->allowMultiple()->toBool() ? 'multiple' : null,
+		$block->allowMultiple()->toBool() ? 'multiple' : '',
 	]
 ]);

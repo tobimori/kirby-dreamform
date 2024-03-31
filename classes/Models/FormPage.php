@@ -127,7 +127,7 @@ class FormPage extends BasePage
 			foreach ($stepLayout->toBlocks() as $block) {
 				$type = Str::replace($block->type(), '-field', '');
 
-				$field = DreamForm::field($type, $block);
+				$field = DreamForm::field($type, $block, $this);
 				if ($field) {
 					$fields[] = $field;
 				}

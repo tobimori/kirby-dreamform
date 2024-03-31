@@ -8,7 +8,7 @@ class RadioField extends Field
 	{
 		return [
 			'title' => t('dreamform.radio-field'),
-			'label' => '{{ key }}',
+			'label' => '{{ label }}',
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'circle-nested',
@@ -16,9 +16,11 @@ class RadioField extends Field
 				'field' => [
 					'label' => t('dreamform.field'),
 					'fields' => [
-						'key' => [
-							'extends' => 'dreamform/fields/key',
-							'wizard' => false
+						'key' => 'dreamform/fields/key',
+						'label' => [
+							'extends' => 'dreamform/fields/label',
+							'width' => '5/6',
+							'required' => false
 						],
 						'options' => 'dreamform/fields/options',
 					]

@@ -6,6 +6,7 @@ use Kirby\Cms\Block;
 use Kirby\Content\Field as ContentField;
 use Kirby\Exception\Exception;
 use Kirby\Toolkit\Str;
+use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
 
 abstract class Field
@@ -150,7 +151,7 @@ abstract class Field
 	 *
 	 * Use this to disable fields based on configuration or other factors
 	 */
-	public static function isAvailable(): bool
+	public static function isAvailable(FormPage|null $form = null): bool
 	{
 		return true;
 	}
