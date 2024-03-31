@@ -32,6 +32,7 @@ return function () {
 			'duplicate' => false,
 			'changeTitle' => false,
 			'update' => false,
+			'move' => false
 		],
 		'status' => [
 			'draft' => false,

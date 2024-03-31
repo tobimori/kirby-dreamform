@@ -17,6 +17,7 @@ use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SilentPerformerException;
 use tobimori\DreamForm\Guards\LicenseGuard;
+use tobimori\DreamForm\Permissions\FormPermissions;
 use tobimori\DreamForm\Support\Htmx;
 
 class FormPage extends BasePage
@@ -488,5 +489,13 @@ class FormPage extends BasePage
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Returns the modified permissions object for the forms
+	 */
+	public function permissions(): FormPermissions
+	{
+		return new FormPermissions($this);
 	}
 }

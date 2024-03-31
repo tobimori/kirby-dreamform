@@ -19,6 +19,7 @@ use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\Field as FormField;
+use tobimori\DreamForm\Permissions\SubmissionPermissions;
 use tobimori\DreamForm\Support\Htmx;
 
 class SubmissionPage extends BasePage
@@ -564,5 +565,22 @@ class SubmissionPage extends BasePage
 		]);
 
 		return null;
+	}
+
+	/**
+	 * Permissions check for the submission page
+	 */
+	public function isAccessible(): bool
+	{
+		if (!App::instance()->user()->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions')) {
+			return false;
+		}
+
+		return parent::isAccessible();
+	}
+
+	public function permissions(): SubmissionPermissions
+	{
+		return new SubmissionPermissions($this);
 	}
 }

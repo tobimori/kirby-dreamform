@@ -2,7 +2,9 @@
 
 namespace tobimori\DreamForm\Models;
 
+use Kirby\Cms\App;
 use Kirby\Cms\Page;
+use Kirby\Cms\PagePermissions;
 use Kirby\Content\Field;
 
 class BasePage extends Page
@@ -31,5 +33,17 @@ class BasePage extends Page
 	public function title(): Field
 	{
 		return new Field($this, 'title', t("dreamform.{$this->intendedTemplate()->name()}"));
+	}
+
+	/**
+	 * Basic permissions for all pages
+	 */
+	public function isAccessible(): bool
+	{
+		if (!App::instance()->user()->role()->permissions()->for('tobimori.dreamform', 'accessForms')) {
+			return false;
+		}
+
+		return parent::isAccessible();
 	}
 }

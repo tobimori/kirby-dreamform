@@ -46,6 +46,17 @@ App::plugin('tobimori/dreamform', [
 	'options' => require __DIR__ . '/config/options.php',
 	'sections' => require __DIR__ . '/config/sections.php',
 	'areas' => require __DIR__ . '/config/areas.php',
+	'permissions' => [
+		'accessForms' => true,
+		'createForms' => true,
+		'updateForms' => true,
+		'deleteForms' => true,
+		'duplicateForms' => true,
+		'changeFormTitle' => true,
+		'changeFormStatus' => true,
+		'accessSubmissions' => true,
+		'deleteSubmissions' => true,
+	],
 	'pageModels' => [
 		'forms' => \tobimori\DreamForm\Models\FormsPage::class,
 		'form' => \tobimori\DreamForm\Models\FormPage::class,
@@ -55,11 +66,11 @@ App::plugin('tobimori/dreamform', [
 	'blockMethods' => require_once __DIR__ . '/config/blockMethods.php',
 	'blueprints' => [
 		'files/dreamform-upload' => __DIR__ . '/blueprints/files/dreamform-upload.yml',
-		'pages/forms' => __DIR__ . '/blueprints/pages/forms.yml',
-		'pages/form' => __DIR__ . '/blueprints/pages/form.yml',
+		'pages/forms' => require_once __DIR__ . '/blueprints/pages/forms.php',
+		'pages/form' => require_once __DIR__ . '/blueprints/pages/form.php',
 		'pages/submission' => require_once __DIR__ . '/blueprints/pages/submission.php',
 
-		'dreamform/sections/submissions-table' => require_once __DIR__ . '/blueprints/sections/submissions-table.php',
+		'dreamform/tabs/form-submissions' => require_once __DIR__ . '/blueprints/tabs/form-submissions.php',
 		'dreamform/fields/options' => __DIR__ . '/blueprints/fields/options.yml',
 		'dreamform/fields/key' => __DIR__ . '/blueprints/fields/key.yml',
 		'dreamform/fields/label' => __DIR__ . '/blueprints/fields/label.yml',
