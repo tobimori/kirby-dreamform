@@ -9,10 +9,12 @@
  * @var array $attr
  */
 
+use Kirby\Toolkit\A;
+
 snippet('dreamform/fields/text', [
 	'block' => $block,
 	'form' => $form,
 	'field' => $field,
-	'attr' => $attr,
+	'attr' => A::merge($attr, $attr['input']),
 	'type' => 'email'
 ]);
