@@ -106,11 +106,7 @@ class FileUploadField extends Field
 	// abusing the sanitize method to get the file from the request
 	protected function sanitize(ContentField $value): ContentField
 	{
-		$file = App::instance()->request()->files()->get($this->key());
-
-		if (!$file) {
-			return new ContentField($value->parent(), $this->key(), []);
-		}
+		$file = App::instance()->request()->files()->get($this->key()) ?? [];
 
 		if (!array_is_list($file)) {
 			$file = [$file];
@@ -134,7 +130,13 @@ class FileUploadField extends Field
 		$pageFiles = [];
 		($kirby = App::instance())->impersonate('kirby');
 		foreach ($files as $file) {
-			$pageFiles[] = $submission->createFile([
+			$file = App::instance()->apply(
+				'dreamform.upload:before',
+				['file' => $file, 'field' => $this],
+				'file'
+			);
+
+			$file = $submission->createFile([
 				'source' => $file['tmp_name'],
 				'filename' => F::safeName($file['name']),
 				'template' => 'dreamform-upload',
@@ -142,6 +144,14 @@ class FileUploadField extends Field
 					'date' => date('Y-m-d H:i:s'),
 				]
 			]);
+
+			$file = App::instance()->apply(
+				'dreamform.upload:after',
+				['file' => $file, 'field' => $this],
+				'file'
+			);
+
+			$pageFiles[] = $file;
 		}
 		$kirby->impersonate();
 
