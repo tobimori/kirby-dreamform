@@ -9,7 +9,7 @@ class TextField extends Field
 		return [
 			'title' => t('dreamform.text-field'),
 			'label' => '{{ label }}',
-			'preview' => 'fields',
+			'preview' => 'text-field',
 			'wysiwyg' => true,
 			'icon' => 'title',
 			'tabs' => [

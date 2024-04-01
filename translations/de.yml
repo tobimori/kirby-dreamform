@@ -7,6 +7,7 @@ csrf-error: Beim Absenden des Formulars ist ein Fehler aufgetreten. Bitte lade d
 honeypot-error: Das Honeypot-Feld wurde ausgefüllt und die Antwort wurde nicht gesendet.
 captcha-error: Das Captcha wurde nicht korrekt ausgefüllt. Bitte versuche es erneut.
 ratelimit-error: Du hast das Formular zu häufig abgeschickt. Bitte warte einen Moment und versuche es erneut.
+submit: Absenden
 
 # Forms
 form: Formular
@@ -51,6 +52,7 @@ required-off: Nein, optional
 required-on: Ja, Pflichtfeld
 value: Wert
 key: Schlüssel
+hidden-field-key-placeholder: URL-Query-Parameter (z.B. "ref", "utm_campaign")
 
 # Field Types
 text-field: Text

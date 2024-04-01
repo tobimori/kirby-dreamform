@@ -6,6 +6,7 @@ generic-error: Something went wrong. Please try again later.
 honeypot-error: The honeypot field was filled and the answer wasn't sent.
 captcha-error: The captcha wasn't filled out correctly. Please try again.
 ratelimit-error: You've submitted the form too often. Please wait a moment and try again.
+submit: Submit
 
 # Forms
 form: Form
@@ -50,6 +51,7 @@ required-off: No, optional
 required-on: Yes, required
 value: Value
 key: Key
+hidden-field-key-placeholder: URL query parameter (e.g. "ref", "utm_campaign")
 
 # Field Types
 text-field: Text

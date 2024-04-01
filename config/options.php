@@ -22,6 +22,7 @@ return [
 		'1/1', '1/2, 1/2'
 	],
 	'page' => 'page://forms', // Slug or URI to the page where the forms are located
+	'secret' => null, // Encryption secret for htmx attributes
 	'guards' => [
 		'available' => ['honeypot', 'csrf'],
 		'honeypot.fields' => ['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject'],

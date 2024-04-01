@@ -4,6 +4,7 @@ import LayoutSelector from "./components/LayoutSelector.vue";
 import "./index.scss";
 
 panel.plugin("tobimori/dreamform", {
+	blocks: kirbyup.import("./previews/*.vue"),
 	icons: {
 		dreamform: `<path fill="#1B4493" d="M3 1.5h4.5l16.5 9v3l-16.5 9H3l1.5-9H12v-3H4.5L3 1.5Z"/>`,
 		survey: `<path d="M17 2V4H20.0066C20.5552 4 21 4.44495 21 4.9934V21.0066C21 21.5552 20.5551 22 20.0066 22H3.9934C3.44476 22 3 21.5551 3 21.0066V4.9934C3 4.44476 3.44495 4 3.9934 4H7V2H17ZM7 6H5V20H19V6H17V8H7V6ZM9 16V18H7V16H9ZM9 13V15H7V13H9ZM9 10V12H7V10H9ZM15 4H9V6H15V4Z"></path>`,

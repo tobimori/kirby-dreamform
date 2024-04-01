@@ -10,7 +10,7 @@ class ButtonField extends Field
 			'title' => t('dreamform.button-field'),
 			'label' => '{{ label }}',
 			'icon' => 'ticket',
-			'preview' => 'fields',
+			'preview' => 'button-field',
 			'wysiwyg' => true,
 			'tabs' => [
 				'settings' => [
@@ -18,7 +18,9 @@ class ButtonField extends Field
 					'fields' => [
 						'label' => [
 							'extends' => 'dreamform/fields/label',
-							'width' => 1
+							'width' => 1,
+							'required' => false,
+							'placeholder' => t('dreamform.submit')
 						],
 					]
 				]

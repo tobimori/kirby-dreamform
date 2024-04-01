@@ -9,5 +9,8 @@
 		"kirbyup": "^3.1.5",
 		"mjml": "^4.15.3",
 		"sass": "^1.72.0"
+	},
+	"dependencies": {
+		"kirbyuse": "^0.4.1"
 	}
 }

@@ -1,3 +1,24 @@
+<script setup>
+import { ref, useSection } from "kirbyuse";
+import { section } from "kirbyuse/props";
+
+const props = defineProps(section);
+
+const activated = ref(true);
+const local = ref(false);
+
+(async () => {
+  const { load } = useSection();
+  const response = await load({
+    parent: props.parent,
+    name: props.name,
+  });
+
+  activated.value = response.activated;
+  local.value = response.local;
+})();
+</script>
+
 <template>
   <k-section class="df-license-section" v-if="!activated">
     <div class="df-license-section-wrapper">
@@ -33,42 +54,6 @@
     </k-button>
   </k-section>
 </template>
-
-
-<script>
-export default {
-  data() {
-    return {
-      local: true,
-      activated: true,
-    };
-  },
-  created() {
-    this.reload();
-  },
-  methods: {
-    reload() {
-      this.load().then((data) => {
-        this.activated = data.activated;
-        this.local = data.local;
-      });
-    },
-    dialog() {
-      const _scope = this;
-      this.$dialog("dreamform/activate", {
-        on: {
-          success(t) {
-            _scope.msg = t.message;
-            _scope.state = "positive";
-            _scope.$panel.dialog.close();
-            _scope.reload();
-          },
-        },
-      });
-    },
-  },
-};
-</script>
 
 <style lang="scss">
 .df-logo {

@@ -9,7 +9,7 @@ class HiddenField extends Field
 		return [
 			'title' => t('dreamform.hidden-field'),
 			'label' => '{{ key }}',
-			'preview' => 'fields',
+			'preview' => 'hidden-field',
 			'wysiwyg' => true,
 			'icon' => 'hidden',
 			'tabs' => [
@@ -18,7 +18,9 @@ class HiddenField extends Field
 					'fields' => [
 						'key' => [
 							'extends' => 'dreamform/fields/key',
-							'width' => '2/3'
+							'width' => 1,
+							'wizard' => false,
+							'placeholder' => t('dreamform.hidden-field-key-placeholder')
 						],
 					]
 				]
