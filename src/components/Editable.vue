@@ -16,6 +16,7 @@ const props = defineProps({
 });
 
 const el = ref();
+defineExpose({ el });
 
 const panel = usePanel();
 const app = useApp();
@@ -24,7 +25,7 @@ const app = useApp();
 onMounted(() => (el.value.textContent = props.modelValue));
 
 // emit the update to upper component
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "backspace", "enter"]);
 const handleUpdate = () => {
 	// replicate behaviour of kirby slug input
 	if (props.slugify && props.modelValue === el.value.textContent.trim()) return;
@@ -93,9 +94,19 @@ const metaKeyAllowList = [
 ];
 
 const handleKeyDown = (event) => {
+	if (event.key === "Backspace" && !el.value.textContent) {
+		event.preventDefault();
+		emit("backspace", event);
+	}
+
+	if (event.key === "Enter") {
+		event.preventDefault();
+		emit("enter", event);
+	}
+
 	if (
-		event.key === "Enter" || // disallow enter
-		(event.metaKey && !metaKeyAllowList.includes(event.key)) // disallow meta key combinations for formatting
+		event.metaKey &&
+		!metaKeyAllowList.includes(event.key) // disallow meta key combinations for formatting
 	) {
 		event.preventDefault();
 	}

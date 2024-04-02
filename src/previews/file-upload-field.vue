@@ -54,21 +54,27 @@ const icon = computed(() => {
 <template>
 	<div class="df-field" @dblclick="open">
 		<field-header :content="content" :fieldset="fieldset" @update="update" />
-		<field-input :content="content" @update="update" :icon="icon" />
+		<div class="df-file-upload" @click="open">
+			<k-icon type="upload" />
+			<span>{{ $t("toolbar.button.file.upload") }}</span>
+		</div>
 		<field-error v-if="showError" :content="content" @update="update" />
 	</div>
 </template>
 
 <style lang="scss">
-.k-block-type-textarea-field .df-field {
-	.df-input {
-		max-height: none;
+.df-file-upload {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-2);
+	color: var(--input-color-placeholder);
+	padding: var(--spacing-4) var(--spacing-2);
+	border-radius: var(--input-rounded);
+	border: 1.5px dashed var(--input-color-border);
 
-		.df-placeholder {
-			align-items: flex-start;
-			min-height: 6rem;
-			white-space: pre-wrap;
-		}
+	& > * {
+		pointer-events: none;
 	}
 }
 </style>

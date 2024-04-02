@@ -1,6 +1,6 @@
 <script setup>
 import { props as blockProps } from "@/utils/block";
-import Editable from "../utils/Editable.vue";
+import Editable from "@/components/Editable.vue";
 
 const props = defineProps(blockProps);
 
@@ -8,7 +8,7 @@ const emit = defineEmits(["update", "open"]);
 </script>
 
 <template>
-	<div class="df-text-field">
+	<div class="df-field">
 		<div
 			class="df-input df-hidden-input"
 			:class="{ 'is-invalid': !content.key }"
@@ -27,29 +27,27 @@ const emit = defineEmits(["update", "open"]);
 </template>
 
 <style lang="scss">
-.df-text-field {
-	.k-icon + .df-hidden-key {
+.df-hidden-key {
+	font-size: var(--text-xs);
+	line-height: var(--leading-h3);
+	white-space: nowrap;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	.k-icon + & {
 		margin-left: var(--spacing-3);
 		width: 100%;
 	}
+}
 
-	.df-hidden-key {
-		font-size: var(--text-xs);
-		line-height: var(--leading-h3);
-		white-space: nowrap;
-		max-width: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+.df-hidden-input {
+	display: flex;
+	align-items: center;
+	padding-left: var(--spacing-3) !important;
 
-	.df-hidden-input {
-		display: flex;
-		align-items: center;
-		padding-left: var(--spacing-3) !important;
-
-		&.is-invalid {
-			outline-color: var(--color-red);
-		}
+	&.is-invalid {
+		outline-color: var(--color-red);
 	}
 }
 </style>

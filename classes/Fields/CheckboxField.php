@@ -12,8 +12,7 @@ class CheckboxField extends Field
 	{
 		return [
 			'title' => t('dreamform.checkbox-field'),
-			'label' => '{{ label }}',
-			'preview' => 'fields',
+			'preview' => 'choices-field',
 			'wysiwyg' => true,
 			'icon' => 'toggle-off',
 			'tabs' => [

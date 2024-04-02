@@ -1,6 +1,6 @@
 import { kirbyup } from "kirbyup/plugin";
-import Layout from "./components/Layout.vue";
-import LayoutSelector from "./components/LayoutSelector.vue";
+import Layout from "./core/Layout.vue";
+import LayoutSelector from "./core/LayoutSelector.vue";
 import "./index.scss";
 
 panel.plugin("tobimori/dreamform", {

@@ -77,6 +77,8 @@ options-label-help: Wird als Beschriftung im Kontaktformular angezeigt.
 options-value-help: Wird intern als gespeicherter Wert verwendet.
 min-checked: Mindestanzahl
 max-checked: Maximalanzahl
+add-option: Option hinzufügen
+remove-option: Option entfernen
 
 # Pages Field
 pages-field: Aus Seiten auswählen

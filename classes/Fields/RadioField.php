@@ -8,8 +8,7 @@ class RadioField extends Field
 	{
 		return [
 			'title' => t('dreamform.radio-field'),
-			'label' => '{{ label }}',
-			'preview' => 'fields',
+			'preview' => 'choices-field',
 			'wysiwyg' => true,
 			'icon' => 'circle-nested',
 			'tabs' => [

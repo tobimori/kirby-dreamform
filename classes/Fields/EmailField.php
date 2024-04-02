@@ -10,7 +10,6 @@ class EmailField extends Field
 	{
 		return [
 			'title' => t('dreamform.email-field'),
-			'label' => '{{ label }}',
 			'preview' => 'text-field',
 			'wysiwyg' => true,
 			'icon' => 'email',

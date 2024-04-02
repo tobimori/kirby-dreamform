@@ -21,8 +21,7 @@ class FileUploadField extends Field
 	{
 		return [
 			'title' => t('dreamform.file-upload-field'),
-			'label' => '{{ key }}',
-			'preview' => 'fields',
+			'preview' => 'file-upload-field',
 			'wysiwyg' => true,
 			'icon' => 'upload',
 			'tabs' => [

@@ -8,7 +8,6 @@ class HiddenField extends Field
 	{
 		return [
 			'title' => t('dreamform.hidden-field'),
-			'label' => '{{ key }}',
 			'preview' => 'hidden-field',
 			'wysiwyg' => true,
 			'icon' => 'hidden',

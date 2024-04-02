@@ -10,7 +10,6 @@ class NumberField extends Field
 	{
 		return [
 			'title' => t('dreamform.number-field'),
-			'label' => '{{ label }}',
 			'preview' => 'text-field',
 			'wysiwyg' => true,
 			'icon' => 'order-num-asc',

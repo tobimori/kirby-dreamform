@@ -410,7 +410,8 @@ class SubmissionPage extends BasePage
 	 */
 	public function status(): string
 	{
-		return $this->isFinished() ? 'listed' : 'draft';
+		// TODO: 'draft' status for spam detection
+		return $this->isFinished() ? 'listed' : 'unlisted';
 	}
 
 	/**

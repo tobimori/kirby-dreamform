@@ -10,8 +10,7 @@ class PagesField extends Field
 	{
 		return [
 			'title' => t('dreamform.pages-field'),
-			'label' => '{{ label }}',
-			'preview' => 'fields',
+			'preview' => 'text-field',
 			'wysiwyg' => true,
 			'icon' => 'document',
 			'tabs' => [

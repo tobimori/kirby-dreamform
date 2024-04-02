@@ -76,6 +76,8 @@ options-label-help: The label is shown to the user.
 options-value-help: The value is saved in the submission.
 min-checked: Min checked
 max-checked: Max checked
+add-option: Add Option
+remove-option: Remove Option
 
 # Pages Field
 pages-field: Select from Pages
