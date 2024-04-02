@@ -2,7 +2,7 @@
 	"name": "tobimori/kirby-dreamform",
 	"description": "Kirby DreamForm",
 	"type": "kirby-plugin",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"license": "proprietary",
 	"homepage": "https://github.com/tobimori/kirby-dreamform",
 	"authors": [
@@ -23,7 +23,9 @@
 	"scripts": {
 		"dist": "composer install --no-dev --optimize-autoloader",
 		"fix": "php-cs-fixer fix",
-		"post-install-cmd": ["php scripts/postinstall.php"]
+		"post-install-cmd": [
+			"php scripts/postinstall.php"
+		]
 	},
 	"config": {
 		"optimize-autoloader": true,
