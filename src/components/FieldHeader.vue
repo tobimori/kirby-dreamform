@@ -27,7 +27,7 @@ const update = (value) => emit("update", { ...props.content, ...value });
 				:class="{ 'is-active': props.content.required }"
 				@click="update({ required: !props.content.required })"
 			>
-				✶ <span>Required</span>
+				✶ <span>{{ $t("dreamform.required") }}</span>
 			</button>
 		</div>
 		<editable
