@@ -1,5 +1,6 @@
 <script setup>
 import Editable from "@/components/Editable.vue";
+import { onMounted } from "kirbyuse";
 
 const props = defineProps({
 	content: Object,
@@ -14,8 +15,8 @@ const emit = defineEmits(["update"]);
 		<editable
 			tag="span"
 			:placeholder="$t('dreamform.error-message-default')"
-			:modelValue="content.errorMessage"
-			@update:modelValue="emit('update', { ...content, errorMessage: $event })"
+			:modelValue="content.errormessage"
+			@update:modelValue="emit('update', { ...content, errormessage: $event })"
 		/>
 	</div>
 </template>

@@ -51,7 +51,7 @@ const update = (value) => emit("update", { ...props.content, ...value });
 	display: flex;
 	align-items: center;
 
-	&:hover .df-field-required {
+	&:hover .df-field-required:not(.is-active) {
 		color: var(--color-gray-500);
 	}
 
@@ -77,11 +77,15 @@ const update = (value) => emit("update", { ...props.content, ...value });
 .df-field-required {
 	padding: 0.125rem;
 	color: var(--color-white);
-	transition: 100ms color;
+	transition: color 0.15s;
 	margin-left: var(--spacing-1);
 
 	&.is-active {
 		color: var(--color-blue);
+
+		&:hover {
+			color: var(--color-blue-500);
+		}
 	}
 }
 </style>

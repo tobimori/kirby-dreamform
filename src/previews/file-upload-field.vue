@@ -14,41 +14,6 @@ const open = (e) => {
 		emit("open");
 	}
 };
-
-const showError = computed(() => {
-	// required always needs an error message
-	if (props.content.required) {
-		return true;
-	}
-
-	// fields that could have validation errors
-	// without additional fields
-	if (props.fieldset.type === "email-field") {
-		return true;
-	}
-
-	if (
-		// number fields with min or max value set
-		props.fieldset.type === "number-field" &&
-		(props.content.min !== "" || props.content.max !== "")
-	) {
-		return true;
-	}
-
-	return false;
-});
-
-const icon = computed(() => {
-	if (["title", "text-left"].includes(props.fieldset.icon)) {
-		return null;
-	}
-
-	if (props.fieldset.icon === "document") {
-		return "angle-down";
-	}
-
-	return props.fieldset.icon;
-});
 </script>
 
 <template>
@@ -58,7 +23,15 @@ const icon = computed(() => {
 			<k-icon type="upload" />
 			<span>{{ $t("toolbar.button.file.upload") }}</span>
 		</div>
-		<field-error v-if="showError" :content="content" @update="update" />
+		<field-error
+			v-if="
+				content.required ||
+				content.maxsize !== '' ||
+				content.allowedtypes.length > 0
+			"
+			:content="content"
+			@update="update"
+		/>
 	</div>
 </template>
 
