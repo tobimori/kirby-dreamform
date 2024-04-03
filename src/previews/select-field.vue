@@ -16,7 +16,12 @@ const open = (e) => {
 
 <template>
 	<div class="df-field df-select-field" @dblclick="open">
-		<field-header :content="content" :fieldset="fieldset" @update="update" />
+		<field-header
+			:requireLabel="true"
+			:content="content"
+			:fieldset="fieldset"
+			@update="update"
+		/>
 		<field-input :content="content" @update="update" icon="angle-down" />
 		<options
 			classMod="is-select"

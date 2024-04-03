@@ -4,6 +4,7 @@ import Editable from "@/components/Editable.vue";
 const props = defineProps({
 	content: Object,
 	fieldset: Object,
+	requireLabel: Boolean,
 });
 
 const emit = defineEmits(["update"]);
@@ -17,7 +18,7 @@ const update = (value) => emit("update", { ...props.content, ...value });
 				tag="div"
 				class="df-field-label"
 				:placeholder="fieldset.name"
-				:class="{ 'is-invalid': !content.label }"
+				:class="{ 'is-invalid': !content.label && requireLabel }"
 				:modelValue="content.label"
 				@update:modelValue="update({ label: $event })"
 			/>

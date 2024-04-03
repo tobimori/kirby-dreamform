@@ -16,7 +16,12 @@ const open = (e) => {
 
 <template>
 	<div class="df-field" @dblclick="open">
-		<field-header :content="content" :fieldset="fieldset" @update="update" />
+		<field-header
+			:requireLabel="true"
+			:content="content"
+			:fieldset="fieldset"
+			@update="update"
+		/>
 		<div class="df-file-upload" @click="open">
 			<k-icon type="upload" />
 			<span>{{ $t("toolbar.button.file.upload") }}</span>

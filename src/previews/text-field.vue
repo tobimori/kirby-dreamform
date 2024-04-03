@@ -53,7 +53,12 @@ const icon = computed(() => {
 
 <template>
 	<div class="df-field" @dblclick="open">
-		<field-header :content="content" :fieldset="fieldset" @update="update" />
+		<field-header
+			:requireLabel="true"
+			:content="content"
+			:fieldset="fieldset"
+			@update="update"
+		/>
 		<field-input :content="content" @update="update" :icon="icon" />
 		<field-error v-if="showError" :content="content" @update="update" />
 	</div>
