@@ -68,7 +68,7 @@ number-field: Number
 min-number: Min. value
 max-number: Max. value
 number-step: Step size
-number-step-help: The entered value must be divisible by this number. For decimals, use a number like "0,1".
+number-step-help: The entered value must be divisible by this number. For decimals, use a number like "0.1".
 
 # Checkboxes / Select
 options: Options
