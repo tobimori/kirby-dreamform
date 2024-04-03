@@ -25,7 +25,7 @@ reserved-key: "Tento formulář nelze uložit: Klíč \"{{ key }}\" je rezervova
 # Settings
 settings: Nastavení
 store-submissions: Store Submissions
-store-submissions-help: "Uložit odpovědi jako stránku Kirbyho. Pokud je tato možnost vypnutá, nemusí být některá pole a akce dostupné. Další informace naleznete v (odkaz: https://plugins.andkindness.com/dreamform/docs/general/data-retention text: dokumentaci)."
+store-submissions-help: "Uložit odpovědi jako stránku Kirbyho. Pokud je tato možnost vypnutá, nemusí být některá pole a akce dostupné. Další informace naleznete v (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention text: dokumentaci)."
 
 # Categories
 common-fields: Společná pole
