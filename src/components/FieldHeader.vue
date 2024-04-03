@@ -30,15 +30,17 @@ const update = (value) => emit("update", { ...props.content, ...value });
 				✶ <span>{{ $t("dreamform.required") }}</span>
 			</button>
 		</div>
-		<editable
-			tag="code"
-			class="df-field-key"
-			:class="{ 'is-invalid': !content.key }"
-			:slugify="true"
-			:placeholder="$t('dreamform.key')"
-			:modelValue="content.key"
-			@update:modelValue="update({ key: $event })"
-		/>
+		<div class="df-field-key">
+			<editable
+				tag="code"
+				:class="{ 'is-invalid': !content.key }"
+				:slugify="true"
+				:placeholder="$t('dreamform.key')"
+				:modelValue="content.key"
+				@update:modelValue="update({ key: $event })"
+			/>
+			<k-icon type="key" />
+		</div>
 	</div>
 </template>
 
@@ -63,10 +65,13 @@ const update = (value) => emit("update", { ...props.content, ...value });
 .df-field-key {
 	color: var(--color-gray-700);
 	background: var(--color-gray-200);
-	padding: var(--spacing-1) 0.375rem;
+	padding: 0.125rem var(--spacing-1);
 	border-radius: var(--input-rounded);
 	font-size: var(--text-xs);
 	text-align: right;
+	display: flex;
+	gap: var(--spacing-1);
+	align-items: center;
 
 	&.is-invalid {
 		background: var(--color-red);

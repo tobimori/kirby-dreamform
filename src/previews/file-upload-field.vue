@@ -1,8 +1,6 @@
 <script setup>
-import { computed } from "kirbyuse";
 import { props as blockProps } from "@/utils/block";
 import FieldError from "@/components/FieldError.vue";
-import FieldInput from "@/components/FieldInput.vue";
 import FieldHeader from "@/components/FieldHeader.vue";
 
 const props = defineProps(blockProps);
