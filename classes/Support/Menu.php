@@ -36,7 +36,7 @@ final class Menu
 	 */
 	public static function forms()
 	{
-		if (App::instance()->user()->role()->permissions()->for('tobimori.dreamform', 'accessForms') === false) {
+		if (App::instance()->user()?->role()->permissions()->for('tobimori.dreamform', 'accessForms') === false) {
 			return null;
 		}
 
