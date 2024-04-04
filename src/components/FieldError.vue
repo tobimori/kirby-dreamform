@@ -1,6 +1,5 @@
 <script setup>
 import Editable from "@/components/Editable.vue";
-import { onMounted } from "kirbyuse";
 
 const props = defineProps({
 	content: Object,
