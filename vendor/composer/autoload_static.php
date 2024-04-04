@@ -61,13 +61,18 @@ class ComposerStaticInit910c4189a868d9db3fa89792673c4e88
         'tobimori\\DreamForm\\Guards\\CsrfGuard' => __DIR__ . '/../..' . '/classes/Guards/CsrfGuard.php',
         'tobimori\\DreamForm\\Guards\\Guard' => __DIR__ . '/../..' . '/classes/Guards/Guard.php',
         'tobimori\\DreamForm\\Guards\\HoneypotGuard' => __DIR__ . '/../..' . '/classes/Guards/HoneypotGuard.php',
+        'tobimori\\DreamForm\\Guards\\LicenseGuard' => __DIR__ . '/../..' . '/classes/Guards/LicenseGuard.php',
         'tobimori\\DreamForm\\Guards\\RatelimitGuard' => __DIR__ . '/../..' . '/classes/Guards/RatelimitGuard.php',
+        'tobimori\\DreamForm\\Guards\\TurnstileGuard' => __DIR__ . '/../..' . '/classes/Guards/TurnstileGuard.php',
         'tobimori\\DreamForm\\Models\\BasePage' => __DIR__ . '/../..' . '/classes/Models/BasePage.php',
         'tobimori\\DreamForm\\Models\\FormPage' => __DIR__ . '/../..' . '/classes/Models/FormPage.php',
         'tobimori\\DreamForm\\Models\\FormsPage' => __DIR__ . '/../..' . '/classes/Models/FormsPage.php',
         'tobimori\\DreamForm\\Models\\SubmissionPage' => __DIR__ . '/../..' . '/classes/Models/SubmissionPage.php',
         'tobimori\\DreamForm\\Performer' => __DIR__ . '/../..' . '/classes/Performer.php',
+        'tobimori\\DreamForm\\Permissions\\FormPermissions' => __DIR__ . '/../..' . '/classes/Permissions/FormPermissions.php',
+        'tobimori\\DreamForm\\Permissions\\SubmissionPermissions' => __DIR__ . '/../..' . '/classes/Permissions/SubmissionPermissions.php',
         'tobimori\\DreamForm\\Support\\Htmx' => __DIR__ . '/../..' . '/classes/Support/Htmx.php',
+        'tobimori\\DreamForm\\Support\\License' => __DIR__ . '/../..' . '/classes/Support/License.php',
         'tobimori\\DreamForm\\Support\\Menu' => __DIR__ . '/../..' . '/classes/Support/Menu.php',
     );
 
