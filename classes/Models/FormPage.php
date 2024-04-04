@@ -11,6 +11,7 @@ use Kirby\Content\Field;
 use Kirby\Data\Json;
 use Kirby\Http\Response;
 use Kirby\Http\Url;
+use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 use tobimori\DreamForm\DreamForm;
@@ -313,7 +314,9 @@ class FormPage extends BasePage
 			// if dreamform is used in API mode, return the submission state as JSON
 			if ($mode === 'api') {
 				$kirby->response()->code($submission->isSuccessful() ? 200 : 400);
-				return json_encode($submission->state()->toArray(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT);
+				return json_encode(A::merge($submission->state()->toArray(), [
+					'session' => Htmx::encrypt($submission->uuid()->toString())
+				]), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT);
 			}
 
 			// if dreamform is used in htmx mode, return the enhanced HTML
