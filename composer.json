@@ -23,7 +23,7 @@
 	"scripts": {
 		"dist": "composer install --no-dev --optimize-autoloader",
 		"fix": "php-cs-fixer fix",
-		"post-install-cmd": [
+		"post-package-install": [
 			"php scripts/postinstall.php"
 		]
 	},
