@@ -270,7 +270,7 @@ class SubmissionPage extends BasePage
 		}
 
 		return  $kirby->response()->redirect(
-			($this->referer() ?? $this->site()->url()) . $append ?? ''
+			($this->referer() ?? $this->site()->url()) . isset($append) ? $append : ''
 		);
 	}
 
