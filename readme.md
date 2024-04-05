@@ -1,6 +1,6 @@
 ![Kirby DreamForm Banner](.github/banner.png)
 
-# Kirby SEO
+# Kirby DreamForm
 
 DreamForm is an opiniated form builder plugin for [Kirby CMS](https://getkirby.com/) that makes forms work like magic.
 
