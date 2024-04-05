@@ -507,10 +507,18 @@ class FormPage extends BasePage
 	}
 
 	/**
-	 * Returns the modified permissions object for the forms
+	 * Returns the modified permissions object for the form
 	 */
 	public function permissions(): FormPermissions
 	{
 		return new FormPermissions($this);
+	}
+
+	/**
+	 * Make it impossible to duplicate stored submissions
+	 */
+	public function hasChildren(): bool
+	{
+		return false;
 	}
 }
