@@ -53,6 +53,18 @@ class FormPage extends BasePage
 		return $htmx;
 	}
 
+	public function attr(): array
+	{
+		$attr = [
+			'enctype' => $this->enctype(),
+			'method' => 'POST',
+			'novalidate' => 'novalidate',
+			(App::instance()->option('tobimori.dreamform.useDataAttributes') ? 'data-form-url' : 'action') => $this->url()
+		];
+
+		return $attr;
+	}
+
 	/**
 	 * Returns the field layouts for the given step
 	 */

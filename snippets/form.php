@@ -93,12 +93,7 @@ if ($submission?->isFinished()) {
 <form <?= attr(A::merge(
 	$attr['form'],
 	$form->htmxAttr($page, $attr, $submission),
-	[
-		'enctype' => $form->enctype(),
-		'action' => $form->url(),
-		'method' => 'POST',
-		'novalidate' => 'novalidate'
-	]
+	$form->attr()
 )) ?>>
 	<div <?= attr(A::merge(['data-error' => true], $attr['error'])) ?>><?= $submission?->errorFor() ?></div>
 	<?php foreach ($form->currentLayouts() as $layoutRow) : ?>

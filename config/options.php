@@ -14,6 +14,7 @@ return [
 			'active' => true
 		]
 	],
+	'useDataAttributes' => false, // uses data-form-url instead of action
 	'mode' => 'prg', // prg / api / htmx
 	'multiStep' => true, // Enable multi-step forms
 	'storeSubmissions' => true, // Store submissions in the content folder
