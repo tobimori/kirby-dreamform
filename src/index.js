@@ -18,4 +18,49 @@ panel.plugin("tobimori/dreamform", {
 		"k-layout-selector": LayoutSelector,
 	},
 	sections: kirbyup.import("./sections/*.vue"),
+	writerNodes: {
+		contentPlaceholder: {
+			get button() {
+				return {
+					icon: "add",
+					label: "Add Content Placeholder",
+				};
+			},
+
+			get name() {
+				return "contentPlaceholder";
+			},
+
+			commands({ schema, type, utils }) {
+				console.log(schema, type, utils);
+				return () => (state, dispatch) =>
+					dispatch(state.tr.replaceSelectionWith(type.create()));
+			},
+
+			get schema() {
+				return {
+					group: "inline",
+					inline: true,
+					draggable: true,
+					inline: true,
+					selectable: true,
+					draggable: true,
+					atom: true,
+					parseDOM: [
+						{
+							tag: "content-placeholder",
+							getAttrs: (dom) => {
+								console.log(dom);
+								return JSON.parse(dom.innerHTML);
+							},
+						},
+					],
+					toDOM: (asdsad) => {
+						console.log(asdsad);
+						return ["content-placeholder", JSON.stringify(asdsad)];
+					},
+				};
+			},
+		},
+	},
 });
