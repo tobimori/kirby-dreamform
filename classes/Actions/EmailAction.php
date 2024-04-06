@@ -199,7 +199,6 @@ class EmailAction extends Action
 
 	public function run(): void
 	{
-		ray($this->submission()->findRefererPage());
 		try {
 			App::instance()->email([
 				'template' => $this->template(),
