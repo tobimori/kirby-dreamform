@@ -46,6 +46,13 @@ App::plugin('tobimori/dreamform', [
 	'options' => require __DIR__ . '/config/options.php',
 	'sections' => require __DIR__ . '/config/sections.php',
 	'areas' => require __DIR__ . '/config/areas.php',
+	// load all commands automatically
+	'commands' => A::keyBy(A::map(
+		Dir::read(__DIR__ . '/config/commands'),
+		fn ($file) => A::merge([
+			'id' => 'dreamform:' . F::name($file),
+		], require __DIR__ . '/config/commands/' . $file)
+	), 'id'),
 	'permissions' => [
 		'accessForms' => true,
 		'createForms' => true,
