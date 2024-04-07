@@ -265,12 +265,13 @@ class SubmissionPage extends BasePage
 	public function redirectToReferer(): Responder
 	{
 		$kirby = App::instance();
+		$append = '';
 		if ($kirby->option('tobimori.dreamform.mode') !== 'api' && $kirby->option('cache.pages.active') === true) {
 			$append = '?x=';
 		}
 
 		return  $kirby->response()->redirect(
-			($this->referer() ?? $this->site()->url()) . isset($append) ? $append : ''
+			($this->referer() ?? $this->site()->url()) . $append
 		);
 	}
 
