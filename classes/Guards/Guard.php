@@ -4,6 +4,7 @@ namespace tobimori\DreamForm\Guards;
 
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\Models\FormPage;
+use tobimori\DreamForm\Models\SubmissionPage;
 use tobimori\DreamForm\Performer;
 
 abstract class Guard extends Performer
@@ -12,6 +13,20 @@ abstract class Guard extends Performer
 	 * Create a new Guard instance
 	 */
 	public function __construct(private FormPage $form)
+	{
+	}
+
+	/**
+	 * Reports the submission as spam to a third-party service
+	 */
+	public function reportSubmissionAsSpam(SubmissionPage $submission): void
+	{
+	}
+
+	/**
+	 * Reports the submission as ham to a third-party service
+	 */
+	public function reportSubmissionAsHam(SubmissionPage $submission): void
 	{
 	}
 

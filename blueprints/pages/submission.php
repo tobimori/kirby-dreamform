@@ -41,8 +41,17 @@ return function () {
 		],
 		'columns' => [
 			'main' => [
+				'width' => '3/4',
 				'fields' => $blueprint
-			]
+			],
+			'sidebar' => [
+				'width' => '1/4',
+				'sections' => [
+					'submission' => [
+						'type' => 'dreamform-submission'
+					]
+				]
+			],
 		]
 	];
 };

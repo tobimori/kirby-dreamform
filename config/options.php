@@ -24,9 +24,13 @@ return [
 	],
 	'page' => 'page://forms', // Slug or URI to the page where the forms are located
 	'secret' => null, // Encryption secret for htmx attributes
+	'metadata' => [
+		'collect' => ['ip', 'userAgent']
+	],
 	'guards' => [
 		'available' => ['honeypot', 'csrf'],
 		'honeypot.fields' => ['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject'],
+		'akismet.apiKey' => null,
 		'turnstile' => [
 			'theme' => 'auto',
 			'siteKey' => null,

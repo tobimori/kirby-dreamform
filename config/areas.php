@@ -4,6 +4,7 @@ use Kirby\Cms\App;
 use Kirby\Panel\Field;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Support\License;
 
 return [
@@ -60,7 +61,35 @@ return [
 						'message' => 'License activated successfully!',
 					];
 				}
-			]
+			],
+			'submission/(:any)/mark-as-spam' => [
+				'load' => function (string $path) {
+					return [
+						'component' => 'k-remove-dialog',
+						'props' => [
+							'text' => t('dreamform.confirm-as-spam'),
+							'submitButton' => [
+								'text' => t('dreamform.mark-as-spam'),
+								'icon'  => 'spam',
+								'theme' => 'negative'
+							],
+						]
+					];
+				},
+				'submit' => function (string $path) {
+					$submission = DreamForm::findPageOrDraftRecursive(Str::replace($path, '+', '/'));
+					$submission = $submission->markAsSpam();
+
+					return [
+						'message' => t('dreamform.marked-as-spam'),
+					];
+				}
+			],
+			'submission/(:any)/mark-as-ham' => [
+				'load' => fn (string $path) => [
+					'component' => 'k-remove-dialog',
+				]
+			],
 		]
 	]
 ];

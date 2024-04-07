@@ -12,56 +12,60 @@ Read more about DreamForm on the [official plugin website](https://plugins.andki
 
 ## Comparison
 
-| _Feature Comparison_                                 | DreamForm | [Form Block Suite](https://git.new/k/form-block-suite) | [Uniform](https://git.new/k/uniform)<sup>1</sup> |
-| ---------------------------------------------------- | --------- | ------------------------------------------------------ | ------------------------------------------------ |
-| Pricing (per license/site)                           | 45 €      | 25 US$                                                 | Free                                             |
-|                                                      |           |                                                        |                                                  |
-| Single-step forms                                    | ✅        | ✅                                                     | ✅                                               |
-| Multi-step forms                                     | ✅        |                                                        |                                                  |
-|                                                      |           |                                                        |                                                  |
-| **Create custom forms**                              | ✅        | ✅                                                     | ✅                                               |
-| ...with Blocks in the panel                          | ✅        | ✅                                                     |                                                  |
-| ...with Layouts (multi-column) in the panel          | ✅        |                                                        |                                                  |
-|                                                      |           |                                                        |                                                  |
-| **Customize behaviour after submission**             | ✅        | ✅                                                     | ✅                                               |
-| ...in the panel                                      | ✅        |                                                        |                                                  |
-| ...using hooks                                       | ✅        | ✅                                                     |                                                  |
-|                                                      |           |                                                        |                                                  |
-| Use with JavaScript (API submission)                 | ✅        | ✅                                                     | ✅                                               |
-| Use without JavaScript (Form submission)             | ✅        |                                                        | ✅                                               |
-| First-party HTMX support                             | ✅        |                                                        |                                                  |
-|                                                      |           |                                                        |                                                  |
-| **_Built-in fields_**                                |           |                                                        |                                                  |
-| Text                                                 | ✅        | ✅                                                     | <sup>2</sup>                                     |
-| Multi-line text                                      | ✅        | ✅                                                     | <sup>2</sup>                                     |
-| Email                                                | ✅        | ✅ _(using Input)_                                     | <sup>2</sup>                                     |
-| Number                                               | ✅        | ✅ _(using Input)_                                     | <sup>2</sup>                                     |
-| Select                                               | ✅        | ✅                                                     | <sup>2</sup>                                     |
-| Radio                                                | ✅        | ✅                                                     | <sup>2</sup>                                     |
-| Checkboxes                                           | ✅        | ✅                                                     | <sup>2</sup>                                     |
-| File uploads                                         | ✅        | ✅                                                     | <sup>2</sup>                                     |
-|                                                      |           |                                                        |                                                  |
-| **_Built-in actions_**                               |           |                                                        |                                                  |
-| Email                                                | ✅        | ✅                                                     | ✅                                               |
-| Redirect                                             | ✅        | ✅                                                     | ✅                                               |
-| Abort                                                | ✅        |                                                        | ✅                                               |
-| Webhook                                              | ✅        |                                                        | ✅                                               |
-| Conditional Action                                   | ✅        |                                                        |                                                  |
-| [Buttondown](https://buttondown.email/)              | ✅ _1.1+_ |                                                        |                                                  |
-| [Discord](https://discord.com)                       | ✅        |                                                        |                                                  |
-|                                                      |           |                                                        |                                                  |
-| **_Built-in guards_**                                |           |                                                        |                                                  |
-| [CSRF](https://owasp.org/www-community/attacks/csrf) | ✅        |                                                        | ✅                                               |
-| IP-based Rate limiting                               | ✅        |                                                        |                                                  |
-| Honeypot                                             | ✅        | ✅                                                     | ✅                                               |
-| Turnstile Captcha                                    | ✅        |                                                        | via third-party plugin                           |
-|                                                      |           |                                                        |                                                  |
-| **_Other_**                                          |           |                                                        |                                                  |
-| Re-use forms in different places                     | ✅        | _Each block is a unique form_                          |                                                  |
-| Stores submissions in the panel                      | ✅        | _Sent emails will be stored_                           |                                                  |
-| Permissions for limiting access                      | ✅        |                                                        |                                                  |
-| Gravatar integration                                 | ✅        |                                                        |                                                  |
-| Disposable & invalid email domain check              | ✅ _1.1+_ |                                                        |                                                  |
+| _Feature Comparison_                                            | DreamForm | [Form Block Suite](https://git.new/k/form-block-suite) | [Uniform](https://git.new/k/uniform)<sup>1</sup> |
+| --------------------------------------------------------------- | --------- | ------------------------------------------------------ | ------------------------------------------------ |
+| Pricing (per license/site)                                      | 45 €      | 25 US$                                                 | Free                                             |
+|                                                                 |           |                                                        |                                                  |
+| Single-step forms                                               | ✅        | ✅                                                     | ✅                                               |
+| Multi-step forms                                                | ✅        |                                                        |                                                  |
+|                                                                 |           |                                                        |                                                  |
+| **Create custom forms**                                         | ✅        | ✅                                                     | ✅                                               |
+| ...with Blocks in the panel                                     | ✅        | ✅                                                     |                                                  |
+| ...with Layouts (multi-column) in the panel                     | ✅        |                                                        |                                                  |
+|                                                                 |           |                                                        |                                                  |
+| **Customize behaviour after submission**                        | ✅        | ✅                                                     | ✅                                               |
+| ...in the panel                                                 | ✅        |                                                        |                                                  |
+| ...using hooks                                                  | ✅        | ✅                                                     |                                                  |
+|                                                                 |           |                                                        |                                                  |
+| Use with JavaScript (API submission)                            | ✅        | ✅                                                     | ✅                                               |
+| Use without JavaScript (Form submission)                        | ✅        |                                                        | ✅                                               |
+| First-party HTMX support                                        | ✅        |                                                        |                                                  |
+|                                                                 |           |                                                        |                                                  |
+| **_Built-in fields_**                                           |           |                                                        |                                                  |
+| Text                                                            | ✅        | ✅                                                     | <sup>2</sup>                                     |
+| Multi-line text                                                 | ✅        | ✅                                                     | <sup>2</sup>                                     |
+| Email                                                           | ✅        | ✅ _(using Input)_                                     | <sup>2</sup>                                     |
+| Number                                                          | ✅        | ✅ _(using Input)_                                     | <sup>2</sup>                                     |
+| Select                                                          | ✅        | ✅                                                     | <sup>2</sup>                                     |
+| Radio                                                           | ✅        | ✅                                                     | <sup>2</sup>                                     |
+| Checkboxes                                                      | ✅        | ✅                                                     | <sup>2</sup>                                     |
+| File uploads                                                    | ✅        | ✅                                                     | <sup>2</sup>                                     |
+|                                                                 |           |                                                        |                                                  |
+| **_Built-in actions_**                                          |           |                                                        |                                                  |
+| Email                                                           | ✅        | ✅                                                     | ✅                                               |
+| Redirect                                                        | ✅        | ✅                                                     | ✅                                               |
+| Abort                                                           | ✅        |                                                        | ✅                                               |
+| Webhook                                                         | ✅        |                                                        | ✅                                               |
+| Conditional Action                                              | ✅        |                                                        |                                                  |
+| [Buttondown](https://buttondown.email/)                         | ✅ _1.1+_ |                                                        |                                                  |
+| [Discord](https://discord.com)                                  | ✅        |                                                        |                                                  |
+|                                                                 |           |                                                        |                                                  |
+| **_Built-in guards_**                                           |           |                                                        |                                                  |
+| [CSRF](https://owasp.org/www-community/attacks/csrf)            | ✅        |                                                        | ✅                                               |
+| IP-based Rate limiting                                          | ✅        |                                                        |                                                  |
+| Honeypot                                                        | ✅        | ✅                                                     | ✅                                               |
+| [Turnstile Captcha](https://cloudflare.com/products/turnstile/) | ✅        |                                                        | via third-party plugin                           |
+| [Akismet](https://akismet.com/)                                 | ✅ _1.1+_ |                                                        |                                                  |
+|                                                                 |           |                                                        |                                                  |
+| **_Other_**                                                     |           |                                                        |                                                  |
+| Re-use forms in different places                                | ✅        | _Each block is a unique form_                          |                                                  |
+| Mark & filter submissions for spam                              | ✅ _1.1+_ |                                                        |                                                  |
+| Stores submissions in the panel                                 | ✅        | _Sent emails will be stored_                           |                                                  |
+| Permissions for limiting access                                 | ✅        |                                                        |                                                  |
+| Gravatar integration                                            | ✅        |                                                        |                                                  |
+| Disposable & invalid email domain check                         | ✅ _1.1+_ |                                                        |                                                  |
+
+1.1 is the upcoming feature release and currently in progress. Table is subject to change.
 
 <small id="1"><sup>1</sup> Technically, you can built most of the features that DreamForm offers yourself using Uniform. For a fair comparison, this table only includes features that can be solved by copying code from the official docs & without writing custom code. </small>
 

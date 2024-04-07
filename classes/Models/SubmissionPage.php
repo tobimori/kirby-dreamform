@@ -116,12 +116,7 @@ class SubmissionPage extends BasePage
 			$state['error'] = $message;
 		}
 
-		// manually update content to avoid saving it to disk before the form submission is finished
-		$this->content = $this->content()->update([
-			'dreamform_state' => $state
-		]);
-
-		return $this;
+		return $this->updateAndSave(['dreamform_state' => $state]);
 	}
 
 	/**
@@ -140,11 +135,7 @@ class SubmissionPage extends BasePage
 			$state['success'] = true;
 		}
 
-		$this->content = $this->content()->update([
-			'dreamform_state' => $state
-		]);
-
-		return $this;
+		return $this->updateAndSave(['dreamform_state' => $state]);
 	}
 
 	/**
@@ -184,11 +175,7 @@ class SubmissionPage extends BasePage
 	 */
 	public function setField(FormField $field): static
 	{
-		$this->content = $this->content()->update([
-			$field->key() => $field->value()->value()
-		]);
-
-		return $this;
+		return $this->updateAndSave([$field->key() => $field->value()->value()]);
 	}
 
 	/**
@@ -196,6 +183,8 @@ class SubmissionPage extends BasePage
 	 */
 	public function createActions(Blocks $blocks = null): Collection
 	{
+		$this->setActionState([]); // set empty action state
+
 		$blocks ??= $this->form()->content()->get('actions')->toBlocks();
 
 		$actions = [];
@@ -216,19 +205,18 @@ class SubmissionPage extends BasePage
 	 */
 	public function setRedirect(string $url): static
 	{
-		$state = $this->state()->toArray();
-		$state['redirect'] = $url;
-
-		$this->content = $this->content()->update(['dreamform_state' => $state]);
-
-		return $this;
+		return $this->updateState(['redirect' => $url]);
 	}
 
 	/**
 	 * Returns the action state
 	 */
-	public function actionState(): Content
+	public function actionState(): Content|null
 	{
+		if (!$this->actionsDidRun()) {
+			return null;
+		}
+
 		return $this->state()->actions()->toObject();
 	}
 
@@ -238,11 +226,19 @@ class SubmissionPage extends BasePage
 	public function setActionState(array $data): static
 	{
 		$state = $this->state()->toArray();
-		$state['actions'] = A::merge($state['actions'], $data);
+		if (is_bool($state['actions'])) {
+			$state['actions'] = [];
+		}
 
-		$this->content = $this->content()->update(['dreamform_state' => $state]);
+		return $this->updateState(['actions' => A::merge($state['actions'], $data)]);
+	}
 
-		return $this;
+	/**
+	 * Returns a boolean whether the actions have run
+	 */
+	public function actionsDidRun(): bool
+	{
+		return $this->state()->get('actions')->value() === false;
 	}
 
 	/**
@@ -295,8 +291,8 @@ class SubmissionPage extends BasePage
 
 		$state = $this->state()->toArray();
 		$state['step'] = $state['step'] + 1;
-		$this->content = $this->content()->update(['dreamform_state' => $state]);
 
+		$this->content = $this->content()->update(['dreamform_state' => $state]);
 		$this->saveSubmission();
 
 		return $this;
@@ -338,11 +334,10 @@ class SubmissionPage extends BasePage
 		}
 
 		// elevate permissions to save the submission
-		App::instance()->impersonate('kirby');
-		$submission = $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null);
-		App::instance()->impersonate();
-
-		return $submission;
+		return App::instance()->impersonate(
+			'kirby',
+			fn () => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
+		);;
 	}
 
 	/**
@@ -367,6 +362,62 @@ class SubmissionPage extends BasePage
 	public function state(): Content
 	{
 		return $this->content()->get('dreamform_state')->toObject();
+	}
+
+	/**
+	 * Update the submission if it exists
+	 */
+	protected function updateAndSave(array $data): static
+	{
+		$this->content = $this->content()->update($data);
+
+		if ($this->exists()) {
+			return App::instance()->impersonate('kirby', fn () => $this->update($this->content()->toArray()));
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Update the submission state
+	 */
+	public function updateState(array $data): static
+	{
+		return $this->updateAndSave([
+			'dreamform_state' => $this->state()->update($data)->toArray()
+		]);
+	}
+
+	/**
+	 * Returns the submission state as array
+	 */
+	public function isSpam(): bool
+	{
+		return $this->state()->get('spam')->toBool();
+	}
+
+	/**
+	 * Returns a boolean whether the submission is ham
+	 */
+	public function isHam(): bool
+	{
+		return !$this->isSpam();
+	}
+
+	/**
+	 * Mark the submission as spam
+	 */
+	public function markAsSpam(): static
+	{
+		return $this->updateState(['spam' => true]);
+	}
+
+	/**
+	 * Mark the submission as ham
+	 */
+	public function markAsHam(): static
+	{
+		return $this->updateState(['spam' => false]);
 	}
 
 	/** @var SubmissionPage|null */
@@ -411,7 +462,10 @@ class SubmissionPage extends BasePage
 	 */
 	public function status(): string
 	{
-		// TODO: 'draft' status for spam detection
+		if ($this->isSpam()) {
+			return 'draft';
+		}
+
 		return $this->isFinished() ? 'listed' : 'unlisted';
 	}
 

@@ -206,11 +206,12 @@ class FormPage extends BasePage
 				'dreamform_state' => [
 					'success' => true,
 					'partial' => true,
+					'spam' => false,
 					'step' => 1,
 					'redirect' => null, // this is a redirect URL for the form
 					'error' => null, // this is a common error message for the whole form
 					'errors' => [], // this is an array of field-specific error messages
-					'actions' => []
+					'actions' => false // this is an array of action data or false if no actions have been run
 				],
 				'uuid' => $uuid,
 			]
