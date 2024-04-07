@@ -7,7 +7,7 @@ return [
 		'sessionless' => [
 			'active' => true,
 		],
-		'license' => [
+		'fields' => [
 			'active' => true
 		],
 		'performer' => [

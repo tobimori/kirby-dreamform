@@ -2,15 +2,20 @@
 
 namespace tobimori\DreamForm\Fields;
 
+use Kirby\Cache\Cache;
+use Kirby\Cms\App;
 use Kirby\Cms\Block;
 use Kirby\Content\Field as ContentField;
 use Kirby\Exception\Exception;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
+use tobimori\DreamForm\Support\HasCache;
 
 abstract class Field
 {
+	use HasCache;
+
 	private string $id;
 
 	/**
@@ -154,5 +159,13 @@ abstract class Field
 	public static function isAvailable(FormPage|null $form = null): bool
 	{
 		return true;
+	}
+
+	/**
+	 * Get the fields's cache instance
+	 */
+	private static function cacheInstance(): Cache
+	{
+		return App::instance()->cache('tobimori.dreamform.fields');
 	}
 }

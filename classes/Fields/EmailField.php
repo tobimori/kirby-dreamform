@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Fields;
 
 use Kirby\Cms\App;
+use Kirby\Http\Remote;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
 
@@ -44,6 +45,11 @@ class EmailField extends Field
 		];
 	}
 
+	protected function hostname(): string
+	{
+		return Str::after($this->value()->value(), '@');
+	}
+
 	/**
 	 * Check if the TLD associated with the email address has a valid MX record
 	 */
@@ -53,8 +59,25 @@ class EmailField extends Field
 			return true;
 		}
 
-		$hostname = Str::after($this->value()->value(), '@');
-		return checkdnsrr($hostname, 'MX');
+		return checkdnsrr($this->hostname(), 'MX');
+	}
+
+	/**
+	 * Check if the email address is on a disposable providers black list
+	 */
+	protected function isDisposableEmail(): bool
+	{
+		if (App::instance()->option('tobimori.dreamform.fields.email.disposableEmails.disallow') === false) {
+			return false;
+		}
+
+		$url = App::instance()->option('tobimori.dreamform.fields.email.disposableEmails.list');
+		$list = static::cache('disposable', function () use ($url) {
+			$request = Remote::get($url);
+			return $request->code() === 200 ? Str::split($request->content(), PHP_EOL) : [];
+		});
+
+		return in_array($this->hostname(), $list);
 	}
 
 	/**
@@ -67,7 +90,8 @@ class EmailField extends Field
 			&& $this->value()->isEmpty()
 			|| $this->value()->isNotEmpty()
 			&& (!V::email($this->value()->value())
-				|| !$this->hasMxRecord())
+				|| !$this->hasMxRecord()
+				|| $this->isDisposableEmail())
 		) {
 			return $this->errorMessage();
 		}
