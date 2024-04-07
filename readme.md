@@ -41,22 +41,27 @@ Read more about DreamForm on the [official plugin website](https://plugins.andki
 | Checkboxes                                           | ✅        | ✅                                                     | <sup>2</sup>                                     |
 | File uploads                                         | ✅        | ✅                                                     | <sup>2</sup>                                     |
 |                                                      |           |                                                        |                                                  |
+| **_Built-in actions_**                               |           |                                                        |                                                  |
+| Email                                                | ✅        | ✅                                                     | ✅                                               |
+| Redirect                                             | ✅        | ✅                                                     | ✅                                               |
+| Abort                                                | ✅        |                                                        | ✅                                               |
+| Webhook                                              | ✅        |                                                        | ✅                                               |
+| Conditional Action                                   | ✅        |                                                        |                                                  |
+| [Buttondown](https://buttondown.email/)              | ✅ _1.1+_ |                                                        |                                                  |
+| [Discord](https://discord.com)                       | ✅        |                                                        |                                                  |
+|                                                      |           |                                                        |                                                  |
 | **_Built-in guards_**                                |           |                                                        |                                                  |
 | [CSRF](https://owasp.org/www-community/attacks/csrf) | ✅        |                                                        | ✅                                               |
 | IP-based Rate limiting                               | ✅        |                                                        |                                                  |
 | Honeypot                                             | ✅        | ✅                                                     | ✅                                               |
 | Turnstile Captcha                                    | ✅        |                                                        | via third-party plugin                           |
 |                                                      |           |                                                        |                                                  |
-| **_Built-in integrations_**                          |           |                                                        |                                                  |
-| Email                                                | ✅        | ✅                                                     | ✅                                               |
-| Generic Webhook                                      | ✅        |                                                        | ✅                                               |
-| Gravatar                                             | ✅        |                                                        |                                                  |
-| Discord                                              | ✅        |                                                        |                                                  |
-|                                                      |           |                                                        |                                                  |
 | **_Other_**                                          |           |                                                        |                                                  |
 | Re-use forms in different places                     | ✅        | _Each block is a unique form_                          |                                                  |
 | Stores submissions in the panel                      | ✅        | _Sent emails will be stored_                           |                                                  |
 | Permissions for limiting access                      | ✅        |                                                        |                                                  |
+| Gravatar integration                                 | ✅        |                                                        |                                                  |
+| Disposable & invalid email domain check              | ✅ _1.1+_ |                                                        |                                                  |
 
 <small id="1"><sup>1</sup> Technically, you can built most of the features that DreamForm offers yourself using Uniform. For a fair comparison, this table only includes features that can be solved by copying code from the official docs & without writing custom code. </small>
 
