@@ -13,6 +13,7 @@ return array(
     'Kirby\\ComposerInstaller\\PluginInstaller' => $vendorDir . '/getkirby/composer-installer/src/ComposerInstaller/PluginInstaller.php',
     'tobimori\\DreamForm\\Actions\\AbortAction' => $baseDir . '/classes/Actions/AbortAction.php',
     'tobimori\\DreamForm\\Actions\\Action' => $baseDir . '/classes/Actions/Action.php',
+    'tobimori\\DreamForm\\Actions\\ButtondownAction' => $baseDir . '/classes/Actions/ButtondownAction.php',
     'tobimori\\DreamForm\\Actions\\ConditionalAction' => $baseDir . '/classes/Actions/ConditionalAction.php',
     'tobimori\\DreamForm\\Actions\\DiscordWebhookAction' => $baseDir . '/classes/Actions/DiscordWebhookAction.php',
     'tobimori\\DreamForm\\Actions\\EmailAction' => $baseDir . '/classes/Actions/EmailAction.php',

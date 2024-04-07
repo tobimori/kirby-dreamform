@@ -10,9 +10,8 @@ class RatelimitGuard extends Guard
 	{
 		$kirby = App::instance();
 		$ip = sha1($kirby->visitor()->ip()); // hash the IP address to protect user privacy
-		$cache = $kirby->cache('tobimori.dreamform.ratelimit');
 
-		$count = $cache->getOrSet(
+		$count = static::cache(
 			$ip,
 			fn () => $kirby->option('tobimori.dreamform.guards.ratelimit.limit'), // set the initial count
 			$kirby->option('tobimori.dreamform.guards.ratelimit.interval') // set the expiration time
@@ -21,7 +20,7 @@ class RatelimitGuard extends Guard
 		if ($count <= 0) {
 			$this->cancel(t('dreamform.ratelimit-error'), true);
 		} else {
-			$cache->set($ip, $count - 1, $kirby->option('tobimori.dreamform.guards.ratelimit.interval'));
+			static::setCache($ip, $count - 1, $kirby->option('tobimori.dreamform.guards.ratelimit.interval'));
 		}
 	}
 }

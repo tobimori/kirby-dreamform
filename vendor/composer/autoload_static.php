@@ -36,6 +36,7 @@ class ComposerStaticInit910c4189a868d9db3fa89792673c4e88
         'Kirby\\ComposerInstaller\\PluginInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/PluginInstaller.php',
         'tobimori\\DreamForm\\Actions\\AbortAction' => __DIR__ . '/../..' . '/classes/Actions/AbortAction.php',
         'tobimori\\DreamForm\\Actions\\Action' => __DIR__ . '/../..' . '/classes/Actions/Action.php',
+        'tobimori\\DreamForm\\Actions\\ButtondownAction' => __DIR__ . '/../..' . '/classes/Actions/ButtondownAction.php',
         'tobimori\\DreamForm\\Actions\\ConditionalAction' => __DIR__ . '/../..' . '/classes/Actions/ConditionalAction.php',
         'tobimori\\DreamForm\\Actions\\DiscordWebhookAction' => __DIR__ . '/../..' . '/classes/Actions/DiscordWebhookAction.php',
         'tobimori\\DreamForm\\Actions\\EmailAction' => __DIR__ . '/../..' . '/classes/Actions/EmailAction.php',

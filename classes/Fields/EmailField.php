@@ -2,6 +2,8 @@
 
 namespace tobimori\DreamForm\Fields;
 
+use Kirby\Cms\App;
+use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
 
 class EmailField extends Field
@@ -42,13 +44,30 @@ class EmailField extends Field
 		];
 	}
 
+	/**
+	 * Check if the TLD associated with the email address has a valid MX record
+	 */
+	protected function hasMxRecord(): bool
+	{
+		if (App::instance()->option('tobimori.dreamform.fields.email.dnsLookup') === false) {
+			return true;
+		}
+
+		$hostname = Str::after($this->value()->value(), '@');
+		return checkdnsrr($hostname, 'MX');
+	}
+
+	/**
+	 * Validate the email field
+	 */
 	public function validate(): true|string
 	{
 		if (
 			$this->block()->required()->toBool()
 			&& $this->value()->isEmpty()
 			|| $this->value()->isNotEmpty()
-			&& !V::email($this->value()->value())
+			&& (!V::email($this->value()->value())
+				|| !$this->hasMxRecord())
 		) {
 			return $this->errorMessage();
 		}

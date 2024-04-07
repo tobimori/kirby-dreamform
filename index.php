@@ -13,7 +13,7 @@ if (
 	version_compare(App::version() ?? '0.0.0', '4.1.0', '<') === true ||
 	version_compare(App::version() ?? '0.0.0', '5.0.0', '>') === true
 ) {
-	throw new Exception('Kirby DreamForm requires Kirby 4');
+	throw new Exception('Kirby DreamForm requires Kirby 4.1.0');
 }
 
 // register all classes (guards, fields, actions)
@@ -24,6 +24,7 @@ DreamForm::register(
 	\tobimori\DreamForm\Actions\EmailAction::class,
 	\tobimori\DreamForm\Actions\RedirectAction::class,
 	\tobimori\DreamForm\Actions\WebhookAction::class,
+	\tobimori\DreamForm\Actions\ButtondownAction::class,
 	\tobimori\DreamForm\Fields\ButtonField::class,
 	\tobimori\DreamForm\Fields\TextField::class,
 	\tobimori\DreamForm\Fields\TextareaField::class,

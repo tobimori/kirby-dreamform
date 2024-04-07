@@ -32,9 +32,7 @@ const openDialog = () => {
 	});
 };
 
-(() => {
-	loadSection();
-})();
+loadSection();
 </script>
 
 <template>

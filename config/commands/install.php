@@ -32,6 +32,7 @@ return [
 				]
 			])->changeStatus('unlisted')
 		);
+
 		$cli->success('DreamForm installed successfully.');
 	}
 ];

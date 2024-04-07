@@ -64,26 +64,7 @@ abstract class Action extends Performer
 	 */
 	public static function group(): string
 	{
-		return 'actions';
-	}
-
-	/**
-	 * Use the action cache
-	 */
-	public static function cache(string $key, callable $callback): mixed
-	{
-		$cache = App::instance()->cache('tobimori.dreamform.actions');
-		if (!$cache) {
-			return $callback();
-		}
-
-		$value = $cache->get($key);
-		if ($value === null) {
-			$value = $callback();
-			$cache->set($key, $value, 10);
-		}
-
-		return $value;
+		return 'common';
 	}
 
 	public static function type(): string

@@ -7,10 +7,10 @@ return [
 		'sessionless' => [
 			'active' => true,
 		],
-		'ratelimit' => [
+		'license' => [
 			'active' => true
 		],
-		'license' => [
+		'performer' => [
 			'active' => true
 		]
 	],
@@ -42,15 +42,23 @@ return [
 		'available' => true,
 		'discord.webhook' => null, // Default webhook URL
 		'mailchimp.apiKey' => null, // Mailchimp API key
+		'buttondown.apiKey' => null, // Buttondown API key
 		'email' => [
 			'from' => [
 				'email' => fn () => App::instance()->option('email.transport.username'),
 				'name' => fn () => App::instance()->site()->title()
 			]
-		]
+		],
 	],
 	'fields' => [
 		'available' => true,
+		'email' => [
+			'dnsLookup' => true,
+			'disposableEmails' => [
+				'disallow' => true,
+				'list' => 'https://raw.githubusercontent.com/disposable/disposable-email-domains/master/domains.txt'
+			]
+		],
 		'pages.query' => 'site.childrenAndDrafts.filterBy("intendedTemplate", "!=", "forms")', // Page query for the pages field type
 		'fileUpload' => [
 			'types' => [

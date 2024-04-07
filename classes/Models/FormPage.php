@@ -499,6 +499,10 @@ class FormPage extends BasePage
 
 		$fields = [];
 		foreach ($page->fields() as $field) {
+			if (!$field::hasValue()) {
+				continue;
+			}
+
 			$type = Str::replace($field->block()->type(), '-field', '');
 			$fields[$field->id()] = "{$field->block()->label()->or($field->key())} ({$type})";
 		}

@@ -7,6 +7,7 @@ honeypot-error: The honeypot field was filled and the answer wasn't sent.
 captcha-error: The captcha wasn't filled out correctly. Please try again.
 ratelimit-error: You've submitted the form too often. Please wait a moment and try again.
 submit: Submit
+subscription-failed-invalid-email: The email address for the subscription is invalid.
 
 # Forms
 form: Form
@@ -30,6 +31,10 @@ store-submissions-help: "Save the answers as a Kirby page. Certain fields and ac
 # Categories
 common-fields: Common Fields
 advanced-fields: Advanced Fields
+
+common-actions: Common Actions
+newsletter-actions: Newsletter & Marketing
+notification-actions: Notifications
 
 # Submissions
 submission: Submission
@@ -154,6 +159,12 @@ mailchimp-field-mapping-help: Map the form fields to the Mailchimp fields.
 double-opt-in: Require Double Opt In?
 double-opt-in-help: Required for a GDPR compliant subscription.
 
+# Buttondown Action
+buttondown-action: Subscribe to Buttondown Newsletter
+use-email-from: Use email from...
+assign-tags-to-subscriber: Assign tags to subscriber
+expose-fields-as-metadata: Expose fields as metadata
+
 # Multi-step forms
 next-page: Next form page
 new-page: New form page
@@ -171,3 +182,13 @@ license-key-help: You can find your license key after purchasing in the account 
 invalid-email: Please enter a valid email address.
 invalid-license: Please enter a valid license key.
 license-demo-error: This site is in demo mode. Submissions are only accepted from logged in users.
+
+# Spam
+report-as-spam: Report as Spam
+report-as-ham: Report as Ham
+status: Status
+spam: Spam
+ham: Not Spam
+partial: Partial
+complete: Complete
+submission-marked-as: This answer is <>status</>

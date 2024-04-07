@@ -104,4 +104,12 @@ class DiscordWebhookAction extends Action
 			$this->cancel($e->getMessage());
 		}
 	}
+
+	/**
+	 * Returns the actions' blueprint group
+	 */
+	public static function group(): string
+	{
+		return 'notification';
+	}
 }

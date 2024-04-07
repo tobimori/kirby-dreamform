@@ -121,8 +121,8 @@ final class License
 			return true;
 		}
 
-		$licenseCache = App::instance()->cache('dreamform.license');
-		if ($licenseCache->get($this->license) === true) {
+		$licenseCache = App::instance()->cache('tobimori.dreamform.performer');
+		if ($licenseCache->get("license.{$this->license}") === true) {
 			return $this->remoteStatus = true;
 		}
 
@@ -141,7 +141,7 @@ final class License
 			return false;
 		}
 
-		$licenseCache->set($this->license, true, 60 * 24);
+		$licenseCache->set("license.{$this->license}", true, 60 * 24);
 		return $this->remoteStatus = true;
 	}
 

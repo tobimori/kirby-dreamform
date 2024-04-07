@@ -237,4 +237,12 @@ final class DreamForm
 	{
 		return Str::replace($key, '-', '_');
 	}
+
+	/**
+	 * Returns the user agent string for the plugin
+	 */
+	public static function userAgent(): string
+	{
+		return "Kirby DreamForm/" . App::plugin('tobimori/dreamform')->version() . " (+https://plugins.andkindness.com/dreamform)";
+	}
 }

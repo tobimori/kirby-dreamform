@@ -8,7 +8,7 @@ return function () {
 	foreach (DreamForm::actions() as $type => $action) {
 		if (!isset($fieldsets[$group = $action::group()])) {
 			$fieldsets[$group] = [
-				'label' => t("dreamform.{$group}"),
+				'label' => t("dreamform.{$group}-actions"),
 				'type' => 'group',
 				'fieldsets' => []
 			];

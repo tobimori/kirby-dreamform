@@ -8,6 +8,7 @@ honeypot-error: Das Honeypot-Feld wurde ausgefüllt und die Antwort wurde nicht 
 captcha-error: Das Captcha wurde nicht korrekt ausgefüllt. Bitte versuche es erneut.
 ratelimit-error: Du hast das Formular zu häufig abgeschickt. Bitte warte einen Moment und versuche es erneut.
 submit: Absenden
+subscription-failed-invalid-email: Die E-Mail-Adresse für das Abonnement ist ungültig.
 
 # Forms
 form: Formular
@@ -31,6 +32,9 @@ store-submissions-help: "Speichere die Antworten als Kirby-Seite. Bestimmte Feld
 # Categories
 common-fields: Häufige Felder
 advanced-fields: Erweiterte Felder
+common-actions: Häufige Aktionen
+newsletter-actions: Newsletter & Marketing
+notification-actions: Benachrichtigungen
 
 # Submissions
 submission: Antwort
@@ -155,6 +159,12 @@ mailchimp-field-mapping-help: Wähle die Felder aus dem Formular, die mit den Fe
 double-opt-in: Erfordere Double-Opt-In?
 double-opt-in-help: Benötigt für eine DSGVO-konforme Anmeldung.
 
+# Buttondown Action
+buttondown-action: Buttondown-Newsletter abonnieren
+use-email-from: Verwende E-Mail-Adresse aus...
+expose-fields-as-metadata: Felder als Metadaten freigeben
+assign-tags-to-subscriber: Tags zu Abonnenten hinzufügen
+
 # Multi-step forms
 next-page: Nächste Formularseite
 new-page: Neue Formularseite
@@ -172,3 +182,13 @@ license-key-help: Du findest deinen Lizenzschlüssel nach dem Kauf im Kontoberei
 invalid-email: Bitte gebe eine gültige E-Mail-Adresse ein.
 invalid-license: Bitte gebe einen gültigen Lizenzschlüssel ein.
 license-demo-error: Diese Seite nutzt DreamForm im Demo-Modus. Antworten werden daher nur von angemeldeten Benutzern akzeptiert.
+
+# Spam
+report-as-spam: Als Spam markieren
+report-as-ham: Als kein Spam markieren
+status: Status
+spam: Spam
+ham: Kein Spam
+partial: Unvollständig
+complete: Vollständig
+submission-marked-as: Diese Antwort wurde als <>status</> markiert.

@@ -2,6 +2,8 @@
 
 namespace tobimori\DreamForm;
 
+use Kirby\Cache\Cache;
+use Kirby\Cms\App;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SilentPerformerException;
 
@@ -58,5 +60,60 @@ abstract class Performer
 	public static function isAvailable(): bool
 	{
 		return true;
+	}
+
+	abstract public static function type(): string;
+
+	/**
+	 * Get the performer's cache instance
+	 */
+	private static function cacheInstance(): Cache
+	{
+		return App::instance()->cache('tobimori.dreamform.performer');
+	}
+
+	/**
+	 * Get/set a value for the performer cache
+	 */
+	protected static function cache(string $key, callable $callback, int $minutes = 10): mixed
+	{
+		if (!($cache = static::cacheInstance())) {
+			return $callback();
+		}
+
+		$key = static::type() . '.' . $key;
+		$value = $cache->get($key);
+		if ($value === null) {
+			$value = $callback();
+			$cache->set($key, $value, $minutes);
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Set a value for the performer cache
+	 */
+	protected static function setCache(string $key, mixed $value, int $minutes = 10): bool
+	{
+		if (!($cache = static::cacheInstance())) {
+			return false;
+		}
+
+		$key = static::type() . '.' . $key;
+		return $cache->set($key, $value, $minutes);
+	}
+
+	/**
+	 * Get a value from the performer cache
+	 */
+	protected static function getCache(string $key): mixed
+	{
+		if (!($cache = static::cacheInstance())) {
+			return null;
+		}
+
+		$key = static::type() . '.' . $key;
+		return $cache->get($key);
 	}
 }
