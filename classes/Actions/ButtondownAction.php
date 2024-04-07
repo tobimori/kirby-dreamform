@@ -187,12 +187,16 @@ class ButtondownAction extends Action
 	 */
 	protected static function request(string $method, string $url, array $data = []): Remote
 	{
-		$apiToken = App::instance()->option('tobimori.dreamform.actions.buttondown.apiKey');
+		$apiKey = App::instance()->option('tobimori.dreamform.actions.buttondown.apiKey');
+		if (is_callable($apiKey)) {
+			$apiKey = $apiKey();
+		}
+
 		return Remote::$method(static::apiUrl() . $url, A::merge(
 			[
 				'headers' => [
 					'User-Agent' => DreamForm::userAgent(),
-					'Authorization' => "Token {$apiToken}",
+					'Authorization' => "Token {$apiKey}",
 					'Content-Type' => 'application/json'
 				]
 			],
