@@ -38,6 +38,10 @@ class SubmissionPage extends BasePage
 	 */
 	public function findRefererPage(): Page|null
 	{
+		if (!$this->referer()) {
+			return null;
+		}
+
 		return DreamForm::findPageOrDraftRecursive($this->referer());
 	}
 
