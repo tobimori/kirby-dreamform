@@ -46,7 +46,10 @@ return [
 		'available' => true,
 		'discord.webhook' => null, // Default webhook URL
 		'mailchimp.apiKey' => null, // Mailchimp API key
-		'buttondown.apiKey' => null, // Buttondown API key
+		'buttondown' => [
+			'apiKey' => null, // Buttondown API key
+			'simpleMode' => false // simple mode supports free plans
+		],
 		'email' => [
 			'from' => [
 				'email' => fn () => App::instance()->option('email.transport.username'),

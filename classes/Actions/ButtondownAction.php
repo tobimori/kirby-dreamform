@@ -12,6 +12,47 @@ use tobimori\DreamForm\DreamForm;
 
 class ButtondownAction extends Action
 {
+	protected static function simpleMode(): bool
+	{
+		return App::instance()->option('tobimori.dreamform.actions.buttondown.simpleMode') === true;
+	}
+
+	public static function tagsBlueprint(): array
+	{
+		if (static::simpleMode()) {
+			return [];
+		}
+
+		return [
+			'line' => true,
+			'tags' => [
+				'label' => t('dreamform.assign-tags-to-subscriber'),
+				'extends' => 'dreamform/fields/static-dynamic-toggles',
+				'width' => '1/3'
+			],
+			'tagsField' => [
+				'label' => ' ',
+				'extends' => 'dreamform/fields/field',
+				'width' => '2/3',
+				'when' => [
+					'tags' => 'field'
+				]
+			],
+			'tagsStatic' => [
+				'label' => ' ',
+				'type' => 'multiselect',
+				'width' => '2/3',
+				'options' => A::map(static::tags(), fn ($tag) => [
+					'text' => $tag['name'],
+					'value' => $tag['id']
+				]),
+				'when' => [
+					'tags' => 'static'
+				]
+			]
+		];
+	}
+
 	public static function blueprint(): array
 	{
 		return [
@@ -22,7 +63,7 @@ class ButtondownAction extends Action
 			'tabs' => [
 				'settings' => [
 					'label' => t('dreamform.settings'),
-					'fields' => [
+					'fields' => A::merge([
 						'emailField' => [
 							'label' => t('dreamform.use-email-from'),
 							'required' => true,
@@ -35,33 +76,7 @@ class ButtondownAction extends Action
 							'type' => 'multiselect',
 							'width' => '2/3'
 						],
-						'line' => true,
-						'tags' => [
-							'label' => t('dreamform.assign-tags-to-subscriber'),
-							'extends' => 'dreamform/fields/static-dynamic-toggles',
-							'width' => '1/3'
-						],
-						'tagsField' => [
-							'label' => ' ',
-							'extends' => 'dreamform/fields/field',
-							'width' => '2/3',
-							'when' => [
-								'tags' => 'field'
-							]
-						],
-						'tagsStatic' => [
-							'label' => ' ',
-							'type' => 'multiselect',
-							'width' => '2/3',
-							'options' => A::map(static::tags(), fn ($tag) => [
-								'text' => $tag['name'],
-								'value' => $tag['id']
-							]),
-							'when' => [
-								'tags' => 'static'
-							]
-						]
-					]
+					], static::tagsBlueprint())
 				]
 			]
 		];
@@ -72,6 +87,10 @@ class ButtondownAction extends Action
 	 */
 	protected function submissionTags(): array|null
 	{
+		if (static::simpleMode()) {
+			return null;
+		}
+
 		$tags = [];
 		if ($this->block()->tags()->value() === 'field') {
 			$tags = $this->submission()->valueForId($this->block()->tagsField()->value())->value();
@@ -137,7 +156,7 @@ class ButtondownAction extends Action
 		// some error occurred, check for next steps
 		if ($subscribeRequest->code() !== 201) {
 			// update subscriber data if email already exists
-			if ($subscribeRequest->json()['code'] === 'email_already_exists') {
+			if (!static::simpleMode() && $subscribeRequest->json()['code'] === 'email_already_exists') {
 				$updateRequest = static::request('PATCH', "/subscribers/{$email->value()}", $data);
 
 				// send reminder if subscriber is unactivated
@@ -216,7 +235,6 @@ class ButtondownAction extends Action
 			return false;
 		}
 
-		// TODO: check if user has paid plan
 		return static::cache('ping', function () {
 			$request = static::request('GET', '/ping');
 			return $request->code() === 200;
