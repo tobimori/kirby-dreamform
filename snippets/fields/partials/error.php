@@ -13,6 +13,4 @@ use Kirby\Toolkit\A;
 
 ?>
 
-<span <?= attr(A::merge($attr['error'], ['data-error' => $block->key()])) ?>>
-	<?= $submission?->errorFor($block->key()) ?>
-</span>
+<span <?= attr(A::merge($attr['error'], ['data-error' => $block->key()])) ?>><?= $submission?->errorFor($block->key()) ?></span>
