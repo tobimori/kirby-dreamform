@@ -10,7 +10,7 @@ class LicenseGuard extends Guard
 	public function run(): void
 	{
 		$license = License::fromDisk();
-		if (!$license->isValid() && !App::instance()->system()->isLocal() && !App::instance()->user()->isAdmin()) {
+		if (!$license->isValid() && !App::instance()->system()->isLocal() && !App::instance()->user()?->isAdmin()) {
 			$this->cancel(t('dreamform.license-error'));
 		}
 	}

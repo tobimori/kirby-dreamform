@@ -57,6 +57,7 @@ return function () {
 						'layout' => 'table',
 						'create' => false,
 						'text' => false,
+						// TODO: cache the query as it seems to be slow on larger sites (> 1 sec)
 						'query' => "page.index.filterBy('intendedTemplate', 'submission').sortBy('sortDate', 'desc').limit(20)",
 						'columns' => [
 							'date' => [
