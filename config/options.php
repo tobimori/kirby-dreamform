@@ -29,8 +29,12 @@ return [
 	],
 	'guards' => [
 		'available' => ['honeypot', 'csrf'],
-		'honeypot.fields' => ['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject'],
-		'akismet.apiKey' => null,
+		'honeypot' => [
+			'fields' => ['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject']
+		],
+		'akismet' => [
+			'apiKey' => null
+		],
 		'turnstile' => [
 			'theme' => 'auto',
 			'siteKey' => null,
@@ -44,11 +48,15 @@ return [
 	],
 	'actions' => [
 		'available' => true,
-		'discord.webhook' => null, // Default webhook URL
-		'mailchimp.apiKey' => null, // Mailchimp API key
+		'discord' => [
+			'webhook' => null // Default webhook URL
+		],
+		'mailchimp' => [
+			'apiKey' => null // Mailchimp API key
+		],
 		'buttondown' => [
 			'apiKey' => null, // Buttondown API key
-			'simpleMode' => false // simple mode supports free plans
+			'simpleMode' => false // Simple mode supports free plans, removes tags support
 		],
 		'email' => [
 			'from' => [
@@ -66,7 +74,9 @@ return [
 				'list' => 'https://raw.githubusercontent.com/disposable/disposable-email-domains/master/domains.txt'
 			]
 		],
-		'pages.query' => 'site.childrenAndDrafts.filterBy("intendedTemplate", "!=", "forms")', // Page query for the pages field type
+		'pages' => [
+			'query' => 'site.childrenAndDrafts.filterBy("intendedTemplate", "!=", "forms")' // Page query for the pages field type
+		],
 		'fileUpload' => [
 			'types' => [
 				// JPEG, PNG, GIF, AVIF, WEBP
