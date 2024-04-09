@@ -3,10 +3,12 @@ successful-submission: Vielen Dank für deine Antwort!
 inactive-form: Dieses Formular ist inaktiv und nimmt zur Zeit keine Antworten entgegen.
 error-message-default: Dieses Feld muss ausgefüllt werden.
 generic-error: Etwas ist schiefgelaufen. Bitte versuche es später noch einmal.
-csrf-error: Beim Absenden des Formulars ist ein Fehler aufgetreten. Bitte lade die Seite neu und versuche es erneut.
+csrf-error: Beim Absenden des Formulars ist ein Fehler aufgetreten. Bitte lade die
+  Seite neu und versuche es erneut.
 honeypot-error: Das Honeypot-Feld wurde ausgefüllt und die Antwort wurde nicht gesendet.
 captcha-error: Das Captcha wurde nicht korrekt ausgefüllt. Bitte versuche es erneut.
-ratelimit-error: Du hast das Formular zu häufig abgeschickt. Bitte warte einen Moment und versuche es erneut.
+ratelimit-error: Du hast das Formular zu häufig abgeschickt. Bitte warte einen Moment
+  und versuche es erneut.
 submit: Absenden
 subscription-failed-invalid-email: Die E-Mail-Adresse für das Abonnement ist ungültig.
 
@@ -16,18 +18,24 @@ forms: Formulare
 all-forms: Alle Formulare
 empty-forms: Keine Formulare
 form-name: Formularname
-form-draft: Dieses Formular ist ein Entwurf und kann nicht eingereicht werden oder in Feldern verlinkt werden.
+form-draft: Dieses Formular ist ein Entwurf und kann nicht eingereicht werden oder
+  in Feldern verlinkt werden.
 form-listed: Dieses Formular ist veröffentlicht und kann eingereicht werden.
 form-listed-label: Formular aktiv
 form-draft-label: Entwurf
 empty-form: Kein Formular ausgewählt
-duplicate-key: "Das Formular konnte nicht gespeichert werden: Ein Feld mit dem Schlüssel \"{{ key }}\" existiert bereits."
-reserved-key: "Das Formular konnte nicht gespeichert werden: Der Schlüssel \"{{ key }}\" ist reserviert und kann nicht verwendet werden."
+duplicate-key: "Das Formular konnte nicht gespeichert werden: Ein Feld mit dem Schlüssel
+  \"{{ key }}\" existiert bereits."
+reserved-key: "Das Formular konnte nicht gespeichert werden: Der Schlüssel \"{{ key
+  }}\" ist reserviert und kann nicht verwendet werden."
 
 # Settings
 settings: Einstellungen
 store-submissions: Antworten speichern
-store-submissions-help: "Speichere die Antworten als Kirby-Seite. Bestimmte Felder und Aktionen können möglicherweise nicht verwendet werden, wenn diese Option deaktiviert ist. Weitere Informationen findest du in der (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention text: Dokumentation)."
+store-submissions-help: "Speichere die Antworten als Kirby-Seite. Bestimmte Felder
+  und Aktionen können möglicherweise nicht verwendet werden, wenn diese Option deaktiviert
+  ist. Weitere Informationen findest du in der (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention
+  text: Dokumentation)."
 
 # Categories
 common-fields: Häufige Felder
@@ -52,7 +60,8 @@ validation: Validierung
 label: Beschriftung
 placeholder: Platzhaltertext
 error-message: Fehlermeldung
-error-message-help: Die Fehlermeldung wird angezeigt, wenn das Feld **nicht** oder im **falschen Format** ausgefüllt wurde.
+error-message-help: Die Fehlermeldung wird angezeigt, wenn das Feld **nicht** oder
+  im **falschen Format** ausgefüllt wurde.
 required: Pflichtfeld
 required-off: Nein, optional
 required-on: Ja, Pflichtfeld
@@ -75,7 +84,8 @@ number-field: Nummer
 min-number: Mindestwert
 max-number: Maximalwert
 number-step: Schrittweite
-number-step-help: Der eingegebene Wert muss durch diese Zahl teilbar sein. Für Dezimalzahlen, verwende eine Zahl wie "0,1".
+number-step-help: Der eingegebene Wert muss durch diese Zahl teilbar sein. Für Dezimalzahlen,
+  verwende eine Zahl wie "0,1".
 
 # Checkboxes / Select
 options: Auswahlmöglichkeiten
@@ -89,7 +99,8 @@ remove-option: Option entfernen
 # Pages Field
 pages-field: Aus Seiten auswählen
 use-children: Nutze Unterseiten?
-use-children-help: Falls aktiviert, werden die veröffentlichten Unterseiten der ausgewählten Seiten als Auswahlmöglichkeiten verwendet.
+use-children-help: Falls aktiviert, werden die veröffentlichten Unterseiten der ausgewählten
+  Seiten als Auswahlmöglichkeiten verwendet.
 
 # File Upload Field
 file-upload-field: Datei hochladen
@@ -121,7 +132,8 @@ template-type: Vorlagentyp
 template-type-default: Standardvorlage
 template-type-kirby: Kirby-Template
 template-type-field: Benutzerdefiniertes Template
-new-form-submission-for: Du hast eine neue Formularantwort für dein Formular {{ form }} erhalten.
+new-form-submission-for: Du hast eine neue Formularantwort für dein Formular {{ form
+  }} erhalten.
 
 # Conditional Action
 conditional-action: Bedingte Aktion
@@ -157,7 +169,8 @@ redirect-to: Weiterleiten zu
 mailchimp-action: Mailchimp-Newsletter abonnieren
 mailchimp-list: Liste
 mailchimp-field-mapping: Feldzuordnung
-mailchimp-field-mapping-help: Wähle die Felder aus dem Formular, die mit den Feldern in Mailchimp übereinstimmen.
+mailchimp-field-mapping-help: Wähle die Felder aus dem Formular, die mit den Feldern
+  in Mailchimp übereinstimmen.
 double-opt-in: Erfordere Double-Opt-In?
 double-opt-in-help: Benötigt für eine DSGVO-konforme Anmeldung.
 
@@ -175,15 +188,22 @@ new-page: Neue Formularseite
 activate-license: Lizenz aktivieren
 buy-license: Lizenz kaufen
 ready-to-activate: Bereit, Formularantworten auf deiner Website anzunehmen?
-submissions-demo-mode: Antworten werden im Demo-Modus nur von angemeldeten Benutzern akzeptiert.
+submissions-demo-mode: Antworten werden im Demo-Modus nur von angemeldeten Benutzern
+  akzeptiert.
 activate-plugin: DreamForm aktivieren
-license-notice-local: Du aktivierst DreamForm auf deiner lokalen Domain <strong>{{ domain }}</strong>. Wenn diese Website später auf einer öffentlichen Domain betrieben werden soll, warte bitte mit der Aktivierung.
-license-notice-default: Deine Lizenz wird für die Domain <strong>{{ domain }}</strong> aktiviert.
+license-notice-local: Du aktivierst DreamForm auf deiner lokalen Domain <strong>{{
+  domain }}</strong>. Wenn diese Website später auf einer öffentlichen Domain betrieben
+  werden soll, warte bitte mit der Aktivierung.
+license-notice-default: Deine Lizenz wird für die Domain <strong>{{ domain }}</strong>
+  aktiviert.
 enter-license-key: Gebe deinen Lizenzschlüssel ein
-license-key-help: Du findest deinen Lizenzschlüssel nach dem Kauf im Kontobereich der Website von <a target="_blank" href="https://plugins.andkindness.com/account">Love & Kindness</a>.
+license-key-help: Du findest deinen Lizenzschlüssel nach dem Kauf im Kontobereich
+  der Website von <a target="_blank" href="https://plugins.andkindness.com/account">Love
+  & Kindness</a>.
 invalid-email: Bitte gebe eine gültige E-Mail-Adresse ein.
 invalid-license: Bitte gebe einen gültigen Lizenzschlüssel ein.
-license-demo-error: Diese Seite nutzt DreamForm im Demo-Modus. Antworten werden daher nur von angemeldeten Benutzern akzeptiert.
+license-demo-error: Diese Seite nutzt DreamForm im Demo-Modus. Antworten werden daher
+  nur von angemeldeten Benutzern akzeptiert.
 
 # Spam
 report-as-spam: Als Spam markieren
@@ -194,3 +214,4 @@ ham: Kein Spam
 partial: Unvollständig
 complete: Vollständig
 submission-marked-as: Diese Antwort wurde als <>status</> markiert.
+message: Nachricht
