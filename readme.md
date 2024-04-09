@@ -59,7 +59,7 @@ Read more about DreamForm on the [official plugin website](https://plugins.andki
 |                                                                 |           |                                                        |                                                  |
 | **_Other_**                                                     |           |                                                        |                                                  |
 | Re-use forms in different places                                | ✅        | _Each block is a unique form_                          |                                                  |
-| Mark & filter submissions for spam                              | ✅ _1.1+_ |                                                        |                                                  |
+| Mark submissions for spam                                       | ✅ _1.1+_ |                                                        |                                                  |
 | Stores submissions in the panel                                 | ✅        | _Sent emails will be stored_                           |                                                  |
 | Permissions for limiting access                                 | ✅        |                                                        |                                                  |
 | Gravatar integration                                            | ✅        |                                                        |                                                  |
