@@ -3,7 +3,7 @@
 @include_once __DIR__ . '/vendor/autoload.php';
 
 use Kirby\Cms\App;
-use Kirby\Data\Yaml;
+use Kirby\Data\Json;
 use Kirby\Filesystem\Dir;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
@@ -127,7 +127,7 @@ App::plugin('tobimori/dreamform', [
 			Dir::read(__DIR__ . '/translations'),
 			function ($file) {
 				$translations = [];
-				foreach (Yaml::decode(F::read(__DIR__ . '/translations/' . $file)) as $key => $value) {
+				foreach (Json::read(__DIR__ . '/translations/' . $file) as $key => $value) {
 					$translations["dreamform.{$key}"] = $value;
 				}
 
