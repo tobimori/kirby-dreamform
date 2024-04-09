@@ -3,6 +3,7 @@
 /**
  * This is the guard form snippet that renders the necessary content for guards.
  *
+ * @var \Kirby\Cms\Page $page
  * @var \tobimori\DreamForm\Models\FormPage $form
  * @var array|null $attr
  */
