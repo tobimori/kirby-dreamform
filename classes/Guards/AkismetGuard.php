@@ -106,7 +106,7 @@ class AkismetGuard extends Guard
 			[
 				'data' => A::filter(A::merge([
 					'api_key' => static::apiKey(),
-					'blog' => "https://vierbeinerinnot.de", //App::instance()->site()->url(),
+					'blog' => App::instance()->site()->url(),
 					'comment_type' => 'contact-form',
 				], $data), fn ($value) => $value !== null)
 			]
