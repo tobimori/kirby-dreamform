@@ -2,10 +2,9 @@
 
 namespace tobimori\DreamForm\Actions;
 
+use Exception;
 use Kirby\Cms\App;
-use Kirby\Cms\Email as CmsEmail;
 use Kirby\Cms\User;
-use Kirby\Email\Email;
 use Kirby\Toolkit\A;
 
 /**
@@ -192,6 +191,10 @@ class EmailAction extends Action
 		$email = App::instance()->option('tobimori.dreamform.actions.email.from.email');
 		if (is_callable($email)) {
 			$email = $email();
+		}
+
+		if (empty($name) || empty($email)) {
+			throw new Exception('[DreamForm] No sender email or transport username specified in the config.');
 		}
 
 		return new User(compact('name', 'email'));
