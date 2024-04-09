@@ -19,6 +19,10 @@ return function () {
 
 	return [
 		'title' => 'dreamform.submission',
+		'navigation' => [
+			'status' => 'all',
+			'sortBy' => 'sortDate desc'
+		],
 		'image' => [
 			'icon' => 'archive',
 			'back' => '#fafafa',
