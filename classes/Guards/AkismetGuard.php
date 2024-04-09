@@ -6,7 +6,6 @@ use Kirby\Cms\App;
 use Kirby\Data\Json;
 use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
-use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\SubmissionPage;
 
 class AkismetGuard extends Guard
@@ -19,6 +18,25 @@ class AkismetGuard extends Guard
 	}
 
 	/**
+	 * Returns the content to be sent to Akismet
+	 */
+	protected function contentForSubmission(SubmissionPage $submission): array
+	{
+		$content = [];
+		foreach (App::instance()->option('tobimori.dreamform.guards.akismet.fields', []) as $key => $fields) {
+			$content[$key] = A::reduce($fields, function ($prev, $field) use ($submission) {
+				if ($prev !== null) {
+					return $prev;
+				}
+
+				return $submission->valueFor($field)?->value();
+			}, null);
+		}
+
+		return $content;
+	}
+
+	/**
 	 * Run the Akismet validation
 	 */
 	public function postValidation(SubmissionPage $submission): void
@@ -28,18 +46,8 @@ class AkismetGuard extends Guard
 		$request = $kirby->request();
 
 		try {
-			$content = [];
-			foreach ($kirby->option('tobimori.dreamform.guards.akismet.fields', []) as $key => $fields) {
-				$content[$key] = A::reduce($fields, function ($prev, $field) use ($submission) {
-					if ($prev !== null) {
-						return $prev;
-					}
-
-					return $submission->valueFor($field)?->value();
-				}, null);
-			}
-
 			$request = static::post('/comment-check', A::merge([
+				// send metadata
 				'user_ip' => $visitor->ip(),
 				'user_agent' => A::has($kirby->option('tobimori.dreamform.metadata.collect'), 'userAgent') ? $visitor->userAgent() : null,
 				'referrer' => $request->header("Referer"),
@@ -47,11 +55,7 @@ class AkismetGuard extends Guard
 				// send honeypot if used
 				'honeypot_field_name' => $honeypotField = A::find($this->form()->guards(), fn ($guard) => $guard instanceof HoneypotGuard)?->fieldName(),
 				'hidden_honeypot_field' => $honeypotField ? SubmissionPage::valueFromBody($honeypotField) : null,
-
-				// language
-				'blog_lang' => $kirby->multilang() ? $kirby->languages()->map(fn ($lang) => $lang->code())->join(', ') : null,
-				'blog_charset' => 'UTF-8'
-			], $content));
+			], $this->contentForSubmission($submission)));
 
 			if ($request->content() === 'true') {
 				$submission->markAsSpam(true);
@@ -62,10 +66,24 @@ class AkismetGuard extends Guard
 	}
 
 	/**
+	 * Returns the content to be reported to Akismet
+	 */
+	protected function reportContentForSubmission(SubmissionPage $submission): array
+	{
+		return A::merge([
+			'comment_author' => $submission->metadata()->name()?->value(),
+			'comment_author_email' => $submission->metadata()->email()?->value(),
+			'comment_author_url' => $submission->metadata()->website()?->value(),
+			'comment_content' => $submission->message()->value()
+		], $this->contentForSubmission($submission));
+	}
+
+	/**
 	 * Reports the submission as spam to Akismet
 	 */
 	public function reportSubmissionAsSpam(SubmissionPage $submission): void
 	{
+		static::post('/submit-spam', $this->reportContentForSubmission($submission));
 	}
 
 	/**
@@ -73,6 +91,7 @@ class AkismetGuard extends Guard
 	 */
 	public function reportSubmissionAsHam(SubmissionPage $submission): void
 	{
+		static::post('/submit-ham', $this->reportContentForSubmission($submission));
 	}
 
 	/**
@@ -101,6 +120,8 @@ class AkismetGuard extends Guard
 	 */
 	protected static function post(string $url, array $data = []): Remote
 	{
+		$kirby = App::instance();
+
 		return Remote::post(
 			static::apiUrl() . $url,
 			[
@@ -108,6 +129,8 @@ class AkismetGuard extends Guard
 					'api_key' => static::apiKey(),
 					'blog' => App::instance()->site()->url(),
 					'comment_type' => 'contact-form',
+					'blog_lang' => $kirby->multilang() ? $kirby->languages()->map(fn ($lang) => $lang->code())->join(', ') : null,
+					'blog_charset' => 'UTF-8'
 				], $data), fn ($value) => $value !== null)
 			]
 		);
@@ -126,7 +149,7 @@ class AkismetGuard extends Guard
 		}
 
 		return static::cache('verify-key', function () {
-			$request = static::post('/verify-key', ['comment_type' => null]);
+			$request = static::post('/verify-key');
 			return $request->code() === 200;
 		});
 	}
