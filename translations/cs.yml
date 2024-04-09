@@ -5,7 +5,8 @@ error-message-default: Toto pole je povinné.
 generic-error: Něco se pokazilo. Zkuste to prosím později.
 honeypot-error: Pole honeypot bylo vyplněno a odpověď nebyla odeslána.
 captcha-error: Captcha nebyla správně vyplněna. Zkuste to prosím znovu.
-ratelimit-error: Formulář jste odesílali příliš často. Počkejte prosím chvíli a zkuste to znovu.
+ratelimit-error: Formulář jste odesílali příliš často. Počkejte prosím chvíli a zkuste
+  to znovu.
 submit: Odeslat
 
 # Forms
@@ -19,13 +20,18 @@ form-listed: Tento formulář je zveřejněn a lze jej odeslat.
 form-listed-label: Aktivní formulář
 form-draft-label: Návrh
 empty-form: Žádný formulář nebyl vybrán
-duplicate-key: "Tento formulář nelze uložit: Klíč \"{{ key }}\" je již v tomto formuláři použit."
-reserved-key: "Tento formulář nelze uložit: Klíč \"{{ key }}\" je rezervované klíčové slovo."
+duplicate-key: "Tento formulář nelze uložit: Klíč \"{{ key }}\" je již v tomto formuláři
+  použit."
+reserved-key: "Tento formulář nelze uložit: Klíč \"{{ key }}\" je rezervované klíčové
+  slovo."
 
 # Settings
 settings: Nastavení
 store-submissions: Uložit podání (odeslání)
-store-submissions-help: "Uložit podání (odeslání) jako Kirby stránku. Pokud je tato možnost vypnutá, nemusí být některé pole a akce dostupné. Další informace naleznete v (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention text: dokumentaci)."
+store-submissions-help: "Uložit podání (odeslání) jako Kirby stránku. Pokud je tato
+  možnost vypnutá, nemusí být některé pole a akce dostupné. Další informace naleznete
+  v (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention text:
+  dokumentaci)."
 
 # Categories
 common-fields: Společná pole
@@ -45,7 +51,8 @@ validation: Validace
 label: Popisek
 placeholder: Zástupný text
 error-message: Chybová zpráva
-error-message-help: Chybová zpráva se zobrazí, když je pole **nevyplněno** nebo je ve **špatném formátu**.
+error-message-help: Chybová zpráva se zobrazí, když je pole **nevyplněno** nebo je
+  ve **špatném formátu**.
 required: Vyžadováno
 required-off: Ne, nepovinné
 required-on: Ano, povinné
@@ -68,7 +75,8 @@ number-field: Číslo
 min-number: Min. hodnota
 max-number: Max. hodnota
 number-step: Velikost kroku
-number-step-help: Zadaná hodnota musí být dělitelná tímto číslem. Pro desetinná čísla použijte číslo jako "0.1".
+number-step-help: Zadaná hodnota musí být dělitelná tímto číslem. Pro desetinná čísla
+  použijte číslo jako "0.1".
 
 # Checkboxes / Select
 options: Možnosti
@@ -82,7 +90,8 @@ remove-option: Odebrat možnost
 # Pages Field
 pages-field: Výběr ze stránek
 use-children: Použít podstránky?
-use-children-help: Pokud je aktivováno, budou uvedené dětské stránky použity jako dostupné možnosti.
+use-children-help: Pokud je aktivováno, budou uvedené dětské stránky použity jako
+  dostupné možnosti.
 
 # File Upload Field
 file-upload-field: Nahrát soubor
@@ -114,7 +123,8 @@ template-type: Typ šablony
 template-type-default: Výchozí šablona
 template-type-kirby: Kirby šablona
 template-type-field: Vlastní šablona
-new-form-submission-for: Obdrželi jste nový odeslaný formulář pro váš formulář "{{ form }}".
+new-form-submission-for: Obdrželi jste nový odeslaný formulář pro váš formulář "{{
+  form }}".
 
 # Conditional Action
 conditional-action: Podmíněná akce
@@ -162,12 +172,19 @@ new-page: Nová stránka formuláře
 activate-license: Aktivovat licenci
 buy-license: Koupit licenci
 ready-to-activate: Připraveno přijímat odeslané formuláře na vašem webu?
-submissions-demo-mode: Odeslané formuláře jsou přijímány pouze od přihlášených uživatelů v demo režimu.
+submissions-demo-mode: Odeslané formuláře jsou přijímány pouze od přihlášených uživatelů
+  v demo režimu.
 activate-plugin: Aktivovat DreamForm
-license-notice-local: Aktivujete DreamForm na vašem lokálním doméně <strong>{{ domain }}</strong>. Pokud bude tento web nasazen na veřejnou doménu, aktivujte ji tam místo toho.
-license-notice-default: Vaše licence bude aktivována pro doménu <strong>{{ domain }}</strong>.
+license-notice-local: Aktivujete DreamForm na vašem lokálním doméně <strong>{{ domain
+  }}</strong>. Pokud bude tento web nasazen na veřejnou doménu, aktivujte ji tam místo
+  toho.
+license-notice-default: Vaše licence bude aktivována pro doménu <strong>{{ domain
+  }}</strong>.
 enter-license-key: Zadejte svůj licenční klíč
-license-key-help: Licenční klíč naleznete po zakoupení v účetním prostoru na webu pluginu <a target="_blank" href="https://plugins.andkindness.com/account">Love & Kindness</a>.
+license-key-help: Licenční klíč naleznete po zakoupení v účetním prostoru na webu
+  pluginu <a target="_blank" href="https://plugins.andkindness.com/account">Love &
+  Kindness</a>.
 invalid-email: Zadejte platnou emailovou adresu, prosím.
 invalid-license: Zadejte platný licenční klíč, prosím
-license-demo-error: Tento web je v demo režimu. Odeslané formuláře jsou přijímány pouze od přihlášených uživatelů.
+license-demo-error: Tento web je v demo režimu. Odeslané formuláře jsou přijímány
+  pouze od přihlášených uživatelů.
