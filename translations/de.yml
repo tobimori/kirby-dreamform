@@ -215,3 +215,8 @@ partial: Unvollständig
 complete: Vollständig
 submission-marked-as: Diese Antwort wurde als <>status</> markiert.
 message: Nachricht
+confirm-as-spam: Bist du sicher, dass du diese Antwort als Spam melden willst?
+confirm-as-ham: Bist du sicher, dass du diese Antwort als kein Spam melden willst?
+error-while-processing: Beim Bearbeiten der Antwort ist ein Fehler aufgetreten.
+confirm-as-ham-unprocessed: "<strong>Bist du sicher, dass du diese Antwort als kein
+  Spam melden willst?</strong>\nDer Workflow wird danach zum ersten Mal ausgeführt.\n"
