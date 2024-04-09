@@ -15,7 +15,7 @@ $attr = A::merge($attr, $attr['textarea']);
 snippet('dreamform/fields/partials/wrapper', $arguments = compact('block', 'field', 'form', 'attr'), slots: true);
 snippet('dreamform/fields/partials/label', $arguments); ?>
 
-<textarea <?= attr(A::merge($attr['input'], [
+<textarea <?= attr(A::merge($attr['textarea'], [
 	'id' => $block->id(),
 	'name' => $block->key(),
 	'placeholder' => $block->placeholder()->or(" "),
