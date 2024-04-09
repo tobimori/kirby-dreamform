@@ -3,9 +3,11 @@ successful-submission: Merci pour votre soumission !
 inactive-form: Ce formulaire est inactif et n'accepte pas de réponses.
 error-message-default: Ce champ est obligatoire.
 generic-error: Quelque chose s'est mal passé. Veuillez réessayer plus tard.
-honeypot-error: Le champ <em>honeypot</em> a été rempli et la réponse n'a pas été envoyée.
+honeypot-error: Le champ <em>honeypot</em> a été rempli et la réponse n'a pas été
+  envoyée.
 captcha-error: Le captcha n'a pas été correctement rempli. Veuillez réessayer.
-ratelimit-error: Vous avez soumis le formulaire trop souvent. Veuillez attendre un moment et réessayer.
+ratelimit-error: Vous avez soumis le formulaire trop souvent. Veuillez attendre un
+  moment et réessayer.
 submit: Soumettre
 
 # Forms
@@ -14,18 +16,24 @@ forms: Formulaires
 all-forms: Tous les formulaires
 empty-forms: Aucun formulaire
 form-name: Nom du formulaire
-form-draft: Ce formulaire est un brouillon et ne peut pas être soumis ou lié dans les champs.
+form-draft: Ce formulaire est un brouillon et ne peut pas être soumis ou lié dans
+  les champs.
 form-listed: Ce formulaire est publié et peut être soumis.
 form-listed-label: Formulaire actif
 form-draft-label: Brouillon
 empty-form: Aucun formulaire sélectionné
-duplicate-key: "Ce formulaire ne peut pas être enregistré : La clé \"{{ key }}\" est déjà utilisée dans ce formulaire."
-reserved-key: "Ce formulaire ne peut pas être enregistré : La clé \"{{ key }}\" est un mot-clé réservé."
+duplicate-key: "Ce formulaire ne peut pas être enregistré : La clé \"{{ key }}\" est
+  déjà utilisée dans ce formulaire."
+reserved-key: "Ce formulaire ne peut pas être enregistré : La clé \"{{ key }}\" est
+  un mot-clé réservé."
 
 # Settings
 settings: Paramètres
 store-submissions: Enregistrer les soumissions
-store-submissions-help: "Enregistre les réponses en tant que page Kirby. Certains champs et actions peuvent ne pas être disponibles si cette option est désactivée. Pour plus d'informations, voir la (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention text: documentation)."
+store-submissions-help: "Enregistre les réponses en tant que page Kirby. Certains
+  champs et actions peuvent ne pas être disponibles si cette option est désactivée.
+  Pour plus d'informations, voir la (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention
+  text: documentation)."
 
 # Categories
 common-fields: Champs simples
@@ -45,7 +53,8 @@ validation: Validation
 label: Label
 placeholder: Placeholder
 error-message: Message d'erreur
-error-message-help: Le message d'erreur est affiché lorsque le champ n'est **pas** ou dans le **mauvais format**.
+error-message-help: Le message d'erreur est affiché lorsque le champ n'est **pas**
+  ou dans le **mauvais format**.
 required: Requis
 required-off: Non, facultatif
 required-on: Oui, obligatoire
@@ -68,7 +77,8 @@ number-field: Nombre
 min-number: Valeur min.
 max-number: Valeur max.
 number-step: Nombre d'étapes
-number-step-help: La valeur saisie doit être divisible par ce nombre. Pour les décimales, utilisez un nombre comme "0.1".
+number-step-help: La valeur saisie doit être divisible par ce nombre. Pour les décimales,
+  utilisez un nombre comme "0.1".
 
 # Checkboxes / Select
 options: Options
@@ -82,7 +92,8 @@ remove-option: Supprimer une option
 # Pages Field
 pages-field: Sélectionner à partir des pages
 use-children: Utiliser les enfants ?
-use-children-help: Si activé, les pages enfants listées seront utilisées comme options disponibles.
+use-children-help: Si activé, les pages enfants listées seront utilisées comme options
+  disponibles.
 
 # File Upload Field
 file-upload-field: Téléversement de fichier
@@ -90,7 +101,8 @@ max-filesize: Taille de fichier max.
 min-filesize: Taille de fichier min.
 limit-file-types: Limiter les types de fichiers à…
 allow-multiple: Autoriser plusieurs fichiers ?
-max-filesize-ini: La taille de fichier maximale de la configuration PHP est {{ size }}.
+max-filesize-ini: La taille de fichier maximale de la configuration PHP est {{ size
+  }}.
 filetype-images: Images
 filetype-audio: Audio
 filetype-video: Vidéo
@@ -114,7 +126,8 @@ template-type: Type de modèle
 template-type-default: Modèle par défaut
 template-type-kirby: Modèle Kirby
 template-type-field: Modèle personnalisé
-new-form-submission-for: Vous avez reçu une nouvelle soumission de formulaire pour votre formulaire "{{ form }}".
+new-form-submission-for: Vous avez reçu une nouvelle soumission de formulaire pour
+  votre formulaire "{{ form }}".
 
 # Conditional Action
 conditional-action: Action conditionnelle
@@ -162,12 +175,19 @@ new-page: Nouvelle page de formulaire
 activate-license: Activer la licence
 buy-license: Acheter une licence
 ready-to-activate: Prêt à accepter les soumissions de formulaires sur votre site ?
-submissions-demo-mode: Les soumissions sont uniquement acceptées pour les utilisateurs connectés en mode démo.
+submissions-demo-mode: Les soumissions sont uniquement acceptées pour les utilisateurs
+  connectés en mode démo.
 activate-plugin: Activer DreamForm
-license-notice-local: Vous activez DreamForm sur votre domaine local <strong>{{ domain }}</strong>. Si ce site doit être déployé sur un domaine public, veuillez l'activer là-bas à la place.
-license-notice-default: Votre licence sera activée pour le domaine <strong>{{ domain }}</strong>.
+license-notice-local: Vous activez DreamForm sur votre domaine local <strong>{{ domain
+  }}</strong>. Si ce site doit être déployé sur un domaine public, veuillez l'activer
+  là-bas à la place.
+license-notice-default: Votre licence sera activée pour le domaine <strong>{{ domain
+  }}</strong>.
 enter-license-key: Entrez votre clé de licence
-license-key-help: Vous pouvez retrouver votre clé de licence après l'achat dans votre compte <a target="_blank" href="https://plugins.andkindness.com/account">Love & Kindness</a>.
+license-key-help: Vous pouvez retrouver votre clé de licence après l'achat dans votre
+  compte <a target="_blank" href="https://plugins.andkindness.com/account">Love &
+  Kindness</a>.
 invalid-email: Veuillez entrer une adresse e-mail valide.
 invalid-license: Veuillez entrer une clé de licence valide.
-license-demo-error: Ce site est en mode démo. Les soumissions sont uniquement acceptées pour les utilisateurs connectés.
+license-demo-error: Ce site est en mode démo. Les soumissions sont uniquement acceptées
+  pour les utilisateurs connectés.
