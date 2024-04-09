@@ -21,10 +21,12 @@ use Kirby\Toolkit\V;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\Field as FormField;
 use tobimori\DreamForm\Permissions\SubmissionPermissions;
-use tobimori\DreamForm\Support\Htmx;
 
 class SubmissionPage extends BasePage
 {
+	use SubmissionMetadata;
+	use SubmissionSession;
+
 	/**
 	 * Returns the submission referer (for PRG redirects)
 	 */
@@ -43,6 +45,44 @@ class SubmissionPage extends BasePage
 		}
 
 		return DreamForm::findPageOrDraftRecursive($this->referer());
+	}
+
+	/**
+	 * Returns a Response that redirects the user to the URL set in the submission state
+	 */
+	public function redirect(): Responder
+	{
+		if (!$this->state()->get('redirect')->value()) {
+			return $this->redirectToReferer();
+		}
+
+		return App::instance()->response()->redirect(
+			$this->state()->get('redirect')->value()
+		);
+	}
+
+	/**
+	 * Sets the redirect URL in the submission state
+	 */
+	public function setRedirect(string $url): static
+	{
+		return $this->updateState(['redirect' => $url]);
+	}
+
+	/**
+	 * Returns a Response that redirects the user to the referer URL
+	 */
+	public function redirectToReferer(): Responder
+	{
+		$kirby = App::instance();
+		$append = '';
+		if ($kirby->option('tobimori.dreamform.mode') !== 'api' && $kirby->option('cache.pages.active') === true) {
+			$append = '?x=';
+		}
+
+		return  $kirby->response()->redirect(
+			($this->referer() ?? $this->site()->url()) . $append
+		);
 	}
 
 	/**
@@ -203,14 +243,6 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
-	 * Sets the redirect URL in the submission state
-	 */
-	public function setRedirect(string $url): static
-	{
-		return $this->updateState(['redirect' => $url]);
-	}
-
-	/**
 	 * Returns the action state
 	 */
 	public function actionState(): Content|null
@@ -244,41 +276,19 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
-	 * Returns a Response that redirects the user to the URL set in the submission state
-	 */
-	public function redirect(): Responder
-	{
-		if (!$this->state()->get('redirect')->value()) {
-			return $this->redirectToReferer();
-		}
-
-		return App::instance()->response()->redirect(
-			$this->state()->get('redirect')->value()
-		);
-	}
-
-	/**
-	 * Returns a Response that redirects the user to the referer URL
-	 */
-	public function redirectToReferer(): Responder
-	{
-		$kirby = App::instance();
-		$append = '';
-		if ($kirby->option('tobimori.dreamform.mode') !== 'api' && $kirby->option('cache.pages.active') === true) {
-			$append = '?x=';
-		}
-
-		return  $kirby->response()->redirect(
-			($this->referer() ?? $this->site()->url()) . $append
-		);
-	}
-
-	/**
 	 * Returns the current step of the submission
 	 */
 	public function currentStep(): int
 	{
 		return $this->state()->get('step')->toInt();
+	}
+
+	/**
+	 * Returns whether the submission is about to be finished
+	 */
+	public function isFinalStep(): bool
+	{
+		return !$this->form()->isMultiStep() || $this->currentStep() === count($this->form()->steps());
 	}
 
 	/**
@@ -409,12 +419,14 @@ class SubmissionPage extends BasePage
 	/**
 	 * Mark the submission as spam
 	 */
-	public function markAsSpam(): static
+	public function markAsSpam(bool $initial = false): static
 	{
-		// report the submission as spam to all guards
-		// submits false negatives to akismet, etc.
-		foreach ($this->form()->guards() as $guard) {
-			$guard->reportSubmissionAsSpam($this);
+		if (!$initial) {
+			// report the submission as spam to all guards
+			// submits false negatives to akismet, etc.
+			foreach ($this->form()->guards() as $guard) {
+				$guard->reportSubmissionAsSpam($this);
+			}
 		}
 
 		return $this->updateState(['spam' => true]);
@@ -423,52 +435,17 @@ class SubmissionPage extends BasePage
 	/**
 	 * Mark the submission as ham
 	 */
-	public function markAsHam(): static
+	public function markAsHam(bool $initial = false): static
 	{
-		// report the submission as ham to all guards
-		// submits false positives to akismet, etc.
-		foreach ($this->form()->guards() as $guard) {
-			$guard->reportSubmissionAsHam($this);
+		if (!$initial) {
+			// report the submission as ham to all guards
+			// submits false positives to akismet, etc.
+			foreach ($this->form()->guards() as $guard) {
+				$guard->reportSubmissionAsHam($this);
+			}
 		}
 
 		return $this->updateState(['spam' => false]);
-	}
-
-	/** @var SubmissionPage|null */
-	private static $session = null;
-
-	/**
-	 * Store submission in session for use with PRG pattern
-	 */
-	public function storeSession(): static
-	{
-		$kirby = App::instance();
-		$mode = $kirby->option('tobimori.dreamform.mode', 'prg');
-		if ($mode === 'api' || $mode === 'htmx' && Htmx::isHtmxRequest()) {
-			return $this->storeSessionlessCache();
-		}
-
-		$kirby->session()->set(
-			DreamForm::SESSION_KEY,
-			// if the page exists on disk, we store the UUID only so we can save files since they can't be serialized
-			$this->exists() ? $this->uuid()->toString() : $this
-		);
-
-		return static::$session = $this;
-	}
-
-	public function storeSessionlessCache(): static
-	{
-		$kirby = App::instance();
-		if ($kirby->option('tobimori.dreamform.mode', 'prg') === 'prg' && !Htmx::isHtmxRequest()) {
-			return $this->storeSession();
-		}
-
-		if (!$this->exists()) {
-			$kirby->cache('tobimori.dreamform.sessionless')->set($this->uuid()->toString(), serialize($this), 60 * 24);
-		}
-
-		return static::$session = $this;
 	}
 
 	/**
@@ -481,89 +458,6 @@ class SubmissionPage extends BasePage
 		}
 
 		return $this->isFinished() ? 'listed' : 'unlisted';
-	}
-
-	/**
-	 * Pull submission from session
-	 */
-	public static function fromSession(): SubmissionPage|null
-	{
-		$kirby = App::instance();
-		$mode = $kirby->option('tobimori.dreamform.mode', 'prg');
-		if ($mode === 'api' || $mode === 'htmx' && Htmx::isHtmxRequest()) {
-			return static::fromSessionlessCache();
-		}
-
-		if (static::$session) {
-			return static::$session;
-		}
-
-		$session = $kirby->session()->get(DreamForm::SESSION_KEY, null);
-		if (is_string($session)) { // if the page exists on disk, we store the UUID only so we can save files
-			$session = DreamForm::findPageOrDraftRecursive($session);
-		}
-
-		if (!($session instanceof SubmissionPage)) {
-			return null;
-		}
-
-		static::$session = $session;
-
-		// remove it from the session for subsequent loads
-		if (
-			static::$session && ( // if the session exists
-				static::$session->isFinished() // & if the submission is finished
-				|| (static::$session->currentStep() === 1 && !static::$session->isSuccessful()) // or if it's the first step and not successful
-			)
-		) {
-			$kirby->session()->remove(DreamForm::SESSION_KEY);
-		}
-
-		return static::$session;
-	}
-
-	/**
-	 * Get submission from sessionless cache
-	 */
-	public static function fromSessionlessCache(): SubmissionPage|null
-	{
-		$kirby = App::instance();
-		if ($kirby->option('tobimori.dreamform.mode', 'prg') === 'prg' && !Htmx::isHtmxRequest()) {
-			return static::fromSession();
-		}
-
-		if (static::$session) {
-			return static::$session;
-		}
-
-		$raw = $kirby->request()->body()->get('dreamform:session');
-		if (!$raw || $raw === 'null') {
-			return null;
-		}
-
-		$id = Htmx::decrypt($raw);
-		if (Str::startsWith($id, 'page://')) {
-			static::$session = DreamForm::findPageOrDraftRecursive($id);
-		}
-
-		$cache = $kirby->cache('tobimori.dreamform.sessionless');
-		$serialized = $cache->get($id);
-		if ($serialized) {
-			$submission = unserialize($serialized);
-			if ($submission instanceof SubmissionPage) {
-				static::$session = $submission;
-
-				// remove it from the session for subsequent loads
-				if (
-					$submission->isFinished() // & if the submission is finished
-					|| ($submission->currentStep() === 1 && !$submission->isSuccessful()) // or if it's the first step and not successful
-				) {
-					$cache->remove($id);
-				}
-			}
-		}
-
-		return static::$session;
 	}
 
 	/**

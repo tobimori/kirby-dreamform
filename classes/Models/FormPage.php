@@ -203,7 +203,7 @@ class FormPage extends BasePage
 			'content' => [
 				'dreamform_submitted' => date('c'),
 				'dreamform_referer' => $referer,
-				'dreamform_log' => false,
+				'dreamform_log' => [],
 				'dreamform_sender' => [],
 				'dreamform_state' => [
 					'success' => true,
@@ -233,16 +233,22 @@ class FormPage extends BasePage
 			$submission = $this->initSubmission();
 		}
 
-		$submission = App::instance()->apply(
-			'dreamform.submit:before',
-			['submission' => $submission, 'form' => $this],
-			'submission'
-		);
-
-		// handle guards (honeypot, csrf, etc.)
+		/**
+		 * The form submission process is split into multiple steps
+		 * Each step is a separate function
+		 */
 		try {
-			foreach ($this->guards() as $guard) {
-				$guard->perform();
+			foreach ([
+				[$this, 'applyHook'],
+				[$submission, 'collectMetadata'],
+				[$this, 'handleGuards'],
+				[$this, 'handleFields'],
+				[$this, 'handlePostValidationGuards'],
+				[$this, 'handleActions'],
+				[$this, 'finishSubmission'],
+				[$this, 'handleAfterSubmitFields'],
+			] as $fn) {
+				$submission = $fn($submission);
 			}
 		} catch (Exception $e) {
 			// if an guard fails, set a common error and stop the form submission
@@ -255,9 +261,46 @@ class FormPage extends BasePage
 			}
 		}
 
-		// handle fields
+		// store the submission in the session
+		return $submission->storeSession();
+	}
+
+	protected function applyHook(SubmissionPage $submission, string $type = 'before'): SubmissionPage
+	{
+		return App::instance()->apply(
+			"dreamform.submit:{$type}",
+			['submission' => $submission, 'form' => $this],
+			'submission'
+		);
+	}
+
+	/**
+	 * Handles the form submission guards
+	 */
+	protected function handleGuards(SubmissionPage $submission, bool $postValidation = false): SubmissionPage
+	{
+		foreach ($this->guards() as $guard) {
+			$postValidation ? $guard->postValidation($submission) : $guard->run();
+		}
+
+		return $submission;
+	}
+
+	/**
+	 * Handles the form submission guards post-validation methods
+	 */
+	protected function handlePostValidationGuards(SubmissionPage $submission): SubmissionPage
+	{
+		return $this->handleGuards($submission, true);
+	}
+
+	/**
+	 * Handles the form field validation, sanitzaion and error handling
+	 */
+	protected function handleFields(SubmissionPage $submission): SubmissionPage
+	{
 		$currentStep = App::instance()->request()->query()->get('dreamform-step', 1);
-		foreach ($fields = $this->fields($currentStep) as $field) {
+		foreach ($this->fields($currentStep) as $field) {
 			// skip "decorative" fields that don't have a value
 			if (!$field::hasValue()) {
 				continue;
@@ -271,49 +314,65 @@ class FormPage extends BasePage
 
 			if ($validation !== true) {
 				// if the validation fails, set an error in the submission state
-				$submission->setError(field: $field->key(), message: $validation);
+				$submission = $submission->setError(field: $field->key(), message: $validation);
 			} else {
 				// otherwise add it to the content of the submission
-				$submission->setField($field);
-				$submission->removeError($field->key());
+				$submission = $submission->setField($field)->removeError($field->key());
 			}
 		}
 
-		// run actions if the field validations where successful and the form is complete
-		$isFinalStep = !$this->isMultiStep() || $submission->currentStep() === count($this->steps());
-		if ($isFinalStep && $submission->isSuccessful()) {
-			try {
-				foreach ($submission->createActions() as $action) {
-					$action->perform();
-				}
-			} catch (Exception $e) {
-				// if an action fails, set a common error and stop the form submission
-				if ($e instanceof PerformerException) {
-					$submission->setError($e->getMessage());
-					// if the exception is silent, stop the form submission as "successful"
-				} elseif ($e instanceof SilentPerformerException) {
-					return $submission->storeSession()->finish(false);
-				}
+		return $submission;
+	}
+
+	/**
+	 * Handles the form submission actions
+	 *
+	 * @internal
+	 */
+	public function handleActions(SubmissionPage $submission): SubmissionPage
+	{
+		if (
+			$submission->isFinalStep()
+			&& $submission->isSuccessful()
+			&& $submission->isHam()
+		) {
+			$submission = $submission->updateState(['actionsdidrun' => true]);
+
+			foreach ($submission->createActions() as $action) {
+				$action->run();
 			}
 		}
 
-		// finish the submission or advance to the next step for multi-step forms
+		return $submission;
+	}
+
+	/**
+	 * Finishes the form submission
+	 */
+	protected function finishSubmission(SubmissionPage $submission): SubmissionPage
+	{
+		if ($submission->isFinalStep()) {
+			return $submission->finish();
+		} else {
+			return $submission->advanceStep();
+		}
+
+		return $submission;
+	}
+
+	/**
+	 * Handles the after-submit hooks for the fields
+	 */
+	protected function handleAfterSubmitFields(SubmissionPage $submission): SubmissionPage
+	{
+		$currentStep = App::instance()->request()->query()->get('dreamform-step', 1);
 		if ($submission->isSuccessful()) {
-			if ($isFinalStep) {
-				$submission->finish();
-			} else {
-				$submission->advanceStep();
-			}
-
-			// run the afterSubmit method for all fields
-			// this can be used to store files or do other post-processing
-			foreach ($fields as $field) {
+			foreach ($this->fields($currentStep) as $field) {
 				$field->afterSubmit($submission);
 			}
 		}
 
-		// store the submission in the session
-		return $submission->storeSession();
+		return $submission;
 	}
 
 	/**

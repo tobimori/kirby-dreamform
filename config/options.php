@@ -25,7 +25,7 @@ return [
 	'page' => 'page://forms', // Slug or URI to the page where the forms are located
 	'secret' => null, // Encryption secret for htmx attributes
 	'metadata' => [
-		'collect' => ['ip', 'userAgent']
+		'collect' => []
 	],
 	'guards' => [
 		'available' => ['honeypot', 'csrf'],
@@ -33,7 +33,13 @@ return [
 			'fields' => ['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject']
 		],
 		'akismet' => [
-			'apiKey' => null
+			'apiKey' => null,
+			'fields' => [
+				'comment_author' => ['name', 'first-name', 'last-name', 'username'],
+				'comment_author_email' => ['email', 'mail', 'e-mail', 'email-address', 'emailaddress'],
+				'comment_author_url' => ['website', 'url', 'homepage', 'website-url'],
+				'comment_content' => ['message', 'comment', 'content', 'body', 'text', 'description']
+			]
 		],
 		'turnstile' => [
 			'theme' => 'auto',

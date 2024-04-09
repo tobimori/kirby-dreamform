@@ -39,7 +39,8 @@ DreamForm::register(
 	\tobimori\DreamForm\Guards\CsrfGuard::class,
 	\tobimori\DreamForm\Guards\HoneypotGuard::class,
 	\tobimori\DreamForm\Guards\TurnstileGuard::class,
-	\tobimori\DreamForm\Guards\RatelimitGuard::class
+	\tobimori\DreamForm\Guards\RatelimitGuard::class,
+	\tobimori\DreamForm\Guards\AkismetGuard::class
 );
 
 // register plugin

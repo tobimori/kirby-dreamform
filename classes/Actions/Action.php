@@ -59,15 +59,6 @@ abstract class Action extends Performer
 	abstract public static function blueprint(): array;
 
 	/**
-	 * Update submission to mark the action as run
-	 */
-	public function perform(): void
-	{
-		$this->submission()->updateState(['actionsDidRun' => true]);
-		$this->run();
-	}
-
-	/**
 	 * Returns the actions' blueprint group
 	 */
 	public static function group(): string

@@ -149,10 +149,13 @@
 	"spam": "Spam",
 	"ham": "Not Spam",
 	"partial": "Partial",
+	"partial-submission": "Partial submission",
 	"complete": "Complete",
 	"submission-marked-as": "This answer is <>status</>",
 	"confirm-as-spam": "Are you sure you want to report this answer as spam?",
 	"confirm-as-ham": "Are you sure you want to report this answer as not spam?",
-	"confirm-as-ham-unprocessed": "<strong>Are you sure you want to report this answer as not spam?</strong>\nThe submission workflow will be run for the first time.\n",
-	"error-while-processing": "An error occured while processing the submission."
+	"confirm-as-ham-unprocessed": "<strong>Are you sure you want to report this answer as not spam?</strong>\nThe submission workflow will be run for the first time.",
+	"error-while-processing": "An error occured while processing the submission.",
+	"marked-as-ham": "The submission was marked as ham.",
+	"marked-as-spam": "The submission was marked as spam."
 }

@@ -109,9 +109,7 @@ return [
 						$submission->updateState(['actionsDidRun' => true]);
 
 						try {
-							foreach ($submission->createActions() as $action) {
-								$action->perform();
-							}
+							$submission->form()->handleActions($submission);
 						} catch (Exception $e) {
 							return [
 								'message' => t('dreamform.error-while-processing'),

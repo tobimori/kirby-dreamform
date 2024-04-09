@@ -16,7 +16,10 @@ return [
 			},
 			'isSpam' => function () {
 				return $this->model()->isSpam();
-			}
+			},
+			'isPartial' => function () {
+				return !$this->model()->isFinished();
+			},
 		]
 	],
 	'dreamform-license' => [

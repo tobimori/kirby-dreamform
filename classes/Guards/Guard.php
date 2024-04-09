@@ -17,6 +17,13 @@ abstract class Guard extends Performer
 	}
 
 	/**
+	 * Additional post field validation check
+	 */
+	public function postValidation(SubmissionPage	$submission): void
+	{
+	}
+
+	/**
 	 * Reports the submission as spam to a third-party service
 	 */
 	public function reportSubmissionAsSpam(SubmissionPage $submission): void
