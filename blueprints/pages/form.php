@@ -1,6 +1,7 @@
 <?php
 
 use Kirby\Cms\App;
+use Kirby\Toolkit\A;
 
 return function () {
 	return [
@@ -50,55 +51,59 @@ return function () {
 			'settings' => [
 				'label' => 'dreamform.settings',
 				'icon' => 'cog',
-				'columns' => [
+				'columns' => A::merge(
 					[
-						'width' => '1/4',
-						'fields' => [
-							'_success' => [
-								'label' => 'dreamform.success-page',
-								'type' => 'headline'
+						[
+							'width' => '1/4',
+							'fields' => [
+								'_success' => [
+									'label' => 'dreamform.success-page',
+									'type' => 'headline'
+								]
 							]
-						]
-					],
-					[
-						'width' => '3/4',
-						'fields' => [
-							'success' => [
-								'type' => 'group',
-								'extends' => 'dreamform/fields/success'
+						],
+						[
+							'width' => '3/4',
+							'fields' => [
+								'success' => [
+									'type' => 'group',
+									'extends' => 'dreamform/fields/success'
+								]
 							]
-						]
+						],
 					],
-					[
-						'width' => '1',
-						'fields' => [
-							'_line' => [
-								'type' => 'line'
+					App::instance()->option('tobimori.dreamform.storeSubmissions') ? [
+						[
+							'width' => '1',
+							'fields' => [
+								'_line' => [
+									'type' => 'line'
+								]
 							]
-						]
-					],
-					[
-						'width' => '1/4',
-						'fields' => [
-							'_submissions' => [
-								'label' => 'dreamform.submissions',
-								'type' => 'headline'
+						],
+						[
+							'width' => '1/4',
+							'fields' => [
+								'_submissions' => [
+									'label' => 'dreamform.submissions',
+									'type' => 'headline'
+								]
 							]
-						]
-					],
-					[
-						'width' => '3/4',
-						'fields' => [
-							'storeSubmissions' => [
-								'label' => 'dreamform.store-submissions',
-								'type' => 'toggle',
-								'default' => true,
-								'help' => 'dreamform.store-submissions-help',
-								'width' => '1/3'
+						],
+						[
+							'width' => '3/4',
+							'fields' => [
+								'storeSubmissions' => [
+									'label' => 'dreamform.store-submissions',
+									'type' => 'toggle',
+									'default' => true,
+									'help' => 'dreamform.store-submissions-help',
+									'width' => '1/3'
+								]
 							]
-						]
-					],
-				]
+						],
+					] : []
+				)
 			]
 		]
 	];
