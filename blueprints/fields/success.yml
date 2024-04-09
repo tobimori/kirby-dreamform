@@ -1,0 +1,15 @@
+type: group
+fields:
+  successMessage:
+    label: dreamform.message
+    placeholder: dreamform.successful-submission
+    type: writer
+    toolbar:
+      inline: false
+    inline: true
+    marks:
+      - bold
+      - italic
+      - underline
+      - strike
+      - link

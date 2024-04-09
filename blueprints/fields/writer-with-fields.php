@@ -10,7 +10,7 @@ return function () {
 			'bold',
 			'italic',
 			'underline',
-			'strikethrough'
+			'strike'
 		]
 	];
 };

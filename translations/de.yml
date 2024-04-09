@@ -42,6 +42,8 @@ submissions: Antworten
 empty-submissions: Keine Antworten
 submitted-at: Eingereicht am
 recent-submissions: Letzte Antworten
+success-message: Erfolgstext
+success-page: Erfolgsseite
 
 # Fields
 field: Feld

@@ -54,6 +54,32 @@ return function () {
 					[
 						'width' => '1/4',
 						'fields' => [
+							'_success' => [
+								'label' => 'dreamform.success-page',
+								'type' => 'headline'
+							]
+						]
+					],
+					[
+						'width' => '3/4',
+						'fields' => [
+							'success' => [
+								'type' => 'group',
+								'extends' => 'dreamform/fields/success'
+							]
+						]
+					],
+					[
+						'width' => '1',
+						'fields' => [
+							'_line' => [
+								'type' => 'line'
+							]
+						]
+					],
+					[
+						'width' => '1/4',
+						'fields' => [
 							'_submissions' => [
 								'label' => 'dreamform.submissions',
 								'type' => 'headline'

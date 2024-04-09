@@ -124,4 +124,3 @@ if ($submission?->isFinished()) {
 			<?php endforeach ?>
 		</div>
 	<?php endforeach; ?>
-</form>

@@ -1,1 +1,1 @@
-<div <?= attr($attr['success']) ?>><?= t('dreamform.successful-submission') ?></div>
+<div <?= attr($attr['success']) ?>><?= $form->successMessage()->or(t('dreamform.successful-submission')) ?></div>

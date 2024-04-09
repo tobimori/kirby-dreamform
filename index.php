@@ -79,6 +79,7 @@ App::plugin('tobimori/dreamform', [
 		'pages/submission' => require_once __DIR__ . '/blueprints/pages/submission.php',
 
 		'dreamform/tabs/form-submissions' => require_once __DIR__ . '/blueprints/tabs/form-submissions.php',
+		'dreamform/fields/success' => __DIR__ . '/blueprints/fields/success.yml',
 		'dreamform/fields/options' => __DIR__ . '/blueprints/fields/options.yml',
 		'dreamform/fields/key' => __DIR__ . '/blueprints/fields/key.yml',
 		'dreamform/fields/label' => __DIR__ . '/blueprints/fields/label.yml',

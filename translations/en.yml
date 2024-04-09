@@ -42,6 +42,8 @@ submissions: Submissions
 empty-submissions: No Submissions
 submitted-at: Submitted at
 recent-submissions: Recent Submissions
+message: Message
+success-page: Success Page
 
 # Fields
 field: Field
