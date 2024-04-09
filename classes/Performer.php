@@ -51,6 +51,15 @@ abstract class Performer
 	}
 
 	/**
+	 * Perform the actual action
+	 * @internal
+	 */
+	public function perform(): void
+	{
+		$this->run();
+	}
+
+	/**
 	 * Run the action
 	 */
 	abstract public function run(): void;

@@ -194,3 +194,9 @@ ham: Not Spam
 partial: Partial
 complete: Complete
 submission-marked-as: This answer is <>status</>
+confirm-as-spam: "Are you sure you want to report this answer as spam?"
+confirm-as-ham: "Are you sure you want to report this answer as not spam?"
+confirm-as-ham-unprocessed: |
+  <strong>Are you sure you want to report this answer as not spam?</strong>
+  The submission workflow will be run for the first time.
+error-while-processing: An error occured while processing the submission.

@@ -2,7 +2,6 @@
 
 namespace tobimori\DreamForm\Actions;
 
-use Kirby\Cms\App;
 use Kirby\Cms\Block;
 use tobimori\DreamForm\Exceptions\SuccessException;
 use tobimori\DreamForm\Models\SubmissionPage;
@@ -58,6 +57,15 @@ abstract class Action extends Performer
 	 * Returns the Blocks fieldset blueprint for the actions' settings
 	 */
 	abstract public static function blueprint(): array;
+
+	/**
+	 * Update submission to mark the action as run
+	 */
+	public function perform(): void
+	{
+		$this->submission()->updateState(['actionsDidRun' => true]);
+		$this->run();
+	}
 
 	/**
 	 * Returns the actions' blueprint group

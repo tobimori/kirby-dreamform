@@ -65,11 +65,11 @@ return [
 			'submission/(:any)/mark-as-spam' => [
 				'load' => function (string $path) {
 					return [
-						'component' => 'k-remove-dialog',
+						'component' => 'k-text-dialog',
 						'props' => [
 							'text' => t('dreamform.confirm-as-spam'),
 							'submitButton' => [
-								'text' => t('dreamform.mark-as-spam'),
+								'text' => t('dreamform.report-as-spam'),
 								'icon'  => 'spam',
 								'theme' => 'negative'
 							],
@@ -86,9 +86,45 @@ return [
 				}
 			],
 			'submission/(:any)/mark-as-ham' => [
-				'load' => fn (string $path) => [
-					'component' => 'k-remove-dialog',
-				]
+				'load' => function (string $path) {
+					$submission = DreamForm::findPageOrDraftRecursive(Str::replace($path, '+', '/'));
+
+					return [
+						'component' => 'k-text-dialog',
+						'props' => [
+							'text' => t($submission->actionsDidRun() ? 'dreamform.confirm-as-ham' : 'dreamform.confirm-as-ham-unprocessed'),
+							'submitButton' => [
+								'text' => t('dreamform.report-as-ham'),
+								'icon'  => 'shield-check',
+								'theme' => 'positive'
+							],
+						]
+					];
+				},
+				'submit' => function (string $path) {
+					$submission = DreamForm::findPageOrDraftRecursive(Str::replace($path, '+', '/'));
+					$submission = $submission->markAsHam();
+
+					if (!$submission->actionsDidRun()) {
+						$submission->updateState(['actionsDidRun' => true]);
+
+						try {
+							foreach ($submission->createActions() as $action) {
+								$action->perform();
+							}
+						} catch (Exception $e) {
+							return [
+								'message' => t('dreamform.error-while-processing'),
+								'error' => $e->getMessage(),
+								'type' => 'error'
+							];
+						}
+					}
+
+					return [
+						'message' => t('dreamform.marked-as-ham'),
+					];
+				}
 			],
 		]
 	]

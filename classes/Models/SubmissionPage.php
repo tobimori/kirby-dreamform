@@ -187,8 +187,6 @@ class SubmissionPage extends BasePage
 	 */
 	public function createActions(Blocks $blocks = null): Collection
 	{
-		$this->setActionState([]); // set empty action state
-
 		$blocks ??= $this->form()->content()->get('actions')->toBlocks();
 
 		$actions = [];
@@ -242,7 +240,7 @@ class SubmissionPage extends BasePage
 	 */
 	public function actionsDidRun(): bool
 	{
-		return $this->state()->get('actions')->value() === false;
+		return $this->state()->get('actionsDidRun')->toBool();
 	}
 
 	/**
@@ -341,8 +339,7 @@ class SubmissionPage extends BasePage
 		return App::instance()->impersonate(
 			'kirby',
 			fn () => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
-		);
-		;
+		);;
 	}
 
 	/**
@@ -414,6 +411,12 @@ class SubmissionPage extends BasePage
 	 */
 	public function markAsSpam(): static
 	{
+		// report the submission as spam to all guards
+		// submits false negatives to akismet, etc.
+		foreach ($this->form()->guards() as $guard) {
+			$guard->reportSubmissionAsSpam($this);
+		}
+
 		return $this->updateState(['spam' => true]);
 	}
 
@@ -422,6 +425,12 @@ class SubmissionPage extends BasePage
 	 */
 	public function markAsHam(): static
 	{
+		// report the submission as ham to all guards
+		// submits false positives to akismet, etc.
+		foreach ($this->form()->guards() as $guard) {
+			$guard->reportSubmissionAsHam($this);
+		}
+
 		return $this->updateState(['spam' => false]);
 	}
 

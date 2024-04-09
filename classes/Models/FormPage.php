@@ -203,6 +203,8 @@ class FormPage extends BasePage
 			'content' => [
 				'dreamform_submitted' => date('c'),
 				'dreamform_referer' => $referer,
+				'dreamform_log' => false,
+				'dreamform_sender' => [],
 				'dreamform_state' => [
 					'success' => true,
 					'partial' => true,
@@ -211,7 +213,8 @@ class FormPage extends BasePage
 					'redirect' => null, // this is a redirect URL for the form
 					'error' => null, // this is a common error message for the whole form
 					'errors' => [], // this is an array of field-specific error messages
-					'actions' => false // this is an array of action data or false if no actions have been run
+					'actions' => [], // this is an array of action data
+					'actionsDidRun' => false,
 				],
 				'uuid' => $uuid,
 			]
@@ -239,7 +242,7 @@ class FormPage extends BasePage
 		// handle guards (honeypot, csrf, etc.)
 		try {
 			foreach ($this->guards() as $guard) {
-				$guard->run();
+				$guard->perform();
 			}
 		} catch (Exception $e) {
 			// if an guard fails, set a common error and stop the form submission
@@ -281,7 +284,7 @@ class FormPage extends BasePage
 		if ($isFinalStep && $submission->isSuccessful()) {
 			try {
 				foreach ($submission->createActions() as $action) {
-					$action->run();
+					$action->perform();
 				}
 			} catch (Exception $e) {
 				// if an action fails, set a common error and stop the form submission
