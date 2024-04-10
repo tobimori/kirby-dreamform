@@ -148,7 +148,7 @@ abstract class Field
 	 */
 	public static function group(): string
 	{
-		return 'common';
+		return 'common-fields';
 	}
 
 	/**
