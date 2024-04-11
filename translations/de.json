@@ -156,5 +156,8 @@
     "confirm-as-spam": "Bist du sicher, dass du diese Antwort als Spam melden willst?",
     "confirm-as-ham": "Bist du sicher, dass du diese Antwort als kein Spam melden willst?",
     "error-while-processing": "Beim Bearbeiten der Antwort ist ein Fehler aufgetreten.",
-    "confirm-as-ham-unprocessed": "<strong>Bist du sicher, dass du diese Antwort als kein Spam melden willst?</strong>\nDer Workflow wird danach zum ersten Mal ausgeführt.\n"
+    "confirm-as-ham-unprocessed": "<strong>Bist du sicher, dass du diese Antwort als kein Spam melden willst?</strong>\nDer Workflow wird danach zum ersten Mal ausgeführt.",
+    "partial-submission": "Unvollständige Antwort",
+    "marked-as-ham": "Die Antwort wurde als kein Spam markiert.",
+    "marked-as-spam": "Die Antwort wurde als Spam markiert."
 }
