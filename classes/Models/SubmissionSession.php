@@ -26,7 +26,7 @@ trait SubmissionSession
 		$kirby->session()->set(
 			DreamForm::SESSION_KEY,
 			// if the page exists on disk, we store the UUID only so we can save files since they can't be serialized
-			$this->exists() ? $this->uuid()->toString() : $this
+			$this->exists() ? $this->slug() : $this
 		);
 
 		return static::$session = $this;
@@ -40,7 +40,7 @@ trait SubmissionSession
 		}
 
 		if (!$this->exists()) {
-			$kirby->cache('tobimori.dreamform.sessionless')->set($this->uuid()->toString(), serialize($this), 60 * 24);
+			$kirby->cache('tobimori.dreamform.sessionless')->set($this->slug(), serialize($this), 60 * 24);
 		}
 
 		return static::$session = $this;
