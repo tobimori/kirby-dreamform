@@ -28,7 +28,7 @@
 						<?php foreach ($fields = $form->fields()->filterBy(fn ($f) => $f::hasValue()) as $field) : ?>
 					</mj-raw>
 						<mj-text padding-bottom="8px" font-weight="700"><?= $field->label() ?></mj-text>
-						<mj-text color="#737373"><?= $submission->valueFor($field->key())?->escape() || "—" ?></mj-text>
+						<mj-text color="#737373"><?= $submission->valueFor($field->key())?->escape() ?? "—" ?></mj-text>
 						<mj-raw>
 							<?php if($fields->last() !== $field) : ?>
 						</mj-raw>

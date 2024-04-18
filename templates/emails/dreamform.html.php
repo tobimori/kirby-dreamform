@@ -153,7 +153,7 @@
                                       </tr>
                                       <tr>
                                         <td align="left" style="font-size:0px;padding:0px;word-break:break-word;">
-                                          <div style="font-family:Inter;font-size:14px;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#737373;"><?= $submission->valueFor($field->key())?->escape() || "—" ?></div>
+                                          <div style="font-family:Inter;font-size:14px;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#737373;"><?= $submission->valueFor($field->key())?->escape() ?? "—" ?></div>
                                         </td>
                                       </tr> <?php if($fields->last() !== $field) : ?> <tr>
                                         <td align="center" style="font-size:0px;padding:16px 0;word-break:break-word;">
