@@ -44,7 +44,7 @@ class FormPage extends BasePage
 			'hx-post' => $this->url(),
 			'hx-swap' => 'outerHTML',
 			'hx-vals' => Json::encode(array_filter([
-				'dreamform:session' => $submission && $this->isMultiStep() && Htmx::isHtmxRequest() ? Htmx::encrypt($submission->slug()) : null,
+				'dreamform:session' => $submission && Htmx::isHtmxRequest() ? Htmx::encrypt($submission->uuid()->toString()) : null,
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
 				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
 			], fn ($value) => $value !== null))
@@ -351,13 +351,15 @@ class FormPage extends BasePage
 	 */
 	protected function finishSubmission(SubmissionPage $submission): SubmissionPage
 	{
-		if ($submission->isFinalStep()) {
-			return $submission->finish();
-		} else {
-			return $submission->advanceStep();
+		if (!$submission->isSuccessful()) {
+			return $submission;
 		}
 
-		return $submission;
+		if ($submission->isFinalStep()) {
+			return $submission->finish();
+		}
+
+		return $submission->advanceStep();
 	}
 
 	/**
@@ -389,9 +391,9 @@ class FormPage extends BasePage
 			// if dreamform is used in API mode, return the submission state as JSON
 			if ($mode === 'api') {
 				$kirby->response()->code($submission->isSuccessful() ? 200 : 400);
-				return json_encode(A::merge($submission->state()->toArray(), $this->isMultiStep() ? [
-					'session' => Htmx::encrypt($submission->slug())
-				] : []), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT);
+				return json_encode(A::merge($submission->state()->toArray(), [
+					'session' => Htmx::encrypt($submission->uuid()->toString())
+				]), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT);
 			}
 
 			// if dreamform is used in htmx mode, return the enhanced HTML
