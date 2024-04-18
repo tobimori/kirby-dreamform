@@ -79,7 +79,7 @@ class EmailAction extends Action
 							'type' => 'select',
 							'width' => '1/4',
 							'required' => true,
-							'default' => 'field',
+							'default' => 'default',
 							'options' => [
 								'default' => t('dreamform.template-type-default'),
 								'kirby' => t('dreamform.template-type-kirby'),
