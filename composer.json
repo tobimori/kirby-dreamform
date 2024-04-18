@@ -2,7 +2,7 @@
 	"name": "tobimori/kirby-dreamform",
 	"description": "Kirby DreamForm is an opiniated form builder plugin for Kirby CMS 4+ that makes forms work like magic",
 	"type": "kirby-plugin",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"license": "proprietary",
 	"homepage": "https://plugins.andkindness.com/dreamform",
 	"authors": [
