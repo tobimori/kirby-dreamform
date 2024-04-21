@@ -25,6 +25,7 @@ DreamForm::register(
 	\tobimori\DreamForm\Actions\RedirectAction::class,
 	\tobimori\DreamForm\Actions\WebhookAction::class,
 	\tobimori\DreamForm\Actions\ButtondownAction::class,
+	\tobimori\DreamForm\Actions\MailchimpAction::class,
 	\tobimori\DreamForm\Fields\ButtonField::class,
 	\tobimori\DreamForm\Fields\TextField::class,
 	\tobimori\DreamForm\Fields\TextareaField::class,
@@ -45,8 +46,10 @@ DreamForm::register(
 
 // register plugin
 App::plugin('tobimori/dreamform', [
+	'api' => require __DIR__ . '/config/api.php',
 	'options' => require __DIR__ . '/config/options.php',
 	'sections' => require __DIR__ . '/config/sections.php',
+	'fields' => require __DIR__ . '/config/fields.php',
 	'areas' => require __DIR__ . '/config/areas.php',
 	// load all commands automatically
 	'commands' => A::keyBy(A::map(

@@ -25,7 +25,7 @@ return [
 	'page' => 'page://forms', // Slug or URI to the page where the forms are located
 	'secret' => null, // Encryption secret for htmx attributes
 	'metadata' => [
-		'collect' => []
+		'collect' => [] // 'ip' | 'userAgent'
 	],
 	'guards' => [
 		'available' => ['honeypot', 'csrf'],
@@ -51,25 +51,6 @@ return [
 			'limit' => 10,
 			'interval' => 3
 		]
-	],
-	'actions' => [
-		'available' => true,
-		'discord' => [
-			'webhook' => null // Default webhook URL
-		],
-		'mailchimp' => [
-			'apiKey' => null // Mailchimp API key
-		],
-		'buttondown' => [
-			'apiKey' => null, // Buttondown API key
-			'simpleMode' => false // Simple mode supports free plans, removes tags support
-		],
-		'email' => [
-			'from' => [
-				'email' => fn () => App::instance()->option('email.transport.username'),
-				'name' => fn () => App::instance()->site()->title()
-			]
-		],
 	],
 	'fields' => [
 		'available' => true,
@@ -97,6 +78,25 @@ return [
 				'archives' => ["application/zip", "application/x-rar-compressed", "application/x-tar", "application/x-7z-compressed"]
 			]
 		]
+	],
+	'actions' => [
+		'available' => true,
+		'discord' => [
+			'webhook' => null // Default webhook URL
+		],
+		'mailchimp' => [
+			'apiKey' => null // Mailchimp API key
+		],
+		'buttondown' => [
+			'apiKey' => null, // Buttondown API key
+			'simpleMode' => false // Simple mode supports free plans, removes tags support
+		],
+		'email' => [
+			'from' => [
+				'email' => fn () => App::instance()->option('email.transport.username'),
+				'name' => fn () => App::instance()->site()->title()
+			]
+		],
 	],
 	'integrations' => [
 		'gravatar' => true, // Get profile pictures for email fields from Gravatar

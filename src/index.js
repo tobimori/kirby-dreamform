@@ -20,5 +20,6 @@ panel.plugin("tobimori/dreamform", {
 		"k-layout": Layout,
 		"k-layout-selector": LayoutSelector,
 	},
+	fields: kirbyup.import("./fields/*.vue"),
 	sections: kirbyup.import("./sections/*.vue"),
 });
