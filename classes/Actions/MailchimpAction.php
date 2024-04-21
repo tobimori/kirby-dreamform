@@ -135,8 +135,6 @@ class MailchimpAction extends Action
 			]
 		]);
 
-		ray($tags);
-
 		return (new Form([
 			'fields' => $blueprint,
 			'model' => $page
