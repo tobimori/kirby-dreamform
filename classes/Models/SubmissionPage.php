@@ -160,7 +160,7 @@ class SubmissionPage extends BasePage
 			$state['error'] = $message;
 		}
 
-		return $this->updateAndSave(['dreamform_state' => $state]);
+		return $this->update(['dreamform_state' => $state]);
 	}
 
 	/**
@@ -179,7 +179,7 @@ class SubmissionPage extends BasePage
 			$state['success'] = true;
 		}
 
-		return $this->updateAndSave(['dreamform_state' => $state]);
+		return $this->update(['dreamform_state' => $state]);
 	}
 
 	/**
@@ -219,7 +219,7 @@ class SubmissionPage extends BasePage
 	 */
 	public function setField(FormField $field): static
 	{
-		return $this->updateAndSave([$field->key() => $field->value()->value()]);
+		return $this->update([$field->key() => $field->value()->value()]);
 	}
 
 	/**
@@ -349,8 +349,7 @@ class SubmissionPage extends BasePage
 		return App::instance()->impersonate(
 			'kirby',
 			fn () => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
-		);
-		;
+		);;
 	}
 
 	/**
@@ -378,14 +377,14 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
-	 * Update the submission if it exists
+	 * Update the submission & save the update to disk if it exists
 	 */
-	protected function updateAndSave(array $data): static
+	public function update(?array $input = null, ?string $languageCode = null, bool $validate = false): static
 	{
-		$this->content = $this->content()->update($data);
+		$this->content = $this->content($languageCode)->update($input);
 
 		if ($this->exists()) {
-			return App::instance()->impersonate('kirby', fn () => $this->update($this->content()->toArray()));
+			return App::instance()->impersonate('kirby', fn () => parent::update($input, $languageCode, $validate));
 		}
 
 		return $this;
@@ -396,9 +395,7 @@ class SubmissionPage extends BasePage
 	 */
 	public function updateState(array $data): static
 	{
-		return $this->updateAndSave([
-			'dreamform_state' => $this->state()->update($data)->toArray()
-		]);
+		return $this->update(['dreamform_state' => $this->state()->update($data)->toArray()]);
 	}
 
 	/**
