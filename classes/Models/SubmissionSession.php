@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Models;
 
 use Kirby\Cms\App;
+use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\SubmissionPage;
@@ -19,7 +20,7 @@ trait SubmissionSession
 	{
 		$kirby = App::instance();
 		$mode = $kirby->option('tobimori.dreamform.mode', 'prg');
-		if ($mode === 'api' || $mode === 'htmx' && Htmx::isHtmxRequest()) {
+		if ($mode === 'api' || Htmx::isActive() && Htmx::isHtmxRequest()) {
 			return $this->storeSessionlessCache();
 		}
 
@@ -35,7 +36,7 @@ trait SubmissionSession
 	public function storeSessionlessCache(): static
 	{
 		$kirby = App::instance();
-		if ($kirby->option('tobimori.dreamform.mode', 'prg') === 'prg' && !Htmx::isHtmxRequest()) {
+		if (A::has(['prg', 'htmx'], $kirby->option('tobimori.dreamform.mode', 'prg')) && !Htmx::isHtmxRequest()) {
 			return $this->storeSession();
 		}
 
@@ -63,7 +64,7 @@ trait SubmissionSession
 
 		$session = $kirby->session()->get(DreamForm::SESSION_KEY, null);
 		if (is_string($session)) { // if the page exists on disk, we store the UUID only so we can save files
-			$session = DreamForm::findPageOrDraftRecursive($session);
+			$session = DreamForm::findPageOrDraftRecursive("page://{$session}");
 		}
 
 		if (!($session instanceof SubmissionPage)) {

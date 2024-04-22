@@ -22,7 +22,7 @@ trait SubmissionMetadata
 	 */
 	public function updateMetadata(array $data): static
 	{
-		return $this->updateAndSave([
+		return $this->update([
 			'dreamform_sender' => $this->metadata()->update($data)->toArray()
 		]);
 	}
