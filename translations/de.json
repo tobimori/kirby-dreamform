@@ -23,7 +23,7 @@
     "reserved-key": "Das Formular konnte nicht gespeichert werden: Der Schlüssel \"{{ key }}\" ist reserviert und kann nicht verwendet werden.",
     "settings": "Einstellungen",
     "store-submissions": "Antworten speichern",
-    "store-submissions-help": "Speichere die Antworten als Kirby-Seite. Bestimmte Felder und Aktionen können möglicherweise nicht verwendet werden, wenn diese Option deaktiviert ist. Weitere Informationen findest du in der (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention text: Dokumentation).",
+    "store-submissions-help": "Speichere die Antworten als Kirby-Seite. Bestimmte Felder und Aktionen können möglicherweise nicht verwendet werden, wenn diese Option deaktiviert ist. Weitere Informationen findest du in der (link: https://plugins.andkindness.com/dreamform/docs/general/data-retention text: Dokumentation).\n",
     "common-fields": "Häufige Felder",
     "advanced-fields": "Erweiterte Felder",
     "common-actions": "Häufige Aktionen",
@@ -42,7 +42,7 @@
     "label": "Beschriftung",
     "placeholder": "Platzhaltertext",
     "error-message": "Fehlermeldung",
-    "error-message-help": "Die Fehlermeldung wird angezeigt, wenn das Feld **nicht** oder im **falschen Format** ausgefüllt wurde.",
+    "error-message-help": "Die Fehlermeldung wird angezeigt, wenn das Feld **nicht** oder im **falschen Format** ausgefüllt wurde.\n",
     "required": "Pflichtfeld",
     "required-off": "Nein, optional",
     "required-on": "Ja, Pflichtfeld",
@@ -61,7 +61,7 @@
     "min-number": "Mindestwert",
     "max-number": "Maximalwert",
     "number-step": "Schrittweite",
-    "number-step-help": "Der eingegebene Wert muss durch diese Zahl teilbar sein. Für Dezimalzahlen, verwende eine Zahl wie \"0,1\".",
+    "number-step-help": "Der eingegebene Wert muss durch diese Zahl teilbar sein. Für Dezimalzahlen, verwende eine Zahl wie \"0,1\".\n",
     "options": "Auswahlmöglichkeiten",
     "options-label-help": "Wird als Beschriftung im Kontaktformular angezeigt.",
     "options-value-help": "Wird intern als gespeicherter Wert verwendet.",
@@ -159,5 +159,7 @@
     "confirm-as-ham-unprocessed": "<strong>Bist du sicher, dass du diese Antwort als kein Spam melden willst?</strong>\nDer Workflow wird danach zum ersten Mal ausgeführt.",
     "partial-submission": "Unvollständige Antwort",
     "marked-as-ham": "Die Antwort wurde als kein Spam markiert.",
-    "marked-as-spam": "Die Antwort wurde als Spam markiert."
+    "marked-as-spam": "Die Antwort wurde als Spam markiert.",
+    "mailchimp-field-mapping-empty": "Keine Felderverknüpfungen gesetzt",
+    "tags": "Tags"
 }
