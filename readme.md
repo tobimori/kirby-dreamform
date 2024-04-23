@@ -49,13 +49,14 @@ Read more about DreamForm on the [official plugin website](https://plugins.andki
 | Conditional Action                                              | ✅        |                                                        |                                                  |
 | [Buttondown](https://buttondown.email/)                         | ✅ _1.1+_ |                                                        |                                                  |
 | [Discord](https://discord.com)                                  | ✅        |                                                        |                                                  |
+| [Mailchimp](https://mailchimp.com/)                             | ✅ _1.2+_ |                                                        |                                                  |
 |                                                                 |           |                                                        |                                                  |
 | **_Built-in guards_**                                           |           |                                                        |                                                  |
+| [Akismet](https://akismet.com/)                                 | ✅ _1.1+_ |                                                        |                                                  |
 | [CSRF](https://owasp.org/www-community/attacks/csrf)            | ✅        |                                                        | ✅                                               |
 | IP-based Rate limiting                                          | ✅        |                                                        |                                                  |
 | Honeypot                                                        | ✅        | ✅                                                     | ✅                                               |
 | [Turnstile Captcha](https://cloudflare.com/products/turnstile/) | ✅        |                                                        | via third-party plugin                           |
-| [Akismet](https://akismet.com/)                                 | ✅ _1.1+_ |                                                        |                                                  |
 |                                                                 |           |                                                        |                                                  |
 | **_Other_**                                                     |           |                                                        |                                                  |
 | Re-use forms in different places                                | ✅        | _Each block is a unique form_                          |                                                  |
@@ -64,8 +65,6 @@ Read more about DreamForm on the [official plugin website](https://plugins.andki
 | Permissions for limiting access                                 | ✅        |                                                        |                                                  |
 | Gravatar integration                                            | ✅        |                                                        |                                                  |
 | Disposable & invalid email domain check                         | ✅ _1.1+_ |                                                        |                                                  |
-
-1.1 is the upcoming feature release and currently in progress. Table is subject to change.
 
 <small id="1"><sup>1</sup> Technically, you can built most of the features that DreamForm offers yourself using Uniform. For a fair comparison, this table only includes features that can be solved by copying code from the official docs & without writing custom code. </small>
 
