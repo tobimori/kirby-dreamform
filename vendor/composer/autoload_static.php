@@ -70,7 +70,7 @@ class ComposerStaticInit910c4189a868d9db3fa89792673c4e88
         'tobimori\\DreamForm\\Models\\FormPage' => __DIR__ . '/../..' . '/classes/Models/FormPage.php',
         'tobimori\\DreamForm\\Models\\FormsPage' => __DIR__ . '/../..' . '/classes/Models/FormsPage.php',
         'tobimori\\DreamForm\\Models\\SubmissionPage' => __DIR__ . '/../..' . '/classes/Models/SubmissionPage.php',
-        'tobimori\\DreamForm\\Models\\Submission\\SubmissionSession' => __DIR__ . '/../..' . '/classes/Models/Submission/SubmissionSession.php',
+        'tobimori\\DreamForm\\Models\\SubmissionSession' => __DIR__ . '/../..' . '/classes/Models/SubmissionSession.php',
         'tobimori\\DreamForm\\Performer' => __DIR__ . '/../..' . '/classes/Performer.php',
         'tobimori\\DreamForm\\Permissions\\FormPermissions' => __DIR__ . '/../..' . '/classes/Permissions/FormPermissions.php',
         'tobimori\\DreamForm\\Permissions\\SubmissionPermissions' => __DIR__ . '/../..' . '/classes/Permissions/SubmissionPermissions.php',

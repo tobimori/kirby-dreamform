@@ -47,7 +47,7 @@ return array(
     'tobimori\\DreamForm\\Models\\FormPage' => $baseDir . '/classes/Models/FormPage.php',
     'tobimori\\DreamForm\\Models\\FormsPage' => $baseDir . '/classes/Models/FormsPage.php',
     'tobimori\\DreamForm\\Models\\SubmissionPage' => $baseDir . '/classes/Models/SubmissionPage.php',
-    'tobimori\\DreamForm\\Models\\Submission\\SubmissionSession' => $baseDir . '/classes/Models/Submission/SubmissionSession.php',
+    'tobimori\\DreamForm\\Models\\SubmissionSession' => $baseDir . '/classes/Models/SubmissionSession.php',
     'tobimori\\DreamForm\\Performer' => $baseDir . '/classes/Performer.php',
     'tobimori\\DreamForm\\Permissions\\FormPermissions' => $baseDir . '/classes/Permissions/FormPermissions.php',
     'tobimori\\DreamForm\\Permissions\\SubmissionPermissions' => $baseDir . '/classes/Permissions/SubmissionPermissions.php',
