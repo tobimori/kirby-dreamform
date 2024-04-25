@@ -44,7 +44,7 @@ class FormPage extends BasePage
 			'hx-post' => $this->url(),
 			'hx-swap' => 'outerHTML',
 			'hx-vals' => Json::encode(array_filter([
-				'dreamform:session' => $submission && $this->isMultiStep() && Htmx::isHtmxRequest() ?
+				'dreamform:session' => $submission && $this->isMultiStep() ?
 					Htmx::encrypt(
 						($submission->exists() ? "page://" : "") . $submission->slug()
 					) : null,
@@ -400,7 +400,7 @@ class FormPage extends BasePage
 			}
 
 			// if dreamform is used in htmx mode, return the enhanced HTML
-			if ($mode === 'htmx' && $kirby->request()->header('Hx-Request') === 'true') {
+			if ($mode === 'htmx' && Htmx::isHtmxRequest()) {
 				try {
 					$page = DreamForm::findPageOrDraftRecursive(Htmx::decrypt($kirby->request()->body()->get('dreamform:page')));
 					$attr = Json::decode(Htmx::decrypt($kirby->request()->body()->get('dreamform:attr')));
