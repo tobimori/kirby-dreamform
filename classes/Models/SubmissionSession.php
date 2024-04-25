@@ -108,6 +108,10 @@ trait SubmissionSession
 		$id = Htmx::decrypt($raw);
 		if (Str::startsWith($id, 'page://')) {
 			static::$session = DreamForm::findPageOrDraftRecursive($id);
+
+			if (static::$session) {
+				return static::$session;
+			}
 		}
 
 		$cache = $kirby->cache('tobimori.dreamform.sessionless');

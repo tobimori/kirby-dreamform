@@ -44,7 +44,10 @@ class FormPage extends BasePage
 			'hx-post' => $this->url(),
 			'hx-swap' => 'outerHTML',
 			'hx-vals' => Json::encode(array_filter([
-				'dreamform:session' => $submission && $this->isMultiStep() && Htmx::isHtmxRequest() ? Htmx::encrypt($submission->slug()) : null,
+				'dreamform:session' => $submission && $this->isMultiStep() && Htmx::isHtmxRequest() ?
+					Htmx::encrypt(
+						($submission->exists() ? "page://" : "") . $submission->slug()
+					) : null,
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
 				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
 			], fn ($value) => $value !== null))
