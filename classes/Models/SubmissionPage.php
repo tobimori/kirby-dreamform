@@ -18,12 +18,14 @@ use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
+use tobimori\Dreamform\Actions\Log\HasActionLog;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\Field as FormField;
 use tobimori\DreamForm\Permissions\SubmissionPermissions;
 
 class SubmissionPage extends BasePage
 {
+	use HasActionLog;
 	use SubmissionMetadata;
 	use SubmissionSession;
 
@@ -349,8 +351,7 @@ class SubmissionPage extends BasePage
 		return App::instance()->impersonate(
 			'kirby',
 			fn () => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
-		);
-		;
+		);;
 	}
 
 	/**

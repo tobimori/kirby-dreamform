@@ -32,8 +32,5 @@
 	},
 	"extra": {
 		"kirby-cms-path": false
-	},
-	"require-dev": {
-		"getkirby/cli": "^1.4"
 	}
 }
