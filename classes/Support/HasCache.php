@@ -4,6 +4,10 @@ namespace tobimori\DreamForm\Support;
 
 use Kirby\Cache\Cache;
 
+/**
+ * Base class for adding simplified cache methods
+ * to performers & fields
+ */
 trait HasCache
 {
 	abstract private static function cacheInstance(): Cache;

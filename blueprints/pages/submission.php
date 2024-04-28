@@ -45,11 +45,11 @@ return function () {
 		],
 		'columns' => [
 			'main' => [
-				'width' => '3/4',
+				'width' => '2/3',
 				'fields' => $blueprint
 			],
 			'sidebar' => [
-				'width' => '1/4',
+				'width' => '1/3',
 				'sections' => [
 					'submission' => [
 						'type' => 'dreamform-submission'

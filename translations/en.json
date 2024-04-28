@@ -159,5 +159,7 @@
 	"confirm-as-ham-unprocessed": "<strong>Are you sure you want to report this answer as not spam?</strong>\nThe submission workflow will be run for the first time.",
 	"error-while-processing": "An error occured while processing the submission.",
 	"marked-as-ham": "The submission was marked as ham.",
-	"marked-as-spam": "The submission was marked as spam."
+	"marked-as-spam": "The submission was marked as spam.",
+	"action-log": "Action Log",
+	"empty-action-log": "No actions executed yet"
 }

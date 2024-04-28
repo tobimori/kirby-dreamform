@@ -1,11 +1,20 @@
-import { kirbyup } from "kirbyup/plugin";
-import Layout from "./core/Layout.vue";
-import LayoutSelector from "./core/LayoutSelector.vue";
-import "./index.scss";
+import "@/index.scss";
+
+import Layout from "@/core/Layout.vue";
+import LayoutSelector from "@/core/LayoutSelector.vue";
+import ApiObject from "@/fields/ApiObject.vue";
+import License from "@/sections/License.vue";
+import Submission from "@/sections/Submission.vue";
+import TextField from "@/previews/TextField.vue";
+import SelectField from "@/previews/SelectField.vue";
+import HiddenField from "@/previews/HiddenField.vue";
+import FileUploadField from "@/previews/FileUploadField.vue";
+import ChoicesField from "@/previews/ChoicesField.vue";
+import ButtonField from "@/previews/ButtonField.vue";
 
 panel.plugin("tobimori/dreamform", {
-	blocks: kirbyup.import("./previews/*.vue"),
 	icons: {
+		"mail-send": `<path d="M21 3c.5523 0 1 .4477 1 1v16.0066c0 .5486-.4553.9934-.9918.9934H2.9918C2.444 21 2 20.5551 2 20.0066V19h18V7.3l-8 7.2-10-9V4c0-.5523.4477-1 1-1h18ZM8 15v2H0v-2h8Zm-3-5v2H0v-2h5Zm14.5659-5H4.4341L12 11.8093 19.5659 5Z"/>`,
 		dreamform: `<path fill="#1B4493" d="M3 1.5h4.5l16.5 9v3l-16.5 9H3l1.5-9H12v-3H4.5L3 1.5Z"/>`,
 		"shield-check": `<path d="m12 1 8.2169 1.826A1 1 0 0 1 21 3.8022v9.9867a6 6 0 0 1-2.6718 4.9923L12 23l-6.3282-4.2188A6 6 0 0 1 3 13.7889V3.8022a1 1 0 0 1 .783-.9762L12 1Zm0 2.0488L5 4.6043v9.1846a4 4 0 0 0 1.7812 3.3282L12 20.5963l5.2188-3.4792A4 4 0 0 0 19 13.7889V4.6043l-7-1.5555Zm4.4524 5.173 1.4142 1.4142L11.5026 16 7.26 11.7574l1.4142-1.4143 2.8277 2.8278 4.9505-4.949Z"/>`,
 		spam: `<path d="M17.5 2.5 23 12l-5.5 9.5h-11L1 12l5.5-9.5h11Zm-1.1531 2H7.6531L3.311 12l4.3421 7.5h8.6938L20.689 12l-4.3421-7.5ZM11 15h2v2h-2v-2Zm0-8h2v6h-2V7Z"/>`,
@@ -16,10 +25,23 @@ panel.plugin("tobimori/dreamform", {
 		salesforce: `<path stroke="currentcolor" stroke-width="2" d="m9.1863 6.4429.7056.928.8098-.8387c.6012-.6226 1.4274-1.0058 2.3279-1.0058 1.2016 0 2.2572.6688 2.8317 1.6886l.4482.7955.8329-.3742c.5077-.2281 1.079-.3554 1.6864-.3554C21.1299 7.2809 23 9.1602 23 11.4983c0 2.3369-1.8782 4.2174-4.1712 4.2174a4.1923 4.1923 0 0 1-.8197-.0822l-.7132-.1426-.3554.6346c-.4771.852-1.3885 1.4278-2.4334 1.4278a2.8116 2.8116 0 0 1-1.2191-.2796l-.9441-.4546-.41.9643c-.5051 1.1881-1.6855 2.0231-3.0505 2.0231-1.4247 0-2.6467-.8999-3.1156-2.1717l-.2978-.8077-.843.1744a3.069 3.069 0 0 1-.6193.0624C2.3542 17.0639 1 15.7121 1 14.01c0-1.1307.6062-2.1182 1.5085-2.6457l.7714-.451-.3616-.8171c-.1932-.4364-.3023-.9265-.3023-1.4513v-.0037C2.6088 6.643 4.2507 5 6.2701 5a3.6535 3.6535 0 0 1 2.9162 1.4429Z"/>`,
 		buttondown: `<path fill="currentcolor" fill-rule="evenodd" d="M0 12c0-2.8833 0-4.325.331-5.5045A8.9 8.9 0 0 1 6.4955.331C7.675 0 9.1167 0 12 0s4.325 0 5.5045.331a8.8998 8.8998 0 0 1 6.1645 6.1645C24 7.675 24 9.1167 24 12s0 4.325-.331 5.5045a8.8996 8.8996 0 0 1-6.1645 6.1645C16.325 24 14.8833 24 12 24s-4.325 0-5.5045-.331A8.8998 8.8998 0 0 1 .331 17.5045C0 16.325 0 14.8833 0 12Zm5.1-4.4C5.1 6.164 6.264 5 7.7 5h8.8c1.4359 0 2.6 1.164 2.6 2.6v8.8c0 1.4359-1.1641 2.6-2.6 2.6H7.7c-1.436 0-2.6-1.1641-2.6-2.6V7.6Zm.9868 3.6132c2.0615 2.0614 3.9358 3.3909 6.0099 3.3743 2.0674-.0166 3.9116-1.3695 5.9165-3.3743l-1.6264-1.6264c-1.9951 1.9952-3.2509 2.6923-4.3085 2.7007-1.0509.0084-2.3266-.6621-4.3651-2.7007l-1.6264 1.6264Z" clip-rule="evenodd"/>`,
 	},
+	blocks: {
+		"button-field": ButtonField,
+		"choices-field": ChoicesField,
+		"file-upload-field": FileUploadField,
+		"hidden-field": HiddenField,
+		"select-field": SelectField,
+		"text-field": TextField,
+	},
 	components: {
 		"k-layout": Layout,
 		"k-layout-selector": LayoutSelector,
 	},
-	fields: kirbyup.import("./fields/*.vue"),
-	sections: kirbyup.import("./sections/*.vue"),
+	fields: {
+		"dreamform-api-object": ApiObject,
+	},
+	sections: {
+		"dreamform-license": License,
+		"dreamform-submission": Submission,
+	},
 });

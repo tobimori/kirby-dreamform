@@ -39,30 +39,42 @@ loadSection();
 </script>
 
 <template>
-	<k-section :headline="$t('dreamform.submission')" v-if="didLoad">
-		<div class="df-submission-section" >
-			<div class="df-stat" v-if="!isPartial">
-				{{ $t("dreamform.submission-marked-as").split("<>status</>")[0] }}
-				<span class="df-stat-value" :class="isSpam ? 'is-negative' : 'is-positive'">
-					<k-icon :type="isSpam ? 'spam' : 'shield-check'" />
-					{{ $t(isSpam ? "dreamform.spam" : "dreamform.ham") }}
-				</span>
-				{{ $t("dreamform.submission-marked-as").split("<>status</>")[1] }}
+	<div v-if="didLoad">
+		<k-section :headline="$t('dreamform.submission')">
+			<div class="df-submission-section" >
+				<div class="df-stat" v-if="!isPartial">
+					{{ $t("dreamform.submission-marked-as").split("<>status</>")[0] }}
+					<span class="df-stat-value" :class="isSpam ? 'is-negative' : 'is-positive'">
+						<k-icon :type="isSpam ? 'spam' : 'shield-check'" />
+						{{ $t(isSpam ? "dreamform.spam" : "dreamform.ham") }}
+					</span>
+					{{ $t("dreamform.submission-marked-as").split("<>status</>")[1] }}
+				</div>
+				<div class="df-stat" v-else>
+					<span class="df-stat-value">
+						<k-icon type="circle-half" />
+						{{ $t("dreamform.partial-submission") }}
+					</span>
+				</div>
 			</div>
-			<div class="df-stat" v-else>
-				<span class="df-stat-value">
-					<k-icon type="circle-half" />
-					{{ $t("dreamform.partial-submission") }}
-				</span>
+			<div class="df-submission-section" v-if="!isPartial">
+				<k-button type="button" variant="dimmed" size="sm" icon="angle-right" :theme="isSpam ? 'positive' : 'error'"
+					@click="toggleSpam">
+					{{ $t(isSpam ? "dreamform.report-as-ham" : "dreamform.report-as-spam") }}
+				</k-button>
 			</div>
-		</div>
-		<div class="df-submission-section" v-if="!isPartial">
-			<k-button type="button" variant="dimmed" size="sm" icon="angle-right" :theme="isSpam ? 'positive' : 'error'"
-				@click="toggleSpam">
-				{{ $t(isSpam ? "dreamform.report-as-ham" : "dreamform.report-as-spam") }}
-			</k-button>
-		</div>
-	</k-section>
+		</k-section>
+		<k-section v-if="!isPartial" :headline="$t('dreamform.action-log')">
+			<div class="df-action-log">
+				<k-empty icon="folder-structure" v-if="isPartial">{{ $t('dreamform.empty-action-log') }}</k-empty>
+				<div v-else>
+					<span>Lorem ipsum</span>
+				</div>
+
+				<k-button variant="filled" theme="info" icon="play">Run actions</k-button>
+			</div>
+		</k-section>
+	</div>
 </template>
 
 <style lang="scss">
@@ -111,5 +123,11 @@ loadSection();
 			}
 		}
 	}
+}
+
+.df-action-log {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-2);
 }
 </style>

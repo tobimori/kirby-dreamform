@@ -12,6 +12,9 @@ use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
 use tobimori\DreamForm\Support\HasCache;
 
+/**
+ * Base class for all fields
+ */
 abstract class Field
 {
 	use HasCache;

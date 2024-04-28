@@ -11,6 +11,10 @@ use tobimori\DreamForm\Fields\Field;
 use tobimori\DreamForm\Guards\Guard;
 use tobimori\DreamForm\Models\FormPage;
 
+/**
+ * Main class for the plugin
+ * Contains registry for performers & fields
+ */
 final class DreamForm
 {
 	/**
