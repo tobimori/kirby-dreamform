@@ -116,6 +116,7 @@
 	"discord-webhook-action": "Send Discord Message",
 	"slack-webhook-action": "Send Slack Message",
 	"webhook-url": "Webhook URL",
+	"webhook-sent-log": "Submission webhook sent to <code>{{ url }}</code>",
 	"exposed-fields": "Exposed Fields",
 	"redirect-action": "Redirect",
 	"redirect-to": "Redirect to…",
@@ -161,5 +162,6 @@
 	"marked-as-ham": "The submission was marked as ham.",
 	"marked-as-spam": "The submission was marked as spam.",
 	"action-log": "Action Log",
-	"empty-action-log": "No actions executed yet"
+	"empty-action-log": "No actions executed yet",
+	"action-log-type-invalid": "The action log type \"{{ type }}\" is not valid."
 }

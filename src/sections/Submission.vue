@@ -10,6 +10,7 @@ const panel = usePanel();
 const didLoad = ref(false);
 const isSpam = ref(false);
 const isPartial = ref(false);
+const actionLog = ref([]);
 
 const loadSection = async () => {
 	const { load } = useSection();
@@ -21,6 +22,8 @@ const loadSection = async () => {
 	didLoad.value = true;
 	isSpam.value = response.isSpam;
 	isPartial.value = response.isPartial;
+	actionLog.value = response.actionLog;
+	console.log(actionLog.value);
 };
 
 const toggleSpam = () => {
@@ -34,6 +37,8 @@ const toggleSpam = () => {
 		}
 	})
 }
+
+const exists = (type) => app.$helper.isComponent(`df-log-${type}-entry`);
 
 loadSection();
 </script>
@@ -66,9 +71,23 @@ loadSection();
 		</k-section>
 		<k-section v-if="!isPartial" :headline="$t('dreamform.action-log')">
 			<div class="df-action-log">
-				<k-empty icon="folder-structure" v-if="isPartial">{{ $t('dreamform.empty-action-log') }}</k-empty>
+				<k-empty icon="folder-structure" v-if="actionLog.length === 0">{{ $t('dreamform.empty-action-log') }}</k-empty>
 				<div v-else>
-					<span>Lorem ipsum</span>
+					<template v-for="entry in actionLog">
+						<component
+							v-if="exists(entry.type)"
+							:is="`df-log-${entry.type}-entry`"
+							v-bind="entry.data"
+							:key="entry.id"
+						/>
+						<k-box
+							v-else
+							:key="`${entry.id}-error`"
+							:text="$t('dreamform.action-log-type-invalid', { type: entry.type })"
+							icon="alert"
+							theme="negative"
+						/>
+					</template>
 				</div>
 
 				<k-button variant="filled" theme="info" icon="play">Run actions</k-button>

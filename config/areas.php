@@ -106,10 +106,10 @@ return [
 					$submission = $submission->markAsHam();
 
 					if (!$submission->actionsDidRun()) {
-						$submission->updateState(['actionsDidRun' => true]);
+						$submission->updateState(['actionsdidrun' => true]);
 
 						try {
-							$submission->form()->handleActions($submission);
+							$submission->handleActions(force: true);
 						} catch (Exception $e) {
 							return [
 								'message' => t('dreamform.error-while-processing'),

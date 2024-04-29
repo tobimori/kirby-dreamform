@@ -4,9 +4,11 @@ namespace tobimori\DreamForm\Models;
 
 use Kirby\Cms\App;
 use Kirby\Cms\Page;
-use Kirby\Cms\PagePermissions;
 use Kirby\Content\Field;
 
+/**
+ * The base page class for all pages in the plugin.
+ */
 class BasePage extends Page
 {
 	/**

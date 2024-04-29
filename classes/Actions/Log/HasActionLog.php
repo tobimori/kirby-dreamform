@@ -24,11 +24,8 @@ trait HasActionLog
 		$item = new ActionLogEntry([
 			'parent' => $this,
 			'siblings' => $items = $this->actionLog(),
-			'data' => [
-				'_type' => $type,
-				'_timestamp' => date('c'),
-				...$data
-			]
+			'type' => $type,
+			'data' => $data
 		]);
 
 		$items = $items->add($item);

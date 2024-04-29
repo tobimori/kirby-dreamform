@@ -7,6 +7,7 @@ use tobimori\DreamForm\Exceptions\SuccessException;
 use tobimori\DreamForm\Models\SubmissionPage;
 use tobimori\DreamForm\Performer;
 use Kirby\Toolkit\Str;
+use tobimori\DreamForm\Actions\Log\ActionLogEntry;
 use tobimori\DreamForm\Models\FormPage;
 
 /**
@@ -43,6 +44,14 @@ abstract class Action extends Performer
 	public function block(): Block
 	{
 		return $this->block;
+	}
+
+	/**
+	 * Create an action log entry
+	 */
+	protected function log(string $type, array $data): ActionLogEntry
+	{
+		return $this->submission()->logAction($type, $data);
 	}
 
 	/**

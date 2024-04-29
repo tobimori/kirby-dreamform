@@ -1,7 +1,5 @@
 <script setup>
-import logProps from "./props";
-
-const props = defineProps(logProps);
+const props = defineProps({});
 </script>
 
 <template>

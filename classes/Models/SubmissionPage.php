@@ -18,16 +18,23 @@ use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
-use tobimori\Dreamform\Actions\Log\HasActionLog;
+use tobimori\DreamForm\Actions\Log\HasActionLog;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\Field as FormField;
 use tobimori\DreamForm\Permissions\SubmissionPermissions;
 
+/**
+ * The submission page is the heart of the plugin.
+ *
+ * It's the represenation of a form submission,
+ * and contains logic to handle the complete submission process.
+ */
 class SubmissionPage extends BasePage
 {
 	use HasActionLog;
 	use SubmissionMetadata;
 	use SubmissionSession;
+	use SubmissionHandling;
 
 	/**
 	 * Returns the submission referer (for PRG redirects)
@@ -304,16 +311,15 @@ class SubmissionPage extends BasePage
 		}
 
 		$state = $this->state()->toArray();
-		$state['step'] = $state['step'] + 1;
-
-		$this->content = $this->content()->update(['dreamform_state' => $state]);
-		$this->saveSubmission();
+		$this->updateState(['step' => $state['step'] + 1]);
 
 		return $this;
 	}
 
 	/**
 	 * Finish the submission and save it to the disk
+	 *
+	 * TODO: merge with $submission->finalize()?
 	 */
 	public function finish(bool $saveToDisk = true): static
 	{
@@ -322,11 +328,7 @@ class SubmissionPage extends BasePage
 		$state['partial'] = false;
 		$this->content = $this->content()->update(['dreamform_state' => $state]);
 
-		$submission = App::instance()->apply(
-			'dreamform.submit:after',
-			['submission' => $this, 'form' => $this->form()],
-			'submission'
-		);
+		$submission = $this->applyHook('after');
 
 		if ($saveToDisk) {
 			return $submission->saveSubmission();
@@ -351,7 +353,8 @@ class SubmissionPage extends BasePage
 		return App::instance()->impersonate(
 			'kirby',
 			fn () => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
-		);;
+		);
+		;
 	}
 
 	/**
@@ -468,7 +471,7 @@ class SubmissionPage extends BasePage
 		$page = $this->parent();
 
 		if ($page->intendedTemplate()->name() !== 'form') {
-			throw new InvalidArgumentException('[kirby-dreamform] SubmissionPage must be a child of a FormPage');
+			throw new InvalidArgumentException('[DreamForm] SubmissionPage must be a child of a FormPage');
 		}
 
 		return $page;
@@ -552,6 +555,9 @@ class SubmissionPage extends BasePage
 		return parent::isAccessible();
 	}
 
+	/**
+	 * Returns the permissions object for this page
+	 */
 	public function permissions(): SubmissionPermissions
 	{
 		return new SubmissionPermissions($this);

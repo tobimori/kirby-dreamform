@@ -1,9 +1,16 @@
 <script setup>
-import logProps from "./props";
+const props = defineProps({
+	text: String,
+	template: {
+		type: Object,
+		default: () => ({}),
+	},
+	timestamp: Number,
+});
 
-const props = defineProps(logProps);
+console.log(props);
 </script>
 
 <template>
-	<div>test</div>
+	<div v-html="$t(props.text, props.template)"></div>
 </template>

@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Actions;
 
 use Kirby\Http\Remote;
+use Kirby\Http\Url;
 use Throwable;
 
 /**
@@ -69,13 +70,20 @@ class WebhookAction extends Action
 				],
 				'data' => json_encode($content)
 			]);
-
-			if ($request->code() > 299) {
-				$this->cancel();
-			}
 		} catch (Throwable $e) {
 			// (this will only be shown in the frontend if debug mode is enabled)
 			$this->cancel($e->getMessage());
 		}
+
+		if ($request->code() > 299) {
+			$this->cancel();
+		}
+
+		$this->log('info', [
+			'text' => 'dreamform.webhook-sent-log',
+			'template' => [
+				'url' => Url::short($request->url())
+			]
+		]);
 	}
 }
