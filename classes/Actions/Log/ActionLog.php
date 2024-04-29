@@ -1,6 +1,6 @@
 <?php
 
-namespace tobimori\Dreamform\Actions\Log;
+namespace tobimori\DreamForm\Actions\Log;
 
 use Kirby\Cms\Items;
 
