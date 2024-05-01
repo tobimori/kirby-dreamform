@@ -6,6 +6,7 @@ use Kirby\Cache\Cache;
 use Kirby\Cms\App;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SilentPerformerException;
+use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Support\HasCache;
 
 /**
@@ -19,36 +20,27 @@ abstract class Performer
 	/**
 	 * Cancel the form submission
 	 *
-	 * The form will be shown as failed to the user
-	 * and the error message will be displayed
+	 * The form will be shown as failed to the user and the error message will be displayed
 	 */
 	protected function cancel(string $message = null, bool $public = false): void
 	{
-		$message ??= t('dreamform.generic-error');
-
-		if (!$public && !DreamForm::debugMode()) {
-			throw new PerformerException(t('dreamform.generic-error'));
-		}
-
-		throw new PerformerException($message);
+		throw new PerformerException($this, $message, $public, false);
 	}
 
 	/**
 	 * Silently cancel the form submission
 	 *
-	 * The form will be shown as successful to the user,
-	 * except if debug mode is enabled
+	 * The form will be shown as successful to the user, except if debug mode is enabled
 	 */
 	protected function silentCancel(string $message = null): void
 	{
-		$message ??= t('dreamform.generic-error');
-
-		if (DreamForm::debugMode()) {
-			throw new PerformerException($message);
-		}
-
-		throw new SilentPerformerException($message);
+		throw new PerformerException($this, $message, false, true);
 	}
+
+	/**
+	 * Returns the form the performer is being run on
+	 */
+	abstract public function form(): FormPage;
 
 	/**
 	 * Run the action

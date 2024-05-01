@@ -1,6 +1,6 @@
 <?php
 
-namespace tobimori\DreamForm\Actions\Log;
+namespace tobimori\DreamForm\Models\Log;
 
 use Closure;
 use Kirby\Cms\Items;
@@ -9,20 +9,20 @@ use Kirby\Toolkit\A;
 /**
  * The action log for a submission
  */
-class ActionLog extends Items
+class SubmissionLog extends Items
 {
-	public const ITEM_CLASS = ActionLogEntry::class;
+	public const ITEM_CLASS = SubmissionLogEntry::class;
 
 	/**
 	 * Convert the items to an array
 	 */
 	public function toArray(Closure $map = null): array
 	{
-		return A::sort(
+		return array_values(A::sort(
 			parent::toArray($map),
 			'timestamp',
-			'asc',
+			'desc',
 			SORT_NUMERIC
-		);
+		));
 	}
 }

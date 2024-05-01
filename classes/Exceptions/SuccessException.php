@@ -9,4 +9,8 @@ use Kirby\Exception\Exception;
  */
 class SuccessException extends Exception
 {
+	public function shouldContinue(): bool
+	{
+		return false;
+	}
 }

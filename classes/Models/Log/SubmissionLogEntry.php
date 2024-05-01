@@ -1,6 +1,6 @@
 <?php
 
-namespace tobimori\DreamForm\Actions\Log;
+namespace tobimori\DreamForm\Models\Log;
 
 use DateTime;
 use Kirby\Cms\Item;
@@ -8,13 +8,15 @@ use Kirby\Cms\Item;
 /**
  * An action log entry
  */
-class ActionLogEntry extends Item
+class SubmissionLogEntry extends Item
 {
-	public const ITEMS_CLASS = ActionLog::class;
+	public const ITEMS_CLASS = SubmissionLog::class;
 
 	protected int $timestamp;
 	protected array $data;
 	protected string $type;
+	protected string $icon;
+	protected string $title;
 
 	/**
 	 * Creates a new ActionLogEntry with the given props
@@ -25,6 +27,8 @@ class ActionLogEntry extends Item
 
 		$this->data = $params['data'] ?? [];
 		$this->type = $params['type'] ?? 'info';
+		$this->icon = $params['icon'] ?? 'info';
+		$this->title = $params['title'] ?? ucfirst($this->type);
 		$this->timestamp = $params['timestamp'] ?? time();
 	}
 
@@ -53,6 +57,23 @@ class ActionLogEntry extends Item
 	}
 
 	/**
+	 * Returns the title of the log entry
+	 */
+	public function title(): string
+	{
+		return $this->title;
+	}
+
+
+	/**
+	 * Returns the icon for the log entry
+	 */
+	public function icon(): string
+	{
+		return $this->icon;
+	}
+
+	/**
 	 * Converts the item to an array
 	 */
 	public function toArray(): array
@@ -61,6 +82,8 @@ class ActionLogEntry extends Item
 			'data' => $this->data,
 			'id' => $this->id(),
 			'type' => $this->type(),
+			'icon' => $this->icon(),
+			'title' => $this->title(),
 			'timestamp' => $this->timestamp(),
 		];
 	}

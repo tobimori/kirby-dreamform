@@ -97,7 +97,7 @@ class MailchimpAction extends Action
 
 		// subscribe or update the user
 		$hash = md5(strtolower($email));
-		static::request('PUT', "/lists/{$list}/members/{$hash}?skip_merge_validation=true", [
+		$request = static::request('PUT', "/lists/{$list}/members/{$hash}?skip_merge_validation=true", [
 			'email_address' => $email,
 			'status_if_new' => $this->block()->doubleOptIn()->toBool() ? 'pending' : 'subscribed',
 			'merge_fields' => $mergeFields,
@@ -107,6 +107,13 @@ class MailchimpAction extends Action
 			'ip_signup' => $this->submission()->metadata()->ip()?->value(),
 			'language' => App::instance()->languageCode()
 		]);
+
+		if ($request->code() === 200) {
+			ray($request->json());
+			$this->log([
+				'text' => 'dreamform.mailchimp-subscribed-log'
+			], icon: 'mailchimp', title: 'dreamform.mailchimp');
+		}
 	}
 
 	/**

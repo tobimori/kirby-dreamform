@@ -16,7 +16,6 @@ use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\PerformerException;
-use tobimori\DreamForm\Exceptions\SilentPerformerException;
 use tobimori\DreamForm\Guards\LicenseGuard;
 use tobimori\DreamForm\Permissions\FormPermissions;
 use tobimori\DreamForm\Support\Htmx;
@@ -267,14 +266,14 @@ class FormPage extends BasePage
 				->finalize()
 				->handleAfterSubmitFields();
 		} catch (Exception $e) {
-			// if an guard fails, set a common error and stop the form submission
 			if ($e instanceof PerformerException) {
-				$submission->setError($e->getMessage());
-
 				// if the exception is silent, stop the form submission early as "successful"
-			} elseif ($e instanceof SilentPerformerException) {
-				return $submission->storeSession()->finish(false);
+				if ($e->isSilent()) {
+					return $submission->storeSession()->finish(false);
+				}
 			}
+
+			$submission->setError($e->getMessage());
 		}
 
 		// store the submission in the session

@@ -71,12 +71,40 @@ return function () {
 								]
 							]
 						],
+						[
+							'width' => '1',
+							'fields' => [
+								'_line' => [
+									'type' => 'line'
+								]
+							]
+						],
+						[
+							'width' => '1/4',
+							'fields' => [
+								'_workflow' => [
+									'label' => 'dreamform.workflow',
+									'type' => 'headline'
+								]
+							]
+						],
+						[
+							'width' => '3/4',
+							'fields' => [
+								'continueSubmissionOnError' => [
+									'label' => 'dreamform.continue-submission-on-error',
+									'type' => 'toggle',
+									'help' => 'dreamform.continue-submission-on-error-help',
+									'width' => '1/3'
+								]
+							]
+						],
 					],
 					App::instance()->option('tobimori.dreamform.storeSubmissions') ? [
 						[
 							'width' => '1',
 							'fields' => [
-								'_line' => [
+								'_line2' => [
 									'type' => 'line'
 								]
 							]

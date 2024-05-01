@@ -2,6 +2,8 @@
 import { useSection, ref, useApp, usePanel } from "kirbyuse";
 import { section } from "kirbyuse/props";
 
+import EntryBase from "@/components/log/EntryBase.vue";
+
 const props = defineProps(section);
 
 const app = useApp();
@@ -10,7 +12,7 @@ const panel = usePanel();
 const didLoad = ref(false);
 const isSpam = ref(false);
 const isPartial = ref(false);
-const actionLog = ref([]);
+const log = ref([]);
 
 const loadSection = async () => {
 	const { load } = useSection();
@@ -22,12 +24,24 @@ const loadSection = async () => {
 	didLoad.value = true;
 	isSpam.value = response.isSpam;
 	isPartial.value = response.isPartial;
-	actionLog.value = response.actionLog;
-	console.log(actionLog.value);
+	log.value = response.log;
+	console.log(log.value);
 };
 
 const toggleSpam = () => {
 	app.$dialog(`submission/${props.parent.split("/")[2]}/mark-as-${isSpam.value ? 'ham' : 'spam'}`, {
+		on: {
+			success(res) {
+				panel.dialog.close();
+				panel.notification.success(res.message);
+				loadSection();
+			}
+		}
+	})
+}
+
+const runActions = () => {
+	app.$dialog(`submission/${props.parent.split("/")[2]}/run-actions`, {
 		on: {
 			success(res) {
 				panel.dialog.close();
@@ -44,56 +58,41 @@ loadSection();
 </script>
 
 <template>
-	<div v-if="didLoad">
-		<k-section :headline="$t('dreamform.submission')">
-			<div class="df-submission-section" >
-				<div class="df-stat" v-if="!isPartial">
-					{{ $t("dreamform.submission-marked-as").split("<>status</>")[0] }}
-					<span class="df-stat-value" :class="isSpam ? 'is-negative' : 'is-positive'">
-						<k-icon :type="isSpam ? 'spam' : 'shield-check'" />
-						{{ $t(isSpam ? "dreamform.spam" : "dreamform.ham") }}
-					</span>
-					{{ $t("dreamform.submission-marked-as").split("<>status</>")[1] }}
-				</div>
-				<div class="df-stat" v-else>
-					<span class="df-stat-value">
-						<k-icon type="circle-half" />
-						{{ $t("dreamform.partial-submission") }}
-					</span>
-				</div>
+	<k-section :headline="$t('dreamform.submission')" v-if="didLoad">
+		<k-button icon="play" size="xs" slot="options" variant="filled" @click="runActions">{{ $t('dreamform.run-actions')
+			}}</k-button>
+		<div class="df-submission-section">
+			<div class="df-stat" v-if="!isPartial">
+				{{ $t("dreamform.submission-marked-as").split("<>status</>")[0] }}
+				<span class="df-stat-value" :class="isSpam ? 'is-negative' : 'is-positive'">
+					<k-icon :type="isSpam ? 'spam' : 'shield-check'" />
+					{{ $t(isSpam ? "dreamform.spam" : "dreamform.ham") }}
+				</span>
+				{{ $t("dreamform.submission-marked-as").split("<>status</>")[1] }}
 			</div>
-			<div class="df-submission-section" v-if="!isPartial">
-				<k-button type="button" variant="dimmed" size="sm" icon="angle-right" :theme="isSpam ? 'positive' : 'error'"
-					@click="toggleSpam">
-					{{ $t(isSpam ? "dreamform.report-as-ham" : "dreamform.report-as-spam") }}
-				</k-button>
+			<div class="df-stat" v-else>
+				<span class="df-stat-value">
+					<k-icon type="circle-half" />
+					{{ $t("dreamform.partial-submission") }}
+				</span>
 			</div>
-		</k-section>
-		<k-section v-if="!isPartial" :headline="$t('dreamform.action-log')">
-			<div class="df-action-log">
-				<k-empty icon="folder-structure" v-if="actionLog.length === 0">{{ $t('dreamform.empty-action-log') }}</k-empty>
-				<div v-else>
-					<template v-for="entry in actionLog">
-						<component
-							v-if="exists(entry.type)"
-							:is="`df-log-${entry.type}-entry`"
-							v-bind="entry.data"
-							:key="entry.id"
-						/>
-						<k-box
-							v-else
-							:key="`${entry.id}-error`"
-							:text="$t('dreamform.action-log-type-invalid', { type: entry.type })"
-							icon="alert"
-							theme="negative"
-						/>
-					</template>
-				</div>
-
-				<k-button variant="filled" theme="info" icon="play">Run actions</k-button>
-			</div>
-		</k-section>
-	</div>
+		</div>
+		<div class="df-submission-section" v-if="!isPartial">
+			<k-button type="button" variant="dimmed" size="sm" icon="angle-right" :theme="isSpam ? 'positive' : 'error'"
+				@click="toggleSpam">
+				{{ $t(isSpam ? "dreamform.report-as-ham" : "dreamform.report-as-spam") }}
+			</k-button>
+		</div>
+		<div class="df-submission-log">
+			<template v-for="entry in log">
+				<EntryBase v-if="exists(entry.type)" :key="entry.id" :template="entry.data?.template" :timestamp="entry.timestamp" :title="entry.title" :icon="entry.icon">
+					<component :is="`df-log-${entry.type}-entry`" v-bind="entry.data" />
+				</EntryBase>
+				<k-box v-else :key="`${entry.id}-error`"
+					:text="$t('dreamform.submission-log-type-invalid', { type: entry.type })" icon="alert" theme="negative" />
+			</template>
+		</div>
+	</k-section>
 </template>
 
 <style lang="scss">
@@ -130,7 +129,8 @@ loadSection();
 			margin-right: 0.125rem;
 		}
 
-		&.is-positive, &.is-positive .k-icon {
+		&.is-positive,
+		&.is-positive .k-icon {
 			color: var(--color-green-700);
 		}
 
@@ -144,9 +144,7 @@ loadSection();
 	}
 }
 
-.df-action-log {
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-2);
+.df-submission-log {
+	margin-top: var(--spacing-8);
 }
 </style>

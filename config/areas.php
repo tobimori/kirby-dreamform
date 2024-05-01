@@ -124,6 +124,29 @@ return [
 					];
 				}
 			],
+			'submission/(:any)/run-actions' => [
+				'load' => function () {
+					return [
+						'component' => 'k-text-dialog',
+						'props' => [
+							'text' => t('dreamform.confirm-run-actions'),
+							'submitButton' => [
+								'text' => t('dreamform.run-actions'),
+								'icon'  => 'play',
+								'theme' => 'positive'
+							],
+						]
+					];
+				},
+				'submit' => function (string $path) {
+					$submission = DreamForm::findPageOrDraftRecursive(Str::replace($path, '+', '/'));
+					$submission = $submission->handleActions(force: true);
+
+					return [
+						'message' => t('dreamform.actions-ran-successfully'),
+					];
+				}
+			],
 		]
 	]
 ];

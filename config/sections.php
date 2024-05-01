@@ -20,8 +20,8 @@ return [
 			'isPartial' => function () {
 				return !$this->model()->isFinished();
 			},
-			'actionLog' => function () {
-				return $this->model()->actionLog()->toArray();
+			'log' => function () {
+				return $this->model()->log()->toArray();
 			}
 		]
 	],

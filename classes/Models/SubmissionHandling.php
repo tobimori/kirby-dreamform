@@ -2,8 +2,12 @@
 
 namespace tobimori\DreamForm\Models;
 
+use Exception;
 use Kirby\Cms\App;
 use Kirby\Toolkit\A;
+use tobimori\DreamForm\Exceptions\PerformerException;
+use tobimori\DreamForm\Exceptions\SilentPerformerException;
+use tobimori\DreamForm\Exceptions\SuccessException;
 
 /**
  * Handle the submission process
@@ -89,11 +93,24 @@ trait SubmissionHandling
 			foreach ($this->createActions() as $action) {
 				try {
 					$action->run();
-				} catch (\Exception $e) {
-					ray($e->getMessage());
-					$this->logAction('error', [
+				} catch (Exception $e) {
+					// we only want to log "unknown" exceptions
+					if (
+						$e instanceof PerformerException || $e instanceof SuccessException
+					) {
+						if (!$e->shouldContinue()) {
+							throw $e;
+						}
+
+						continue;
+					}
+
+					$this->addLogEntry([
 						'text' => $e->getMessage(),
-					]);
+						'template' => [
+							'type' => $action->type(),
+						]
+					], type: 'error', icon: 'alert', title: "dreamform.unhandled-performer-error");
 				}
 			}
 		}

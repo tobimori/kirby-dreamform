@@ -76,14 +76,14 @@ class WebhookAction extends Action
 		}
 
 		if ($request->code() > 299) {
-			$this->cancel();
+			$this->cancel('dreamform.webhook-error');
 		}
 
-		$this->log('info', [
+		$this->log([
 			'text' => 'dreamform.webhook-sent-log',
 			'template' => [
-				'url' => Url::short($request->url())
+				'url' => Url::toObject($request->url())->domain()
 			]
-		]);
+		], icon: 'webhook', title: 'dreamform.webhook');
 	}
 }
