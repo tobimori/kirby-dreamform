@@ -168,5 +168,6 @@
 	"confirm-run-actions": "Are you sure you want to run the current submission workflow for this form on this submission again?",
 	"actions-ran-successfully": "The submission workflow was successfully run.",
 	"continue-submission-on-error": "Continue submission on error",
-	"continue-submission-on-error-help": "If this option is enabled, the submission will be stored and a success message will be shown even if an error occurs."
+	"continue-submission-on-error-help": "If this option is enabled, the submission will be stored and a success message will be shown even if an error occurs.",
+	"just-now": "just now"
 }

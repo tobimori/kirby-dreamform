@@ -1,28 +1,22 @@
 export function formatDate(timestamp) {
 	const locale = window.panel.user.language;
-
-	let value;
-	const diff = (new Date().getTime() - timestamp * 1000) / 1000;
-	const minutes = Math.floor(diff / 60);
-	const hours = Math.floor(minutes / 60);
-	const days = Math.floor(hours / 24);
-	const months = Math.floor(days / 30);
-	const years = Math.floor(months / 12);
 	const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
 
-	if (years > 0) {
-		value = rtf.format(0 - years, "year");
-	} else if (months > 0) {
-		value = rtf.format(0 - months, "month");
-	} else if (days > 0) {
-		value = rtf.format(0 - days, "day");
-	} else if (hours > 0) {
-		value = rtf.format(0 - hours, "hour");
-	} else if (minutes > 0) {
-		value = rtf.format(0 - minutes, "minute");
-	} else {
-		value = rtf.format(0 - diff, "second");
+	const diff = (new Date().getTime() - timestamp * 1000) / 1000;
+	const units = [
+		{ unit: "year", seconds: 365 * 24 * 60 * 60 },
+		{ unit: "month", seconds: 30 * 24 * 60 * 60 },
+		{ unit: "day", seconds: 24 * 60 * 60 },
+		{ unit: "hour", seconds: 60 * 60 },
+		{ unit: "minute", seconds: 60 },
+	];
+
+	for (const { unit, seconds } of units) {
+		const value = Math.floor(diff / seconds);
+		if (value > 0) {
+			return rtf.format(0 - value, unit);
+		}
 	}
 
-	return value;
+	return window.panel.$t("dreamform.just-now");
 }
