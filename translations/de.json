@@ -35,7 +35,7 @@
     "actions.empty": "Keine Aktionen definiert",
     "actions.label": "Aktionen",
     "actions.mailchimp.doubleOptIn.help": "Benötigt für eine DSGVO-konforme Anmeldung.",
-    "actions.mailchimp.doubleOptIn.label": "Erfordere actions.mailchimp.doubleOptIn.label?",
+    "actions.mailchimp.doubleOptIn.label": "Erfordere Double Opt-In?",
     "actions.mailchimp.fieldMapping.empty": "Keine Felderverknüpfungen gesetzt",
     "actions.mailchimp.fieldMapping.help": "Wähle die Felder aus dem Formular, die mit den Feldern in Mailchimp übereinstimmen.",
     "actions.mailchimp.fieldMapping.label": "Feldzuordnung",

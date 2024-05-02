@@ -41,7 +41,7 @@ class AbortAction extends Action
 	public function run(): void
 	{
 		if ($this->block()->showError()->toBool()) {
-			$this->cancel($this->block()->errorMessage()->or(t('dreamform.submission.error.generic')), true);
+			$this->cancel($this->block()->errorMessage()->or(t('dreamform.submission.error.generic')), public: true, log: false);
 		} else {
 			$this->success();
 		}

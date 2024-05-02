@@ -69,7 +69,7 @@ abstract class Action extends Performer
 	 *
 	 * The form will be shown as failed to the user and the error message will be displayed
 	 */
-	protected function cancel(string $message = null, bool $public = false, array $log = []): void
+	protected function cancel(string $message = null, bool $public = false, array|bool $log = true): void
 	{
 		throw new PerformerException(
 			performer: $this,
@@ -86,7 +86,7 @@ abstract class Action extends Performer
 	 *
 	 * The form will be shown as successful to the user, except if debug mode is enabled
 	 */
-	protected function silentCancel(string $message = null, array $log = []): void
+	protected function silentCancel(string $message = null, array|bool $log = true): void
 	{
 		throw new PerformerException(
 			performer: $this,

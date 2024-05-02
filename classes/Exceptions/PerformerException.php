@@ -23,11 +23,11 @@ class PerformerException extends Exception
 		protected bool $silent = false,
 		protected bool $force = false,
 		protected SubmissionPage|null $submission = null,
-		array $log = []
+		array|bool $log = true
 	) {
-		$translated = t($message ?? self::GENERIC_ERROR);
+		$translated = t($message ?? self::GENERIC_ERROR, $message);
 
-		if ($this->submission()) {
+		if ($this->submission() && $log !== false) {
 			$this->submission()->addLogEntry(
 				...A::merge(
 					[
@@ -41,7 +41,7 @@ class PerformerException extends Exception
 						'icon' => 'alert',
 						'title' => "dreamform.submission.log.error",
 					],
-					$log
+					is_bool($log) ? [] : $log
 				)
 			);
 		}

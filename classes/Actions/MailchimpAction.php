@@ -2,6 +2,7 @@
 
 namespace tobimori\DreamForm\Actions;
 
+use DateTime;
 use Kirby\Cms\App;
 use Kirby\Data\Json;
 use Kirby\Form\Form;
@@ -18,11 +19,6 @@ class MailchimpAction extends Action
 	 */
 	public static function blueprint(): array
 	{
-		$lists = static::cache(
-			'lists',
-			fn () => static::request('GET', '/lists')?->json()
-		);
-
 		return [
 			'name' => t('dreamform.actions.mailchimp.name'),
 			'preview' => 'fields',
@@ -35,7 +31,7 @@ class MailchimpAction extends Action
 						'list' => [
 							'label' => t('dreamform.actions.mailchimp.list.label'),
 							'type' => 'select',
-							'options' => A::reduce($lists['lists'], fn ($prev, $list) => A::merge($prev, [
+							'options' => A::reduce(static::getLists(), fn ($prev, $list) => A::merge($prev, [
 								$list['id'] => $list['name']
 							]), []),
 							'width' => '2/3',
@@ -106,7 +102,7 @@ class MailchimpAction extends Action
 		$request = static::request('PUT', "/lists/{$list}/members/{$hash}?skip_merge_validation=true", [
 			'email_address' => $email,
 			'status_if_new' => $this->block()->doubleOptIn()->toBool() ? 'pending' : 'subscribed',
-			'merge_fields' => $mergeFields,
+			'merge_fields' => !empty($mergeFields) ? $mergeFields : null,
 			'tags' => $tags,
 
 			// this will be included if it's already set (and enabled in the config)
@@ -114,12 +110,22 @@ class MailchimpAction extends Action
 			'language' => App::instance()->languageCode()
 		]);
 
-		if ($request->code() === 200) {
-			ray($request->json());
-			$this->log([
-				'text' => 'dreamform.mailchimp-subscribed-log'
-			], icon: 'mailchimp', title: 'dreamform.mailchimp');
+		$details = ['title' => 'dreamform.actions.mailchimp.shortName', 'icon' => 'mailchimp'];
+		if ($request->code() > 299) {
+			$this->cancel($request->json()['detail'] ?? "dreamform.submission.error.email", log: $details);
 		}
+
+		$signup = new DateTime($request->json()['timestamp_signup']);
+		$this->log([
+			// if the user signed up in the last minute, we log it as already subscribed
+			'text' => $signup->diff(new DateTime())->i > 1
+				? 'dreamform.actions.mailchimp.log.alreadySubscribed'
+				: 'dreamform.actions.mailchimp.log.success',
+			'template' => [
+				'email' => $email,
+				'list' => A::find(static::getLists(), fn ($entry) => $entry['id'] === $list)['name']
+			]
+		], ...$details);
 	}
 
 	/**
@@ -142,6 +148,17 @@ class MailchimpAction extends Action
 		), []);
 
 		return $tags;
+	}
+
+	/**
+	 * Returns an array of available lists in the Mailchimp account
+	 */
+	protected static function getLists(): array
+	{
+		return static::cache(
+			'lists',
+			fn () => static::request('GET', '/lists')?->json()
+		)['lists'];
 	}
 
 	/**

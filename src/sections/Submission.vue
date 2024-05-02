@@ -81,7 +81,7 @@ loadSection();
 					:class="isSpam ? 'is-negative' : 'is-positive'"
 				>
 					<k-icon :type="isSpam ? 'spam' : 'shield-check'"></k-icon>
-					{{ $t("dreamform.submission." + isSpam ? "spam" : "ham") }}
+					{{ $t("dreamform.submission." + (isSpam ? "spam" : "ham")) }}
 				</span>
 				{{ $t("dreamform.submission.markedAs").split("…")[1] }}
 			</div>
