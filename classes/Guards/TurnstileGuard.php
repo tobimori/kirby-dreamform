@@ -41,7 +41,7 @@ class TurnstileGuard extends Guard
 			$remote->code() !== 200 ||
 			$remote->json()['success'] !== true
 		) {
-			$this->cancel(t('dreamform.captcha-error'));
+			$this->cancel(t('dreamform.submission.error.captcha'));
 		}
 	}
 

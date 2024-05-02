@@ -58,7 +58,7 @@ abstract class Field
 	 */
 	public function errorMessage(string $key = 'errorMessage'): string
 	{
-		return $this->block()->{$key}()->isNotEmpty() ? $this->block()->{$key}() : t('dreamform.error-message-default');
+		return $this->block()->{$key}()->isNotEmpty() ? $this->block()->{$key}() : t('dreamform.fields.error.required');
 	}
 
 	/**

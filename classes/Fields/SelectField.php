@@ -7,7 +7,7 @@ class SelectField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.select-field'),
+			'name' => t('dreamform.fields.select.name'),
 			'preview' => 'select-field',
 			'wysiwyg' => true,
 			'icon' => 'list-bullet',
@@ -51,7 +51,7 @@ class SelectField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => $this->block()->label()->value() ?? t('dreamform.select-field'),
+			'label' => $this->block()->label()->value() ?? t('dreamform.fields.select.name'),
 			'type' => 'select',
 			'placeholder' => $this->block()->placeholder()->value() ?? '',
 			'options' => $this->options()

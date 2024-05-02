@@ -12,7 +12,7 @@ class EmailField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.email-field'),
+			'name' => t('dreamform.fields.email.name'),
 			'preview' => 'text-field',
 			'wysiwyg' => true,
 			'icon' => 'email',
@@ -39,7 +39,7 @@ class EmailField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => $this->block()->label()->value() ?? t('dreamform.email-field'),
+			'label' => $this->block()->label()->value() ?? t('dreamform.fields.email.name'),
 			'icon' => 'email',
 			'type' => 'text'
 		];

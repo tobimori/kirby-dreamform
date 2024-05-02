@@ -18,7 +18,7 @@ class RatelimitGuard extends Guard
 		);
 
 		if ($count <= 0) {
-			$this->cancel(t('dreamform.ratelimit-error'), true);
+			$this->cancel(t('dreamform.submission.error.ratelimit'), true);
 		} else {
 			static::setCache($ip, $count - 1, $kirby->option('tobimori.dreamform.guards.ratelimit.interval'));
 		}

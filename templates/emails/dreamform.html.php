@@ -40,7 +40,6 @@
       display: block;
       margin: 13px 0;
     }
-
   </style>
   <!--[if mso]>
     <noscript>
@@ -61,7 +60,6 @@
   <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" type="text/css">
   <style type="text/css">
     @import url(https://fonts.googleapis.com/css?family=Inter);
-
   </style>
   <!--<![endif]-->
   <style type="text/css">
@@ -71,20 +69,17 @@
         max-width: 100%;
       }
     }
-
   </style>
   <style media="screen and (min-width:480px)">
     .moz-text-html .mj-column-per-100 {
       width: 100% !important;
       max-width: 100%;
     }
-
   </style>
   <style type="text/css">
     .shadow {
       box-shadow: 0 1px 3px 0 #0000000d, 0 1px 2px 0 #00000006;
     }
-
   </style>
 </head>
 
@@ -117,7 +112,7 @@
                                       </tr>
                                       <tr>
                                         <td align="left" style="font-size:0px;padding:0px;word-break:break-word;">
-                                          <div style="font-family:Inter;font-size:14px;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#737373;"><?= tt('dreamform.new-form-submission-for', null, ['form' => "<strong>{$form->title()}</strong>"]) ?></div>
+                                          <div style="font-family:Inter;font-size:14px;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#737373;"><?= tt('dreamform.actions.email.defaultTemplate.text', null, ['form' => "<strong>{$form->title()}</strong>"]) ?></div>
                                         </td>
                                       </tr>
                                     </tbody>
@@ -147,23 +142,23 @@
                                 <td style="vertical-align:top;padding:0px;">
                                   <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="" width="100%">
                                     <tbody> <?php foreach ($fields = $form->fields()->filterBy(fn ($f) => $f::hasValue()) as $field) : ?> <tr>
-                                        <td align="left" style="font-size:0px;padding:0px;padding-bottom:8px;word-break:break-word;">
-                                          <div style="font-family:Inter;font-size:14px;font-weight:700;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#000000;"><?= $field->label() ?></div>
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <td align="left" style="font-size:0px;padding:0px;word-break:break-word;">
-                                          <div style="font-family:Inter;font-size:14px;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#737373;"><?= $submission->valueFor($field->key())?->escape() ?? "—" ?></div>
-                                        </td>
-                                      </tr> <?php if($fields->last() !== $field) : ?> <tr>
-                                        <td align="center" style="font-size:0px;padding:16px 0;word-break:break-word;">
-                                          <p style="border-top:solid 1px #f0f0f0;font-size:1px;margin:0px auto;width:100%;">
-                                          </p>
-                                          <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px #f0f0f0;font-size:1px;margin:0px auto;width:648px;" role="presentation" width="648px" ><tr><td style="height:0;line-height:0;"> &nbsp;
+                                          <td align="left" style="font-size:0px;padding:0px;padding-bottom:8px;word-break:break-word;">
+                                            <div style="font-family:Inter;font-size:14px;font-weight:700;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#000000;"><?= $field->label() ?></div>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td align="left" style="font-size:0px;padding:0px;word-break:break-word;">
+                                            <div style="font-family:Inter;font-size:14px;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#737373;"><?= $submission->valueFor($field->key())?->escape() ?? "—" ?></div>
+                                          </td>
+                                        </tr> <?php if ($fields->last() !== $field) : ?> <tr>
+                                            <td align="center" style="font-size:0px;padding:16px 0;word-break:break-word;">
+                                              <p style="border-top:solid 1px #f0f0f0;font-size:1px;margin:0px auto;width:100%;">
+                                              </p>
+                                              <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px #f0f0f0;font-size:1px;margin:0px auto;width:648px;" role="presentation" width="648px" ><tr><td style="height:0;line-height:0;"> &nbsp;
 </td></tr></table><![endif]-->
-                                        </td>
-                                      </tr> <?php endif;
-                                    endforeach ?>
+                                            </td>
+                                          </tr> <?php endif;
+                                            endforeach ?>
                                     </tbody>
                                   </table>
                                 </td>

@@ -110,7 +110,7 @@ trait SubmissionHandling
 						'template' => [
 							'type' => $action->type(),
 						]
-					], type: 'error', icon: 'alert', title: "dreamform.unhandled-performer-error");
+					], type: 'error', icon: 'alert', title: "dreamform.submission.log.error");
 				}
 			}
 		}

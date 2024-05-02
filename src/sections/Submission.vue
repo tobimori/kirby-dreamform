@@ -29,16 +29,21 @@ const loadSection = async () => {
 };
 
 const toggleSpam = () => {
-	app.$dialog(`submission/${props.parent.split("/")[2]}/mark-as-${isSpam.value ? 'ham' : 'spam'}`, {
-		on: {
-			success(res) {
-				panel.dialog.close();
-				panel.notification.success(res.message);
-				loadSection();
-			}
+	app.$dialog(
+		`submission/${props.parent.split("/")[2]}/mark-as-${
+			isSpam.value ? "submission.ham" : "submission.spam"
+		}`,
+		{
+			on: {
+				success(res) {
+					panel.dialog.close();
+					panel.notification.success(res.message);
+					loadSection();
+				},
+			},
 		}
-	})
-}
+	);
+};
 
 const runActions = () => {
 	app.$dialog(`submission/${props.parent.split("/")[2]}/run-actions`, {
@@ -47,10 +52,10 @@ const runActions = () => {
 				panel.dialog.close();
 				panel.notification.success(res.message);
 				loadSection();
-			}
-		}
-	})
-}
+			},
+		},
+	});
+};
 
 const exists = (type) => app.$helper.isComponent(`df-log-${type}-entry`);
 
@@ -59,37 +64,71 @@ loadSection();
 
 <template>
 	<k-section :headline="$t('dreamform.submission')" v-if="didLoad">
-		<k-button icon="play" size="xs" slot="options" variant="filled" @click="runActions">{{ $t('dreamform.run-actions')
-			}}</k-button>
+		<k-button
+			icon="play"
+			size="xs"
+			slot="options"
+			variant="filled"
+			@click="runActions"
+		>
+			{{ $t(dreamform.submission.runActions.button) }}
+		</k-button>
 		<div class="df-submission-section">
 			<div class="df-stat" v-if="!isPartial">
-				{{ $t("dreamform.submission-marked-as").split("<>status</>")[0] }}
-				<span class="df-stat-value" :class="isSpam ? 'is-negative' : 'is-positive'">
-					<k-icon :type="isSpam ? 'spam' : 'shield-check'" />
+				{{ $t("dreamform.submission.markedAs").split("…")[0] }}
+				<span
+					class="df-stat-value"
+					:class="isSpam ? 'is-negative' : 'is-positive'"
+				>
+					<k-icon :type="isSpam ? 'spam' : 'shield-check'"></k-icon>
 					{{ $t(isSpam ? "dreamform.spam" : "dreamform.ham") }}
 				</span>
-				{{ $t("dreamform.submission-marked-as").split("<>status</>")[1] }}
+				{{ $t("dreamform.submission.markedAs").split("…")[1] }}
 			</div>
-			<div class="df-stat" v-else>
+			<div v-else class="df-stat">
 				<span class="df-stat-value">
-					<k-icon type="circle-half" />
-					{{ $t("dreamform.partial-submission") }}
+					<k-icon type="circle-half"></k-icon>
+					{{ $t("dreamform.submission.partial") }}
 				</span>
 			</div>
 		</div>
 		<div class="df-submission-section" v-if="!isPartial">
-			<k-button type="button" variant="dimmed" size="sm" icon="angle-right" :theme="isSpam ? 'positive' : 'error'"
-				@click="toggleSpam">
-				{{ $t(isSpam ? "dreamform.report-as-ham" : "dreamform.report-as-spam") }}
+			<k-button
+				type="button"
+				variant="dimmed"
+				size="sm"
+				icon="angle-right"
+				:theme="isSpam ? 'positive' : 'error'"
+				@click="toggleSpam"
+			>
+				{{
+					$t(
+						isSpam
+							? "dreamform.submission.reportAsHam.button"
+							: "dreamform.submission.reportAsSpam.button"
+					)
+				}}
 			</k-button>
 		</div>
 		<div class="df-submission-log">
 			<template v-for="entry in log">
-				<EntryBase v-if="exists(entry.type)" :key="entry.id" :template="entry.data?.template" :timestamp="entry.timestamp" :title="entry.title" :icon="entry.icon">
+				<EntryBase
+					v-if="exists(entry.type) || entry.type === 'none'"
+					:key="entry.id"
+					:template="entry.data?.template"
+					:timestamp="entry.timestamp"
+					:title="entry.title"
+					:icon="entry.icon"
+				>
 					<component :is="`df-log-${entry.type}-entry`" v-bind="entry.data" />
 				</EntryBase>
-				<k-box v-else :key="`${entry.id}-error`"
-					:text="$t('dreamform.submission-log-type-invalid', { type: entry.type })" icon="alert" theme="negative" />
+				<k-box
+					v-else
+					:key="`${entry.id}-error`"
+					:text="$t('dreamform.submission.error.logType', { type: entry.type })"
+					icon="alert"
+					theme="negative"
+				/>
 			</template>
 		</div>
 	</k-section>

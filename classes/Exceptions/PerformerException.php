@@ -13,7 +13,7 @@ use tobimori\DreamForm\Performer;
  */
 class PerformerException extends Exception
 {
-	public const GENERIC_ERROR = 'dreamform.generic-error';
+	public const GENERIC_ERROR = 'dreamform.submission.error.generic';
 
 	public function __construct(
 		protected Performer $performer,
@@ -30,7 +30,7 @@ class PerformerException extends Exception
 				'template' => [
 					'type' => $this->performer->type(),
 				]
-			], type: 'error', icon: 'alert', title: "dreamform.unhandled-performer-error");
+			], type: 'error', icon: 'alert', title: "dreamform.submission.log.error");
 		}
 
 		parent::__construct($this->isPublic() ? $translated : t(self::GENERIC_ERROR));
@@ -52,7 +52,7 @@ class PerformerException extends Exception
 
 	public function shouldContinue(): bool
 	{
-		return $this->form()->continueSubmissionOnError()->toBool();
+		return $this->form()->continueOnError()->toBool();
 	}
 
 	public function isSilent(): bool

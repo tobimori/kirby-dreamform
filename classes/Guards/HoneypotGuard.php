@@ -26,7 +26,7 @@ class HoneypotGuard extends Guard
 		$value = SubmissionPage::valueFromBody($this->fieldName());
 
 		if ($value) {
-			$this->silentCancel(t('dreamform.honeypot-error'));
+			$this->silentCancel(t('dreamform.submission.error.honeypot'));
 		}
 	}
 

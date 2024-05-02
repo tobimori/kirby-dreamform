@@ -20,7 +20,7 @@ class FileUploadField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.file-upload-field'),
+			'name' => t('dreamform.fields.upload.name'),
 			'preview' => 'file-upload-field',
 			'wysiwyg' => true,
 			'icon' => 'upload',
@@ -34,7 +34,7 @@ class FileUploadField extends Field
 							'width' => '1/2',
 						],
 						'allowMultiple' => [
-							'label' => t('dreamform.allow-multiple'),
+							'label' => t('dreamform.fields.upload.multiple.label'),
 							'type' => 'toggle',
 							'default' => false,
 							'width' => '1/3',
@@ -45,21 +45,21 @@ class FileUploadField extends Field
 					'label' => t('dreamform.validation'),
 					'fields' => [
 						'maxSize' => [
-							'label' => t('dreamform.max-filesize'),
+							'label' => t('dreamform.fields.upload.maxSize.label'),
 							'type' => 'number',
-							'help' => tt('dreamform.max-filesize-ini', null, ['size' => ini_get('upload_max_filesize')]),
+							'help' => tt('dreamform.fields.upload.maxSize.help', null, ['size' => ini_get('upload_max_filesize')]),
 							'after' => 'MB',
 							'width' => '1/4',
 						],
 						'allowedTypes' => [
-							'label' => t('dreamform.limit-file-types'),
+							'label' => t('dreamform.fields.upload.allowedTypes.label'),
 							'type' => 'multiselect',
 							'width' => '3/4',
 							'options' => A::map(
 								array_keys(static::availableTypes()),
 								fn ($type) => [
 									'value' => $type,
-									'text' => t("dreamform.filetype-{$type}")
+									'text' => t("dreamform.fields.upload.allowedTypes.{$type}")
 								]
 							)
 						],
@@ -176,7 +176,7 @@ class FileUploadField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => $this->block()->label()->value() ?? t('dreamform.file-upload-field'),
+			'label' => $this->block()->label()->value() ?? t('dreamform.fields.upload.name'),
 			'type' => 'files'
 		];
 	}

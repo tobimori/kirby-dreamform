@@ -317,7 +317,7 @@ class FormPage extends BasePage
 
 					// if an error is thrown, this means the data must have been tampered with
 				} catch (Exception $e) {
-					return t('dreamform.generic-error');
+					return t('dreamform.submission.error.generic');
 				}
 
 				if ($submission->state()->get('redirect')->value()) {
@@ -399,11 +399,11 @@ class FormPage extends BasePage
 		foreach ($page->fields() as $field) {
 			$key = $field->key();
 			if (in_array($key, $keys)) {
-				throw new Exception(tt('dreamform.duplicate-key', ['key' => $key]));
+				throw new Exception(tt('dreamform.form.error.duplicateKey', ['key' => $key]));
 			}
 
 			if (Str::startsWith($key, 'dreamform')) {
-				throw new Exception(tt('dreamform.reserved-key', ['key' => $key]));
+				throw new Exception(tt('dreamform.form.error.reservedKey', ['key' => $key]));
 			}
 
 			$keys[] = $key;

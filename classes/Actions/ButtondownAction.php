@@ -26,7 +26,7 @@ class ButtondownAction extends Action
 		return [
 			'line' => true,
 			'tags' => [
-				'label' => t('dreamform.assign-tags-to-subscriber'),
+				'label' => t('dreamform.actions.buttondown.tags.label'),
 				'extends' => 'dreamform/fields/static-dynamic-toggles',
 				'width' => '1/3'
 			],
@@ -56,7 +56,7 @@ class ButtondownAction extends Action
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.buttondown-action'),
+			'name' => t('dreamform.actions.buttondown.name'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'buttondown',
@@ -65,13 +65,13 @@ class ButtondownAction extends Action
 					'label' => t('dreamform.settings'),
 					'fields' => A::merge([
 						'emailField' => [
-							'label' => t('dreamform.use-email-from'),
+							'label' => t('dreamform.actions.buttondown.emailField.label'),
 							'required' => true,
 							'extends' => 'dreamform/fields/field',
 							'width' => '1/3'
 						],
 						'exposeMetadata' => [
-							'label' => t('dreamform.expose-fields-as-metadata'),
+							'label' => t('dreamform.actions.buttondown.exposeMetadata.label'),
 							'extends' => 'dreamform/fields/field',
 							'type' => 'multiselect',
 							'width' => '2/3'
@@ -133,7 +133,7 @@ class ButtondownAction extends Action
 		}
 
 		if (!V::email($email->value())) {
-			$this->cancel(t('dreamform.subscription-failed-invalid-email'), public: true);
+			$this->cancel(t('dreamform.submission.error.email'), public: true);
 			return;
 		}
 

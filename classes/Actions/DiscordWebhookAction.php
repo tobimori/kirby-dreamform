@@ -15,7 +15,7 @@ class DiscordWebhookAction extends Action
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.discord-webhook-action'),
+			'name' => t('dreamform.actions.discord.name'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'discord',
@@ -24,14 +24,14 @@ class DiscordWebhookAction extends Action
 					'label' => t('settings'),
 					'fields' => [
 						'webhookUrl' => [
-							'label' => 'dreamform.webhook-url',
+							'label' => 'dreamform.actions.webhook.url.label',
 							'type' => 'url',
 							'placeholder' => 'https://discord.com/api/webhooks/...',
 							'width' => '1/3',
 							'required' => !App::instance()->option('tobimori.dreamform.actions.discord.webhook')
 						],
 						'exposedFields' => [
-							'label' => 'dreamform.exposed-fields',
+							'label' => 'dreamform.actions.webhook.exposedFields.label',
 							'extends' => 'dreamform/fields/field',
 							'type' => 'multiselect',
 							'width' => '2/3'
@@ -110,6 +110,6 @@ class DiscordWebhookAction extends Action
 	 */
 	public static function group(): string
 	{
-		return 'notification';
+		return 'notifications';
 	}
 }

@@ -10,7 +10,7 @@ class RedirectAction extends Action
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.redirect-action'),
+			'name' => t('dreamform.actions.redirect.name'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'shuffle',
@@ -19,7 +19,7 @@ class RedirectAction extends Action
 					'label' => t('dreamform.settings'),
 					'fields' => [
 						'redirectTo' => [
-							'label' => 'dreamform.redirect-to',
+							'label' => 'dreamform.actions.redirect.redirectTo.label',
 							'type' => 'link',
 							'options' => [
 								'url',

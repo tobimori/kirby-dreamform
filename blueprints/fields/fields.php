@@ -10,7 +10,7 @@ return function () {
 	foreach (DreamForm::fields() as $type => $field) {
 		if (!isset($fieldsets[$group = $field::group()])) {
 			$fieldsets[$group] = [
-				'label' => t("dreamform.{$group}-fields"),
+				'label' => t("dreamform.fields.category.{$group}"),
 				'type' => 'group',
 				'fieldsets' => []
 			];

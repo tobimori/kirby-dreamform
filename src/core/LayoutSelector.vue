@@ -32,7 +32,7 @@
 					<div class="df-layout-selector-page">
 						<k-icon type="survey" />
 						<span>
-							{{ $t("dreamform.new-page") }}
+							{{ $t("dreamform.form.newPage") }}
 						</span>
 					</div>
 				</k-grid>

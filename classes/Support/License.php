@@ -12,12 +12,13 @@ use Kirby\Toolkit\Str;
 /**
  * License management & validation
  *
- * If you're here to crack the plugin, please don't.
- * Buy a license instead, it's not that expensive.
+ * If you're here to crack the plugin, please buy a license instead.
+ * I'm an independent developer and this plugin helps fund my open-source work as well.
  * https://plugins.andkindness.com/dreamform/pricing
  *
- * If you encounter any issues with the license validation being too strict,
- * please let me know at support@andkindness.com; I'm happy to help.
+ * If you're unable to afford a license, or you encounter any issues with
+ * the license validation being too strict, please let me know at support@andkindness.com.
+ * I'm happy to help.
  */
 final class License
 {

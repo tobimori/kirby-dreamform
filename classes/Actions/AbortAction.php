@@ -10,7 +10,7 @@ class AbortAction extends Action
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.abort-action'),
+			'name' => t('dreamform.actions.abort.name'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'protected',
@@ -19,7 +19,7 @@ class AbortAction extends Action
 					'label' => t('dreamform.settings'),
 					'fields' => [
 						'showError' => [
-							'label' => t('dreamform.show-error'),
+							'label' => t('dreamform.actions.abort.showError.label'),
 							'type' => 'toggle',
 							'default' => true,
 							'width' => '1/3',
@@ -27,7 +27,7 @@ class AbortAction extends Action
 						'errorMessage' => [
 							'extends' => 'dreamform/fields/error-message',
 							'help' => false,
-							'placeholder' => t('dreamform.generic-error'),
+							'placeholder' => t('dreamform.submission.error.generic'),
 							'when' => [
 								'showError' => true
 							]
@@ -41,7 +41,7 @@ class AbortAction extends Action
 	public function run(): void
 	{
 		if ($this->block()->showError()->toBool()) {
-			$this->cancel($this->block()->errorMessage()->or(t('dreamform.generic-error')), true);
+			$this->cancel($this->block()->errorMessage()->or(t('dreamform.submission.error.generic')), true);
 		} else {
 			$this->success();
 		}

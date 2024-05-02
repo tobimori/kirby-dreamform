@@ -24,10 +24,10 @@ if (
 snippet('dreamform/fields/partials/wrapper', compact('block', 'field', 'form', 'attr'), slots: true) ?>
 
 <button <?= attr(A::merge($attr['button'], [
-	'type' => 'submit',
-	'hx-disabled-elt' => Htmx::isActive() ? 'this' : null
-])) ?>>
-	<?= $block->label()->escape() ?? t('dreamform.submit') ?>
+					'type' => 'submit',
+					'hx-disabled-elt' => Htmx::isActive() ? 'this' : null
+				])) ?>>
+	<?= $block->label()->escape() ?? t('dreamform.fields.button.label.label') ?>
 </button>
 
 <?php endsnippet() ?>

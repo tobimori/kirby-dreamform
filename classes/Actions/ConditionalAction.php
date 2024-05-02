@@ -10,47 +10,47 @@ class ConditionalAction extends Action
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.conditional-action'),
+			'name' => t('dreamform.actions.conditional.name'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'split',
 			'tabs' => [
 				'conditions' => [
-					'label' => t('dreamform.conditions'),
+					'label' => t('dreamform.actions.conditional.conditions.label'),
 					'fields' => [
 						'conditions' => [
-							'label' => t('dreamform.conditions'),
+							'label' => t('dreamform.actions.conditional.conditions.label'),
 							'type' => 'structure',
 							'fields' => [
 								'field' => [
-									'label' => 'dreamform.if-field',
+									'label' => 'dreamform.actions.conditional.if.label',
 									'extends' => 'dreamform/fields/field',
 									'required' => true,
 									'width' => '1/3'
 								],
 								'operator' => [
-									'label' => 'dreamform.is-operator',
+									'label' => 'dreamform.actions.conditional.operator.label',
 									'type' => 'select',
 									'options' => [
-										'equals' => t('dreamform.equals'),
-										'not-equals' => t('dreamform.not-equals'),
-										'contains' => t('dreamform.contains'),
-										'not-contains' => t('dreamform.not-contains'),
-										'starts-with' => t('dreamform.starts-with'),
-										'ends-with' => t('dreamform.ends-with'),
+										'equals' => t('dreamform.actions.conditional.operator.equals'),
+										'not-equals' => t('dreamform.actions.conditional.operator.notEquals'),
+										'contains' => t('dreamform.actions.conditional.operator.contains'),
+										'not-contains' => t('dreamform.actions.conditional.operator.notContains'),
+										'starts-with' => t('dreamform.actions.conditional.operator.startsWith'),
+										'ends-with' => t('dreamform.actions.conditional.operator.endsWith'),
 									],
 									'required' => true,
 									'width' => '1/6'
 								],
 								'value' => [
-									'label' => 'dreamform.is-value',
+									'label' => 'dreamform.actions.conditional.value.label',
 									'type' => 'text',
 									'width' => '3/6'
 								]
 							]
 						],
 						'thatActions' => [
-							'label' => 'dreamform.that-actions',
+							'label' => 'dreamform.actions.conditional.thatActions.label',
 							'extends' => 'dreamform/fields/actions',
 							'fieldsets' => [
 								static::group() => [
@@ -61,7 +61,7 @@ class ConditionalAction extends Action
 							]
 						],
 						'elseActions' => [
-							'label' => 'dreamform.else-actions',
+							'label' => 'dreamform.actions.conditional.elseActions.label',
 							'extends' => 'dreamform/fields/actions',
 							'fieldsets' => [
 								static::group() => [

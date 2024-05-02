@@ -14,7 +14,7 @@ class WebhookAction extends Action
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.webhook-action'),
+			'name' => t('dreamform.actions.webhook.name'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'webhook',
@@ -23,14 +23,14 @@ class WebhookAction extends Action
 					'label' => t('dreamform.settings'),
 					'fields' => [
 						'webhookUrl' => [
-							'label' => 'dreamform.webhook-url',
+							'label' => 'dreamform.actions.webhook.url.label',
 							'type' => 'url',
 							'placeholder' => 'https://hooks.zapier.com/hooks/catch/...',
 							'width' => '1/3',
 							'required' => true
 						],
 						'exposedFields' => [
-							'label' => 'dreamform.exposed-fields',
+							'label' => 'dreamform.actions.webhook.exposedFields.label',
 							'extends' => 'dreamform/fields/field',
 							'type' => 'multiselect',
 							'width' => '2/3'
@@ -76,14 +76,14 @@ class WebhookAction extends Action
 		}
 
 		if ($request->code() > 299) {
-			$this->cancel('dreamform.webhook-error');
+			$this->cancel('dreamform.actions.webhook.log.error');
 		}
 
 		$this->log([
-			'text' => 'dreamform.webhook-sent-log',
+			'text' => 'dreamform.actions.webhook.log.success',
 			'template' => [
 				'url' => Url::toObject($request->url())->domain()
 			]
-		], icon: 'webhook', title: 'dreamform.webhook');
+		], icon: 'webhook', title: 'dreamform.actions.webhook.shortName');
 	}
 }

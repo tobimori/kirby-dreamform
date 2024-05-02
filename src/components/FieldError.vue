@@ -10,10 +10,10 @@ const emit = defineEmits(["update"]);
 
 <template>
 	<div class="df-field-error">
-		<span>{{ $t("dreamform.error-message") }}:</span>
+		<span>{{ $t("dreamform.common.errorMessage.label") }}:</span>
 		<editable
 			tag="span"
-			:placeholder="$t('dreamform.error-message-default')"
+			:placeholder="$t('dreamform.fields.error.required')"
 			:modelValue="content.errormessage"
 			@update:modelValue="emit('update', { ...content, errormessage: $event })"
 		/>

@@ -1,7 +1,7 @@
 fields:
   successMessage:
-    label: dreamform.message
-    placeholder: dreamform.successful-submission
+    label: dreamform.form.successMessage.label
+    placeholder: dreamform.form.successMessage.default
     type: writer
     toolbar:
       inline: false

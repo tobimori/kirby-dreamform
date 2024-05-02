@@ -11,7 +11,7 @@ const emit = defineEmits(["update"]);
 		<editable
 			tag="div"
 			class="df-button-input"
-			:placeholder="$t('dreamform.submit')"
+			:placeholder="$t('dreamform.fields.button.label.label')"
 			:modelValue="content.label"
 			@update:modelValue="emit('update', { ...props.content, label: $event })"
 			@dblClick="open"

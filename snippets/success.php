@@ -9,5 +9,5 @@
  */ ?>
 
 <div <?= attr($attr['success']) ?>>
-	<?= $form->successMessage()->or(t('dreamform.successful-submission')) ?>
+	<?= $form->successMessage()->or(t('dreamform.form.successMessage.default')) ?>
 </div>

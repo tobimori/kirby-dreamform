@@ -27,7 +27,7 @@ return function () {
 		],
 		'tabs' => [
 			'forms' => [
-				'label' => 'dreamform.all-forms',
+				'label' => 'dreamform.forms',
 				'icon' => 'survey',
 				'sections' => [
 					'license' => [
@@ -36,23 +36,23 @@ return function () {
 					'forms' => [
 						'label' => 'dreamform.forms',
 						'type' => 'pages',
-						'empty' => 'dreamform.empty-forms',
+						'empty' => 'dreamform.forms.empty',
 						'template' => 'form',
 						'image' => false
 					]
 				]
 			],
 			'submissions' => App::instance()->user()->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions') ? [
-				'label' => 'dreamform.recent-submissions',
+				'label' => 'dreamform.submissions.recent',
 				'icon' => 'archive',
 				'sections' => [
 					'license' => [
 						'type' => 'dreamform-license'
 					],
 					'submissions' => [
-						'label' => 'dreamform.recent-submissions',
+						'label' => 'dreamform.submissions.recent',
 						'type' => 'pages',
-						'empty' => 'dreamform.empty-submissions',
+						'empty' => 'dreamform.submissions.empty',
 						'template' => 'submission',
 						'layout' => 'table',
 						'create' => false,
@@ -61,7 +61,7 @@ return function () {
 						'query' => "page.index.filterBy('intendedTemplate', 'submission').sortBy('sortDate', 'desc').limit(20)",
 						'columns' => [
 							'date' => [
-								'label' => 'dreamform.submitted-at',
+								'label' => 'dreamform.submission.submittedAt',
 								'type' => 'html',
 								'value' => '<a href="{{ page.panel.url }}">{{ page.title }}</a>',
 								'mobile' => true

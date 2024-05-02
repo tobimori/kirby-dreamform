@@ -7,7 +7,7 @@ class RadioField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.radio-field'),
+			'name' => t('dreamform.fields.radio.name'),
 			'preview' => 'choices-field',
 			'wysiwyg' => true,
 			'icon' => 'circle-nested',
@@ -43,7 +43,7 @@ class RadioField extends Field
 		}
 
 		return [
-			'label' => t('dreamform.radio-field') . ': ' . $this->key(),
+			'label' => t('dreamform.fields.radio.name') . ': ' . $this->key(),
 			'type' => 'radio',
 			'options' => $options
 		];

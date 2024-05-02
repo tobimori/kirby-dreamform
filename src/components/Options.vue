@@ -104,7 +104,7 @@ const focusNextOrAddOption = (id) => {
 						tag="div"
 						class="df-option-label"
 						:class="{ 'is-invalid': !item.label }"
-						:placeholder="$t('dreamform.label')"
+						:placeholder="$t('dreamform.common.label.label')"
 						:modelValue="item.label"
 						@update:modelValue="updateOption(item._id, { label: $event })"
 						@backspace="removeOption(item._id)"
@@ -115,7 +115,7 @@ const focusNextOrAddOption = (id) => {
 						tag="code"
 						class="df-option-value"
 						:class="{ 'is-invalid': !item.value }"
-						:placeholder="$t('dreamform.value')"
+						:placeholder="$t('dreamform.common.options.value.label')"
 						:modelValue="item.value"
 						@update:modelValue="updateOption(item._id, { value: $event })"
 						@backspace="focusLabel(item._id)"
@@ -129,7 +129,7 @@ const focusNextOrAddOption = (id) => {
 				<button
 					type="button"
 					class="df-option-remove"
-					:aria-label="$t('dreamform.remove-option')"
+					:aria-label="$t('dreamform.common.options.remove')"
 					@click="removeOption(item._id)"
 				>
 					<k-icon type="trash" />
@@ -144,7 +144,9 @@ const focusNextOrAddOption = (id) => {
 			@click="addOption"
 		>
 			<span class="df-option-icon"></span>
-			<span class="df-option-label">{{ $t("dreamform.add-option") }}</span>
+			<span class="df-option-label">{{
+				$t("dreamform.common.options.add")
+			}}</span>
 		</button>
 	</div>
 </template>

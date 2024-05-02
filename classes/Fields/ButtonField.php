@@ -7,7 +7,7 @@ class ButtonField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.button-field'),
+			'name' => t('dreamform.fields.button.name'),
 			'icon' => 'ticket',
 			'preview' => 'button-field',
 			'wysiwyg' => true,
@@ -19,7 +19,7 @@ class ButtonField extends Field
 							'extends' => 'dreamform/fields/label',
 							'width' => 1,
 							'required' => false,
-							'placeholder' => t('dreamform.submit')
+							'placeholder' => t('dreamform.fields.button.label.label')
 						],
 					]
 				]

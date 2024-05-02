@@ -1,44 +1,65 @@
 <mjml>
-  <mj-head>
-    <mj-font name="Inter" href="https://fonts.googleapis.com/css?family=Inter" />
-    <mj-style>
-      .shadow {
-      	box-shadow: 0 1px 3px 0 #0000000d, 0 1px 2px 0 #00000006;
-      }
-    </mj-style>
-    <mj-attributes>
-      <mj-all padding="0px" font-family="Inter" font-size="14px" line-height="1.5em" letter-spacing="-0.01em" />
-    </mj-attributes>
-  </mj-head>
-  <mj-body background-color="#f0f0f0" width="696px">
-    <mj-wrapper padding-top="32px">
-      <mj-section padding-bottom="32px">
-        <mj-column>
-          <mj-text font-size="24px" padding-bottom="8px">
-            <?= $form->site()->title() ?>
-          </mj-text>
-          <mj-text color="#737373">
-						<?= tt('dreamform.new-form-submission-for', null, ['form' => "<strong>{$form->title()}</strong>"]) ?>
-          </mj-text>
-        </mj-column>
-      </mj-section>
-      <mj-section css-class="shadow" padding="24px" border-radius="4px" background-color="#fff">
-        <mj-column>
+	<mj-head>
+		<mj-font
+			name="Inter"
+			href="https://fonts.googleapis.com/css?family=Inter"
+		/>
+		<mj-style>
+			.shadow { box-shadow: 0 1px 3px 0 #0000000d, 0 1px 2px 0 #00000006; }
+		</mj-style>
+		<mj-attributes>
+			<mj-all
+				padding="0px"
+				font-family="Inter"
+				font-size="14px"
+				line-height="1.5em"
+				letter-spacing="-0.01em"
+			/>
+		</mj-attributes>
+	</mj-head>
+	<mj-body background-color="#f0f0f0" width="696px">
+		<mj-wrapper padding-top="32px">
+			<mj-section padding-bottom="32px">
+				<mj-column>
+					<mj-text font-size="24px" padding-bottom="8px">
+						<?= $form->site()->title() ?>
+					</mj-text>
+					<mj-text color="#737373">
+						<?= tt('dreamform.actions.email.defaultTemplate.text', null, ['form' =>
+						"<strong>{$form->title()}</strong>"]) ?>
+					</mj-text>
+				</mj-column>
+			</mj-section>
+			<mj-section
+				css-class="shadow"
+				padding="24px"
+				border-radius="4px"
+				background-color="#fff"
+			>
+				<mj-column>
 					<mj-raw>
-						<?php foreach ($fields = $form->fields()->filterBy(fn ($f) => $f::hasValue()) as $field) : ?>
+						<?php foreach ($fields = $form->fields()->filterBy(fn ($f) =>
+						$f::hasValue()) as $field) : ?>
 					</mj-raw>
-						<mj-text padding-bottom="8px" font-weight="700"><?= $field->label() ?></mj-text>
-						<mj-text color="#737373"><?= $submission->valueFor($field->key())?->escape() ?? "—" ?></mj-text>
-						<mj-raw>
-							<?php if($fields->last() !== $field) : ?>
-						</mj-raw>
-       	    <mj-divider border-width="1px" padding="16px 0" border-color="#f0f0f0" />
+					<mj-text padding-bottom="8px" font-weight="700"
+						><?= $field->label() ?></mj-text
+					>
+					<mj-text color="#737373"
+						><?= $submission->valueFor($field->key())?->escape() ?? "—"
+						?></mj-text
+					>
+					<mj-raw> <?php if($fields->last() !== $field) : ?> </mj-raw>
+					<mj-divider
+						border-width="1px"
+						padding="16px 0"
+						border-color="#f0f0f0"
+					/>
 					<mj-raw>
 						<?php endif;
 							endforeach ?>
 					</mj-raw>
-        </mj-column>
-      </mj-section>
-    </mj-wrapper>
-  </mj-body>
+				</mj-column>
+			</mj-section>
+		</mj-wrapper>
+	</mj-body>
 </mjml>

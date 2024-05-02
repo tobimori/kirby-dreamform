@@ -7,7 +7,7 @@ class HiddenField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.hidden-field'),
+			'name' => t('dreamform.fields.hidden.name'),
 			'preview' => 'hidden-field',
 			'wysiwyg' => true,
 			'icon' => 'hidden',
@@ -19,7 +19,7 @@ class HiddenField extends Field
 							'extends' => 'dreamform/fields/key',
 							'width' => 1,
 							'wizard' => false,
-							'placeholder' => t('dreamform.hidden-field-key-placeholder')
+							'placeholder' => t('dreamform.fields.hidden.placeholder')
 						],
 					]
 				]
@@ -30,7 +30,7 @@ class HiddenField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => t('dreamform.hidden-field') . ': ' . $this->key(),
+			'label' => t('dreamform.fields.hidden.name') . ': ' . $this->key(),
 			'icon' => 'hidden',
 			'type' => 'text'
 		];

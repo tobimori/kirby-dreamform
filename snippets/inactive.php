@@ -8,5 +8,5 @@
  */ ?>
 
 <div <?= attr($attr['inactive']) ?>>
-	<?= t('dreamform.inactive-form') ?>
+	<?= t('dreamform.form.inactiveMessage.default') ?>
 </div>

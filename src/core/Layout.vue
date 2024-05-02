@@ -38,7 +38,7 @@ similar to https://github.com/tobimori/kirby-icon-field.
 		</k-grid>
 		<div class="k-layout-columns df-layout-column" v-else>
 			<k-icon type="survey" />
-			{{ $t("dreamform.next-page") }}
+			{{ $t("dreamform.form.nextPage") }}
 		</div>
 		<nav v-if="!disabled" class="k-layout-toolbar">
 			<k-button

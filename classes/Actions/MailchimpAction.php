@@ -8,6 +8,7 @@ use Kirby\Form\Form;
 use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
+use Kirby\Toolkit\V;
 use tobimori\DreamForm\Models\FormPage;
 
 class MailchimpAction extends Action
@@ -23,7 +24,7 @@ class MailchimpAction extends Action
 		);
 
 		return [
-			'title' => t('dreamform.mailchimp-action'),
+			'name' => t('dreamform.actions.mailchimp.name'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'mailchimp',
@@ -32,7 +33,7 @@ class MailchimpAction extends Action
 					'label' => t('dreamform.settings'),
 					'fields' => [
 						'list' => [
-							'label' => t('dreamform.mailchimp-list'),
+							'label' => t('dreamform.actions.mailchimp.list.label'),
 							'type' => 'select',
 							'options' => A::reduce($lists['lists'], fn ($prev, $list) => A::merge($prev, [
 								$list['id'] => $list['name']
@@ -41,18 +42,18 @@ class MailchimpAction extends Action
 							'required' => true
 						],
 						'doubleOptIn' => [
-							'label' => t('dreamform.double-opt-in'),
+							'label' => t('dreamform.actions.mailchimp.doubleOptIn.label'),
 							'type' => 'toggle',
 							'width' => '1/3',
-							'help' => t('dreamform.double-opt-in-help')
+							'help' => t('dreamform.actions.mailchimp.doubleOptIn.help')
 						],
 						'fieldMapping' => [
-							'label' => t('dreamform.mailchimp-field-mapping'),
-							'help' => t('dreamform.mailchimp-field-mapping-help'),
+							'label' => t('dreamform.actions.mailchimp.fieldMapping.label'),
+							'help' => t('dreamform.actions.mailchimp.fieldMapping.help'),
 							'type' => 'dreamform-api-object',
 							'required' => true,
 							'sync' => 'list',
-							'empty' => t('dreamform.mailchimp-field-mapping-empty'),
+							'empty' => t('dreamform.actions.mailchimp.fieldMapping.empty'),
 							'api' => 'mailchimp'
 						],
 					]
@@ -72,6 +73,11 @@ class MailchimpAction extends Action
 		// get the email address from the submission
 		$email = $this->submission()->valueForId($mapping->emailAddress()->value())->value();
 		if (!$email) {
+			return;
+		}
+
+		if (!V::email($email)) {
+			$this->cancel(t('dreamform.submission.error.email'), public: true);
 			return;
 		}
 
@@ -177,18 +183,18 @@ class MailchimpAction extends Action
 				'type' => 'line'
 			],
 			'tags' => [
-				'label' => t('dreamform.assign-tags-to-subscriber'),
+				'label' => t('dreamform.actions.mailchimp.tags.label'),
 				'type' =>  'toggles',
 				'required' => true,
 				'default' => 'static',
 				'options' => [
 					'static' => t('dreamform.static'),
-					'field' => t('dreamform.from-field')
+					'field' => t('dreamform.fromField')
 				],
 				'width' => '1/3'
 			],
 			'tagsField' => [
-				'label' => t('dreamform.tags'),
+				'label' => t('dreamform.actions.mailchimp.tags.label'),
 				'type' => 'select',
 				'options' => $options,
 				'width' => '2/3',
@@ -197,7 +203,7 @@ class MailchimpAction extends Action
 				]
 			],
 			'tagsStatic' => [
-				'label' => t('dreamform.tags'),
+				'label' => t('dreamform.actions.mailchimp.tags.label'),
 				'type' => 'multiselect',
 				'options' => static::getTags($list),
 				'width' => '2/3',

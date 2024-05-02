@@ -16,27 +16,27 @@ return [
 					'props' => [
 						'fields' => [
 							'domain' => [
-								'label' => t('dreamform.activate-plugin'),
+								'label' => t('dreamform.license.activate.label'),
 								'type' => 'info',
 								'theme' => ($isLocal = App::instance()->system()->isLocal()) ? 'warning' : 'info',
 								'text' => tt(
-									'dreamform.license-notice-' . ($isLocal ? 'local' : 'default'),
+									'dreamform.license.activate.' . ($isLocal ? 'local' : 'domain'),
 									['domain' => App::instance()->system()->indexUrl()]
 								),
 							],
 							'email' => Field::email(['required' => true]),
 							'license' => [
-								'label' => t('dreamform.enter-license-key'),
+								'label' => t('dreamform.license.key.label'),
 								'type' => 'text',
 								'required' => true,
 								'counter' => false,
 								'placeholder' => 'DF-XXX-1234XXXXXXXXXXXXXXXXXXXX',
-								'help' => t('dreamform.license-key-help'),
+								'help' => t('dreamform.license.key.help'),
 							],
 						],
 						'submitButton' => [
 							'icon' => 'key',
-							'text' => t('dreamform.activate-license'),
+							'text' => t('dreamform.license.activate'),
 							'theme' => 'love',
 						]
 					]
@@ -45,11 +45,11 @@ return [
 					$body = App::instance()->request()->body();
 
 					if (!V::email($body->get('email'))) {
-						throw new Exception(t('dreamform.invalid-email'));
+						throw new Exception(t('dreamform.license.error.email'));
 					}
 
 					if (!Str::startsWith($body->get('license'), 'DF-STD-') && !Str::startsWith($body->get('license'), 'DF-ENT-')) {
-						throw new Exception(t('dreamform.invalid-license'));
+						throw new Exception(t('dreamform.license.error.key'));
 					}
 
 					License::downloadLicense(
@@ -67,9 +67,9 @@ return [
 					return [
 						'component' => 'k-text-dialog',
 						'props' => [
-							'text' => t('dreamform.confirm-as-spam'),
+							'text' => t('dreamform.submission.reportAsSpam.confirm'),
 							'submitButton' => [
-								'text' => t('dreamform.report-as-spam'),
+								'text' => t('dreamform.submission.reportAsSpam'),
 								'icon'  => 'spam',
 								'theme' => 'negative'
 							],
@@ -81,7 +81,7 @@ return [
 					$submission = $submission->markAsSpam();
 
 					return [
-						'message' => t('dreamform.marked-as-spam'),
+						'message' => t('dreamform.submission.reportAsSpam.success'),
 					];
 				}
 			],
@@ -92,9 +92,9 @@ return [
 					return [
 						'component' => 'k-text-dialog',
 						'props' => [
-							'text' => t($submission->actionsDidRun() ? 'dreamform.confirm-as-ham' : 'dreamform.confirm-as-ham-unprocessed'),
+							'text' => t($submission->actionsDidRun() ? 'dreamform.submission.reportAsHam.confirm.default' : 'dreamform.submission.reportAsHam.confirm.unprocessed'),
 							'submitButton' => [
-								'text' => t('dreamform.report-as-ham'),
+								'text' => t('dreamform.submission.reportAsHam'),
 								'icon'  => 'shield-check',
 								'theme' => 'positive'
 							],
@@ -107,20 +107,11 @@ return [
 
 					if (!$submission->actionsDidRun()) {
 						$submission->updateState(['actionsdidrun' => true]);
-
-						try {
-							$submission->handleActions(force: true);
-						} catch (Exception $e) {
-							return [
-								'message' => t('dreamform.error-while-processing'),
-								'error' => $e->getMessage(),
-								'type' => 'error'
-							];
-						}
+						$submission->handleActions(force: true);
 					}
 
 					return [
-						'message' => t('dreamform.marked-as-ham'),
+						'message' => t('dreamform.submission.reportAsHam.success'),
 					];
 				}
 			],
@@ -129,7 +120,7 @@ return [
 					return [
 						'component' => 'k-text-dialog',
 						'props' => [
-							'text' => t('dreamform.confirm-run-actions'),
+							'text' => t('dreamform.submission.runActions.confirm'),
 							'submitButton' => [
 								'text' => t('dreamform.run-actions'),
 								'icon'  => 'play',
@@ -143,7 +134,7 @@ return [
 					$submission = $submission->handleActions(force: true);
 
 					return [
-						'message' => t('dreamform.actions-ran-successfully'),
+						'message' => t('dreamform.submission.runActions.success'),
 					];
 				}
 			],

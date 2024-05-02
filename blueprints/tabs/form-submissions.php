@@ -27,7 +27,7 @@ return function () {
 		'sections' => ['submissions' => [
 			'label' => t('dreamform.submissions'),
 			'type' => 'pages',
-			'empty' => 'dreamform.empty-submissions',
+			'empty' => 'dreamform.submissions.empty',
 			'template' => 'submission',
 			'layout' => 'table',
 			'create' => false,
@@ -37,7 +37,7 @@ return function () {
 			'sortBy' => 'sortDate desc',
 			'columns' => A::merge([
 				'date' => [
-					'label' => t('dreamform.submitted-at'),
+					'label' => t('dreamform.submission.submittedAt'),
 					'type' => 'html',
 					'value' => '<a href="{{ page.panel.url }}">{{ page.title }}</a>',
 					'mobile' => true

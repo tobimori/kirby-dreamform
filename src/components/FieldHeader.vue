@@ -28,7 +28,7 @@ const update = (value) => emit("update", { ...props.content, ...value });
 				:class="{ 'is-active': props.content.required }"
 				@click="update({ required: !props.content.required })"
 			>
-				✶ <span>{{ $t("dreamform.required") }}</span>
+				✶ <span>{{ $t("dreamform.common.required.label") }}</span>
 			</button>
 		</div>
 		<div class="df-field-key">
@@ -36,7 +36,7 @@ const update = (value) => emit("update", { ...props.content, ...value });
 				tag="code"
 				:class="{ 'is-invalid': !content.key }"
 				:slugify="true"
-				:placeholder="$t('dreamform.key')"
+				:placeholder="$t('dreamform.common.key.label')"
 				:modelValue="content.key"
 				@update:modelValue="update({ key: $event })"
 			/>

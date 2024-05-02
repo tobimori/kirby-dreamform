@@ -11,7 +11,7 @@ class CheckboxField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.checkbox-field'),
+			'name' => t('dreamform.fields.checkboxes.name'),
 			'preview' => 'choices-field',
 			'wysiwyg' => true,
 			'icon' => 'toggle-off',
@@ -32,12 +32,12 @@ class CheckboxField extends Field
 					'label' => t('dreamform.validation'),
 					'fields' => [
 						'min' => [
-							'label' => t('dreamform.min-checked'),
+							'label' => t('dreamform.fields.checkboxes.min.label'),
 							'type' => 'number',
 							'width' => '1/6'
 						],
 						'max' => [
-							'label' => t('dreamform.max-checked'),
+							'label' => t('dreamform.fields.checkboxes.max.label'),
 							'type' => 'number',
 							'width' => '1/6'
 						],
@@ -56,7 +56,7 @@ class CheckboxField extends Field
 		}
 
 		return [
-			'label' => t('dreamform.checkbox-field') . ': ' . $this->key(),
+			'label' => t('dreamform.fields.checkboxes.name') . ': ' . $this->key(),
 			'type' => 'checkboxes',
 			'options' => $options
 		];

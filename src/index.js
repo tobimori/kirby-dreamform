@@ -13,6 +13,7 @@ import ChoicesField from "@/previews/ChoicesField.vue";
 import ButtonField from "@/previews/ButtonField.vue";
 import ErrorEntry from "@/components/log/ErrorEntry.vue";
 import InfoEntry from "@/components/log/InfoEntry.vue";
+import EmailEntry from "@/components/log/EmailEntry.vue";
 
 panel.plugin("tobimori/dreamform", {
 	icons: {
@@ -35,12 +36,13 @@ panel.plugin("tobimori/dreamform", {
 		// Custom components
 		"df-log-error-entry": ErrorEntry,
 		"df-log-info-entry": InfoEntry,
+		"df-log-email-entry": EmailEntry,
 	},
 	blocks: {
 		// Block previews
 		"button-field": ButtonField,
 		"choices-field": ChoicesField,
-		"file-upload-field": FileUploadField,
+		"fields.upload.name": FileUploadField,
 		"hidden-field": HiddenField,
 		"select-field": SelectField,
 		"text-field": TextField,

@@ -48,16 +48,12 @@ loadSection();
 			</a>
 			<h2
 				v-text="
-					$t(
-						local
-							? 'dreamform.ready-to-activate'
-							: 'dreamform.submissions-demo-mode'
-					)
+					$t(local ? 'dreamform.license.cta' : 'dreamform.license.demoMode')
 				"
 			></h2>
 		</div>
 		<a href="https://plugins.andkindness.com/dreamform/pricing" target="_blank">
-			{{ $t("dreamform.buy-license") }}
+			{{ $t("dreamform.license.buy") }}
 		</a>
 		<k-button
 			size="sm"
@@ -66,7 +62,7 @@ loadSection();
 			icon="key"
 			@click="openDialog()"
 		>
-			{{ $t("dreamform.activate-license") }}
+			{{ $t("dreamform.license.activate") }}
 		</k-button>
 	</k-section>
 </template>

@@ -1,4 +1,4 @@
-label: dreamform.key
+label: dreamform.common.key.label
 type: slug
 required: true
 width: 1/6

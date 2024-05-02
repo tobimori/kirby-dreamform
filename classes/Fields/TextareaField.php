@@ -7,7 +7,7 @@ class TextareaField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.textarea-field'),
+			'name' => t('dreamform.fields.textarea.name'),
 			'preview' => 'text-field',
 			'wysiwyg' => true,
 			'icon' => 'text-left',
@@ -34,7 +34,7 @@ class TextareaField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => $this->block()->label()->value() ?? t('dreamform.textarea-field'),
+			'label' => $this->block()->label()->value() ?? t('dreamform.fields.textarea.name'),
 			'type' => 'textarea',
 			'size' => 'medium',
 		];

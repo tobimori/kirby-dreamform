@@ -14,7 +14,7 @@ const emit = defineEmits(["update"]);
 		<editable
 			tag="div"
 			class="df-placeholder"
-			:placeholder="$t('dreamform.placeholder')"
+			:placeholder="$t('dreamform.common.placeholder.label')"
 			:modelValue="content.placeholder"
 			@update:modelValue="emit('update', { ...content, placeholder: $event })"
 		/>

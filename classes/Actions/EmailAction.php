@@ -15,16 +15,16 @@ class EmailAction extends Action
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.send-email-action'),
+			'name' => t('dreamform.actions.email.name'),
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'email',
 			'tabs' => [
 				'addresses' => [
-					'label' => t('dreamform.addresses'),
+					'label' => t('dreamform.actions.email.addresses.label'),
 					'fields' => [
 						'sendTo' => [
-							'label' => t('dreamform.send-to'),
+							'label' => t('dreamform.actions.email.sendTo.label'),
 							'extends' => 'dreamform/fields/static-dynamic-toggles',
 						],
 						'sendToField' => [
@@ -45,7 +45,7 @@ class EmailAction extends Action
 							]
 						],
 						'replyTo' => [
-							'label' => t('dreamform.reply-to'),
+							'label' => t('dreamform.actions.email.replyTo.label'),
 							'extends' => 'dreamform/fields/static-dynamic-toggles',
 						],
 						'replyToField' => [
@@ -70,20 +70,20 @@ class EmailAction extends Action
 					'label' => t('template'),
 					'fields' => [
 						'subject' => [
-							'label' => t('dreamform.subject'),
+							'label' => t('dreamform.actions.email.subject.label'),
 							'type' => 'text',
 							'required' => true
 						],
 						'templateType' => [
-							'label' => t('dreamform.template-type'),
+							'label' => t('dreamform.actions.email.templateType.label'),
 							'type' => 'select',
 							'width' => '1/4',
 							'required' => true,
 							'default' => 'default',
 							'options' => [
-								'default' => t('dreamform.template-type-default'),
-								'kirby' => t('dreamform.template-type-kirby'),
-								'field' => t('dreamform.template-type-field')
+								'default' => t('dreamform.actions.email.templateType.default'),
+								'kirby' => t('dreamform.actions.email.templateType.kirby'),
+								'field' => t('dreamform.actions.email.templateType.field')
 							],
 						],
 						'kirbyTemplate' => [

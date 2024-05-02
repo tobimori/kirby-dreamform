@@ -23,7 +23,7 @@ const date = formatDate(props.timestamp);
 				<span>{{ $t(props.title, props.template, props.title) }}</span>
 				<span>{{ date }}</span>
 			</div>
-			<div class="df-log-entry-details">
+			<div class="df-log-entry-details" v-if="$slots.default">
 				<slot></slot>
 			</div>
 		</div>
@@ -47,7 +47,6 @@ const date = formatDate(props.timestamp);
 		color: var(--color-gray-700);
 		display: flex;
 		gap: var(--spacing-1);
-		margin-bottom: var(--spacing-2);
 		flex-wrap: wrap;
 
 		> span:first-child {
@@ -78,6 +77,10 @@ const date = formatDate(props.timestamp);
 
 	&-content {
 		width: 100%;
+	}
+
+	&-details {
+		margin-block-start: var(--spacing-2);
 	}
 }
 </style>

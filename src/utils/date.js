@@ -18,5 +18,5 @@ export function formatDate(timestamp) {
 		}
 	}
 
-	return window.panel.$t("dreamform.just-now");
+	return window.panel.$t("dreamform.justNow");
 }

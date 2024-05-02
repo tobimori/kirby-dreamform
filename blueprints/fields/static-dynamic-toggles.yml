@@ -4,4 +4,4 @@ width: 1/4
 default: static
 options:
   static: '{{ t("dreamform.static") }}'
-  field: '{{ t("dreamform.from-field") }}'
+  field: '{{ t("dreamform.fromField") }}'

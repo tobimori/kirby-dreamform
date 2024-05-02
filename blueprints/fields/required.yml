@@ -1,6 +1,6 @@
-label: dreamform.required
+label: dreamform.common.required.label
 type: toggle
 width: 1/3
 text:
-  - dreamform.required-off
-  - dreamform.required-on
+  - dreamform.common.required.false
+  - dreamform.common.required.true

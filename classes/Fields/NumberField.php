@@ -9,7 +9,7 @@ class NumberField extends Field
 	public static function blueprint(): array
 	{
 		return [
-			'title' => t('dreamform.number-field'),
+			'name' => t('dreamform.fields.number.name'),
 			'preview' => 'text-field',
 			'wysiwyg' => true,
 			'icon' => 'order-num-asc',
@@ -24,12 +24,12 @@ class NumberField extends Field
 							'width' => '1/4'
 						],
 						'step' => [
-							'label' => t('dreamform.number-step'),
+							'label' => t('dreamform.fields.number.step.label'),
 							'type' => 'number',
 							'default' => 1,
 							'required' => true,
 							'width' => '1/4',
-							'help' => t('dreamform.number-step-help')
+							'help' => t('dreamform.fields.number.step.help')
 						],
 					]
 				],
@@ -37,12 +37,12 @@ class NumberField extends Field
 					'label' => t('dreamform.validation'),
 					'fields' => [
 						'min' => [
-							'label' => t('dreamform.min-number'),
+							'label' => t('dreamform.fields.number.min.label'),
 							'type' => 'number',
 							'width' => '1/3'
 						],
 						'max' => [
-							'label' => t('dreamform.max-number'),
+							'label' => t('dreamform.fields.number.max.label'),
 							'type' => 'number',
 							'width' => '1/3'
 						],
@@ -60,7 +60,7 @@ class NumberField extends Field
 	public function submissionBlueprint(): array|null
 	{
 		return [
-			'label' => $this->block()->label()->value() ?? t('dreamform.number-field'),
+			'label' => $this->block()->label()->value() ?? t('dreamform.fields.number.name'),
 			'type' => 'number'
 		];
 	}
