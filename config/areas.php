@@ -69,7 +69,7 @@ return [
 						'props' => [
 							'text' => t('dreamform.submission.reportAsSpam.confirm'),
 							'submitButton' => [
-								'text' => t('dreamform.submission.reportAsSpam'),
+								'text' => t('dreamform.submission.reportAsSpam.button'),
 								'icon'  => 'spam',
 								'theme' => 'negative'
 							],
@@ -94,7 +94,7 @@ return [
 						'props' => [
 							'text' => t($submission->actionsDidRun() ? 'dreamform.submission.reportAsHam.confirm.default' : 'dreamform.submission.reportAsHam.confirm.unprocessed'),
 							'submitButton' => [
-								'text' => t('dreamform.submission.reportAsHam'),
+								'text' => t('dreamform.submission.reportAsHam.button'),
 								'icon'  => 'shield-check',
 								'theme' => 'positive'
 							],
@@ -122,7 +122,7 @@ return [
 						'props' => [
 							'text' => t('dreamform.submission.runActions.confirm'),
 							'submitButton' => [
-								'text' => t('dreamform.run-actions'),
+								'text' => t('dreamform.submission.runActions.button'),
 								'icon'  => 'play',
 								'theme' => 'positive'
 							],

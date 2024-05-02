@@ -90,7 +90,7 @@ trait SubmissionHandling
 				&& $this->isHam())
 		) {
 			$this->updateState(['actionsdidrun' => true]);
-			foreach ($this->createActions() as $action) {
+			foreach ($this->createActions(force: $force) as $action) {
 				try {
 					$action->run();
 				} catch (Exception $e) {

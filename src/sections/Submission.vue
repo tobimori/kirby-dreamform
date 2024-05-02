@@ -31,7 +31,7 @@ const loadSection = async () => {
 const toggleSpam = () => {
 	app.$dialog(
 		`submission/${props.parent.split("/")[2]}/mark-as-${
-			isSpam.value ? "submission.ham" : "submission.spam"
+			isSpam.value ? "ham" : "spam"
 		}`,
 		{
 			on: {
@@ -71,7 +71,7 @@ loadSection();
 			variant="filled"
 			@click="runActions"
 		>
-			{{ $t(dreamform.submission.runActions.button) }}
+			{{ $t("dreamform.submission.runActions.button") }}
 		</k-button>
 		<div class="df-submission-section">
 			<div class="df-stat" v-if="!isPartial">
@@ -81,7 +81,7 @@ loadSection();
 					:class="isSpam ? 'is-negative' : 'is-positive'"
 				>
 					<k-icon :type="isSpam ? 'spam' : 'shield-check'"></k-icon>
-					{{ $t(isSpam ? "dreamform.spam" : "dreamform.ham") }}
+					{{ $t("dreamform.submission." + isSpam ? "spam" : "ham") }}
 				</span>
 				{{ $t("dreamform.submission.markedAs").split("…")[1] }}
 			</div>

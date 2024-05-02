@@ -25,7 +25,8 @@ class DiscordWebhookAction extends Action
 					'fields' => [
 						'webhookUrl' => [
 							'label' => 'dreamform.actions.webhook.url.label',
-							'type' => 'url',
+							'type' => 'text',
+							'pattern' => 'https:\/\/discord\.com\/api\/webhooks\/.+\/.+',
 							'placeholder' => 'https://discord.com/api/webhooks/...',
 							'width' => '1/3',
 							'required' => !App::instance()->option('tobimori.dreamform.actions.discord.webhook')
@@ -96,13 +97,24 @@ class DiscordWebhookAction extends Action
 					'attachments' => []
 				])
 			]);
-
-			if ($request->code() > 299) {
-				$this->cancel();
-			}
 		} catch (Throwable $e) {
 			$this->cancel($e->getMessage());
 		}
+
+		if ($request->code() > 299) {
+			$this->cancel('dreamform.actions.discord.log.error', log: [
+				'title' => 'dreamform.actions.discord.shortName',
+				'icon' => 'discord',
+			]);
+		}
+
+		$meta = Remote::get($this->webhookUrl());
+		$this->log([
+			'text' => 'dreamform.actions.discord.log.success',
+			'template' => [
+				'name' => $meta->json()['name'],
+			]
+		], icon: 'discord', title: 'dreamform.actions.discord.shortName');
 	}
 
 	/**

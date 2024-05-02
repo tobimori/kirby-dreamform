@@ -234,7 +234,7 @@ class SubmissionPage extends BasePage
 	/**
 	 * Create actions from the form's content
 	 */
-	public function createActions(Blocks $blocks = null): Collection
+	public function createActions(Blocks $blocks = null, bool $force = false): Collection
 	{
 		$blocks ??= $this->form()->content()->get('actions')->toBlocks();
 
@@ -242,7 +242,7 @@ class SubmissionPage extends BasePage
 		foreach ($blocks as $block) {
 			$type = Str::replace($block->type(), '-action', '');
 
-			$action = DreamForm::action($type, $block, $this);
+			$action = DreamForm::action($type, $block, $this, $force);
 			if ($action) {
 				$actions[] = $action;
 			}

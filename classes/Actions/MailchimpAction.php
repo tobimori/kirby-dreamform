@@ -71,7 +71,7 @@ class MailchimpAction extends Action
 		$mapping = $this->block()->fieldMapping()->toObject();
 
 		// get the email address from the submission
-		$email = $this->submission()->valueForId($mapping->emailAddress()->value())->value();
+		$email = $this->submission()->valueForId($mapping->emailAddress()->value())?->value();
 		if (!$email) {
 			return;
 		}

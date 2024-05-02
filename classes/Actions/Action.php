@@ -18,8 +18,9 @@ abstract class Action extends Performer
 {
 	/**
 	 * Create a new Action instance.
+	 * @internal
 	 */
-	public function __construct(private Block $block, private SubmissionPage $submission)
+	public function __construct(private Block $block, private SubmissionPage $submission, private bool $force = false)
 	{
 	}
 
@@ -48,6 +49,14 @@ abstract class Action extends Performer
 	}
 
 	/**
+	 * Returns true if the action is executed forcibly
+	 */
+	public function isForced(): bool
+	{
+		return $this->force;
+	}
+
+	/**
 	 * Create an action log entry
 	 */
 	protected function log(array $data, string $type = null, string $icon = null, string $title = null): SubmissionLogEntry
@@ -60,9 +69,16 @@ abstract class Action extends Performer
 	 *
 	 * The form will be shown as failed to the user and the error message will be displayed
 	 */
-	protected function cancel(string $message = null, bool $public = false): void
+	protected function cancel(string $message = null, bool $public = false, array $log = []): void
 	{
-		throw new PerformerException($this, $message, $public, false, $this->submission());
+		throw new PerformerException(
+			performer: $this,
+			message: $message,
+			public: $public,
+			force: $this->isForced(),
+			submission: $this->submission(),
+			log: $log
+		);
 	}
 
 	/**
@@ -70,9 +86,16 @@ abstract class Action extends Performer
 	 *
 	 * The form will be shown as successful to the user, except if debug mode is enabled
 	 */
-	protected function silentCancel(string $message = null): void
+	protected function silentCancel(string $message = null, array $log = []): void
 	{
-		throw new PerformerException($this, $message, false, true, $this->submission());
+		throw new PerformerException(
+			performer: $this,
+			message: $message,
+			silent: true,
+			force: $this->isForced(),
+			submission: $this->submission(),
+			log: $log
+		);
 	}
 
 	/**

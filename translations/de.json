@@ -50,7 +50,7 @@
     "actions.webhook.log.success": "Gesendet an {{ url }}",
     "actions.webhook.name": "Webhook senden",
     "actions.webhook.shortName": "Webhook",
-    "actions.webhook.url.label": "actions.webhook.url.label",
+    "actions.webhook.url.label": "Webhook-URL",
     "common.errorMessage.help": "Die Fehlermeldung wird angezeigt, wenn das Feld **nicht** oder im **falschen Format** ausgefüllt wurde.",
     "common.errorMessage.label": "Fehlermeldung",
     "common.key.label": "Schlüssel",

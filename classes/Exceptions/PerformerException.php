@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Exceptions;
 
 use Kirby\Exception\Exception;
+use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
@@ -20,17 +21,29 @@ class PerformerException extends Exception
 		string|null $message,
 		protected bool $public = false,
 		protected bool $silent = false,
-		protected SubmissionPage|null $submission = null
+		protected bool $force = false,
+		protected SubmissionPage|null $submission = null,
+		array $log = []
 	) {
 		$translated = t($message ?? self::GENERIC_ERROR);
 
 		if ($this->submission()) {
-			$this->submission()->addLogEntry([
-				'text' => $message ?? self::GENERIC_ERROR,
-				'template' => [
-					'type' => $this->performer->type(),
-				]
-			], type: 'error', icon: 'alert', title: "dreamform.submission.log.error");
+			$this->submission()->addLogEntry(
+				...A::merge(
+					[
+						'data' => [
+							'text' => $message ?? self::GENERIC_ERROR,
+							'template' => [
+								'type' => $this->performer->type(),
+							]
+						],
+						'type' => 'error',
+						'icon' => 'alert',
+						'title' => "dreamform.submission.log.error",
+					],
+					$log
+				)
+			);
 		}
 
 		parent::__construct($this->isPublic() ? $translated : t(self::GENERIC_ERROR));
@@ -52,7 +65,7 @@ class PerformerException extends Exception
 
 	public function shouldContinue(): bool
 	{
-		return $this->form()->continueOnError()->toBool();
+		return $this->isForced() || $this->form()->continueOnError()->toBool();
 	}
 
 	public function isSilent(): bool
@@ -63,5 +76,10 @@ class PerformerException extends Exception
 	public function isPublic(): bool
 	{
 		return $this->public || DreamForm::debugMode();
+	}
+
+	public function isForced(): bool
+	{
+		return $this->force;
 	}
 }

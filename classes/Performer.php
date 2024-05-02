@@ -5,7 +5,6 @@ namespace tobimori\DreamForm;
 use Kirby\Cache\Cache;
 use Kirby\Cms\App;
 use tobimori\DreamForm\Exceptions\PerformerException;
-use tobimori\DreamForm\Exceptions\SilentPerformerException;
 use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Support\HasCache;
 
@@ -22,9 +21,14 @@ abstract class Performer
 	 *
 	 * The form will be shown as failed to the user and the error message will be displayed
 	 */
-	protected function cancel(string $message = null, bool $public = false): void
+	protected function cancel(string $message = null, bool $public = false, array $log = []): void
 	{
-		throw new PerformerException($this, $message, $public, false);
+		throw new PerformerException(
+			performer: $this,
+			message: $message,
+			public: $public,
+			log: $log
+		);
 	}
 
 	/**
@@ -32,9 +36,14 @@ abstract class Performer
 	 *
 	 * The form will be shown as successful to the user, except if debug mode is enabled
 	 */
-	protected function silentCancel(string $message = null): void
+	protected function silentCancel(string $message = null, array $log = []): void
 	{
-		throw new PerformerException($this, $message, false, true);
+		throw new PerformerException(
+			performer: $this,
+			message: $message,
+			silent: true,
+			log: $log
+		);
 	}
 
 	/**
