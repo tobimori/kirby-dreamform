@@ -14,9 +14,7 @@ use Kirby\Toolkit\A;
 ?>
 
 <label <?= attr(A::merge($attr['label'], ["for" => $block->id()])) ?>>
-	<span>
-		<?= $block->label()->escape() ?>
-	</span>
+	<span><?= $block->label()->escape() ?></span>
 	<?php if ($required = $block->required()->toBool()) : ?>
 		<em>*</em>
 	<?php endif ?>
