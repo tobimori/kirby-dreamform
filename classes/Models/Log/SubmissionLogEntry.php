@@ -26,7 +26,7 @@ class SubmissionLogEntry extends Item
 		parent::__construct($params);
 
 		$this->data = $params['data'] ?? [];
-		$this->type = $params['type'] ?? 'info';
+		$this->type = $params['type'] ?? (empty($params['data']) ? 'none' : 'info');
 		$this->icon = $params['icon'] ?? 'info';
 		$this->title = $params['title'] ?? ucfirst($this->type);
 		$this->timestamp = $params['timestamp'] ?? time();

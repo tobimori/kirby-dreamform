@@ -20,8 +20,12 @@ const date = formatDate(props.timestamp);
 		<span class="df-log-entry-line"></span>
 		<div class="df-log-entry-content">
 			<div class="df-log-entry-heading">
-				<span>{{ $t(props.title, props.template, props.title) }}</span>
-				<span>{{ date }}</span>
+				<span
+					v-html="
+						$t(props.title, props.template, encodeURIComponent(props.title))
+					"
+				></span>
+				<span> • {{ date }}</span>
 			</div>
 			<div class="df-log-entry-details" v-if="$slots.default">
 				<slot></slot>
@@ -36,20 +40,19 @@ const date = formatDate(props.timestamp);
 	align-items: stretch;
 	position: relative;
 	padding-left: 1.75rem;
-	margin-top: var(--spacing-3);
+	margin-top: var(--spacing-2);
 
 	&:not(:last-child) {
-		margin-bottom: var(--spacing-6);
+		margin-bottom: var(--spacing-4);
 	}
 
 	&-heading {
-		white-space: nowrap;
 		color: var(--color-gray-700);
-		display: flex;
 		gap: var(--spacing-1);
-		flex-wrap: wrap;
+		line-height: var(--leading-normal);
 
-		> span:first-child {
+		strong {
+			font-weight: 400;
 			color: var(--color-black);
 		}
 	}
@@ -62,15 +65,13 @@ const date = formatDate(props.timestamp);
 		width: 0.0625rem;
 		background: var(--color-gray-400);
 		position: absolute;
-		top: 1.25rem;
-		left: 0.5rem;
-		bottom: -1rem;
+		inset: 1.625rem auto -0.75rem 0.5rem;
 	}
 
 	&-icon {
 		position: absolute;
 		z-index: 2;
-		inset-block-start: -0.125rem;
+		inset-block-start: 0.125rem;
 		inset-inline-start: 0;
 		color: var(--color-gray-700);
 	}

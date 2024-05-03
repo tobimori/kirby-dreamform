@@ -103,18 +103,17 @@ class DiscordWebhookAction extends Action
 
 		if ($request->code() > 299) {
 			$this->cancel('dreamform.actions.discord.log.error', log: [
-				'title' => 'dreamform.actions.discord.shortName',
+				'title' => 'dreamform.actions.discord.name',
 				'icon' => 'discord',
 			]);
 		}
 
 		$meta = Remote::get($this->webhookUrl());
 		$this->log([
-			'text' => 'dreamform.actions.discord.log.success',
 			'template' => [
 				'name' => $meta->json()['name'],
 			]
-		], icon: 'discord', title: 'dreamform.actions.discord.shortName');
+		], type: 'none', icon: 'discord', title: 'dreamform.actions.discord.log.success');
 	}
 
 	/**

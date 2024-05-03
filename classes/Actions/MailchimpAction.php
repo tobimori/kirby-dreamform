@@ -110,22 +110,27 @@ class MailchimpAction extends Action
 			'language' => App::instance()->languageCode()
 		]);
 
-		$details = ['title' => 'dreamform.actions.mailchimp.shortName', 'icon' => 'mailchimp'];
 		if ($request->code() > 299) {
-			$this->cancel($request->json()['detail'] ?? "dreamform.submission.error.email", log: $details);
+			$this->cancel($request->json()['detail'] ?? "dreamform.submission.error.email", log: [
+				'title' => 'dreamform.actions.mailchimp.name',
+				'icon' => 'mailchimp'
+			]);
 		}
 
 		$signup = new DateTime($request->json()['timestamp_signup']);
-		$this->log([
+		$this->log(
+			[
+				'template' => [
+					'email' => $email,
+					'list' => A::find(static::getLists(), fn ($entry) => $entry['id'] === $list)['name']
+				]
+			],
+			type: 'none',
+			icon: 'mailchimp',
 			// if the user signed up in the last minute, we log it as already subscribed
-			'text' => $signup->diff(new DateTime())->i > 1
-				? 'dreamform.actions.mailchimp.log.alreadySubscribed'
-				: 'dreamform.actions.mailchimp.log.success',
-			'template' => [
-				'email' => $email,
-				'list' => A::find(static::getLists(), fn ($entry) => $entry['id'] === $list)['name']
-			]
-		], ...$details);
+			title: 'dreamform.actions.mailchimp.log.' .
+				($signup->diff(new DateTime())->i > 1 ? 'alreadySubscribed' : 'success')
+		);
 	}
 
 	/**
