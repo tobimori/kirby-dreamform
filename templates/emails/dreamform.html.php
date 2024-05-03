@@ -158,7 +158,7 @@
 </td></tr></table><![endif]-->
                                             </td>
                                           </tr> <?php endif;
-                                            endforeach ?>
+                                    endforeach ?>
                                     </tbody>
                                   </table>
                                 </td>
