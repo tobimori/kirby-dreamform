@@ -5,6 +5,7 @@ namespace tobimori\DreamForm\Actions;
 use Exception;
 use Kirby\Cms\App;
 use Kirby\Cms\User;
+use Kirby\Parsley\Parsley;
 use Kirby\Toolkit\A;
 
 /**
@@ -169,7 +170,19 @@ class EmailAction extends Action
 
 		return [
 			'html' => $html,
-			'text' => strip_tags($html)
+
+			// i wish we had a pipe operator
+			'text' => html_entity_decode(
+				trim(
+					strip_tags(
+						preg_replace(
+							'/<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|<p>|<div>|<br>|<ul>|<ol>|<li>/',
+							"\n",
+							$html
+						)
+					)
+				)
+			)
 		];
 	}
 
@@ -203,7 +216,7 @@ class EmailAction extends Action
 	public function run(): void
 	{
 		try {
-			App::instance()->email([
+			$email = App::instance()->email([
 				'template' => $this->template(),
 				'from' => $this::from(),
 				'replyTo' => $this->replyTo(),
@@ -216,6 +229,15 @@ class EmailAction extends Action
 					'form' => $this->submission()->form(),
 				],
 			]);
+
+			$this->log([
+				'template' => [
+					'to' => array_keys($email->to())[0],
+				],
+				'from' => $email->from(),
+				'subject' => $email->subject(),
+				'body' => $email->body()->text()
+			], type: 'email', icon: 'email', title: 'dreamform.actions.email.log.success');
 		} catch (\Exception $e) {
 			$this->cancel($e->getMessage());
 		}
