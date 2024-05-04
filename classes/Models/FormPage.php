@@ -53,7 +53,7 @@ class FormPage extends BasePage
 			'hx-post' => $this->url(),
 			'hx-swap' => 'outerHTML',
 			'hx-vals' => Json::encode(array_filter([
-				'dreamform:session' => $submission && $this->isMultiStep() ?
+				'dreamform:session' => $submission && $submission?->form()->is($this) && $this->isMultiStep() ?
 					Htmx::encrypt(
 						($submission->exists() ? "page://" : "") . $submission->slug()
 					) : null,
@@ -71,6 +71,7 @@ class FormPage extends BasePage
 	public function attr(): array
 	{
 		$attr = [
+			'id' => $this->elementId(),
 			'enctype' => $this->enctype(),
 			'method' => 'POST',
 			'novalidate' => 'novalidate',
@@ -78,6 +79,11 @@ class FormPage extends BasePage
 		];
 
 		return $attr;
+	}
+
+	public function elementId(string $suffix = ''): string
+	{
+		return $this->uuid()->id() . ($suffix ? "/{$suffix}" : '');
 	}
 
 	/**
@@ -95,7 +101,7 @@ class FormPage extends BasePage
 	public function currentLayouts(): Layouts
 	{
 		$submission = SubmissionPage::fromSession();
-		if ($submission) {
+		if ($submission && $submission->form()->is($this)) {
 			return $this->layouts($submission->currentStep());
 		}
 
@@ -426,7 +432,7 @@ class FormPage extends BasePage
 	public function valueFor(string $key): Field|null
 	{
 		$submission = SubmissionPage::fromSession();
-		if (!$submission) {
+		if (!$submission || !$submission->form()->is($this)) {
 			return $this->valueFromQuery($key);
 		}
 
@@ -441,7 +447,6 @@ class FormPage extends BasePage
 	public function valueFromQuery(string $key): Field|null
 	{
 		$key = DreamForm::normalizeKey($key);
-
 		if (!($value = App::instance()->request()->query()->get($key))) {
 			return null;
 		}
@@ -463,7 +468,7 @@ class FormPage extends BasePage
 	 */
 	public function errorFor(string $key): string|null
 	{
-		return SubmissionPage::fromSession()?->errorFor($key);
+		return SubmissionPage::fromSession()?->errorFor($key, $this);
 	}
 
 	/**

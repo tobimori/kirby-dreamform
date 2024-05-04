@@ -5,8 +5,12 @@
  *
  * @var \Kirby\Cms\Page $page
  * @var array|null $attr
- */ ?>
+ */
 
-<div <?= attr($attr['inactive']) ?>>
+use Kirby\Toolkit\A;
+
+?>
+
+<div <?= attr(A::merge($attr['inactive'], ['id' => $form->elementId()])) ?>>
 	<?= t('dreamform.form.inactiveMessage.default') ?>
 </div>

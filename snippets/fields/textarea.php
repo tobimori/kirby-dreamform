@@ -16,7 +16,7 @@ snippet('dreamform/fields/partials/wrapper', $arguments = compact('block', 'fiel
 snippet('dreamform/fields/partials/label', $arguments); ?>
 
 <textarea <?= attr(A::merge($attr['input'], [
-	'id' => $block->id(),
+	'id' => $form->elementId($block->id()),
 	'name' => $block->key(),
 	'placeholder' => $block->placeholder()->or(" "),
 	'required' => $required ?? null,

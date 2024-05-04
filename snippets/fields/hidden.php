@@ -15,7 +15,7 @@ $attr = A::merge($attr, $attr['hidden']); ?>
 
 <input <?= attr(A::merge($attr['input'], [
 	'type' => 'hidden',
-	'id' => $block->id(),
+	'id' => $form->elementId($block->id()),
 	'name' => $block->key(),
 	'value' => $form->valueFor($block->key())
 ])) ?>>

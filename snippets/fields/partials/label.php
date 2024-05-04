@@ -13,7 +13,7 @@ use Kirby\Toolkit\A;
 
 ?>
 
-<label <?= attr(A::merge($attr['label'], ["for" => $block->id()])) ?>>
+<label <?= attr(A::merge($attr['label'], ["for" => $form->elementId($block->id())])) ?>>
 	<span><?= $block->label()->escape() ?></span>
 	<?php if ($required = $block->required()->toBool()) : ?>
 		<em>*</em>

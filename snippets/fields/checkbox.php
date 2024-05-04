@@ -30,12 +30,12 @@ if ($block->label()->isNotEmpty()) {
 	<div <?= attr($attr[$type]['row'] ?? []) ?>>
 		<input <?= attr(A::merge($attr['input'], [
 			'type' => $type,
-			'id' => $block->id() . '-' . $option->indexOf(),
+			'id' => $form->elementId("{$block->id()}-{$option->indexOf()}"),
 			'name' => $block->key() . ($type === 'checkbox' ? '[]' : null),
 			'value' => $option->value(),
 			'checked' => A::has($previousValue, $option->value())
 		])) ?>>
-		<label for="<?= $block->id() ?>-<?= $option->indexOf() ?>"><?= $option->label()->or($option->value())->escape() ?></label>
+		<label for="<?= $form->elementId("{$block->id()}-{$option->indexOf()}") ?>"><?= $option->label()->or($option->value())->escape() ?></label>
 	</div>
 <?php endforeach ?>
 

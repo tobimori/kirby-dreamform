@@ -22,7 +22,7 @@ snippet('dreamform/fields/partials/label', $arguments); ?>
 
 <input <?= attr(A::merge($attr['input'], [
 	'type' => $type,
-	'id' => $block->id(),
+	'id' => $form->elementId($block->id()),
 	'name' => $block->key(),
 	'placeholder' => $type !== 'file' ? $block->placeholder()->or(" ") : null,
 	'required' => $block->required()->toBool() ?? null,

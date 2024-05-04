@@ -84,9 +84,9 @@ class SubmissionPage extends BasePage
 	public function redirectToReferer(): Responder
 	{
 		$kirby = App::instance();
-		$append = '';
+		$append = "#{$this->form()->uuid()->id()}";
 		if (DreamForm::option('mode') !== 'api' && $kirby->option('cache.pages.active') === true) {
-			$append = '?x=';
+			$append = '?x=' . $append;
 		}
 
 		return  $kirby->response()->redirect(
@@ -145,8 +145,12 @@ class SubmissionPage extends BasePage
 	/**
 	 * Returns the error message for a field in the submission state
 	 */
-	public function errorFor(string $key = null): string|null
+	public function errorFor(string $key = null, FormPage $form = null): string|null
 	{
+		if (!$form?->is($this->form())) {
+			return null;
+		}
+
 		if ($key === null) {
 			return $this->state()->get('error')->value();
 		}

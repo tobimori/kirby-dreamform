@@ -86,7 +86,7 @@ if (!$form || $form->status() === 'draft') {
 	return;
 }
 
-if ($submission?->isFinished()) {
+if ($submission?->isFinished() && $submission->form()->is($form)) {
 	snippet('dreamform/success', ['form' => $form, 'attr' => $attr]);
 	return;
 } ?>
@@ -96,7 +96,7 @@ if ($submission?->isFinished()) {
 	$form->htmxAttr($page, $attr, $submission),
 	$form->attr()
 )) ?>>
-	<div <?= attr(A::merge(['data-error' => true], $attr['error'])) ?>><?= $submission?->errorFor() ?></div>
+	<div <?= attr(A::merge(['data-error' => true], $attr['error'])) ?>><?= $submission?->errorFor(form: $form) ?></div>
 	<?php foreach ($form->currentLayouts() as $layoutRow) : ?>
 		<div <?= attr(A::merge($attr['row'], [
 			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
@@ -125,3 +125,4 @@ if ($submission?->isFinished()) {
 			<?php endforeach ?>
 		</div>
 	<?php endforeach; ?>
+</form>
