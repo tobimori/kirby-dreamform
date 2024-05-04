@@ -159,6 +159,12 @@ class ButtondownAction extends Action
 			'referrer_url' => $this->submission()->referer(),
 		], fn ($value) => $value !== null);
 
+		$logData = [
+			'template' => [
+				'email' => $email->value()
+			]
+		];
+
 		// subscribe the user
 		$subscribeRequest = static::request('POST', '/subscribers', A::merge($data, A::filter([
 			// utm fields can only be assigned on creation
@@ -179,8 +185,12 @@ class ButtondownAction extends Action
 					if ($reminderRequest->code() !== 200) {
 						$this->cancel($reminderRequest->json()['detail']);
 					}
+
+					$this->log(icon: 'buttondown', title: 'dreamform.actions.buttondown.log.reminder', data: $logData, type: 'none');
+					return;
 				}
 
+				$this->log(icon: 'buttondown', title: 'dreamform.actions.buttondown.log.alreadySubscribed', data: $logData, type: 'none');
 				return;
 			}
 
@@ -189,6 +199,7 @@ class ButtondownAction extends Action
 		}
 
 		// everything went well
+		$this->log(icon: 'buttondown', title: 'dreamform.actions.buttondown.log.success', data: $logData, type: 'none');
 	}
 
 	/**

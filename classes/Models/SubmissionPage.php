@@ -353,7 +353,7 @@ class SubmissionPage extends BasePage
 		return App::instance()->impersonate(
 			'kirby',
 			fn () => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
-		);;
+		);
 	}
 
 	/**
