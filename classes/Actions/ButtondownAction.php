@@ -140,30 +140,24 @@ class ButtondownAction extends Action
 	{
 		// check if email is valid
 		$emailField = $this->block()->emailField()->value();
-		$email = $this->submission()->valueForId($emailField);
-
-		if (!$email || $email?->isEmpty()) {
+		$email = $this->submission()->valueForId($emailField)?->value();
+		if (!$email) {
 			return;
 		}
 
-		if (!V::email($email->value())) {
-			$this->cancel(t('dreamform.submission.error.email'), public: true);
-			return;
+		if (!V::email($email)) {
+			$this->cancel('dreamform.submission.error.email', public: true);
 		}
 
 		// collect data for the request
 		$data = A::filter([
-			'email' => $email->value(),
+			'email' => $email,
 			'metadata' => static::metadata(),
 			'tags' => static::submissionTags(),
 			'referrer_url' => $this->submission()->referer(),
 		], fn ($value) => $value !== null);
 
-		$logData = [
-			'template' => [
-				'email' => $email->value()
-			]
-		];
+		$logData = ['template' => ['email' => $email]];
 
 		// subscribe the user
 		$subscribeRequest = static::request('POST', '/subscribers', A::merge($data, A::filter([
@@ -177,11 +171,11 @@ class ButtondownAction extends Action
 		if ($subscribeRequest->code() !== 201) {
 			// update subscriber data if email already exists
 			if (!static::simpleMode() && $subscribeRequest->json()['code'] === 'email_already_exists') {
-				$updateRequest = static::request('PATCH', "/subscribers/{$email->value()}", $data);
+				$updateRequest = static::request('PATCH', "/subscribers/{$email}", array_filter($data, fn ($key) => $key !== 'email', ARRAY_FILTER_USE_KEY));
 
 				// send reminder if subscriber is unactivated
 				if ($updateRequest->json()['subscriber_type'] === 'unactivated') {
-					$reminderRequest = static::request('POST', "/subscribers/{$email->value()}/send-reminder");
+					$reminderRequest = static::request('POST', "/subscribers/{$email}/send-reminder");
 					if ($reminderRequest->code() !== 200) {
 						$this->cancel($reminderRequest->json()['detail']);
 					}
