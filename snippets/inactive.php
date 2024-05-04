@@ -7,10 +7,8 @@
  * @var array|null $attr
  */
 
-use Kirby\Toolkit\A;
-
 ?>
 
-<div <?= attr(A::merge($attr['inactive'], ['id' => $form->elementId()])) ?>>
+<div <?= attr($attr['inactive']) ?>>
 	<?= t('dreamform.form.inactiveMessage.default') ?>
 </div>
