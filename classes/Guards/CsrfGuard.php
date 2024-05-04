@@ -32,7 +32,7 @@ class CsrfGuard extends Guard
 		$submitted = SubmissionPage::valueFromBody('dreamform-csrf');
 
 		if ($submitted !== $token) {
-			$this->cancel(t('dreamform.csrf-error'), true);
+			$this->cancel('dreamform.submission.error.csrf', true);
 		}
 	}
 

@@ -144,6 +144,7 @@
     "submission.error.honeypot": "Das Honeypot-Feld wurde ausgefüllt und die Antwort wurde nicht gesendet.",
     "submission.error.logType": "Der Eintragstyp \"{{ type }}\" ist nicht gültig.",
     "submission.error.ratelimit": "Du hast das Formular zu häufig abgeschickt. Bitte warte einen Moment und versuche es erneut.",
+		"submission.error.csrf": "Das Formular ist abgelaufen. Bitte lade die Seite neu und versuche es erneut.",
     "submission.ham": "Kein Spam",
     "submission.log.error": "Unbekannter Fehler in <strong>\"{{ type }}\"</strong>",
     "submission.markedAs": "Diese Antwort wurde als {{ status }} markiert.",

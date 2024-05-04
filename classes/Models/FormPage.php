@@ -253,7 +253,7 @@ class FormPage extends BasePage
 		// create a new submission or get the existing one from the session
 		$submission = SubmissionPage::fromSession() ?? $this->initSubmission();
 		// if the submission is from a different form, create a new one
-		if ($submission->parent()->id() !== $this->id()) {
+		if (!$submission->form()->is($this)) {
 			$submission = $this->initSubmission();
 		}
 

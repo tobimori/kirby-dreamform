@@ -158,6 +158,7 @@
 	"submission.error.honeypot": "The honeypot field was filled and the answer wasn't sent.",
 	"submission.error.logType": "The submission log type \"{{ type }}\" is not valid.",
 	"submission.error.ratelimit": "You've submitted the form too often. Please wait a moment and try again.",
+	"submission.error.csrf": "The form expired. Please reload the page and try again.",
 	"submission.ham": "Not Spam",
 	"submission.log.error": "Unhandled error in performer <strong>\"{{ type }}\"</strong>",
 	"submission.markedAs": "This answer is {{ status }}",
