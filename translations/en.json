@@ -40,6 +40,8 @@
 	"actions.email.log.to": "To:",
 	"actions.email.log.from": "From:",
 	"actions.email.log.subject": "Subject:",
+	"actions.email.error.sender": "No sender email or transport username specified",
+	"actions.email.error.recipient": "No email sent, since recipient email wasn't specified",
 	"actions.empty": "No actions defined",
 	"actions.label": "Actions",
 	"actions.mailchimp.doubleOptIn.help": "Required for a GDPR compliant subscription.",

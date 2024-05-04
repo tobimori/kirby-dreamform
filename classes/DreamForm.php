@@ -249,4 +249,17 @@ final class DreamForm
 	{
 		return "Kirby DreamForm/" . App::plugin('tobimori/dreamform')->version() . " (+https://plugins.andkindness.com/dreamform)";
 	}
+
+	/**
+	 * Returns a plugin option
+	 */
+	public static function option(string $key): mixed
+	{
+		$option = App::instance()->option("tobimori.dreamform.{$key}", null);
+		if (is_callable($option)) {
+			$option = $option();
+		}
+
+		return $option;
+	}
 }
