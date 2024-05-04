@@ -10,14 +10,57 @@ use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
 use tobimori\DreamForm\DreamForm;
 
+/**
+ * Action for subscribing a user to a Buttondown newsletter list.
+ * Docs: https://api.buttondown.email/v1/docs
+ */
 class ButtondownAction extends Action
 {
+	/**
+	 * Returns whether the Buttondown simple mode is enabled
+	 * Simple mode supports free plans, rmoves tags support/sending reminders
+	 */
 	protected static function simpleMode(): bool
 	{
-		return App::instance()->option('tobimori.dreamform.actions.buttondown.simpleMode') === true;
+		return DreamForm::option('actions.buttondown.simpleMode') === true;
 	}
 
-	public static function tagsBlueprint(): array
+	/**
+	 * Returns the Blocks fieldset blueprint for the actions' settings
+	 */
+	public static function blueprint(): array
+	{
+		return [
+			'name' => t('dreamform.actions.buttondown.name'),
+			'preview' => 'fields',
+			'wysiwyg' => true,
+			'icon' => 'buttondown',
+			'tabs' => [
+				'settings' => [
+					'label' => t('dreamform.settings'),
+					'fields' => A::merge([
+						'emailField' => [
+							'label' => t('dreamform.actions.buttondown.emailField.label'),
+							'required' => true,
+							'extends' => 'dreamform/fields/field',
+							'width' => '1/3'
+						],
+						'exposeMetadata' => [
+							'label' => t('dreamform.actions.buttondown.exposeMetadata.label'),
+							'extends' => 'dreamform/fields/field',
+							'type' => 'multiselect',
+							'width' => '2/3'
+						],
+					], static::tagsBlueprint())
+				]
+			]
+		];
+	}
+
+	/**
+	 * Returns the tag assignment part of the panel blueprint
+	 */
+	protected static function tagsBlueprint(): array
 	{
 		if (static::simpleMode()) {
 			return [];
@@ -48,35 +91,6 @@ class ButtondownAction extends Action
 				]),
 				'when' => [
 					'tags' => 'static'
-				]
-			]
-		];
-	}
-
-	public static function blueprint(): array
-	{
-		return [
-			'name' => t('dreamform.actions.buttondown.name'),
-			'preview' => 'fields',
-			'wysiwyg' => true,
-			'icon' => 'buttondown',
-			'tabs' => [
-				'settings' => [
-					'label' => t('dreamform.settings'),
-					'fields' => A::merge([
-						'emailField' => [
-							'label' => t('dreamform.actions.buttondown.emailField.label'),
-							'required' => true,
-							'extends' => 'dreamform/fields/field',
-							'width' => '1/3'
-						],
-						'exposeMetadata' => [
-							'label' => t('dreamform.actions.buttondown.exposeMetadata.label'),
-							'extends' => 'dreamform/fields/field',
-							'type' => 'multiselect',
-							'width' => '2/3'
-						],
-					], static::tagsBlueprint())
 				]
 			]
 		];
@@ -206,10 +220,7 @@ class ButtondownAction extends Action
 	 */
 	protected static function request(string $method, string $url, array $data = []): Remote
 	{
-		$apiKey = App::instance()->option('tobimori.dreamform.actions.buttondown.apiKey');
-		if (is_callable($apiKey)) {
-			$apiKey = $apiKey();
-		}
+		$apiKey = DreamForm::option('actions.buttondown.apiKey');
 
 		return Remote::$method(static::apiUrl() . $url, A::merge(
 			[
@@ -230,7 +241,7 @@ class ButtondownAction extends Action
 	 */
 	public static function isAvailable(): bool
 	{
-		$apiToken = App::instance()->option('tobimori.dreamform.actions.buttondown.apiKey');
+		$apiToken = DreamForm::option('actions.buttondown.apiKey');
 		if (!$apiToken) {
 			return false;
 		}
@@ -247,5 +258,16 @@ class ButtondownAction extends Action
 	public static function group(): string
 	{
 		return 'newsletter';
+	}
+
+	/**
+	 * Returns the base log settings for the action
+	 */
+	protected function logSettings(): array|bool
+	{
+		return [
+			'icon' => 'buttondown',
+			'title' => 'dreamform.actions.buttondown.name'
+		];
 	}
 }

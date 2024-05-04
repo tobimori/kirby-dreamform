@@ -140,10 +140,7 @@ class EmailAction extends Action
 		}
 
 		if (empty($value)) {
-			$this->silentCancel(
-				'dreamform.actions.email.error.recipient',
-				log: ['icon' => 'email', 'title' => 'dreamform.actions.email.name']
-			);
+			$this->silentCancel('dreamform.actions.email.error.recipient');
 		}
 
 		return $value;
@@ -232,10 +229,7 @@ class EmailAction extends Action
 		$email = DreamForm::option('actions.email.from.email');
 
 		if (empty($name) || empty($email)) {
-			$this->cancel(
-				'dreamform.actions.email.error.sender',
-				log: ['icon' => 'email', 'title' => 'dreamform.actions.email.name']
-			);
+			$this->cancel('dreamform.actions.email.error.sender');
 		}
 
 		return new User(compact('name', 'email'));
@@ -270,10 +264,18 @@ class EmailAction extends Action
 				'body' => $email->body()->text()
 			], type: 'email', icon: 'email', title: 'dreamform.actions.email.log.success');
 		} catch (\Exception $e) {
-			$this->cancel(
-				$e->getMessage(),
-				log: ['icon' => 'email', 'title' => 'dreamform.actions.email.name']
-			);
+			$this->cancel($e->getMessage());
 		}
+	}
+
+	/**
+	 * Returns the base log settings for the action
+	 */
+	protected function logSettings(): array|bool
+	{
+		return [
+			'icon' => 'email',
+			'title' => 'dreamform.actions.email.name'
+		];
 	}
 }

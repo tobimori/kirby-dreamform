@@ -6,6 +6,7 @@ use Kirby\Cms\App;
 use Kirby\Data\Json;
 use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\SubmissionPage;
 
 class AkismetGuard extends Guard
@@ -23,7 +24,7 @@ class AkismetGuard extends Guard
 	protected function contentForSubmission(SubmissionPage $submission): array
 	{
 		$content = [];
-		foreach (App::instance()->option('tobimori.dreamform.guards.akismet.fields', []) as $key => $fields) {
+		foreach (DreamForm::option('guards.akismet.fields', []) as $key => $fields) {
 			$content[$key] = A::reduce($fields, function ($prev, $field) use ($submission) {
 				if ($prev !== null) {
 					return $prev;
@@ -49,7 +50,7 @@ class AkismetGuard extends Guard
 			$request = static::post('/comment-check', A::merge([
 				// send metadata
 				'user_ip' => $visitor->ip(),
-				'user_agent' => A::has($kirby->option('tobimori.dreamform.metadata.collect'), 'userAgent') ? $visitor->userAgent() : null,
+				'user_agent' => A::has(DreamForm::option('metadata.collect'), 'userAgent') ? $visitor->userAgent() : null,
 				'referrer' => $request->header("Referer"),
 
 				// send honeypot if used
@@ -99,12 +100,7 @@ class AkismetGuard extends Guard
 	 */
 	protected static function apiKey(): string|null
 	{
-		$option = App::instance()->option('tobimori.dreamform.guards.akismet.apiKey');
-		if (is_callable($option)) {
-			return $option();
-		}
-
-		return $option;
+		return DreamForm::option('guards.akismet.apiKey');
 	}
 
 	/**
@@ -143,7 +139,7 @@ class AkismetGuard extends Guard
 	{
 		if (
 			!static::apiKey() ||
-			!A::has(App::instance()->option('tobimori.dreamform.metadata.collect'), 'ip')
+			!A::has(DreamForm::option('metadata.collect'), 'ip')
 		) {
 			return false;
 		}

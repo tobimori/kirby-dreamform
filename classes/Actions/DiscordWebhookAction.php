@@ -6,12 +6,16 @@ use Kirby\Cms\App;
 use Kirby\Data\Json;
 use Kirby\Http\Remote;
 use Throwable;
+use tobimori\DreamForm\DreamForm;
 
 /**
  * Action for sending a message in a discord channel.
  */
 class DiscordWebhookAction extends Action
 {
+	/**
+	 * Returns the Blocks fieldset blueprint for the actions' settings
+	 */
 	public static function blueprint(): array
 	{
 		return [
@@ -29,7 +33,7 @@ class DiscordWebhookAction extends Action
 							'pattern' => 'https:\/\/discord\.com\/api\/webhooks\/.+\/.+',
 							'placeholder' => 'https://discord.com/api/webhooks/...',
 							'width' => '1/3',
-							'required' => !App::instance()->option('tobimori.dreamform.actions.discord.webhook')
+							'required' => !DreamForm::option('actions.discord.webhook')
 						],
 						'exposedFields' => [
 							'label' => 'dreamform.actions.webhook.exposedFields.label',
@@ -43,12 +47,18 @@ class DiscordWebhookAction extends Action
 		];
 	}
 
-	public function webhookUrl(): string
+	/**
+	 * Returns the webhook URL
+	 */
+	protected function webhookUrl(): string
 	{
-		return $this->block()->webhookUrl()->or(App::instance()->option('tobimori.dreamform.actions.discord.webhook'));
+		return $this->block()->webhookUrl()->or(DreamForm::option('actions.discord.webhook'));
 	}
 
-	public function content(): string
+	/**
+	 * Returns the content to be sent to Discord
+	 */
+	protected function content(): string
 	{
 		// get all fields that should be exposed, or use all fields if none are specified
 		$exposed = $this->block()->exposedFields()->split();
@@ -71,11 +81,15 @@ class DiscordWebhookAction extends Action
 		return $content;
 	}
 
+	/**
+	 * Run the action
+	 */
 	public function run(): void
 	{
 		try {
 			$request = Remote::post($this->webhookUrl(), [
 				'headers' => [
+					'User-Agent' => DreamForm::userAgent(),
 					'Content-Type' => 'application/json'
 				],
 				'data' => Json::encode([
@@ -102,13 +116,14 @@ class DiscordWebhookAction extends Action
 		}
 
 		if ($request->code() > 299) {
-			$this->cancel('dreamform.actions.discord.log.error', log: [
-				'title' => 'dreamform.actions.discord.name',
-				'icon' => 'discord',
-			]);
+			$this->cancel('dreamform.actions.discord.log.error');
 		}
 
-		$meta = Remote::get($this->webhookUrl());
+		$meta = Remote::get($this->webhookUrl(), [
+			'headers' => [
+				'User-Agent' => DreamForm::userAgent()
+			]
+		]);
 		$this->log([
 			'template' => [
 				'name' => $meta->json()['name'],
@@ -122,5 +137,16 @@ class DiscordWebhookAction extends Action
 	public static function group(): string
 	{
 		return 'notifications';
+	}
+
+	/**
+	 * Returns the base log settings for the action
+	 */
+	protected function logSettings(): array|bool
+	{
+		return [
+			'icon' => 'discord',
+			'title' => 'dreamform.actions.discord.name'
+		];
 	}
 }

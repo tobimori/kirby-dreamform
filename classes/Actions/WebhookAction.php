@@ -76,10 +76,7 @@ class WebhookAction extends Action
 		}
 
 		if ($request->code() > 299) {
-			$this->cancel('dreamform.actions.webhook.log.error', log: [
-				'title' => 'dreamform.actions.webhook.name',
-				'icon' => 'webhook',
-			]);
+			$this->cancel('dreamform.actions.webhook.log.error');
 		}
 
 		$this->log([
@@ -87,5 +84,16 @@ class WebhookAction extends Action
 				'url' => Url::toObject($request->url())->domain()
 			]
 		], type: 'none', icon: 'webhook', title: 'dreamform.actions.webhook.log.success');
+	}
+
+	/**
+	 * Returns the base log settings for the action
+	 */
+	protected function logSettings(): array|bool
+	{
+		return [
+			'icon' => 'webhook',
+			'title' => 'dreamform.actions.webhook.name'
+		];
 	}
 }

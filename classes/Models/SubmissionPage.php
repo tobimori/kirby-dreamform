@@ -85,7 +85,7 @@ class SubmissionPage extends BasePage
 	{
 		$kirby = App::instance();
 		$append = '';
-		if ($kirby->option('tobimori.dreamform.mode') !== 'api' && $kirby->option('cache.pages.active') === true) {
+		if (DreamForm::option('mode') !== 'api' && $kirby->option('cache.pages.active') === true) {
 			$append = '?x=';
 		}
 
@@ -343,7 +343,7 @@ class SubmissionPage extends BasePage
 	public function saveSubmission(): static
 	{
 		if (
-			App::instance()->option('tobimori.dreamform.storeSubmissions', true) !== true
+			DreamForm::option('storeSubmissions', true) !== true
 			|| !$this->form()->storeSubmissions()->toBool()
 		) {
 			return $this;
@@ -353,8 +353,7 @@ class SubmissionPage extends BasePage
 		return App::instance()->impersonate(
 			'kirby',
 			fn () => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
-		);
-		;
+		);;
 	}
 
 	/**
@@ -499,7 +498,7 @@ class SubmissionPage extends BasePage
 	 */
 	public function gravatar(): File|null
 	{
-		if (!App::instance()->option('tobimori.dreamform.integrations.gravatar', true)) {
+		if (!DreamForm::option('integrations.gravatar', true)) {
 			return null;
 		}
 

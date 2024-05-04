@@ -14,7 +14,7 @@ class FileUploadField extends Field
 {
 	public static function availableTypes(): array
 	{
-		return App::instance()->option('tobimori.dreamform.fields.fileUpload.types', []);
+		return DreamForm::option('fields.fileUpload.types', []);
 	}
 
 	public static function blueprint(): array
@@ -169,7 +169,7 @@ class FileUploadField extends Field
 	{
 		$formPage ??= DreamForm::currentPage();
 
-		return App::instance()->option('tobimori.dreamform.storeSubmissions', true) === true
+		return DreamForm::option('storeSubmissions', true) === true
 			&& $formPage?->storeSubmissions()->toBool();
 	}
 

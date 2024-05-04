@@ -31,7 +31,7 @@ return function () {
 			'template' => 'submission',
 			'layout' => 'table',
 			'create' => false,
-			'image' => App::instance()->option('tobimori.dreamform.integrations.gravatar'),
+			'image' => DreamForm::option('integrations.gravatar'),
 			'text' => false,
 			'search' => true,
 			'sortBy' => 'sortDate desc',

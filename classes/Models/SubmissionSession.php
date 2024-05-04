@@ -19,7 +19,7 @@ trait SubmissionSession
 	public function storeSession(): static
 	{
 		$kirby = App::instance();
-		$mode = $kirby->option('tobimori.dreamform.mode', 'prg');
+		$mode = DreamForm::option('mode', 'prg');
 		if ($mode === 'api' || Htmx::isActive() && Htmx::isHtmxRequest()) {
 			return $this->storeSessionlessCache();
 		}
@@ -35,13 +35,12 @@ trait SubmissionSession
 
 	public function storeSessionlessCache(): static
 	{
-		$kirby = App::instance();
-		if (A::has(['prg', 'htmx'], $kirby->option('tobimori.dreamform.mode', 'prg')) && !Htmx::isHtmxRequest()) {
+		if (A::has(['prg', 'htmx'], DreamForm::option('mode', 'prg')) && !Htmx::isHtmxRequest()) {
 			return $this->storeSession();
 		}
 
 		if (!$this->exists()) {
-			$kirby->cache('tobimori.dreamform.sessionless')->set($this->slug(), serialize($this), 60 * 24);
+			App::instance()->cache('tobimori.dreamform.sessionless')->set($this->slug(), serialize($this), 60 * 24);
 		}
 
 		return static::$session = $this;
@@ -53,7 +52,7 @@ trait SubmissionSession
 	public static function fromSession(): SubmissionPage|null
 	{
 		$kirby = App::instance();
-		$mode = $kirby->option('tobimori.dreamform.mode', 'prg');
+		$mode = DreamForm::option('mode', 'prg');
 		if ($mode === 'api' || $mode === 'htmx' && Htmx::isHtmxRequest()) {
 			return static::fromSessionlessCache();
 		}
@@ -92,7 +91,7 @@ trait SubmissionSession
 	public static function fromSessionlessCache(): SubmissionPage|null
 	{
 		$kirby = App::instance();
-		if ($kirby->option('tobimori.dreamform.mode', 'prg') === 'prg' && !Htmx::isHtmxRequest()) {
+		if (DreamForm::option('mode', 'prg') === 'prg' && !Htmx::isHtmxRequest()) {
 			return static::fromSession();
 		}
 

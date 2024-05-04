@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Fields;
 
 use Kirby\Cms\App;
+use tobimori\DreamForm\DreamForm;
 
 class PagesField extends Field
 {
@@ -23,7 +24,7 @@ class PagesField extends Field
 						'pages' => [
 							'label' => t('dreamform.common.options.label'),
 							'type' => 'pages',
-							'query' => App::instance()->option('tobimori.dreamform.fields.pages.query'),
+							'query' => DreamForm::option('fields.pages.query'),
 							'width' => '2/3',
 						],
 						'useChildren' => [

@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Support;
 
 use Kirby\Cms\App;
+use tobimori\DreamForm\DreamForm;
 
 /**
  * Helper class for HTMX support
@@ -16,7 +17,7 @@ final class Htmx
 
 	public static function isActive(): bool
 	{
-		return App::instance()->option('tobimori.dreamform.mode', 'prg') === 'htmx';
+		return DreamForm::option('mode', 'prg') === 'htmx';
 	}
 
 	public static function isHtmxRequest(): bool
@@ -29,11 +30,7 @@ final class Htmx
 	 */
 	private static function secret(): string
 	{
-		$secret = App::instance()->option('tobimori.dreamform.secret');
-
-		if (is_callable($secret)) {
-			$secret = $secret();
-		}
+		$secret = DreamForm::option('secret');
 
 		if (empty($secret)) {
 			throw new \Exception('[DreamForm] Secret not set');

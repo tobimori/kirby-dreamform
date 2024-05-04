@@ -10,6 +10,7 @@ use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\FormPage;
 
 class MailchimpAction extends Action
@@ -73,8 +74,7 @@ class MailchimpAction extends Action
 		}
 
 		if (!V::email($email)) {
-			$this->cancel(t('dreamform.submission.error.email'), public: true);
-			return;
+			$this->cancel('dreamform.submission.error.email', public: true);
 		}
 
 		// get data for merge fields from the submission
@@ -111,10 +111,7 @@ class MailchimpAction extends Action
 		]);
 
 		if ($request->code() > 299) {
-			$this->cancel($request->json()['detail'] ?? "dreamform.submission.error.email", log: [
-				'title' => 'dreamform.actions.mailchimp.name',
-				'icon' => 'mailchimp'
-			]);
+			$this->cancel($request->json()['detail'] ?? "dreamform.submission.error.email");
 		}
 
 		$signup = new DateTime($request->json()['timestamp_signup']);
@@ -241,17 +238,13 @@ class MailchimpAction extends Action
 			'model' => $page
 		]))->fields()->toArray();
 	}
+
 	/**
 	 * Get the API key for the Mailchimp API
 	 **/
-	public static function apiKey(): string|null
+	protected static function apiKey(): string|null
 	{
-		$option = App::instance()->option('tobimori.dreamform.actions.mailchimp.apiKey');
-		if (is_callable($option)) {
-			return $option();
-		}
-
-		return $option;
+		return DreamForm::option('actions.mailchimp.apiKey');
 	}
 
 	/**
@@ -303,5 +296,16 @@ class MailchimpAction extends Action
 	public static function group(): string
 	{
 		return 'newsletter';
+	}
+
+	/**
+	 * Returns the base log settings for the action
+	 */
+	protected function logSettings(): array|bool
+	{
+		return [
+			'icon' => 'mailchimp',
+			'title' => 'dreamform.actions.mailchimp.name'
+		];
 	}
 }

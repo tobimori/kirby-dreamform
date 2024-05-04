@@ -74,7 +74,7 @@ class FormPage extends BasePage
 			'enctype' => $this->enctype(),
 			'method' => 'POST',
 			'novalidate' => 'novalidate',
-			(App::instance()->option('tobimori.dreamform.useDataAttributes') ? 'data-form-url' : 'action') => $this->url()
+			(DreamForm::option('useDataAttributes') ? 'data-form-url' : 'action') => $this->url()
 		];
 
 		return $attr;
@@ -296,7 +296,7 @@ class FormPage extends BasePage
 	public function render(array $data = [], $contentType = 'html'): string
 	{
 		$kirby = App::instance();
-		$mode = $kirby->option('tobimori.dreamform.mode', 'prg');
+		$mode = DreamForm::option('mode', 'prg');
 
 		if ($kirby->request()->method() === 'POST') {
 			$submission = $this->submit();

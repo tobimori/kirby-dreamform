@@ -2,6 +2,7 @@
 
 use Kirby\Cms\App;
 use Kirby\Toolkit\A;
+use tobimori\DreamForm\DreamForm;
 
 return function () {
 	return [
@@ -100,7 +101,7 @@ return function () {
 							]
 						],
 					],
-					App::instance()->option('tobimori.dreamform.storeSubmissions') ? [
+					DreamForm::option('storeSubmissions') ? [
 						[
 							'width' => '1',
 							'fields' => [

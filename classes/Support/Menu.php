@@ -3,6 +3,7 @@
 namespace tobimori\DreamForm\Support;
 
 use Kirby\Cms\App;
+use tobimori\DreamForm\DreamForm;
 
 /**
  * Helper class for customizing the panel menu
@@ -27,7 +28,7 @@ final class Menu
 	 */
 	public static function formPath()
 	{
-		$formsPage = App::instance()->site()->findPageOrDraft(App::instance()->option('tobimori.dreamform.page'));
+		$formsPage = App::instance()->site()->findPageOrDraft(DreamForm::option('page'));
 		return $formsPage->panel()->path();
 	}
 

@@ -2,14 +2,14 @@
 
 namespace tobimori\DreamForm\Guards;
 
-use Kirby\Cms\App;
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\SubmissionPage;
 
 class HoneypotGuard extends Guard
 {
 	public function fieldName(): string
 	{
-		$available = App::instance()->option('tobimori.dreamform.guards.honeypot.fields', []);
+		$available = DreamForm::option('guards.honeypot.fields', []);
 		$used = $this->form()->fields()->map(fn ($field) => $field->key());
 
 		foreach ($available as $field) {

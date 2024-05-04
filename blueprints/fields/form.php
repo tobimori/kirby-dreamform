@@ -1,6 +1,7 @@
 <?php
 
 use Kirby\Cms\App;
+use tobimori\DreamForm\DreamForm;
 
 return function () {
 	if (!App::instance()->user()->role()->permissions()->for('tobimori.dreamform', 'accessForms')) {
@@ -9,7 +10,7 @@ return function () {
 		];
 	}
 
-	$page = App::instance()->option('tobimori.dreamform.page', 'page://forms');
+	$page = DreamForm::option('page', 'page://forms');
 
 	return [
 		'label' => t('dreamform.form'),

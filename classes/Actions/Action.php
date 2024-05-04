@@ -57,6 +57,14 @@ abstract class Action extends Performer
 	}
 
 	/**
+	 * Returns the base log settings for the action
+	 */
+	protected function logSettings(): array|bool
+	{
+		return true;
+	}
+
+	/**
 	 * Create an action log entry
 	 */
 	protected function log(array $data, string $type = null, string $icon = null, string $title = null): SubmissionLogEntry
@@ -69,7 +77,7 @@ abstract class Action extends Performer
 	 *
 	 * The form will be shown as failed to the user and the error message will be displayed
 	 */
-	protected function cancel(string $message = null, bool $public = false, array|bool $log = true): void
+	protected function cancel(string $message = null, bool $public = false, array|bool $log = null): void
 	{
 		throw new PerformerException(
 			performer: $this,
@@ -77,7 +85,7 @@ abstract class Action extends Performer
 			public: $public,
 			force: $this->isForced(),
 			submission: $this->submission(),
-			log: $log
+			log: $log ?? $this->logSettings()
 		);
 	}
 
@@ -86,7 +94,7 @@ abstract class Action extends Performer
 	 *
 	 * The form will be shown as successful to the user, except if debug mode is enabled
 	 */
-	protected function silentCancel(string $message = null, array|bool $log = true): void
+	protected function silentCancel(string $message = null, array|bool $log = null): void
 	{
 		throw new PerformerException(
 			performer: $this,
@@ -94,7 +102,7 @@ abstract class Action extends Performer
 			silent: true,
 			force: $this->isForced(),
 			submission: $this->submission(),
-			log: $log
+			log: $log ?? $this->logSettings()
 		);
 	}
 
@@ -119,6 +127,9 @@ abstract class Action extends Performer
 		return 'common';
 	}
 
+	/**
+	 * Returns the action type string
+	 */
 	public static function type(): string
 	{
 		return Str::kebab(Str::match(static::class, "/Actions\\\([a-zA-Z]+)Action/")[1]);

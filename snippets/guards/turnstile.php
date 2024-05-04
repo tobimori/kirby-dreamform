@@ -5,11 +5,11 @@
  * @var tobimori\DreamForm\Guards\TurnstileGuard $guard
  */
 
-use Kirby\Cms\App;
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Support\Htmx;
 
 if (
-	App::instance()->option('tobimori.dreamform.guards.turnstile.injectScript')
+	DreamForm::option('guards.turnstile.injectScript')
 	&& (!Htmx::isActive() || !Htmx::isHtmxRequest())
 ) : ?>
 	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
@@ -27,7 +27,7 @@ endif ?>
 
 <div <?= attr([
 	'class' => 'cf-turnstile',
-	'data-theme' => App::instance()->option('tobimori.dreamform.guards.turnstile.theme', 'auto'),
+	'data-theme' => DreamForm::option('guards.turnstile.theme', 'auto'),
 	'data-sitekey' => $guard::siteKey()
 ]) ?>>
 </div>

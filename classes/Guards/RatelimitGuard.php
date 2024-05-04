@@ -3,24 +3,24 @@
 namespace tobimori\DreamForm\Guards;
 
 use Kirby\Cms\App;
+use tobimori\DreamForm\DreamForm;
 
 class RatelimitGuard extends Guard
 {
 	public function run(): void
 	{
-		$kirby = App::instance();
-		$ip = sha1($kirby->visitor()->ip()); // hash the IP address to protect user privacy
+		$ip = sha1(App::instance()->visitor()->ip()); // hash the IP address to protect user privacy
 
 		$count = static::cache(
 			$ip,
-			fn () => $kirby->option('tobimori.dreamform.guards.ratelimit.limit'), // set the initial count
-			$kirby->option('tobimori.dreamform.guards.ratelimit.interval') // set the expiration time
+			fn () => DreamForm::option('guards.ratelimit.limit'), // set the initial count
+			DreamForm::option('guards.ratelimit.interval') // set the expiration time
 		);
 
 		if ($count <= 0) {
-			$this->cancel(t('dreamform.submission.error.ratelimit'), true);
+			$this->cancel('dreamform.submission.error.ratelimit', public: true);
 		} else {
-			static::setCache($ip, $count - 1, $kirby->option('tobimori.dreamform.guards.ratelimit.interval'));
+			static::setCache($ip, $count - 1, DreamForm::option('guards.ratelimit.interval'));
 		}
 	}
 }

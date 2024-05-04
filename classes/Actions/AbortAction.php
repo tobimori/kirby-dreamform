@@ -7,6 +7,9 @@ namespace tobimori\DreamForm\Actions;
  */
 class AbortAction extends Action
 {
+	/**
+	 * Returns the Blocks fieldset blueprint for the actions' settings
+	 */
 	public static function blueprint(): array
 	{
 		return [
@@ -38,6 +41,9 @@ class AbortAction extends Action
 		];
 	}
 
+	/**
+	 * Run the action
+	 */
 	public function run(): void
 	{
 		if ($this->block()->showError()->toBool()) {

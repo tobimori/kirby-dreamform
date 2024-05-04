@@ -2,30 +2,20 @@
 
 namespace tobimori\DreamForm\Guards;
 
-use Kirby\Cms\App;
 use Kirby\Http\Remote;
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\SubmissionPage;
 
 class TurnstileGuard extends Guard
 {
 	public static function siteKey(): string|null
 	{
-		$option = App::instance()->option('tobimori.dreamform.guards.turnstile.siteKey');
-		if (is_callable($option)) {
-			return $option();
-		}
-
-		return $option;
+		return DreamForm::option('guards.turnstile.siteKey');
 	}
 
 	protected static function secretKey(): string|null
 	{
-		$option = App::instance()->option('tobimori.dreamform.guards.turnstile.secretKey');
-		if (is_callable($option)) {
-			return $option();
-		}
-
-		return $option;
+		return DreamForm::option('guards.turnstile.secretKey');
 	}
 
 	public function run(): void
