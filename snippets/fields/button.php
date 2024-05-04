@@ -9,6 +9,7 @@
  * @var array $attr
  */
 
+use Kirby\Sane\Html;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\Support\Htmx;
 
@@ -28,7 +29,7 @@ snippet('dreamform/fields/partials/wrapper', compact('block', 'field', 'form', '
 	'type' => 'submit',
 	'hx-disabled-elt' => Htmx::isActive() ? 'this' : null
 ])) ?>>
-	<?= $block->label()->escape() ?? t('dreamform.fields.button.label.label') ?>
+	<?= $block->label()->or(t('dreamform.fields.button.label.label'))->escape() ?>
 </button>
 
 <?php endsnippet() ?>

@@ -6,7 +6,6 @@ use Exception;
 use Kirby\Cms\App;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\Exceptions\PerformerException;
-use tobimori\DreamForm\Exceptions\SilentPerformerException;
 use tobimori\DreamForm\Exceptions\SuccessException;
 
 /**
