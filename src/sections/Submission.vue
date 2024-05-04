@@ -120,7 +120,11 @@ loadSection();
 					:title="entry.title"
 					:icon="entry.icon"
 				>
-					<component :is="`df-log-${entry.type}-entry`" v-bind="entry.data" />
+					<component
+						v-if="entry.type !== 'none'"
+						:is="`df-log-${entry.type}-entry`"
+						v-bind="entry.data"
+					/>
 				</EntryBase>
 				<k-box
 					v-else

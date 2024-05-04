@@ -43,7 +43,7 @@ const date = formatDate(props.timestamp);
 	margin-top: var(--spacing-2);
 
 	&:not(:last-child) {
-		margin-bottom: var(--spacing-4);
+		margin-bottom: var(--spacing-6);
 	}
 
 	&-heading {
@@ -65,7 +65,7 @@ const date = formatDate(props.timestamp);
 		width: 0.0625rem;
 		background: var(--color-gray-400);
 		position: absolute;
-		inset: 1.625rem auto -0.75rem 0.5rem;
+		inset: 1.625rem auto -1.125rem 0.5rem;
 	}
 
 	&-icon {
