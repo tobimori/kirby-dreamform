@@ -144,7 +144,7 @@
     "submission.error.honeypot": "Das Honeypot-Feld wurde ausgefüllt und die Antwort wurde nicht gesendet.",
     "submission.error.logType": "Der Eintragstyp \"{{ type }}\" ist nicht gültig.",
     "submission.error.ratelimit": "Du hast das Formular zu häufig abgeschickt. Bitte warte einen Moment und versuche es erneut.",
-		"submission.error.csrf": "Das Formular ist abgelaufen. Bitte lade die Seite neu und versuche es erneut.",
+    "submission.error.csrf": "Das Formular ist abgelaufen. Bitte lade die Seite neu und versuche es erneut.",
     "submission.ham": "Kein Spam",
     "submission.log.error": "Unbekannter Fehler in <strong>\"{{ type }}\"</strong>",
     "submission.markedAs": "Diese Antwort wurde als {{ status }} markiert.",
@@ -180,5 +180,10 @@
     "actions.email.log.from": "Von:",
     "actions.email.log.subject": "Betreff:",
     "actions.mailchimp.log.success": "<strong>{{ email }}</strong> hat <strong>{{ list }}</strong> abonniert",
-    "actions.mailchimp.log.alreadySubscribed": "<strong>{{ email }}</strong> hat <strong>{{ list }}</strong> bereits abonniert"
+    "actions.mailchimp.log.alreadySubscribed": "<strong>{{ email }}</strong> hat <strong>{{ list }}</strong> bereits abonniert",
+    "actions.category.analytics": "Analytics & Tracking",
+    "actions.plausible.name": "Plausible-Event senden",
+    "actions.plausible.event.label": "Event-Name",
+    "actions.plausible.event.help": "Gehe sicher, dass das Event unter \"Settings → Goals\" hinzugefügt ist, damit das Event im Plausible-Dashboard angezeigt wird.",
+    "actions.plausible.event.link": "Zu Plausible →"
 }
