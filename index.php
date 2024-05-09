@@ -26,6 +26,7 @@ DreamForm::register(
 	\tobimori\DreamForm\Actions\WebhookAction::class,
 	\tobimori\DreamForm\Actions\ButtondownAction::class,
 	\tobimori\DreamForm\Actions\MailchimpAction::class,
+	\tobimori\DreamForm\Actions\PlausibleAction::class,
 	\tobimori\DreamForm\Fields\ButtonField::class,
 	\tobimori\DreamForm\Fields\TextField::class,
 	\tobimori\DreamForm\Fields\TextareaField::class,

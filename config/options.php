@@ -97,6 +97,10 @@ return [
 				'name' => fn () => App::instance()->site()->title()
 			]
 		],
+		'plausible' => [
+			'domain' => 'piqy.de',
+			'apiUrl' => 'https://plausible.moeritz.io/api'
+		]
 	],
 	'integrations' => [
 		'gravatar' => true, // Get profile pictures for email fields from Gravatar
