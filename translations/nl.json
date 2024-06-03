@@ -70,7 +70,7 @@
     "actions.plausible.name": "Verstuur Plausible Event",
     "actions.plausible.event.label": "Naam van Plausible Event",
     "actions.plausible.event.link": "Ga naar Plausible →",
-    "common.errorMessage.help": "De foutmelding wordt getoond als het veld **leeg** of in de **verkeerde indeling** is.",
+    "common.errorMessage.help": "De foutmelding wordt getoond als het veld **leeg** is of in de **verkeerde indeling** is ingevoerd.",
     "common.errorMessage.label": "Foutmelding",
     "common.key.label": "Naam",
     "common.label.label": "Label",
