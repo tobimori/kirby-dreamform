@@ -1,7 +1,7 @@
 {
     "actions.email.error.recipient": "Geen e-mail verstuurd, de ontvanger was niet gespecificeerd",
     "form.continueOnError.help": "Als deze optie is geactiveerd, wordt de inzending opgeslagen en de succesmelding getoond, zelfs als er een fout optreedt.",
-    "form.status.draft.text": "Dit formulier is niet-gepubliceerd en kan niet worden gebruikt.",
+    "form.status.draft.text": "Dit formulier is niet actief en kan niet worden gebruikt in pagina's.",
     "actions.mailchimp.fieldMapping.help": "Koppel de formuliervelden met de Mailchimp-velden.",
     "actions.plausible.event.help": "Voeg eerst het event met dezelfde naam toe aan \"Settings → Goals\" voordat het wordt getoond in het dashboard van Plausible.",
     "form.continueOnError.label": "Ga door na fout bij inzending",
@@ -126,7 +126,7 @@
     "form.nextPage": "Volgende pagina",
     "form.status.draft.label": "Niet gepubliceerd",
     "form.status.listed.label": "Actief",
-    "form.status.listed.text": "Dit formulier is actief en kan gebruikt worden.",
+    "form.status.listed.text": "Dit formulier is actief en kan gebruikt worden in pagina's.",
     "form.storeSubmissions.label": "Sla inzendingen op",
     "form.successMessage.default": "Bedankt voor je inzending!",
     "form.successMessage.label": "Bericht",
