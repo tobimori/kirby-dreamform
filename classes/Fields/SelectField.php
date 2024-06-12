@@ -2,6 +2,8 @@
 
 namespace tobimori\DreamForm\Fields;
 
+use Kirby\Toolkit\A;
+
 class SelectField extends Field
 {
 	public static function blueprint(): array
@@ -42,10 +44,7 @@ class SelectField extends Field
 	{
 		$options = [];
 		foreach ($this->block()->options()->toStructure() as $option) {
-			$options[] = [
-				'value' => $option->value()->value(),
-				'text' => $option->label()->or($option->value())->value()
-			];
+			$options[$option->value()->value()] = $option->label()->or($option->value())->value();
 		}
 
 		return $options;
@@ -57,7 +56,9 @@ class SelectField extends Field
 			'label' => $this->block()->label()->value() ?? t('dreamform.fields.select.name'),
 			'type' => 'select',
 			'placeholder' => $this->block()->placeholder()->value() ?? '',
-			'options' => $this->options()
+			'options' => A::reduce(array_keys($this->options()), fn ($prev, $key) => array_merge($prev, [
+				['value' => $key, 'text' => $this->options()[$key]]
+			]), []),
 		];
 	}
 
