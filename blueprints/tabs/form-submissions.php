@@ -1,6 +1,5 @@
 <?php
 
-use Kirby\Cms\App;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 
