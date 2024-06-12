@@ -2,6 +2,8 @@
 
 namespace tobimori\DreamForm\Fields;
 
+use Kirby\Cms\R;
+
 class RadioField extends Field
 {
 	public static function blueprint(): array
@@ -39,7 +41,10 @@ class RadioField extends Field
 	{
 		$options = [];
 		foreach ($this->block()->options()->toStructure() as $option) {
-			$options[$option->value()->value()] = $option->label()->value();
+			$options[] = [
+				'value' => $option->value()->value(),
+				'text' => $option->label()->or($option->value())->value()
+			];
 		}
 
 		return [

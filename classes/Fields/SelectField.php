@@ -42,7 +42,10 @@ class SelectField extends Field
 	{
 		$options = [];
 		foreach ($this->block()->options()->toStructure() as $option) {
-			$options[$option->value()->value()] = $option->label()->or($option->value())->value();
+			$options[] = [
+				'value' => $option->value()->value(),
+				'text' => $option->label()->or($option->value())->value()
+			];
 		}
 
 		return $options;
