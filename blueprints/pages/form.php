@@ -48,7 +48,7 @@ return function () {
 					'actions' => 'dreamform/fields/actions'
 				]
 			],
-			'submissions' => App::instance()->user()->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions') ? 'dreamform/tabs/form-submissions' : false,
+			'submissions' => App::instance()->user()?->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions') ? 'dreamform/tabs/form-submissions' : false,
 			'settings' => [
 				'label' => 'dreamform.settings',
 				'icon' => 'cog',
