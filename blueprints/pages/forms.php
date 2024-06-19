@@ -42,7 +42,7 @@ return function () {
 					]
 				]
 			],
-			'submissions' => App::instance()->user()->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions') ? [
+			'submissions' => App::instance()->user()?->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions') ? [
 				'label' => 'dreamform.submissions.recent',
 				'icon' => 'archive',
 				'sections' => [
