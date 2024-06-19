@@ -51,7 +51,7 @@ class FormPage extends BasePage
 
 		$htmx = [
 			'hx-post' => $this->url(),
-			'hx-swap' => 'outerHTML',
+			'hx-swap' => 'outerHTML scroll:top',
 			'hx-vals' => Json::encode(array_filter([
 				'dreamform:session' => $submission && $submission?->form()->is($this) && $this->isMultiStep() ?
 					Htmx::encrypt(
