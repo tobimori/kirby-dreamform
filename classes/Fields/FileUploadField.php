@@ -92,7 +92,7 @@ class FileUploadField extends Field
 
 		foreach ($files as $file) {
 			if (
-				!A::has($types, F::mime($file['tmp_name']))
+				!empty($types) && !A::has($types, F::mime($file['tmp_name']))
 				|| $file['size'] > ($this->block()->maxSize()->isNotEmpty() ? $this->block()->maxSize()->toInt() * 1024 * 1024 : INF)
 			) {
 				return $this->errorMessage();
