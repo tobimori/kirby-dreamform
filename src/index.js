@@ -43,7 +43,7 @@ panel.plugin("tobimori/dreamform", {
 		// Block previews
 		"button-field": ButtonField,
 		"choices-field": ChoicesField,
-		"fields.upload.name": FileUploadField,
+		"file-upload-field": FileUploadField,
 		"hidden-field": HiddenField,
 		"select-field": SelectField,
 		"text-field": TextField,
