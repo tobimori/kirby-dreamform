@@ -5,6 +5,7 @@ namespace tobimori\DreamForm\Fields;
 use Kirby\Cms\App;
 use Kirby\Content\Field as ContentField;
 use Kirby\Filesystem\F;
+use Kirby\Http\Request\Files;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\FormPage;
@@ -105,7 +106,9 @@ class FileUploadField extends Field
 	// abusing the sanitize method to get the file from the request
 	protected function sanitize(ContentField $value): ContentField
 	{
-		$file = App::instance()->request()->files()->get($this->key()) ?? [];
+		// we create a new instance of the files class because the request files are cached
+		// and don't contain the file we're looking for if the key contains a dash
+		$file = (new Files())->get($this->key()) ?? [];
 
 		if (!array_is_list($file)) {
 			$file = [$file];
@@ -129,7 +132,7 @@ class FileUploadField extends Field
 		$pageFiles = [];
 		($kirby = App::instance())->impersonate('kirby');
 		foreach ($files as $file) {
-			$file = App::instance()->apply(
+			$file = $kirby->apply(
 				'dreamform.upload:before',
 				['file' => $file, 'field' => $this],
 				'file'
@@ -144,7 +147,7 @@ class FileUploadField extends Field
 				]
 			]);
 
-			$file = App::instance()->apply(
+			$file = $kirby->apply(
 				'dreamform.upload:after',
 				['file' => $file, 'field' => $this],
 				'file'
