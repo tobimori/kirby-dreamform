@@ -1,8 +1,16 @@
 <?php
 
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\SubmissionPage;
 
 return [
+	/**
+	 * Create form page if it doesn't exist yet
+	 */
+	'system.loadPlugins:after' => function () {
+		DreamForm::install();
+	},
+
 	/**
 	 * Injects submission variables in the page rendering process
 	 */

@@ -29,7 +29,7 @@ final class Menu
 	public static function formPath()
 	{
 		$formsPage = App::instance()->site()->findPageOrDraft(DreamForm::option('page'));
-		return $formsPage->panel()->path();
+		return $formsPage?->panel()->path() ?? "/pages/forms";
 	}
 
 	/**

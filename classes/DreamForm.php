@@ -179,6 +179,39 @@ final class DreamForm
 	}
 
 	/**
+	 * Create the forms page if it doesn't exist yet
+	 */
+	public static function install(): void
+	{
+		$kirby = App::instance();
+		$page = static::option('page');
+		if ($kirby->page($page)?->exists()) {
+			return;
+		}
+
+		$isUuid = Str::startsWith($page, "page://");
+		$content = [
+			'content' => [
+				'uuid' => $isUuid ? Str::after($page, "page://") : 'forms',
+			]
+		];
+
+		if ($kirby->multilang()) {
+			$content = [
+				'translations' => [
+					[$kirby->languages()->default()->code()] => $content['content']
+				]
+			];
+		}
+
+		// create the page
+		$kirby->impersonate('kirby', fn () => $kirby->site()->createChild(array_merge([
+			'slug' => $isUuid ? "forms" : $page,
+			'template' => 'forms',
+		], $content)));
+	}
+
+	/**
 	 * Find a page or draft recursively using the path
 	 */
 	public static function findPageOrDraftRecursive(string $path): Page|null
