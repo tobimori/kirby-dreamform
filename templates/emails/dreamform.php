@@ -3,7 +3,7 @@
 
 ———
 
-<?php foreach ($fields = $form->fields()->filterBy(fn ($f) => $f::hasValue()) as $field) : ?>
+<?php foreach ($fields = $form->fields()->filterBy(fn ($f) => $f::hasValue() && $f::type() !== 'file-upload') as $field) : ?>
 <?= $field->label() ?>:
 <?= $submission->valueFor($field->key()) ?? "—" ?>
 

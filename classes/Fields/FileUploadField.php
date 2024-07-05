@@ -106,9 +106,7 @@ class FileUploadField extends Field
 	// abusing the sanitize method to get the file from the request
 	protected function sanitize(ContentField $value): ContentField
 	{
-		// we create a new instance of the files class because the request files are cached
-		// and don't contain the file we're looking for if the key contains a dash
-		$file = (new Files())->get($this->key()) ?? [];
+		$file = App::instance()->request()->files()->get($this->block()->key()->or($this->id())->value());
 
 		if (!array_is_list($file)) {
 			$file = [$file];
