@@ -190,30 +190,18 @@ final class DreamForm
 		}
 
 		$isUuid = Str::startsWith($page, "page://");
-		$content = [
-			'content' => [
-				'uuid' => $isUuid ? Str::after($page, "page://") : 'forms',
-			]
-		];
-
-		if ($kirby->multilang()) {
-			$content = [
-				'translations' => [
-					$kirby->languages()->default()->code() => array_merge(
-						$content,
-						[
-							'code' => $kirby->languages()->default()->code()
-						]
-					)
-				]
-			];
-		}
 
 		// create the page
-		$kirby->impersonate('kirby', fn () => $kirby->site()->createChild(array_merge([
-			'slug' => $isUuid ? "forms" : $page,
-			'template' => 'forms',
-		], $content)));
+		$kirby->impersonate(
+			'kirby',
+			fn () => $kirby->site()->createChild([
+				'slug' => $isUuid ? "forms" : $page,
+				'template' => 'forms',
+				'content' => [
+					'uuid' => $isUuid ? Str::after($page, "page://") : 'forms',
+				]
+			])->changeStatus('unlisted')
+		);
 	}
 
 	/**
