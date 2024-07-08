@@ -199,7 +199,12 @@ final class DreamForm
 		if ($kirby->multilang()) {
 			$content = [
 				'translations' => [
-					$kirby->languages()->default()->code() => $content['content']
+					$kirby->languages()->default()->code() => array_merge(
+						$content,
+						[
+							'code' => $kirby->languages()->default()->code()
+						]
+					)
 				]
 			];
 		}
