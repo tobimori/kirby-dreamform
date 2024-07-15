@@ -59,4 +59,5 @@ return array(
     'tobimori\\DreamForm\\Support\\Htmx' => $baseDir . '/classes/Support/Htmx.php',
     'tobimori\\DreamForm\\Support\\License' => $baseDir . '/classes/Support/License.php',
     'tobimori\\DreamForm\\Support\\Menu' => $baseDir . '/classes/Support/Menu.php',
+    'tobimori\\Dreamform\\Models\\SubmissionMetadata' => $baseDir . '/classes/Models/SubmissionMetadata.php',
 );

@@ -82,6 +82,7 @@ class ComposerStaticInit99ea25880654549400db6165b3f448d9
         'tobimori\\DreamForm\\Support\\Htmx' => __DIR__ . '/../..' . '/classes/Support/Htmx.php',
         'tobimori\\DreamForm\\Support\\License' => __DIR__ . '/../..' . '/classes/Support/License.php',
         'tobimori\\DreamForm\\Support\\Menu' => __DIR__ . '/../..' . '/classes/Support/Menu.php',
+        'tobimori\\Dreamform\\Models\\SubmissionMetadata' => __DIR__ . '/../..' . '/classes/Models/SubmissionMetadata.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
