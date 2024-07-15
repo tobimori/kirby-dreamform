@@ -108,6 +108,10 @@ class FileUploadField extends Field
 	{
 		$file = App::instance()->request()->files()->get($this->block()->key()->or($this->id())->value());
 
+		if (!$file) {
+			$file = [];
+		}
+
 		if (!array_is_list($file)) {
 			$file = [$file];
 		}
