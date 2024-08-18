@@ -460,7 +460,9 @@ class FormPage extends BasePage
 			return null;
 		}
 
-		return $field->sanitize(new Field($this, $key, $value));
+		// TODO: in next major version, use $field->sanitize(new Field($this, $key, $value)) directly
+		// it's breaking change, since it previously was a protected method
+		return $field->setValue(new Field($this, $key, $value))->value();
 	}
 
 	/**
