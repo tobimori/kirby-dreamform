@@ -13,6 +13,6 @@ use Kirby\Toolkit\A;
 
 ?>
 
-<div <?= attr(A::merge($attr['field'], ['data-has-error' => !!$submission?->errorFor($block->key(), $form)])) ?>>
+<div <?= attr(A::merge($attr['field'] ?? [], ['data-has-error' => !!$submission?->errorFor($block->key(), $form)])) ?>>
 	<?= $slot ?>
 </div>

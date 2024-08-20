@@ -11,9 +11,9 @@
 
 use Kirby\Toolkit\A;
 
-$attr = A::merge($attr, $attr['hidden']); ?>
+$attr = A::merge($attr, $attr['hidden'] ?? []); ?>
 
-<input <?= attr(A::merge($attr['input'], [
+<input <?= attr(A::merge($attr['input'] ?? [], [
 	'type' => 'hidden',
 	'id' => $form->elementId($block->id()),
 	'name' => $block->key(),

@@ -12,6 +12,6 @@ use Kirby\Toolkit\A;
 
 ?>
 
-<div <?= attr(A::merge($attr['success'], ['id' => $form->elementId()])) ?>>
+<div <?= attr(A::merge($attr['success'] ?? [], ['id' => $form->elementId()])) ?>>
 	<?= $form->successMessage()->or(t('dreamform.form.successMessage.default')) ?>
 </div>

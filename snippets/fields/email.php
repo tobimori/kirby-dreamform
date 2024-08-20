@@ -15,6 +15,6 @@ snippet('dreamform/fields/text', [
 	'block' => $block,
 	'form' => $form,
 	'field' => $field,
-	'attr' => A::merge($attr, $attr['input']),
+	'attr' => A::merge($attr, $attr['input'] ?? []),
 	'type' => 'email'
 ]);
