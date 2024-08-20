@@ -35,7 +35,7 @@ if ($block->label()->isNotEmpty()) {
 			'value' => $option->value(),
 			'checked' => A::has($previousValue, $option->value())
 		])) ?>>
-		<label for="<?= $form->elementId("{$block->id()}-{$option->indexOf()}") ?>"><?= $option->label()->or($option->value())->escape() ?></label>
+		<label <?= attr(A::merge($attr[$type]['value'] ?? [], ['for' => $form->elementId("{$block->id()}-{$option->indexOf()}")])) ?>><?= $option->label()->or($option->value())->escape() ?></label>
 	</div>
 <?php endforeach ?>
 
