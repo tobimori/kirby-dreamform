@@ -9,6 +9,6 @@
 
 ?>
 
-<div <?= attr($attr['inactive']) ?>>
+<div <?= attr($attr['inactive'] ?? []) ?>>
 	<?= t('dreamform.form.inactiveMessage.default') ?>
 </div>

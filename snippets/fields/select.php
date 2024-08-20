@@ -12,11 +12,11 @@
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Escape;
 
-$attr = A::merge($attr, $attr['select']);
+$attr = A::merge($attr, $attr['select'] ?? []);
 snippet('dreamform/fields/partials/wrapper', $arguments = compact('block', 'field', 'form', 'attr'), slots: true);
 snippet('dreamform/fields/partials/label', $arguments); ?>
 
-<select <?= attr(A::merge($attr['input'], [
+<select <?= attr(A::merge($attr['input'] ?? [], [
 	'id' => $form->elementId($block->id()),
 	'name' => $block->key(),
 	'required' => $required ?? null,

@@ -19,7 +19,7 @@ if (!is_array($previousValue)) {
 	$previousValue = [$previousValue];
 }
 
-$attr = A::merge($attr, $attr[$type]);
+$attr = A::merge($attr, $attr[$type] ?? []);
 snippet('dreamform/fields/partials/wrapper', $arguments = compact('block', 'field', 'form', 'attr'), slots: true);
 
 if ($block->label()->isNotEmpty()) {
