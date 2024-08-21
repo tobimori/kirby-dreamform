@@ -31,10 +31,9 @@ const update = (value) => emit("update", { ...props.content, ...value });
 				✶ <span>{{ $t("dreamform.common.required.label") }}</span>
 			</button>
 		</div>
-		<div class="df-field-key">
+		<div class="df-field-key" :class="{ 'is-invalid': !content.key }">
 			<editable
 				tag="code"
-				:class="{ 'is-invalid': !content.key }"
 				:slugify="true"
 				:placeholder="$t('dreamform.common.key.label')"
 				:modelValue="content.key"
