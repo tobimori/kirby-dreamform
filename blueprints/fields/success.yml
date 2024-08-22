@@ -3,12 +3,4 @@ fields:
     label: dreamform.form.successMessage.label
     placeholder: dreamform.form.successMessage.default
     type: writer
-    toolbar:
-      inline: false
-    inline: true
-    marks:
-      - bold
-      - italic
-      - underline
-      - strike
-      - link
+    extends: dreamform/fields/writer

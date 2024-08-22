@@ -22,7 +22,12 @@ class SelectField extends Field
 						'placeholder' => 'dreamform/fields/placeholder',
 						'options' => [
 							'extends' => 'dreamform/fields/options',
-							'width' => '1'
+							'width' => '1',
+							'fields' => [
+								'label' => [
+									'type' => 'text'
+								]
+							]
 						]
 					]
 				],
@@ -56,7 +61,7 @@ class SelectField extends Field
 			'label' => $this->block()->label()->value() ?? t('dreamform.fields.select.name'),
 			'type' => 'select',
 			'placeholder' => $this->block()->placeholder()->value() ?? '',
-			'options' => A::reduce(array_keys($this->options()), fn ($prev, $key) => array_merge($prev, [
+			'options' => A::reduce(array_keys($this->options()), fn($prev, $key) => array_merge($prev, [
 				['value' => $key, 'text' => $this->options()[$key]]
 			]), []),
 		];

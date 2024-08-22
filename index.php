@@ -91,6 +91,7 @@ App::plugin('tobimori/dreamform', [
 		'dreamform/fields/form' => require_once __DIR__ . '/blueprints/fields/form.php',
 		'dreamform/fields/email-template' => require_once __DIR__ . '/blueprints/fields/email-template.php',
 		'dreamform/fields/writer-with-fields' => require_once __DIR__ . '/blueprints/fields/writer-with-fields.php',
+		'dreamform/fields/writer' => require_once __DIR__ . '/blueprints/fields/writer.php',
 	],
 	'templates' => [
 		'emails/dreamform.html' => __DIR__ . '/templates/emails/dreamform.html.php',

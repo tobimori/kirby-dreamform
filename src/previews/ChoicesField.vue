@@ -3,6 +3,7 @@ import { props as blockProps } from "@/utils/block";
 import FieldHeader from "@/components/FieldHeader.vue";
 import Options from "@/components/Options.vue";
 import FieldError from "@/components/FieldError.vue";
+import { computed } from "kirbyuse";
 
 const props = defineProps(blockProps);
 
@@ -11,6 +12,12 @@ const update = (value) => emit("update", { ...props.content, ...value });
 const open = (e) => {
 	if (e.target === e.currentTarget) emit("open");
 };
+
+const useWriter = computed(
+	() =>
+		props.fieldset.type === "radio-field" ||
+		props.fieldset.type === "checkbox-field",
+);
 </script>
 
 <template>
@@ -26,6 +33,10 @@ const open = (e) => {
 				'is-radio': fieldset.type === 'radio-field',
 				'is-checkbox': fieldset.type === 'checkbox-field',
 			}"
+			:useWriter="useWriter"
+			:writerOptions="
+				useWriter ? fieldset.tabs.field.fields.options.fields.label : {}
+			"
 			:options="content.options"
 			@update="update({ options: $event })"
 		/>

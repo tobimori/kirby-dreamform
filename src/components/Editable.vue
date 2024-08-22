@@ -22,7 +22,9 @@ const panel = usePanel();
 const app = useApp();
 
 // set the initial value on mount
-onMounted(() => (el.value.textContent = props.modelValue));
+onMounted(() => {
+	el.value.textContent = props.modelValue;
+});
 
 // emit the update to upper component
 const emit = defineEmits(["update:modelValue", "backspace", "enter"]);
@@ -41,8 +43,8 @@ const handleUpdate = () => {
 		? app.$helper.slug(
 				el.value.textContent,
 				[panel.language.rules ?? panel.$system.slugs, panel.$system.ascii],
-				"a-zA-Z0-9_"
-		  )
+				"a-zA-Z0-9_",
+			)
 		: el.value.textContent;
 
 	if (value !== el.value.textContent) {
@@ -77,7 +79,7 @@ watch(
 	() => props.modelValue,
 	(value) => {
 		if (el.value.textContent !== value) el.value.textContent = value;
-	}
+	},
 );
 
 const metaKeyAllowList = [

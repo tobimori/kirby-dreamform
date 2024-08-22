@@ -6,6 +6,8 @@ const app = useApp();
 
 const props = defineProps({
 	classMod: String,
+	useWriter: Boolean,
+	writerOptions: Object,
 	options: Array,
 });
 
@@ -100,12 +102,17 @@ const focusNextOrAddOption = (id) => {
 			>
 				<div class="df-option-inner">
 					<span class="df-option-icon"></span>
-					<editable
-						tag="div"
+					<component
+						:is="useWriter ? 'k-writer-input' : Editable"
+						v-bind="writerOptions"
+						:toolbar="{ inline: true }"
 						class="df-option-label"
+						tag="div"
 						:class="{ 'is-invalid': !item.label }"
 						:placeholder="$t('dreamform.common.label.label')"
 						:modelValue="item.label"
+						:value="item.label"
+						@input="updateOption(item._id, { label: $event })"
 						@update:modelValue="updateOption(item._id, { label: $event })"
 						@backspace="removeOption(item._id)"
 						@enter="focusValue(item._id)"
@@ -185,6 +192,11 @@ const focusNextOrAddOption = (id) => {
 .df-option-label {
 	line-height: var(--leading-snug);
 	margin-top: -0.125rem;
+
+	&::before,
+	.k-text {
+		padding: 0 !important;
+	}
 }
 
 .df-option-value {
