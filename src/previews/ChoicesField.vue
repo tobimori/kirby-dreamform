@@ -15,7 +15,12 @@ const open = (e) => {
 
 <template>
 	<div class="df-field" @dblclick="open">
-		<field-header :content="content" :fieldset="fieldset" @update="update" />
+		<field-header
+			:content="content"
+			:fieldset="fieldset"
+			@update="update"
+			:minAsRequired="fieldset.type === 'checkbox-field'"
+		/>
 		<options
 			:classMod="{
 				'is-radio': fieldset.type === 'radio-field',

@@ -1,10 +1,12 @@
 <script setup>
 import Editable from "@/components/Editable.vue";
+import { onMounted } from "kirbyuse";
 
 const props = defineProps({
 	content: Object,
 	fieldset: Object,
 	requireLabel: Boolean,
+	minAsRequired: Boolean,
 });
 
 const emit = defineEmits(["update"]);
@@ -25,8 +27,18 @@ const update = (value) => emit("update", { ...props.content, ...value });
 			<button
 				type="button"
 				class="df-field-required"
-				:class="{ 'is-active': props.content.required }"
-				@click="update({ required: !props.content.required })"
+				:class="{
+					'is-active': minAsRequired
+						? props.content.min
+						: props.content.required,
+				}"
+				@click="
+					update(
+						minAsRequired
+							? { min: props.content.min ? null : 1 }
+							: { required: !props.content.required },
+					)
+				"
 			>
 				✶ <span>{{ $t("dreamform.common.required.label") }}</span>
 			</button>
