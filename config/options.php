@@ -18,7 +18,7 @@ return [
 	'mode' => 'prg', // prg / api / htmx
 	'multiStep' => true, // Enable multi-step forms
 	'storeSubmissions' => true, // Store submissions in the content folder
-	'debug' => fn() => App::instance()->option('debug'),
+	'debug' => fn () => App::instance()->option('debug'),
 	'layouts' => [ // https://getkirby.com/docs/reference/panel/fields/layout#defining-your-own-layouts
 		'1/1',
 		'1/2, 1/2'
@@ -95,8 +95,8 @@ return [
 		],
 		'email' => [
 			'from' => [
-				'email' => fn() => App::instance()->option('email.transport.username'),
-				'name' => fn() => App::instance()->site()->title()
+				'email' => fn () => App::instance()->option('email.transport.username'),
+				'name' => fn () => App::instance()->site()->title()
 			]
 		],
 		'plausible' => [

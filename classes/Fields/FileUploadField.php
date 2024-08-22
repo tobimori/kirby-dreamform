@@ -2,11 +2,13 @@
 
 namespace tobimori\DreamForm\Fields;
 
+use Kirby\Api\Api;
 use Kirby\Cms\App;
 use Kirby\Content\Field as ContentField;
 use Kirby\Filesystem\F;
 use Kirby\Http\Request\Files;
 use Kirby\Toolkit\A;
+use ReflectionMethod;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
@@ -54,7 +56,7 @@ class FileUploadField extends Field
 							'width' => '3/4',
 							'options' => A::map(
 								array_keys(static::availableTypes()),
-								fn($type) => [
+								fn ($type) => [
 									'value' => $type,
 									'text' => t("dreamform.fields.upload.allowedTypes.{$type}")
 								]
@@ -70,7 +72,7 @@ class FileUploadField extends Field
 
 	public function validate(): true|string
 	{
-		$files = array_values(A::filter($this->value()->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
+		$files = array_values(A::filter($this->value()->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
 
 		if ($this->block()->required()->toBool() && empty($files)) {
 			return $this->errorMessage();
@@ -121,45 +123,59 @@ class FileUploadField extends Field
 	public function afterSubmit(SubmissionPage $submission): void
 	{
 		/** @var array $file */
-		$files = array_values(A::filter($this->value()->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
+		$files = array_values(A::filter($this->value()->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
 
 		if (empty($files)) {
 			return;
 		}
 
+		$kirby = App::instance();
 		$pageFiles = [];
-		($kirby = App::instance())->impersonate('kirby');
-		foreach ($files as $file) {
-			$file = $kirby->apply(
-				'dreamform.upload:before',
-				['file' => $file, 'field' => $this],
-				'file'
-			);
+		$kirby->impersonate('kirby', function () use ($kirby, $submission, $files, &$pageFiles) {
+			$api = $kirby->api();
 
-			$file = $submission->createFile([
-				'source' => $file['tmp_name'],
-				'filename' => F::safeName($file['name']),
-				'template' => 'dreamform-upload',
-				'content' => [
-					'date' => date('Y-m-d H:i:s'),
-				]
-			]);
+			// this is a hack so we can use the api upload method
+			$requestData = $api->requestData();
+			$method = new ReflectionMethod(Api::class, 'setRequestData');
+			$method->invoke($api, A::merge($requestData, [
+				'files' => $files
+			]));
 
-			$file = $kirby->apply(
-				'dreamform.upload:after',
-				['file' => $file, 'field' => $this],
-				'file'
-			);
+			$api->upload(function ($source, $filename) use ($kirby, $submission, &$pageFiles) {
+				$source = $kirby->apply(
+					'dreamform.upload:before',
+					['file' => $source, 'name' => $filename, 'field' => $this],
+					'file'
+				);
 
-			$pageFiles[] = $file;
-		}
-		$kirby->impersonate();
+				$file = $submission->createFile([
+					'source' => $source,
+					'filename' => $filename,
+					'template' => 'dreamform-upload',
+					'content' => [
+						'date' => date('Y-m-d H:i:s'),
+					]
+				]);
+
+				$file = $kirby->apply(
+					'dreamform.upload:after',
+					['file' => $file, 'field' => $this],
+					'file'
+				);
+
+				$pageFiles[] = $file;
+			});
+
+			// reset the request data
+			$method->invoke($api, $requestData);
+		});
 
 		$this->value = new ContentField(
 			$submission,
 			$this->key(),
-			A::join(A::map($pageFiles, fn($file) => "- {$file->uuid()->toString()}\n"), '')
+			A::join(A::map($pageFiles, fn ($file) => "- {$file->uuid()->toString()}\n"), '')
 		);
+
 		$submission->setField($this)->saveSubmission();
 	}
 
