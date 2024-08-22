@@ -33,7 +33,10 @@ class WebhookAction extends Action
 							'label' => 'dreamform.actions.webhook.exposedFields.label',
 							'extends' => 'dreamform/fields/field',
 							'type' => 'multiselect',
-							'width' => '2/3'
+							'width' => '2/3',
+							'options' => [
+								'dreamform-referer' => t('dreamform.actions.webhook.exposedFields.referer'),
+							]
 						]
 					]
 				]
@@ -52,6 +55,11 @@ class WebhookAction extends Action
 		// get the values & keys of the exposed fields
 		$content = [];
 		foreach ($exposed as $fieldId) {
+			if ($fieldId === 'dreamform-referer') {
+				$content['referer'] = $this->submission()->referer();
+				continue;
+			}
+
 			$field = $this->form()->fields()->find($fieldId);
 			$value = $this->submission()->valueForId($fieldId);
 

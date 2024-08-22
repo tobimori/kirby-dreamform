@@ -62,6 +62,7 @@
 	"actions.redirect.redirectTo.label": "Redirect to…",
 	"actions.slack.name": "Send Slack Message",
 	"actions.webhook.exposedFields.label": "Exposed Fields",
+	"actions.webhook.exposedFields.referer": "Current Page (referer)",
 	"actions.webhook.log.error": "Webhook request to {{ url }} failed",
 	"actions.webhook.log.success": "Sent webhook to <strong>{{ url }}</strong>",
 	"actions.webhook.name": "Send Webhook",
