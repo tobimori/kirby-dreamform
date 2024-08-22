@@ -14,6 +14,9 @@ import ButtonField from "@/previews/ButtonField.vue";
 import ErrorEntry from "@/components/log/ErrorEntry.vue";
 import InfoEntry from "@/components/log/InfoEntry.vue";
 import EmailEntry from "@/components/log/EmailEntry.vue";
+import FieldHeader from "@/components/FieldHeader.vue";
+import FieldError from "@/components/FieldError.vue";
+import FieldInput from "@/components/FieldInput.vue";
 
 panel.plugin("tobimori/dreamform", {
 	icons: {
@@ -38,6 +41,11 @@ panel.plugin("tobimori/dreamform", {
 		"df-log-error-entry": ErrorEntry,
 		"df-log-info-entry": InfoEntry,
 		"df-log-email-entry": EmailEntry,
+
+		// to allow usage in third-party plugins
+		"df-field-header": FieldHeader,
+		"df-field-error": FieldError,
+		"df-field-input": FieldInput,
 	},
 	blocks: {
 		// Block previews

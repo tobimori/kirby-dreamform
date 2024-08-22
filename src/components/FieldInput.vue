@@ -4,6 +4,7 @@ import Editable from "@/components/Editable.vue";
 const props = defineProps({
 	icon: String,
 	content: Object,
+	placeholder: String,
 });
 
 const emit = defineEmits(["update"]);
@@ -14,7 +15,7 @@ const emit = defineEmits(["update"]);
 		<editable
 			tag="div"
 			class="df-placeholder"
-			:placeholder="$t('dreamform.common.placeholder.label')"
+			:placeholder="placeholder ?? $t('dreamform.common.placeholder.label')"
 			:modelValue="content.placeholder"
 			@update:modelValue="emit('update', { ...content, placeholder: $event })"
 		/>
