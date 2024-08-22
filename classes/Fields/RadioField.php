@@ -20,7 +20,6 @@ class RadioField extends Field
 						'key' => 'dreamform/fields/key',
 						'label' => [
 							'extends' => 'dreamform/fields/label',
-							'width' => '5/6',
 							'required' => false
 						],
 						'options' => 'dreamform/fields/options',

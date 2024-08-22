@@ -44,6 +44,7 @@ const open = (e) => {
 		margin-right: var(--spacing-2);
 		background: var(--color-white);
 		box-shadow: var(--shadow-sm);
+		flex-shrink: 0;
 	}
 
 	&.k-sortable-ghost {

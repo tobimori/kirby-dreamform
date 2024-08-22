@@ -60,7 +60,9 @@ const open = (e) => {
 		margin-top: 0;
 		color: var(--color-gray-600);
 		opacity: 0.75;
-		transition: color 0.15s, opacity 0.15s;
+		transition:
+			color 0.15s,
+			opacity 0.15s;
 		min-height: 1.75rem;
 		padding-right: var(--spacing-2);
 

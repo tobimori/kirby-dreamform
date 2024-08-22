@@ -22,7 +22,6 @@ class CheckboxField extends Field
 						'key' => 'dreamform/fields/key',
 						'label' => [
 							'extends' => 'dreamform/fields/label',
-							'width' => '5/6',
 							'required' => false
 						],
 						'options' => 'dreamform/fields/options',
@@ -34,14 +33,17 @@ class CheckboxField extends Field
 						'min' => [
 							'label' => t('dreamform.fields.checkboxes.min.label'),
 							'type' => 'number',
-							'width' => '1/6'
+							'width' => '1/2'
 						],
 						'max' => [
 							'label' => t('dreamform.fields.checkboxes.max.label'),
 							'type' => 'number',
-							'width' => '1/6'
+							'width' => '1/2'
 						],
-						'errorMessage' => 'dreamform/fields/error-message',
+						'errorMessage' => [
+							'extends' => 'dreamform/fields/error-message',
+							'width' => '1'
+						],
 					]
 				]
 			]

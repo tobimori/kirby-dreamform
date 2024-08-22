@@ -21,14 +21,14 @@ class NumberField extends Field
 						'label' => 'dreamform/fields/label',
 						'placeholder' => [
 							'extends' => 'dreamform/fields/placeholder',
-							'width' => '1/4'
+							'width' => '2/3'
 						],
 						'step' => [
 							'label' => t('dreamform.fields.number.step.label'),
 							'type' => 'number',
 							'default' => 1,
 							'required' => true,
-							'width' => '1/4',
+							'width' => '1/3',
 							'help' => t('dreamform.fields.number.step.help')
 						],
 					]

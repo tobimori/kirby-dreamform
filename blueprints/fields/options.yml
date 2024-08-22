@@ -1,15 +1,18 @@
 label: dreamform.common.options.label
 type: structure
+columns:
+  label:
+    width: 2/3
+  value:
+    width: 1/3
 fields:
   value:
     label: dreamform.common.options.value.label
     help: dreamform.common.options.value.help
     type: text
-    width: 1/2
     required: true
   label:
     label: dreamform.common.label.label
     help: dreamform.common.options.label.help
     type: text
-    width: 1/2
     required: true

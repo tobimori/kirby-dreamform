@@ -21,7 +21,7 @@ const setItems = (options) => {
 onMounted(() => setItems(props.options));
 watch(
 	() => props.options,
-	(options) => setItems(options)
+	(options) => setItems(options),
 );
 
 // handle updating
@@ -166,7 +166,7 @@ const focusNextOrAddOption = (id) => {
 	&,
 	&-inner {
 		display: flex;
-		align-items: center;
+		align-items: start;
 	}
 
 	&.df-option-add-button {
@@ -180,6 +180,11 @@ const focusNextOrAddOption = (id) => {
 			opacity: 0.75;
 		}
 	}
+}
+
+.df-option-label {
+	line-height: var(--leading-snug);
+	margin-top: -0.125rem;
 }
 
 .df-option-value {
@@ -203,6 +208,7 @@ const focusNextOrAddOption = (id) => {
 	opacity: 0;
 	transition: opacity 0.15s;
 	margin-left: var(--spacing-2);
+	flex-shrink: 0;
 
 	.df-option-inner:focus-within + &,
 	.df-option:hover & {

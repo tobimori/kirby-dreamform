@@ -30,15 +30,11 @@ class FileUploadField extends Field
 					'label' => t('dreamform.field'),
 					'fields' => [
 						'key' => 'dreamform/fields/key',
-						'label' => [
-							'extends' => 'dreamform/fields/label',
-							'width' => '1/2',
-						],
+						'label' => 'dreamform/fields/label',
 						'allowMultiple' => [
 							'label' => t('dreamform.fields.upload.multiple.label'),
 							'type' => 'toggle',
 							'default' => false,
-							'width' => '1/3',
 						],
 					]
 				],
@@ -58,7 +54,7 @@ class FileUploadField extends Field
 							'width' => '3/4',
 							'options' => A::map(
 								array_keys(static::availableTypes()),
-								fn ($type) => [
+								fn($type) => [
 									'value' => $type,
 									'text' => t("dreamform.fields.upload.allowedTypes.{$type}")
 								]
@@ -74,7 +70,7 @@ class FileUploadField extends Field
 
 	public function validate(): true|string
 	{
-		$files = array_values(A::filter($this->value()->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
+		$files = array_values(A::filter($this->value()->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
 
 		if ($this->block()->required()->toBool() && empty($files)) {
 			return $this->errorMessage();
@@ -125,7 +121,7 @@ class FileUploadField extends Field
 	public function afterSubmit(SubmissionPage $submission): void
 	{
 		/** @var array $file */
-		$files = array_values(A::filter($this->value()->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
+		$files = array_values(A::filter($this->value()->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
 
 		if (empty($files)) {
 			return;
@@ -162,7 +158,7 @@ class FileUploadField extends Field
 		$this->value = new ContentField(
 			$submission,
 			$this->key(),
-			A::join(A::map($pageFiles, fn ($file) => "- {$file->uuid()->toString()}\n"), '')
+			A::join(A::map($pageFiles, fn($file) => "- {$file->uuid()->toString()}\n"), '')
 		);
 		$submission->setField($this)->saveSubmission();
 	}
