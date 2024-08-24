@@ -60,7 +60,7 @@ class FormPage extends BasePage
 					) : null,
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
 				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
-			], fn($value) => $value !== null))
+			], fn ($value) => $value !== null))
 		];
 
 		return $htmx;

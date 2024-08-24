@@ -33,6 +33,7 @@ return function () {
 			'image' => DreamForm::option('integrations.gravatar'),
 			'text' => false,
 			'search' => true,
+			'rawvalues' => true,
 			'sortBy' => 'sortDate desc',
 			'columns' => A::merge([
 				'date' => [
