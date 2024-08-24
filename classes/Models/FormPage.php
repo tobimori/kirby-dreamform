@@ -16,6 +16,7 @@ use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\PerformerException;
+use tobimori\DreamForm\Exceptions\SuccessException;
 use tobimori\DreamForm\Guards\LicenseGuard;
 use tobimori\DreamForm\Permissions\FormPermissions;
 use tobimori\DreamForm\Support\Htmx;
@@ -59,7 +60,7 @@ class FormPage extends BasePage
 					) : null,
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
 				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
-			], fn ($value) => $value !== null))
+			], fn($value) => $value !== null))
 		];
 
 		return $htmx;
@@ -272,11 +273,19 @@ class FormPage extends BasePage
 				->finalize()
 				->handleAfterSubmitFields();
 		} catch (Exception $e) {
+			// PerformerExceptions stop the workflow early, and not save the submission
 			if ($e instanceof PerformerException) {
 				// if the exception is silent, stop the form submission early as "successful"
 				if ($e->isSilent()) {
 					return $submission->storeSession()->finish(false);
 				}
+
+				// SuccessException stop the workflow early, but save the submission
+			} elseif ($e instanceof SuccessException) {
+				return $submission
+					->finalize()
+					->handleAfterSubmitFields()
+					->storeSession();
 			}
 
 			$submission->setError($e->getMessage());

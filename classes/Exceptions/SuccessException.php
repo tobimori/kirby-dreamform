@@ -13,4 +13,9 @@ class SuccessException extends Exception
 	{
 		return false;
 	}
+
+	public function isSilent(): bool
+	{
+		return true;
+	}
 }
