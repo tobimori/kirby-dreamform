@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'tobimori/kirby-dreamform',
-        'pretty_version' => '1.4.1',
-        'version' => '1.4.1.0',
+        'pretty_version' => '1.5.0-rc.1',
+        'version' => '1.5.0.0-RC1',
         'reference' => null,
         'type' => 'kirby-plugin',
         'install_path' => __DIR__ . '/../../',
@@ -20,8 +20,8 @@
             'dev_requirement' => false,
         ),
         'tobimori/kirby-dreamform' => array(
-            'pretty_version' => '1.4.1',
-            'version' => '1.4.1.0',
+            'pretty_version' => '1.5.0-rc.1',
+            'version' => '1.5.0.0-RC1',
             'reference' => null,
             'type' => 'kirby-plugin',
             'install_path' => __DIR__ . '/../../',
