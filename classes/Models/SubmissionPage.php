@@ -378,7 +378,7 @@ class SubmissionPage extends BasePage
 		// elevate permissions to save the submission
 		return App::instance()->impersonate(
 			'kirby',
-			fn () => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
+			fn() => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
 		);
 	}
 
@@ -414,7 +414,7 @@ class SubmissionPage extends BasePage
 		$this->content = $this->content($languageCode)->update($input);
 
 		if ($this->exists()) {
-			return App::instance()->impersonate('kirby', fn () => parent::update($input, $languageCode, $validate));
+			return App::instance()->impersonate('kirby', fn() => parent::update($input, $languageCode, $validate));
 		}
 
 		return $this;
@@ -586,5 +586,21 @@ class SubmissionPage extends BasePage
 	public function permissions(): SubmissionPermissions
 	{
 		return new SubmissionPermissions($this);
+	}
+
+
+	/**
+	 * Returns the content, always in the current language
+	 *
+	 * @throws \Kirby\Exception\InvalidArgumentException If the language for the given code does not exist
+	 */
+	public function content(string|null $languageCode = null): Content
+	{
+		if ($this->content instanceof Content) {
+			return $this->content;
+		}
+
+		// don't normalize field keys (already handled by the `Data` class)
+		return $this->content = new Content($this->readContent($this->kirby()->defaultLanguage()?->code() ?? null), $this, false);
 	}
 }
