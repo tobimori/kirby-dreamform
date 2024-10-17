@@ -56,7 +56,7 @@ class FileUploadField extends Field
 							'width' => '3/4',
 							'options' => A::map(
 								array_keys(static::availableTypes()),
-								fn ($type) => [
+								fn($type) => [
 									'value' => $type,
 									'text' => t("dreamform.fields.upload.allowedTypes.{$type}")
 								]
@@ -72,7 +72,7 @@ class FileUploadField extends Field
 
 	public function validate(): true|string
 	{
-		$files = array_values(A::filter($this->value()->value() ?? [], fn ($file) => $file['error'] === UPLOAD_ERR_OK));
+		$files = array_values(A::filter($this->value()->value() ?? [], fn($file) => $file['error'] === UPLOAD_ERR_OK));
 
 		if ($this->block()->required()->toBool() && empty($files)) {
 			return $this->errorMessage();
@@ -122,8 +122,15 @@ class FileUploadField extends Field
 	 */
 	public function afterSubmit(SubmissionPage $submission): void
 	{
+		if ( // if submission storage is disabled, the file will not be saved (but can be used by e.g. the email action)
+			DreamForm::option('storeSubmissions', true) !== true
+			|| !$submission->form()->storeSubmissions()->toBool()
+		) {
+			return;
+		}
+
 		/** @var array $file */
-		$files = array_values(A::filter($this->value()->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
+		$files = array_values(A::filter($this->value()->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
 
 		if (empty($files)) {
 			return;
@@ -173,21 +180,10 @@ class FileUploadField extends Field
 		$this->value = new ContentField(
 			$submission,
 			$this->key(),
-			A::join(A::map($pageFiles, fn ($file) => "- {$file->uuid()->toString()}\n"), '')
+			A::join(A::map($pageFiles, fn($file) => "- {$file->uuid()->toString()}\n"), '')
 		);
 
 		$submission->setField($this)->saveSubmission();
-	}
-
-	/**
-	 * Get the file from the submission
-	 */
-	public static function isAvailable(FormPage|null $formPage = null): bool
-	{
-		$formPage ??= DreamForm::currentPage();
-
-		return DreamForm::option('storeSubmissions', true) === true
-			&& $formPage?->storeSubmissions()->toBool();
 	}
 
 	public function submissionBlueprint(): array|null
