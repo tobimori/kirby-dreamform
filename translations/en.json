@@ -130,6 +130,8 @@
 	"form.inactiveMessage.default": "This form is inactive and doesn't accept answers.",
 	"form.newPage": "New form page",
 	"form.nextPage": "Next form page",
+	"form.partialSubmissions.label": "Partial submissions",
+	"form.partialSubmissions.help": "Capture form data even if the respondent doesn't hit the submit button. Gather data from lost leads, find drop-off points, and improve your form conversion rates. ",
 	"form.status.draft.label": "Draft",
 	"form.status.draft.text": "This form is a draft and can't be submitted or linked to in fields.",
 	"form.status.listed.label": "Active form",

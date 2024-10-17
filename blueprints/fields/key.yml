@@ -5,5 +5,5 @@ width: 1/3
 icon: false # none would show an empty icon which cuts of the input too early
 wizard:
   field: label
-  text: "​" # todo: find a better way to add an empty text
+  text: "​" # TODO: find a better way to add an empty text
 allow: a-zA-Z0-9_ # we need to allow underscores for url params

@@ -3,6 +3,7 @@
 use Kirby\Cms\App;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
+use tobimori\DreamForm\Support\Htmx;
 
 return function () {
 	return [
@@ -127,8 +128,18 @@ return function () {
 									'type' => 'toggle',
 									'default' => true,
 									'help' => 'dreamform.form.storeSubmissions.help',
-									'width' => '1/3'
-								]
+									'width' => '1/2'
+								],
+								'partialSubmissions' => Htmx::isActive() && DreamForm::option('precognition') && DreamForm::option('partialSubmissions') ? [
+									'label' => 'dreamform.form.partialSubmissions.label',
+									'type' => 'toggle',
+									'default' => false,
+									'help' => 'dreamform.form.partialSubmissions.help',
+									'width' => '1/2',
+									'when' => [
+										'storeSubmissions' => true
+									]
+								] : false
 							]
 						],
 					] : []

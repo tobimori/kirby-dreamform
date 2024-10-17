@@ -20,14 +20,19 @@ $attr = A::merge($attr, $attr[$type] ?? []);
 snippet('dreamform/fields/partials/wrapper', $arguments = compact('block', 'field', 'form', 'attr'), slots: true);
 snippet('dreamform/fields/partials/label', $arguments); ?>
 
-<input <?= attr(A::merge($attr['input'] ?? [], [
-	'type' => $type,
-	'id' => $form->elementId($block->id()),
-	'name' => $block->key(),
-	'placeholder' => $type !== 'file' ? $block->placeholder()->or(" ") : null,
-	'required' => $block->required()->toBool() ?? null,
-	'value' => $type !== 'file' ? $form->valueFor($block->key()) : null
-], $input ?? [])) ?>>
+<input <?= attr(A::merge(
+	$attr['input'] ?? [],
+	[
+		'type' => $type,
+		'id' => $form->elementId($block->id()),
+		'name' => $block->key(),
+		'placeholder' => $type !== 'file' ? $block->placeholder()->or(" ") : null,
+		'required' => $block->required()->toBool() ?? null,
+		'value' => $type !== 'file' ? $form->valueFor($block->key()) : null,
+	],
+	$field->htmxAttr($form),
+	$input ?? []
+)) ?>>
 
 <?php snippet('dreamform/fields/partials/error', $arguments);
 endsnippet() ?>

@@ -111,6 +111,8 @@
     "form.inactiveMessage.default": "Dieses Formular ist inaktiv und nimmt zur Zeit keine Antworten entgegen.",
     "form.newPage": "Neue Formularseite",
     "form.nextPage": "Nächste Formularseite",
+		"form.partialSubmissions.label": "Unvollständige Antworten",
+		"form.partialSubmissions.help": "Erfasse Formulardaten, auch wenn der Befragte nicht auf Absenden klickt. Sammle Daten von verlorenen Leads, finde Abbruchpunkte und verbessere die Konversionsrate deines Formulars.",
     "form.status.draft.label": "Entwurf",
     "form.status.draft.text": "Dieses Formular ist ein Entwurf und kann nicht eingereicht werden oder in Feldern verlinkt werden.",
     "form.status.listed.label": "Formular aktiv",

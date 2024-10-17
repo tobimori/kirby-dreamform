@@ -64,12 +64,12 @@ trait SubmissionHandling
 			// validate the field
 			$validation = $field->validate();
 
+			$this->setField($field);
 			if ($validation !== true) {
 				// if the validation fails, set an error in the submission state
 				$this->setError(field: $field->key(), message: $validation);
 			} else {
-				// otherwise add it to the content of the submission
-				$this->setField($field)->removeError($field->key());
+				$this->removeError($field->key());
 			}
 		}
 

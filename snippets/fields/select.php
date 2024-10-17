@@ -16,11 +16,15 @@ $attr = A::merge($attr, $attr['select'] ?? []);
 snippet('dreamform/fields/partials/wrapper', $arguments = compact('block', 'field', 'form', 'attr'), slots: true);
 snippet('dreamform/fields/partials/label', $arguments); ?>
 
-<select <?= attr(A::merge($attr['input'] ?? [], [
-	'id' => $form->elementId($block->id()),
-	'name' => $block->key(),
-	'required' => $required ?? null,
-])) ?>>
+<select <?= attr(A::merge(
+	$attr['input'] ?? [],
+	[
+		'id' => $form->elementId($block->id()),
+		'name' => $block->key(),
+		'required' => $required ?? null,
+	],
+	$field->htmxAttr($form)
+)) ?>>
 	<option <?= attr([
 		"selected" => !($selected = $form->valueFor($block->key())?->value()),
 		"value" => true,

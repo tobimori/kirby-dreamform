@@ -10,9 +10,14 @@
  */
 
 use Kirby\Toolkit\A;
+use tobimori\DreamForm\DreamForm;
+use tobimori\DreamForm\Support\Htmx;
 
 ?>
 
-<div <?= attr(A::merge($attr['field'] ?? [], ['data-has-error' => !!$submission?->errorFor($block->key(), $form)])) ?>>
+<div <?= attr(A::merge($attr['field'] ?? [], [
+	'hx-target' => Htmx::isActive() && DreamForm::option('precognition') ? 'this' : null,
+	'data-has-error' => !!$submission?->errorFor($block->key(), $form)
+])) ?>>
 	<?= $slot ?>
 </div>

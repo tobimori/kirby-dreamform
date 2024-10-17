@@ -102,6 +102,7 @@ App::plugin('tobimori/dreamform', [
 		'dreamform/guards' => __DIR__ . '/snippets/guards.php',
 		'dreamform/success' => __DIR__ . '/snippets/success.php',
 		'dreamform/inactive' => __DIR__ . '/snippets/inactive.php',
+		'dreamform/session' => __DIR__ . '/snippets/session.php',
 		'dreamform/fields/text' => __DIR__ . '/snippets/fields/text.php',
 		'dreamform/fields/textarea' => __DIR__ . '/snippets/fields/textarea.php',
 		'dreamform/fields/number' => __DIR__ . '/snippets/fields/number.php',

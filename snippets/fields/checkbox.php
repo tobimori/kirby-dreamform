@@ -30,11 +30,11 @@ if ($block->label()->isNotEmpty()) {
 	<div <?= attr($attr[$type]['row'] ?? []) ?>>
 		<input <?= attr(A::merge($attr['input'], [
 			'type' => $type,
-			'id' => $form->elementId("{$block->id()}-{$option->indexOf()}"),
+			'id' => $form->elementId("{$block->id()}/{$option->indexOf()}"),
 			'name' => $block->key() . ($type === 'checkbox' ? '[]' : null),
 			'value' => $option->value(),
 			'checked' => A::has($previousValue, $option->value())
-		])) ?>>
+		], $field->htmxAttr($form))) ?>>
 		<label <?= attr(A::merge($attr[$type]['value'] ?? [], ['for' => $form->elementId("{$block->id()}-{$option->indexOf()}")])) ?>><?= $option->label()->or($option->value())->permalinksToUrls() ?></label>
 	</div>
 <?php endforeach ?>

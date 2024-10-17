@@ -320,6 +320,7 @@ class SubmissionPage extends BasePage
 		return $this;
 	}
 
+
 	/**
 	 * Finish the submission and save it to the disk
 	 *
@@ -334,7 +335,13 @@ class SubmissionPage extends BasePage
 
 		$submission = $this->applyHook('after');
 
-		if ($saveToDisk) {
+		// $saveToDisk is used by silent performer exception to not store the submission
+		// however when partial submissions are enabled, the action would be executed after the form has been partially saved already
+		// so when $saveToDisk is false, and partial submissions are enabled we save anyway (?)
+		// TBH: this might be unwanted behaviour - but i'm now sure how to handle this otherwise? delete the submission but keep partial?
+		// (this might also be an issue in previous versions with multi-step forms since they also save partials)
+		// TODO: discuss with community before final release of 1.5.0
+		if ($saveToDisk || $this->form()->partialSubmissions()->toBool() && DreamForm::option('partialSubmissions') === true) {
 			return $submission->saveSubmission();
 		}
 
@@ -352,6 +359,21 @@ class SubmissionPage extends BasePage
 		) {
 			return $this;
 		}
+
+		// check if content exists to save request (don't save empty submissions)
+		$allowSafe = false;
+		foreach ($this->values()->toArray() as $value) {
+			if ($value !== null) {
+				$allowSafe = true;
+				break;
+			}
+		}
+		if (!$allowSafe) {
+			return $this;
+		}
+
+		// store uuid
+		$this->uuid()->populate();
 
 		// elevate permissions to save the submission
 		return App::instance()->impersonate(

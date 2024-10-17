@@ -8,9 +8,11 @@ use Kirby\Cms\Block;
 use Kirby\Content\Field as ContentField;
 use Kirby\Exception\Exception;
 use Kirby\Toolkit\Str;
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
 use tobimori\DreamForm\Support\HasCache;
+use tobimori\DreamForm\Support\Htmx;
 
 /**
  * Base class for all fields
@@ -67,7 +69,7 @@ abstract class Field
 	public function value(): ContentField
 	{
 		if (!$this->value) {
-			throw new Exception('Field value is not set');
+			return new ContentField($this->block()->parent(), $this->key(), null);
 		}
 
 		return $this->value;
@@ -136,6 +138,27 @@ abstract class Field
 	public function submissionBlueprint(): array|null
 	{
 		return null;
+	}
+
+	public function htmxAttr(FormPage $form): array
+	{
+		if (!Htmx::isActive() || !DreamForm::option('precognition')) {
+			return [];
+		}
+
+		$htmx = [
+			'hx-post' => $form->url(precognition: true),
+
+			// we want to show the error in the last moment (on blur)
+			// but we want to remove the error as soon as possible (on change)
+			'hx-trigger' => $this->validate() === true ? "change" : "change, input changed delay:500ms",
+
+			// for on change validation we need the morph extension (otherwise we lose focus)
+			'hx-swap' => 'morph:{ignoreActiveValue:true}',
+			'hx-ext' => 'morph'
+		];
+
+		return $htmx;
 	}
 
 	/**

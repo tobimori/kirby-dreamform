@@ -9,6 +9,7 @@ use Kirby\Cms\Layouts;
 use Kirby\Cms\Page;
 use Kirby\Content\Field;
 use Kirby\Data\Json;
+use Kirby\Http\Query;
 use Kirby\Http\Response;
 use Kirby\Http\Url;
 use Kirby\Toolkit\A;
@@ -44,7 +45,7 @@ class FormPage extends BasePage
 	/**
 	 * Returns additional attributes needed for HTMX support if such is enabled
 	 */
-	public function htmxAttr(Page $page, array $attr, SubmissionPage|null $submission): array
+	public function htmxAttr(Page $page, array $attr): array
 	{
 		if (!Htmx::isActive()) {
 			return [];
@@ -54,10 +55,6 @@ class FormPage extends BasePage
 			'hx-post' => $this->url(),
 			'hx-swap' => 'outerHTML show:top',
 			'hx-vals' => Json::encode(array_filter([
-				'dreamform:session' => $submission && $submission?->form()->is($this) && $this->isMultiStep() ?
-					Htmx::encrypt(
-						($submission->exists() ? "page://" : "") . $submission->slug()
-					) : null,
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
 				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
 			], fn ($value) => $value !== null))
@@ -249,7 +246,7 @@ class FormPage extends BasePage
 	/**
 	 * Main form handler
 	 */
-	public function submit(): SubmissionPage
+	public function submit(bool $precognition = false): SubmissionPage
 	{
 		// create a new submission or get the existing one from the session
 		$submission = SubmissionPage::fromSession() ?? $this->initSubmission();
@@ -263,15 +260,23 @@ class FormPage extends BasePage
 		 * Each step is a separate function
 		 */
 		try {
-			$submission = $submission
-				->applyHook('before')
-				->collectMetadata()
+			if (!$precognition) {
+				// hooks are only executed on non-precognition requests
+				$submission = $submission
+					->applyHook('before');
+			}
+
+			$submission = $submission->collectMetadata()
 				->handleGuards()
-				->handleFields()
-				->handleGuards(postValidation: true)
-				->handleActions()
-				->finalize()
-				->handleAfterSubmitFields();
+				->handleFields();
+
+			if (!$precognition) {
+				$submission = $submission
+					->handleGuards(postValidation: true)
+					->handleActions()
+					->finalize()
+					->handleAfterSubmitFields();
+			}
 		} catch (Exception $e) {
 			// PerformerExceptions stop the workflow early, and not save the submission
 			if ($e instanceof PerformerException) {
@@ -288,10 +293,18 @@ class FormPage extends BasePage
 					->storeSession();
 			}
 
-			$submission->setError($e->getMessage());
+			$submission = $submission->setError($e->getMessage());
 		}
 
-		// store the submission in the session
+		// store partial submission if enabled
+		if (
+			$this->partialSubmissions()->toBool() &&
+			DreamForm::option('partialSubmissions') === true
+		) {
+			$submission = $submission->saveSubmission();
+		}
+
+		// always store the submission in the session
 		return $submission->storeSession();
 	}
 
@@ -314,7 +327,8 @@ class FormPage extends BasePage
 		$mode = DreamForm::option('mode', 'prg');
 
 		if ($kirby->request()->method() === 'POST') {
-			$submission = $this->submit();
+			$isPrecognitiveRequest = $kirby->request()->query()->get('precognition') === 'true';
+			$submission = $this->submit($isPrecognitiveRequest);
 
 			// if dreamform is used in API mode, return the submission state as JSON
 			if ($mode === 'api') {
@@ -350,6 +364,27 @@ class FormPage extends BasePage
 					'submission' => $submission,
 				];
 
+				if ($isPrecognitiveRequest) {
+					// syntax is formId/fieldId/xxx (kirby nanoid / uuidv4)
+					// we already know the form from the request url.
+					$fieldId = Str::split($kirby->request()->header('Hx-Trigger'), '/')[1];
+					/** @var \tobimori\DreamForm\Fields\Field $field */
+					$field = $this->fields()->find($fieldId);
+
+					return A::join([
+						snippet("dreamform/fields/{$field->type()}", [
+							'block' => $field->block(),
+							'field' => $field,
+							'form' => $this,
+							'attr' => $attr
+						], true),
+
+						// attach newly created session if it wasn't specified in the request already
+						$kirby->request()->get('dreamform:session') ? "" :
+							snippet('dreamform/session', ['form' => $this, 'submission' => $submission, 'swap' => true], true)
+					], '');
+				}
+
 				return snippet('dreamform/form', [
 					'form' => $this,
 					'attr' => $attr
@@ -372,20 +407,17 @@ class FormPage extends BasePage
 	/**
 	 * Returns the URL for the form
 	 */
-	public function url($options = null): string
+	public function url($options = null, bool $precognition = false): string
 	{
 		$url = parent::url($options);
-		if ($this->isMultiStep()) {
-			$submission = SubmissionPage::fromSession();
 
-			if ($submission) {
-				$url .= "?dreamform-step={$submission->currentStep()}";
-			} else {
-				$url .= "?dreamform-step=1";
-			}
-		}
+		$submission = SubmissionPage::fromSession();
+		$query = new Query([
+			'precognition' => $precognition ? 'true' : null,
+			'dreamform-step' => $this->isMultiStep() ? $submission?->currentStep() ?? 1 : null
+		]);
 
-		return $url;
+		return A::join([$url, $query->toString()], '?');
 	}
 
 	/**

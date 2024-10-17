@@ -93,9 +93,11 @@ if ($submission?->isFinished() && $submission->form()->is($form)) {
 
 <form <?= attr(A::merge(
 	$attr['form'],
-	$form->htmxAttr($page, $attr, $submission),
+	$form->htmxAttr($page, $attr),
 	$form->attr()
 )) ?>>
+	<?php snippet('dreamform/session', ['form' => $form, 'submission' => $submission]) ?>
+
 	<div <?= attr(A::merge(['data-error' => true], $attr['error'])) ?>><?= $submission?->errorFor(form: $form) ?></div>
 	<?php foreach ($form->currentLayouts() as $layoutRow) : ?>
 		<div <?= attr(A::merge($attr['row'], [
