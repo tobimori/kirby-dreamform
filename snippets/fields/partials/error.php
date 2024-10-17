@@ -11,6 +11,14 @@
 
 use Kirby\Toolkit\A;
 
-?>
+$error = $submission?->errorFor($block->key(), $form) ?>
 
-<span <?= attr(A::merge($attr['error'] ?? [], ['data-error' => $block->key()])) ?>><?= $submission?->errorFor($block->key(), $form) ?></span>
+<span <?= attr(A::merge(
+	$attr['error'] ?? [],
+	[
+		'data-error' => $block->key(),
+		'id' => $form->elementId("{$block->id()}/error"),
+		'role' => 'alert',
+		'aria-atomic' => true
+	]
+)) ?>><?= $error ?></span>

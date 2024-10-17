@@ -22,6 +22,8 @@ snippet('dreamform/fields/partials/label', $arguments); ?>
 		'name' => $block->key(),
 		'placeholder' => $block->placeholder()->or(" "),
 		'required' => $required ?? null,
+		'aria-invalid' => ($error = $submission?->errorFor($block->key(), $form)) ? true : null,
+		'aria-describedby' => $error ? $form->elementId("{$block->id()}/error") : null,
 	],
 	$field->htmxAttr($form),
 )) ?>><?= $form->valueFor($block->key())?->escape() ?></textarea>

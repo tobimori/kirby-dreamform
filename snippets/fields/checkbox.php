@@ -33,7 +33,9 @@ if ($block->label()->isNotEmpty()) {
 			'id' => $form->elementId("{$block->id()}/{$option->indexOf()}"),
 			'name' => $block->key() . ($type === 'checkbox' ? '[]' : null),
 			'value' => $option->value(),
-			'checked' => A::has($previousValue, $option->value())
+			'checked' => A::has($previousValue, $option->value()),
+			'aria-invalid' => ($error = $submission?->errorFor($block->key(), $form)) ? true : null,
+			'aria-describedby' => $error ? $form->elementId("{$block->id()}/error") : null,
 		], $field->htmxAttr($form))) ?>>
 		<label <?= attr(A::merge($attr[$type]['value'] ?? [], ['for' => $form->elementId("{$block->id()}-{$option->indexOf()}")])) ?>><?= $option->label()->or($option->value())->permalinksToUrls() ?></label>
 	</div>

@@ -98,7 +98,8 @@ if ($submission?->isFinished() && $submission->form()->is($form)) {
 )) ?>>
 	<?php snippet('dreamform/session', ['form' => $form, 'submission' => $submission]) ?>
 
-	<div <?= attr(A::merge(['data-error' => true], $attr['error'])) ?>><?= $submission?->errorFor(form: $form) ?></div>
+	<div <?= attr(A::merge(['data-error' => true, 'role' => 'alert', 'aria-atomic' => true], $attr['error'])) ?>><?= $submission?->errorFor() ?></div>
+
 	<?php foreach ($form->currentLayouts() as $layoutRow) : ?>
 		<div <?= attr(A::merge($attr['row'], [
 			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
