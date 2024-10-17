@@ -32,7 +32,7 @@ snippet('dreamform/fields/partials/label', $arguments); ?>
 		'aria-invalid' => ($error = $submission?->errorFor($block->key(), $form)) ? true : null,
 		'aria-describedby' => $error ? $form->elementId("{$block->id()}/error") : null,
 	],
-	$field->htmxAttr($form),
+	$type !== 'file' ? $field->htmxAttr($form) : [],
 	$input ?? []
 )) ?>>
 

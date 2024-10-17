@@ -4,8 +4,10 @@ namespace tobimori\DreamForm\Actions;
 
 use Kirby\Cms\App;
 use Kirby\Cms\User;
+use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
+use tobimori\DreamForm\Models\FormPage;
 
 /**
  * Action for sending an email with the submission data.
@@ -80,7 +82,7 @@ class EmailAction extends Action
 						'templateType' => [
 							'label' => t('dreamform.actions.email.templateType.label'),
 							'type' => 'select',
-							'width' => '1/4',
+							'width' => '1/6',
 							'required' => true,
 							'default' => 'default',
 							'options' => [
@@ -91,7 +93,7 @@ class EmailAction extends Action
 						],
 						'kirbyTemplate' => [
 							'extends' => 'dreamform/fields/email-template',
-							'width' => '3/4',
+							'width' => '2/3',
 							'when' => [
 								'templateType' => 'kirby'
 							]
@@ -99,10 +101,16 @@ class EmailAction extends Action
 						'fieldTemplate' => [
 							'label' => t('template'),
 							'extends' => 'dreamform/fields/writer-with-fields',
-							'width' => '3/4',
+							'width' => '2/3',
 							'when' => [
 								'templateType' => 'field'
 							]
+						],
+						'attachments' => [
+							'label' => t('dreamform.actions.email.attachments.label'),
+							'type' => 'multiselect',
+							'options' => FormPage::getFields('file-upload'),
+							'width' => '1/6',
 						]
 					]
 				]
@@ -235,6 +243,7 @@ class EmailAction extends Action
 		return new User(compact('name', 'email'));
 	}
 
+
 	/**
 	 * Run the action
 	 */
@@ -253,6 +262,7 @@ class EmailAction extends Action
 					'submission' => $this->submission(),
 					'form' => $this->submission()->form(),
 				],
+				'attachments' => $this->attachments()
 			]);
 
 			$this->log([
@@ -266,6 +276,41 @@ class EmailAction extends Action
 		} catch (\Exception $e) {
 			$this->cancel($e->getMessage());
 		}
+	}
+
+	/**
+	 * Returns the attachments for the email
+	 */
+	protected function attachments(): array
+	{
+		// our file field can either store the file uuids (when already handled, aka from previous multi-step page)
+		// or the PHP file object (when uploaded in the same request)
+		$attachments = [];
+		foreach ($this->block()->attachments()->split() as $id) {
+			$value = $this->submission()->valueForId($id);
+
+			if (is_string($value->value())) { // is a file uuid
+				$files = $value->toFiles();
+				foreach ($files as $file) {
+					$attachments[] = $file;
+				}
+			} else { // is PHP file object
+				$files = $value->value();
+				foreach ($files as $file) {
+					$name = $file['tmp_name'];
+					$tmpName = pathinfo($name);
+					$filename = $tmpName['dirname'] . '/' . F::safeName($file['name']);
+
+					if (rename($file['tmp_name'], $filename)) {
+						$name = $filename;
+					}
+
+					$attachments[] = $name;
+				}
+			}
+		}
+
+		return $attachments;
 	}
 
 	/**

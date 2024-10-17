@@ -378,7 +378,7 @@ class SubmissionPage extends BasePage
 		// elevate permissions to save the submission
 		return App::instance()->impersonate(
 			'kirby',
-			fn() => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
+			fn () => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
 		);
 	}
 
@@ -414,7 +414,7 @@ class SubmissionPage extends BasePage
 		$this->content = $this->content($languageCode)->update($input);
 
 		if ($this->exists()) {
-			return App::instance()->impersonate('kirby', fn() => parent::update($input, $languageCode, $validate));
+			return App::instance()->impersonate('kirby', fn () => parent::update($input, $languageCode, $validate));
 		}
 
 		return $this;

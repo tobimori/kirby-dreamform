@@ -72,7 +72,7 @@ class FileUploadField extends Field
 
 	public function validate(): true|string
 	{
-		$files = array_values(A::filter($this->value()->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
+		$files = array_values(A::filter($this->value()->value() ?? [], fn ($file) => $file['error'] === UPLOAD_ERR_OK));
 
 		if ($this->block()->required()->toBool() && empty($files)) {
 			return $this->errorMessage();

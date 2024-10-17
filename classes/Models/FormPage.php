@@ -517,7 +517,7 @@ class FormPage extends BasePage
 	/**
 	 * Static function to get page fields based on the API request url for use in panel blueprints
 	 */
-	public static function getFields(): array
+	public static function getFields(string $filterByType = null): array
 	{
 		$page = DreamForm::currentPage();
 		if (!$page) {
@@ -531,7 +531,11 @@ class FormPage extends BasePage
 			}
 
 			$type = Str::replace($field->block()->type(), '-field', '');
-			$fields[$field->id()] = "{$field->block()->label()->or($field->key())} ({$type})";
+			if ($filterByType && $type !== $filterByType) {
+				continue;
+			}
+
+			$fields[$field->id()] = "{$field->block()->label()->or($field->key())}" . ($filterByType ? "" : " ({$type})");
 		}
 
 		return $fields;

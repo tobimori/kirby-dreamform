@@ -29,6 +29,7 @@
 	"actions.discord.log.error": "Sending Discord message failed",
 	"actions.discord.log.success": "<strong>{{ name }}</strong> sent Discord message",
 	"actions.email.addresses.label": "Addresses",
+	"actions.email.attachments.label": "Attach files from...",
 	"actions.email.defaultTemplate.text": "You have received a new form submission for your form \"{{ form }}\".",
 	"actions.email.name": "Send Email",
 	"actions.email.replyTo.label": "Reply to…",

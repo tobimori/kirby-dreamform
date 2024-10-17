@@ -23,6 +23,7 @@
     "actions.conditional.value.label": "Wert",
     "actions.discord.name": "Discord-Nachricht senden",
     "actions.email.addresses.label": "Adressen",
+		"actions.email.attachments.label": "Dateien anhängen aus...",
     "actions.email.defaultTemplate.text": "Du hast eine neue Formularantwort für dein Formular {{ form }} erhalten.",
     "actions.email.name": "E-Mail senden",
     "actions.email.replyTo.label": "Antwort an…",
