@@ -88,6 +88,9 @@ return [
 		'discord' => [
 			'webhook' => null // Default webhook URL
 		],
+		'slack' => [
+			'webhook' => null // Default webhook URL
+		],
 		'mailchimp' => [
 			'apiKey' => null // Mailchimp API key
 		],

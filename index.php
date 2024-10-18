@@ -21,6 +21,7 @@ DreamForm::register(
 	\tobimori\DreamForm\Actions\AbortAction::class,
 	\tobimori\DreamForm\Actions\ConditionalAction::class,
 	\tobimori\DreamForm\Actions\DiscordWebhookAction::class,
+	\tobimori\DreamForm\Actions\SlackWebhookAction::class,
 	\tobimori\DreamForm\Actions\EmailAction::class,
 	\tobimori\DreamForm\Actions\RedirectAction::class,
 	\tobimori\DreamForm\Actions\WebhookAction::class,
