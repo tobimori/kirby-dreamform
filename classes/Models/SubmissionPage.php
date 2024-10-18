@@ -411,10 +411,12 @@ class SubmissionPage extends BasePage
 	 */
 	public function update(?array $input = null, ?string $languageCode = null, bool $validate = false): static
 	{
-		$this->content = $this->content($languageCode)->update($input);
+		$defaultLanguage = $this->kirby()->defaultLanguage()?->code();
+		
+		$this->content = $this->content($defaultLanguage)->update($input);
 
 		if ($this->exists()) {
-			return App::instance()->impersonate('kirby', fn () => parent::update($input, $languageCode, $validate));
+			return App::instance()->impersonate('kirby', fn () => parent::update($input, $defaultLanguage, $validate));
 		}
 
 		return $this;
