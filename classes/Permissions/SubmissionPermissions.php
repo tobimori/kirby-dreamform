@@ -8,11 +8,11 @@ class SubmissionPermissions extends PagePermissions
 {
 	protected function canAccess(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'accessSubmissions');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions');
 	}
 
 	protected function canDelete(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'deleteSubmissions');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'deleteSubmissions');
 	}
 }
