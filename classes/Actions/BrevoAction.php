@@ -123,8 +123,6 @@ class BrevoAction extends Action
 			'redirectionUrl' => $doubleOptIn ? $this->block()->doubleOptInRedirect()->toUrl() : null,
 		]);
 
-		ray($request->json());
-
 		if ($request->code() > 299) {
 			$this->cancel($request->json()['message'] ?? "dreamform.submission.error.email");
 		}
