@@ -8,41 +8,41 @@ class FormPermissions extends PagePermissions
 {
 	protected function canAccess(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'accessForms');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'accessForms');
 	}
 
 	protected function canCreate(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'createForms');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'createForms');
 	}
 
 	protected function canUpdate(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'updateForms');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'updateForms');
 	}
 
 	protected function canDelete(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'deleteForms');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'deleteForms');
 	}
 
 	protected function canDuplicate(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'duplicateForms');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'duplicateForms');
 	}
 
 	protected function canChangeTitle(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'changeFormTitle');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'changeFormTitle');
 	}
 
 	protected function canChangeStatus(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'changeFormStatus');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'changeFormStatus');
 	}
 
 	protected function canChangeSlug(): bool
 	{
-		return $this->permissions->for('tobimori.dreamform', 'changeFormSlug');
+		return static::user()->role()->permissions()->for('tobimori.dreamform', 'changeFormSlug');
 	}
 }
