@@ -159,7 +159,7 @@ class MailchimpAction extends Action
 	{
 		return static::cache(
 			'lists',
-			fn () => static::request('GET', '/lists')?->json()
+			fn () => static::request('GET', '/lists?count=1000&fields=lists.id,lists.name')?->json()
 		)['lists'];
 	}
 
