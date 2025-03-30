@@ -16,6 +16,8 @@ abstract class Performer
 {
 	use HasCache;
 
+	const TYPE = 'performer';
+
 	/**
 	 * Cancel the form submission
 	 *
@@ -66,7 +68,13 @@ abstract class Performer
 		return true;
 	}
 
-	abstract public static function type(): string;
+	/**
+	 * Returns the type of the performer
+	 */
+	public static function type(): string
+	{
+		return static::TYPE;
+	}
 
 	/**
 	 * Get the performer's cache instance

@@ -8,6 +8,8 @@ use Kirby\Content\Field as ContentField;
 
 class CheckboxField extends Field
 {
+	const TYPE = 'checkbox';
+
 	public static function blueprint(): array
 	{
 		return [

@@ -12,6 +12,8 @@ use Kirby\Cms\Page;
 use Kirby\Cms\Responder;
 use Kirby\Content\Content;
 use Kirby\Content\Field;
+use Kirby\Content\PlainTextStorage;
+use Kirby\Content\VersionId;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Filesystem\F;
 use Kirby\Http\Remote;
@@ -22,6 +24,7 @@ use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\Field as FormField;
 use tobimori\DreamForm\Models\Log\HasSubmissionLog;
 use tobimori\DreamForm\Permissions\SubmissionPermissions;
+use tobimori\DreamForm\Storage\SubmissionSessionStorage;
 
 /**
  * The submission page is the heart of the plugin.
@@ -35,6 +38,18 @@ class SubmissionPage extends BasePage
 	use SubmissionMetadata;
 	use SubmissionSession;
 	use SubmissionHandling;
+
+	/**
+	 * Creates a new submission page object
+	 */
+	public function __construct(array $props)
+	{
+		parent::__construct($props);
+
+		if (!$this->exists()) {
+			$this->changeStorage(SubmissionSessionStorage::class);
+		}
+	}
 
 	/**
 	 * Returns the submission referer (for PRG redirects)
@@ -195,7 +210,8 @@ class SubmissionPage extends BasePage
 			$state['error'] = $message;
 		}
 
-		return $this->update(['dreamform_state' => $state]);
+		$this->version(VersionId::LATEST)->update(['dreamform_state' => $state]);
+		return $this;
 	}
 
 	/**
@@ -214,7 +230,8 @@ class SubmissionPage extends BasePage
 			$state['success'] = true;
 		}
 
-		return $this->update(['dreamform_state' => $state]);
+		$this->version(VersionId::LATEST)->update(['dreamform_state' => $state]);
+		return $this;
 	}
 
 	/**
@@ -254,7 +271,8 @@ class SubmissionPage extends BasePage
 	 */
 	public function setField(FormField $field): static
 	{
-		return $this->update([$field->key() => $field->value()->value()]);
+		App::instance()->impersonate('kirby', fn() => $this->version(VersionId::LATEST)->update([$field->key() => $field->value()->value()]));
+		return $this;
 	}
 
 	/**
@@ -353,7 +371,7 @@ class SubmissionPage extends BasePage
 		// set partial state for showing "success"
 		$state = $this->state()->toArray();
 		$state['partial'] = false;
-		$this->content = $this->content()->update(['dreamform_state' => $state]);
+		App::instance()->impersonate('kirby', fn() => $this->version(VersionId::LATEST)->update(['dreamform_state' => $state]));
 
 		$submission = $this->applyHook('after');
 
@@ -390,6 +408,7 @@ class SubmissionPage extends BasePage
 				break;
 			}
 		}
+
 		if (!$allowSafe) {
 			return $this;
 		}
@@ -398,10 +417,7 @@ class SubmissionPage extends BasePage
 		$this->uuid()->populate();
 
 		// elevate permissions to save the submission
-		return App::instance()->impersonate(
-			'kirby',
-			fn() => $this->save($this->content()->toArray(), App::instance()?->languages()?->default()?->code() ?? null)
-		);
+		return $this->changeStorage(PlainTextStorage::class);
 	}
 
 	/**
@@ -429,27 +445,12 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
-	 * Update the submission & save the update to disk if it exists
-	 */
-	public function update(?array $input = null, ?string $languageCode = null, bool $validate = false): static
-	{
-		$defaultLanguage = $this->kirby()->defaultLanguage()?->code();
-
-		$this->content = $this->content($defaultLanguage)->update($input);
-
-		if ($this->exists()) {
-			return App::instance()->impersonate('kirby', fn() => parent::update($input, $defaultLanguage, $validate));
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Update the submission state
 	 */
 	public function updateState(array $data): static
 	{
-		return $this->update(['dreamform_state' => $this->state()->update($data)->toArray()]);
+		$this->version(VersionId::LATEST)->update(['dreamform_state' => array_merge($this->state()->toArray(), $data)]);
+		return $this;
 	}
 
 	/**
@@ -585,9 +586,9 @@ class SubmissionPage extends BasePage
 			}
 		}
 
-		$this->update([
+		App::instance()->impersonate('kirby', fn() => $this->update([
 			'dreamform_gravatar' => false
-		]);
+		]));
 
 		return null;
 	}
@@ -612,7 +613,6 @@ class SubmissionPage extends BasePage
 		return new SubmissionPermissions($this);
 	}
 
-
 	/**
 	 * Returns the content, always in the current language
 	 *
@@ -620,11 +620,6 @@ class SubmissionPage extends BasePage
 	 */
 	public function content(string|null $languageCode = null): Content
 	{
-		if ($this->content instanceof Content) {
-			return $this->content;
-		}
-
-		// don't normalize field keys (already handled by the `Data` class)
-		return $this->content = new Content($this->readContent($this->kirby()->defaultLanguage()?->code() ?? null), $this, false);
+		return parent::content(App::instance()->defaultLanguage()?->code() ?? null);
 	}
 }

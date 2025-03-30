@@ -10,6 +10,8 @@ use tobimori\DreamForm\DreamForm;
 
 class EmailField extends Field
 {
+	const TYPE = 'email';
+
 	public static function blueprint(): array
 	{
 		return [

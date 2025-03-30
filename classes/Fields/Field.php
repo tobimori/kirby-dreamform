@@ -6,7 +6,6 @@ use Kirby\Cache\Cache;
 use Kirby\Cms\App;
 use Kirby\Cms\Block;
 use Kirby\Content\Field as ContentField;
-use Kirby\Exception\Exception;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\FormPage;
@@ -20,6 +19,8 @@ use tobimori\DreamForm\Support\Htmx;
 abstract class Field
 {
 	use HasCache;
+
+	const TYPE = 'field';
 
 	private string $id;
 
@@ -96,9 +97,7 @@ abstract class Field
 	 * Run logic after the form submission
 	 * e.g. for storing an uploaded file
 	 */
-	public function afterSubmit(SubmissionPage $submission): void
-	{
-	}
+	public function afterSubmit(SubmissionPage $submission): void {}
 
 	/**
 	 * Returns the sanitzed value of the field
@@ -166,7 +165,7 @@ abstract class Field
 	 */
 	public static function type(): string
 	{
-		return Str::kebab(Str::match(static::class, "/Fields\\\([a-zA-Z]+)Field/")[1]);
+		return static::TYPE;
 	}
 
 	/**

@@ -6,6 +6,8 @@ use Kirby\Cms\R;
 
 class RadioField extends Field
 {
+	const TYPE = 'radio';
+
 	public static function blueprint(): array
 	{
 		return [

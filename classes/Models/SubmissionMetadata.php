@@ -5,6 +5,7 @@ namespace tobimori\Dreamform\Models;
 use Exception;
 use Kirby\Cms\App;
 use Kirby\Content\Content;
+use Kirby\Content\VersionId;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
 
@@ -23,9 +24,11 @@ trait SubmissionMetadata
 	 */
 	public function updateMetadata(array $data): static
 	{
-		return $this->update([
-			'dreamform_sender' => $this->metadata()->update($data)->toArray()
-		]);
+		App::instance()->impersonate('kirby', fn() => $this->version(VersionId::LATEST)->update([
+			'dreamform_sender' => array_merge($this->metadata()->toArray(), $data)
+		]));
+
+		return $this;
 	}
 
 	/**

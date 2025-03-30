@@ -7,13 +7,15 @@ use tobimori\DreamForm\DreamForm;
 
 class RatelimitGuard extends Guard
 {
+	const TYPE = 'ratelimit';
+
 	public function run(): void
 	{
 		$ip = sha1(App::instance()->visitor()->ip()); // hash the IP address to protect user privacy
 
 		$count = static::cache(
 			$ip,
-			fn () => DreamForm::option('guards.ratelimit.limit'), // set the initial count
+			fn() => DreamForm::option('guards.ratelimit.limit'), // set the initial count
 			DreamForm::option('guards.ratelimit.interval') // set the expiration time
 		);
 

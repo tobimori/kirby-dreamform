@@ -2,6 +2,8 @@
 
 namespace tobimori\DreamForm\Models\Log;
 
+use Kirby\Cms\App;
+use Kirby\Content\VersionId;
 use Kirby\Data\Yaml;
 
 /**
@@ -31,9 +33,9 @@ trait HasSubmissionLog
 		]);
 
 		$items = $items->add($item);
-		$this->update([
+		App::instance()->impersonate('kirby', fn() => $this->version(VersionId::LATEST)->update([
 			'dreamform_log' => Yaml::encode($items->toArray())
-		]);
+		]));
 
 		return $item;
 	}

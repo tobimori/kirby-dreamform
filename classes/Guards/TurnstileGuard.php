@@ -8,6 +8,8 @@ use tobimori\DreamForm\Models\SubmissionPage;
 
 class TurnstileGuard extends Guard
 {
+	const TYPE = 'turnstile';
+
 	public static function siteKey(): string|null
 	{
 		return DreamForm::option('guards.turnstile.siteKey');

@@ -15,6 +15,8 @@ use tobimori\DreamForm\Models\FormPage;
 
 class MailchimpAction extends Action
 {
+	const TYPE = 'mailchimp';
+
 	/**
 	 * Returns the Blocks fieldset blueprint for the actions' settings
 	 */
@@ -32,7 +34,7 @@ class MailchimpAction extends Action
 						'list' => [
 							'label' => t('dreamform.actions.mailchimp.list.label'),
 							'type' => 'select',
-							'options' => A::reduce(static::getLists(), fn ($prev, $list) => A::merge($prev, [
+							'options' => A::reduce(static::getLists(), fn($prev, $list) => A::merge($prev, [
 								$list['id'] => $list['name']
 							]), []),
 							'width' => '2/3',
@@ -94,7 +96,7 @@ class MailchimpAction extends Action
 			($mapping->tags()->value() === 'static' ?
 				$mapping->tagsStatic()->value() :
 				$this->submission()->valueForId($mapping->tagsField()->value())?->split()) ?? [],
-			fn ($tag) => isset(static::getTags($list)[$tag]) ? static::getTags($list)[$tag] : $tag
+			fn($tag) => isset(static::getTags($list)[$tag]) ? static::getTags($list)[$tag] : $tag
 		);
 
 		// subscribe or update the user
@@ -119,7 +121,7 @@ class MailchimpAction extends Action
 			[
 				'template' => [
 					'email' => $email,
-					'list' => A::find(static::getLists(), fn ($entry) => $entry['id'] === $list)['name']
+					'list' => A::find(static::getLists(), fn($entry) => $entry['id'] === $list)['name']
 				]
 			],
 			type: 'none',
@@ -138,11 +140,11 @@ class MailchimpAction extends Action
 		// Retrieve segment tags from the API
 		$segments = static::cache(
 			"{$list}.segments",
-			fn () => static::request('GET', "/lists/{$list}/segments?count=1000")?->json()
+			fn() => static::request('GET', "/lists/{$list}/segments?count=1000")?->json()
 		)['segments'];
 
 		// Create an array of segment tags
-		$tags = A::reduce($segments, fn ($prev, $segment) => A::merge(
+		$tags = A::reduce($segments, fn($prev, $segment) => A::merge(
 			$prev,
 			$segment['type'] === 'static' ? [
 				"id_{$segment['id']}" => $segment['name']
@@ -159,7 +161,7 @@ class MailchimpAction extends Action
 	{
 		return static::cache(
 			'lists',
-			fn () => static::request('GET', '/lists?count=1000&fields=lists.id,lists.name')?->json()
+			fn() => static::request('GET', '/lists?count=1000&fields=lists.id,lists.name')?->json()
 		)['lists'];
 	}
 
@@ -172,7 +174,7 @@ class MailchimpAction extends Action
 		// Retrieve merge fields from the API
 		$mergeFields = static::cache(
 			"{$list}.fields",
-			fn () => static::request('GET', "/lists/{$list}/merge-fields")?->json()
+			fn() => static::request('GET', "/lists/{$list}/merge-fields")?->json()
 		);
 
 		// Create the base blueprint with the email address field
@@ -254,7 +256,7 @@ class MailchimpAction extends Action
 	{
 		if ($method !== 'GET') {
 			$params = [
-				'data' => Json::encode(A::filter($data, fn ($value) => $value !== null)),
+				'data' => Json::encode(A::filter($data, fn($value) => $value !== null)),
 				'headers' => [
 					'Content-Type' => 'application/json'
 				]

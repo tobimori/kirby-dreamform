@@ -14,6 +14,8 @@ use tobimori\DreamForm\DreamForm;
  */
 class PlausibleAction extends Action
 {
+	const TYPE = 'plausible';
+
 	/**
 	 * Returns the Blocks fieldset blueprint for the actions' settings
 	 */

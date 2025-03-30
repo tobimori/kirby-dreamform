@@ -6,6 +6,8 @@ use Kirby\Toolkit\A;
 
 class SelectField extends Field
 {
+	const TYPE = 'select';
+
 	public static function blueprint(): array
 	{
 		return [
@@ -61,7 +63,7 @@ class SelectField extends Field
 			'label' => $this->block()->label()->value() ?? t('dreamform.fields.select.name'),
 			'type' => 'select',
 			'placeholder' => $this->block()->placeholder()->value() ?? '',
-			'options' => A::reduce(array_keys($this->options()), fn ($prev, $key) => array_merge($prev, [
+			'options' => A::reduce(array_keys($this->options()), fn($prev, $key) => array_merge($prev, [
 				['value' => $key, 'text' => $this->options()[$key]]
 			]), []),
 		];

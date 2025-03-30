@@ -7,6 +7,8 @@ namespace tobimori\DreamForm\Actions;
  */
 class ConditionalAction extends Action
 {
+	const TYPE = 'conditional';
+
 	public static function blueprint(): array
 	{
 		return [

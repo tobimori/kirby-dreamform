@@ -13,6 +13,8 @@ use tobimori\DreamForm\DreamForm;
  */
 class DiscordWebhookAction extends Action
 {
+	const TYPE = 'discord-webhook';
+
 	/**
 	 * Returns the Blocks fieldset blueprint for the actions' settings
 	 */

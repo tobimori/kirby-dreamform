@@ -16,6 +16,8 @@ use tobimori\DreamForm\Models\Log\SubmissionLogEntry;
  */
 abstract class Action extends Performer
 {
+	const TYPE = 'action';
+
 	/**
 	 * Create a new Action instance.
 	 * @internal
@@ -123,13 +125,5 @@ abstract class Action extends Performer
 	public static function group(): string
 	{
 		return 'common';
-	}
-
-	/**
-	 * Returns the action type string
-	 */
-	public static function type(): string
-	{
-		return Str::kebab(Str::match(static::class, "/Actions\\\([a-zA-Z]+)Action/")[1]);
 	}
 }

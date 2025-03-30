@@ -6,8 +6,10 @@ use Exception;
 use Kirby\Cms\App;
 use Kirby\Cms\Collection;
 use Kirby\Cms\Layouts;
+use Kirby\Cms\ModelState;
 use Kirby\Cms\Page;
 use Kirby\Content\Field;
+use Kirby\Content\ImmutableMemoryStorage;
 use Kirby\Content\VersionId;
 use Kirby\Data\Json;
 use Kirby\Http\Query;
@@ -447,15 +449,34 @@ class FormPage extends BasePage
 	/**
 	 * Saves the form and checks for duplicate keys
 	 */
-	public function save(?array $data = null, ?string $languageCode = null, bool $overwrite = false): static
-	{
-		$page = clone $this; // clone the page to avoid side effects
-		unset($page->steps, $page->fields); // reset layout calculations cache
-		$page->content = $page->content($languageCode)->update($data); // update the content
+	public function save(
+		array|null $data = null,
+		string|null $languageCode = null,
+		bool $overwrite = false
+	): static {
+		// create a clone to avoid modifying the original
+		$clone = $this->clone();
+		unset($clone->steps, $clone->fields); // reset layout calculations cache
+
+		// move the old model into memory
+		$this->changeStorage(
+			toStorage: new ImmutableMemoryStorage(
+				model: $this,
+				nextModel: $clone
+			),
+			copy: true
+		);
+
+		// update the clone
+		$clone->version()->save(
+			$data ?? [],
+			$languageCode ?? 'default',
+			$overwrite
+		);
 
 		// check for duplicate keys
 		$keys = [];
-		foreach ($page->fields() as $field) {
+		foreach ($clone->fields() as $field) {
 			$key = $field->key();
 			if (in_array($key, $keys)) {
 				throw new Exception(tt('dreamform.form.error.duplicateKey', ['key' => $key]));
@@ -468,7 +489,13 @@ class FormPage extends BasePage
 			$keys[] = $key;
 		}
 
-		return parent::save($data, $languageCode, $overwrite);
+		ModelState::update(
+			method: 'set',
+			current: $this,
+			next: $clone
+		);
+
+		return $clone;
 	}
 
 	/**

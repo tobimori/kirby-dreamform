@@ -7,6 +7,8 @@ namespace tobimori\DreamForm\Actions;
  */
 class RedirectAction extends Action
 {
+	const TYPE = 'redirect';
+
 	public static function blueprint(): array
 	{
 		return [

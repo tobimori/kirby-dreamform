@@ -11,6 +11,8 @@ use Throwable;
  */
 class WebhookAction extends Action
 {
+	const TYPE = 'webhook';
+
 	public static function blueprint(): array
 	{
 		return [

@@ -4,6 +4,8 @@ namespace tobimori\DreamForm\Fields;
 
 class ButtonField extends Field
 {
+	const TYPE = 'button';
+
 	public static function blueprint(): array
 	{
 		return [

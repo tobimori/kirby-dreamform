@@ -7,6 +7,8 @@ use tobimori\DreamForm\Support\License;
 
 class LicenseGuard extends Guard
 {
+	const TYPE = 'license';
+
 	public function run(): void
 	{
 		$license = License::fromDisk();

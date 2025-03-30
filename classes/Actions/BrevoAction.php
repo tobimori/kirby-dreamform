@@ -12,6 +12,8 @@ use tobimori\DreamForm\Models\FormPage;
 
 class BrevoAction extends Action
 {
+	const TYPE = 'brevo';
+
 	/**
 	 * Returns the Blocks fieldset blueprint for the actions' settings
 	 */
@@ -29,7 +31,7 @@ class BrevoAction extends Action
 						'list' => [
 							'label' => t('dreamform.actions.brevo.list.label'),
 							'type' => 'select',
-							'options' => A::reduce(static::getLists(), fn ($prev, $list) => A::merge($prev, [
+							'options' => A::reduce(static::getLists(), fn($prev, $list) => A::merge($prev, [
 								"id-{$list['id']}" => $list['name']
 							]), []),
 							'width' => '2/3',
@@ -46,7 +48,7 @@ class BrevoAction extends Action
 							'type' => 'select',
 							'width' => '1/2',
 							'required' => true,
-							'options' => A::reduce(static::getTemplates(), fn ($prev, $template) => A::merge($prev, [
+							'options' => A::reduce(static::getTemplates(), fn($prev, $template) => A::merge($prev, [
 								"id-{$template['id']}" => $template['name']
 							]), []),
 							'help' => t('dreamform.actions.brevo.doubleOptInTemplate.help'),
@@ -131,7 +133,7 @@ class BrevoAction extends Action
 			[
 				'template' => [
 					'email' => $email,
-					'list' => A::find(static::getLists(), fn ($entry) => $entry['id'] === $list)['name']
+					'list' => A::find(static::getLists(), fn($entry) => $entry['id'] === $list)['name']
 				]
 			],
 			type: 'none',
@@ -147,7 +149,7 @@ class BrevoAction extends Action
 	{
 		return static::cache(
 			'lists',
-			fn () => static::request('GET', '/contacts/lists')?->json()
+			fn() => static::request('GET', '/contacts/lists')?->json()
 		)['lists'];
 	}
 
@@ -158,7 +160,7 @@ class BrevoAction extends Action
 	{
 		return static::cache(
 			'templates',
-			fn () => static::request('GET', '/smtp/templates?limit=1000')?->json()
+			fn() => static::request('GET', '/smtp/templates?limit=1000')?->json()
 		)['templates'];
 	}
 
@@ -170,7 +172,7 @@ class BrevoAction extends Action
 	{
 		$attributes = static::cache(
 			'attributes',
-			fn () => static::request('GET', '/contacts/attributes')?->json()
+			fn() => static::request('GET', '/contacts/attributes')?->json()
 		)['attributes'];
 
 
@@ -216,7 +218,7 @@ class BrevoAction extends Action
 	{
 		if ($method !== 'GET') {
 			$params = [
-				'data' => Json::encode(A::filter($data, fn ($value) => $value !== null)),
+				'data' => Json::encode(A::filter($data, fn($value) => $value !== null)),
 				'headers' => [
 					'Content-Type' => 'application/json',
 				]

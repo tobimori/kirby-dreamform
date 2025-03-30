@@ -2,11 +2,12 @@
 
 namespace tobimori\DreamForm\Fields;
 
-use Kirby\Cms\App;
 use tobimori\DreamForm\DreamForm;
 
 class PagesField extends Field
 {
+	const TYPE = 'pages';
+
 	public static function blueprint(): array
 	{
 		return [
