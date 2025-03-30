@@ -414,8 +414,7 @@ class FormPage extends BasePage
 			return $submission->redirect();
 		}
 
-		$kirby->response()->code(404);
-		return $this->site()->errorPage()->render();
+		return parent::render($data, $contentType, $versionId);
 	}
 
 	/**

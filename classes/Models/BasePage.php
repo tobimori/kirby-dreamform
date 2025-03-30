@@ -29,6 +29,11 @@ class BasePage extends Page
 		$contentType = 'html',
 		VersionId|string|null $versionId = null
 	): string {
+		// this being the same means we have a custom template (by the user) assigned to the form
+		if ($this->template()->name() === $this->intendedTemplate()->name()) {
+			return parent::render($data, $contentType, $versionId);
+		}
+
 		kirby()->response()->code(404);
 		return $this->site()->errorPage()->render();
 	}
