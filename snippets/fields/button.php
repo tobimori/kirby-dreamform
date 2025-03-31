@@ -26,8 +26,7 @@ if (
 snippet('dreamform/fields/partials/wrapper', compact('block', 'field', 'form', 'attr'), slots: true) ?>
 
 <button <?= attr(A::merge($attr['button'] ?? [], [
-	'type' => 'submit',
-	'hx-disabled-elt' => Htmx::isActive() ? 'this' : null
+	'type' => 'submit'
 ])) ?>>
 	<?= $block->label()->or(t('dreamform.fields.button.label.label'))->escape() ?>
 </button>
