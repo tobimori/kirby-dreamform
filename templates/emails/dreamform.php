@@ -1,4 +1,4 @@
-<?= tt('dreamform.actions.email.defaultTemplate.text', null, ['form' => $form->title()]) ?>
+<?php use Kirby\Cms\App; ?><?= tt('dreamform.actions.email.defaultTemplate.text', null, ['form' => $form->title()]) ?>
 
 
 ———
