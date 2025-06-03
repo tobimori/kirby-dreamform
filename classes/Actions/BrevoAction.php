@@ -34,13 +34,12 @@ class BrevoAction extends Action
 							'options' => A::reduce(static::getLists(), fn($prev, $list) => A::merge($prev, [
 								"id-{$list['id']}" => $list['name']
 							]), []),
-							'width' => '2/3',
 							'required' => true
 						],
 						'doubleOptIn' => [
 							'label' => t('dreamform.actions.brevo.doubleOptIn.label'),
 							'type' => 'toggle',
-							'width' => '1/3',
+							'width' => '1/2',
 							'help' => t('dreamform.actions.brevo.doubleOptIn.help')
 						],
 						'doubleOptInTemplate' => [

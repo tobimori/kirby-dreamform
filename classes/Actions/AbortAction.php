@@ -27,7 +27,7 @@ class AbortAction extends Action
 							'label' => t('dreamform.actions.abort.showError.label'),
 							'type' => 'toggle',
 							'default' => true,
-							'width' => '1/3',
+							'width' => '1/2',
 						],
 						'errorMessage' => [
 							'extends' => 'dreamform/fields/error-message',

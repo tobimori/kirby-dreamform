@@ -28,14 +28,12 @@ class WebhookAction extends Action
 							'label' => 'dreamform.actions.webhook.url.label',
 							'type' => 'url',
 							'placeholder' => 'https://hooks.zapier.com/hooks/catch/...',
-							'width' => '1/3',
 							'required' => true
 						],
 						'exposedFields' => [
 							'label' => 'dreamform.actions.webhook.exposedFields.label',
 							'extends' => 'dreamform/fields/field',
 							'type' => 'multiselect',
-							'width' => '2/3',
 							'options' => [
 								'dreamform-referer' => t('dreamform.actions.webhook.exposedFields.referer'),
 							]

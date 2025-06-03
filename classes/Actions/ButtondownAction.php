@@ -45,13 +45,11 @@ class ButtondownAction extends Action
 							'label' => t('dreamform.actions.buttondown.emailField.label'),
 							'required' => true,
 							'extends' => 'dreamform/fields/field',
-							'width' => '1/3'
 						],
 						'exposeMetadata' => [
 							'label' => t('dreamform.actions.buttondown.exposeMetadata.label'),
 							'extends' => 'dreamform/fields/field',
 							'type' => 'multiselect',
-							'width' => '2/3'
 						],
 					], static::tagsBlueprint())
 				]

@@ -84,7 +84,7 @@ class EmailAction extends Action
 						'templateType' => [
 							'label' => t('dreamform.actions.email.templateType.label'),
 							'type' => 'select',
-							'width' => '1/6',
+							'width' => '1/2',
 							'required' => true,
 							'default' => 'default',
 							'options' => [
@@ -95,25 +95,24 @@ class EmailAction extends Action
 						],
 						'kirbyTemplate' => [
 							'extends' => 'dreamform/fields/email-template',
-							'width' => '2/3',
+							'width' => '1/2',
 							'when' => [
 								'templateType' => 'kirby'
-							]
-						],
-						'fieldTemplate' => [
-							'label' => t('template'),
-							'extends' => 'dreamform/fields/writer-with-fields',
-							'width' => '2/3',
-							'when' => [
-								'templateType' => 'field'
 							]
 						],
 						'attachments' => [
 							'label' => t('dreamform.actions.email.attachments.label'),
 							'type' => 'multiselect',
 							'options' => FormPage::getFields('file-upload'),
-							'width' => '1/6',
-						]
+							'width' => '1/2',
+						],
+						'fieldTemplate' => [
+							'label' => t('template'),
+							'extends' => 'dreamform/fields/writer-with-fields',
+							'when' => [
+								'templateType' => 'field'
+							]
+						],
 					]
 				]
 			]

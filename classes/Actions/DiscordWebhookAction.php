@@ -34,14 +34,12 @@ class DiscordWebhookAction extends Action
 							'type' => 'text',
 							'pattern' => 'https:\/\/discord\.com\/api\/webhooks\/.+\/.+',
 							'placeholder' => 'https://discord.com/api/webhooks/...',
-							'width' => '1/3',
 							'required' => !DreamForm::option('actions.discord.webhook')
 						],
 						'exposedFields' => [
 							'label' => 'dreamform.actions.webhook.exposedFields.label',
 							'extends' => 'dreamform/fields/field',
 							'type' => 'multiselect',
-							'width' => '2/3'
 						]
 					]
 				]

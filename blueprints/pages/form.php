@@ -97,7 +97,7 @@ return function () {
 									'label' => 'dreamform.form.continueOnError.label',
 									'type' => 'toggle',
 									'help' => 'dreamform.form.continueOnError.help',
-									'width' => '1/3'
+									'width' => '1/2'
 								]
 							]
 						],
