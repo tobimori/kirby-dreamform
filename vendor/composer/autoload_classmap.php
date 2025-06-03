@@ -57,6 +57,7 @@ return array(
     'tobimori\\DreamForm\\Performer' => $baseDir . '/classes/Performer.php',
     'tobimori\\DreamForm\\Permissions\\FormPermissions' => $baseDir . '/classes/Permissions/FormPermissions.php',
     'tobimori\\DreamForm\\Permissions\\SubmissionPermissions' => $baseDir . '/classes/Permissions/SubmissionPermissions.php',
+    'tobimori\\DreamForm\\Storage\\SubmissionSessionStorage' => $baseDir . '/classes/Storage/SubmissionSessionStorage.php',
     'tobimori\\DreamForm\\Support\\HasCache' => $baseDir . '/classes/Support/HasCache.php',
     'tobimori\\DreamForm\\Support\\Htmx' => $baseDir . '/classes/Support/Htmx.php',
     'tobimori\\DreamForm\\Support\\License' => $baseDir . '/classes/Support/License.php',

@@ -80,6 +80,7 @@ class ComposerStaticInit99ea25880654549400db6165b3f448d9
         'tobimori\\DreamForm\\Performer' => __DIR__ . '/../..' . '/classes/Performer.php',
         'tobimori\\DreamForm\\Permissions\\FormPermissions' => __DIR__ . '/../..' . '/classes/Permissions/FormPermissions.php',
         'tobimori\\DreamForm\\Permissions\\SubmissionPermissions' => __DIR__ . '/../..' . '/classes/Permissions/SubmissionPermissions.php',
+        'tobimori\\DreamForm\\Storage\\SubmissionSessionStorage' => __DIR__ . '/../..' . '/classes/Storage/SubmissionSessionStorage.php',
         'tobimori\\DreamForm\\Support\\HasCache' => __DIR__ . '/../..' . '/classes/Support/HasCache.php',
         'tobimori\\DreamForm\\Support\\Htmx' => __DIR__ . '/../..' . '/classes/Support/Htmx.php',
         'tobimori\\DreamForm\\Support\\License' => __DIR__ . '/../..' . '/classes/Support/License.php',
