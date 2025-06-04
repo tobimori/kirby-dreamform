@@ -1,6 +1,6 @@
 <script setup>
-import { props as blockProps } from "@/utils/block"
 import Editable from "@/components/Editable.vue"
+import { props as blockProps } from "@/utils/block"
 
 const props = defineProps(blockProps)
 const emit = defineEmits(["update"])
@@ -22,8 +22,8 @@ const emit = defineEmits(["update"])
 <style>
 .df-button-input {
 	outline: none;
-	background: var(--color-black);
-	color: var(--color-white);
+	background: light-dark(var(--color-black), var(--color-white));
+	color: light-dark(var(--color-white), var(--color-black));
 	padding: var(--spacing-2) var(--spacing-3);
 	border-radius: var(--rounded-md);
 	box-shadow: var(--shadow-sm);

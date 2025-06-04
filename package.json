@@ -39,7 +39,7 @@
 		"last 2 UCAndroid versions"
 	],
 	"lint-staged": {
-		"*.{js,vue}": [
+		"src/*.{js,vue}": [
 			"eslint --fix",
 			"prettier --write"
 		],

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "kirbyuse"
+import { computed, onMounted, onUnmounted, ref } from "kirbyuse"
 
 const props = defineProps({
 	template: {
@@ -88,7 +88,7 @@ const meta = computed(() => [
 	width: 100%;
 	border-radius: var(--rounded);
 	box-shadow: var(--shadow);
-	background: var(--color-white);
+	background: var(--item-color-back);
 	line-height: var(--leading-normal);
 	position: relative;
 	max-height: 14rem;
@@ -114,9 +114,9 @@ const meta = computed(() => [
 		content: "";
 		background: linear-gradient(
 			to bottom,
-			rgb(255 255 255 / 0%),
-			rgb(255 255 255 / 20%),
-			rgb(255 255 255 / 100%)
+			transparent,
+			rgb(from var(--item-color-back) r g b / 20%),
+			var(--item-color-back)
 		);
 		position: absolute;
 		pointer-events: none;
@@ -125,13 +125,15 @@ const meta = computed(() => [
 	}
 
 	hr {
-		border-top: 1px solid var(--color-gray-200);
+		border-top: 1px solid
+			light-dark(var(--color-gray-300), var(--color-gray-900));
 		margin-bottom: -1.25rem;
 	}
 }
 
 .df-log-email-entry-body {
 	padding: var(--spacing-4) var(--spacing-3);
+	color: var(--color-text);
 }
 
 .df-log-email-entry-meta {
@@ -139,7 +141,8 @@ const meta = computed(() => [
 	padding-inline: var(--spacing-3);
 	display: grid;
 	grid-template-columns: auto 1fr;
-	border-block-end: 1px solid var(--color-gray-200);
+	border-block-end: 1px solid
+		light-dark(var(--color-gray-300), var(--color-gray-900));
 	white-space: nowrap;
 	overflow: hidden;
 }
@@ -151,16 +154,17 @@ const meta = computed(() => [
 	display: block;
 	line-height: var(--leading-normal);
 	margin-inline-start: var(--spacing-2);
+	color: var(--color-text);
 
 	&:not([data-type="subject"]) {
-		background: var(--color-gray-200);
+		background: var(--field-color-back);
 		border-radius: 9999px;
 		padding-inline: var(--spacing-2);
 	}
 }
 
 .df-log-email-entry-meta-label {
-	color: var(--color-gray-700);
+	color: var(--color-text-dimmed);
 }
 
 .df-log-email-entry-expand {
@@ -168,9 +172,9 @@ const meta = computed(() => [
 	inset: auto var(--spacing-3) var(--spacing-3) auto;
 	z-index: 20;
 	display: flex;
-	color: var(--color-gray-700);
+	color: var(--color-text-dimmed);
 	gap: var(--spacing-1);
 	align-items: center;
-	background: var(--color-white);
+	background: light-dark(var(--color-white), var(--color-gray-800));
 }
 </style>
