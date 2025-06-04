@@ -65,6 +65,7 @@
 	"actions.brevo.doubleOptIn.label": "Require Double Opt In?",
 	"actions.brevo.doubleOptInTemplate.help": "Select the template to be used for the confirmation email.",
 	"actions.brevo.doubleOptInTemplate.label": "Template for confirmation email",
+	"actions.brevo.doubleOptInTemplate.empty": "No templates found in your Brevo account. Please create a template in Brevo first.",
 	"actions.brevo.doubleOptInRedirect.help": "Brevo redirects users to this page after confirmation.",
 	"actions.brevo.doubleOptInRedirect.label": "Forward after confirmation to...",
 	"actions.brevo.attributes.empty": "No attribute mappings set",

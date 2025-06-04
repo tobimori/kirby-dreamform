@@ -44,13 +44,15 @@ class BrevoAction extends Action
 						],
 						'doubleOptInTemplate' => [
 							'label' => t('dreamform.actions.brevo.doubleOptInTemplate.label'),
-							'type' => 'select',
+							'type' => count(static::getTemplates()) > 0 ? 'select' : 'info',
 							'width' => '1/2',
-							'required' => true,
+							'required' => count(static::getTemplates()) > 0,
 							'options' => A::reduce(static::getTemplates(), fn ($prev, $template) => A::merge($prev, [
 								"id-{$template['id']}" => $template['name']
 							]), []),
-							'help' => t('dreamform.actions.brevo.doubleOptInTemplate.help'),
+							'help' => count(static::getTemplates()) > 0
+								? t('dreamform.actions.brevo.doubleOptInTemplate.help')
+								: t('dreamform.actions.brevo.doubleOptInTemplate.empty'),
 							'when' => [
 								'doubleOptIn' => true
 							]
@@ -146,10 +148,12 @@ class BrevoAction extends Action
 	 */
 	protected static function getLists(): array
 	{
-		return static::cache(
+		$response = static::cache(
 			'lists',
 			fn () => static::request('GET', '/contacts/lists')?->json()
-		)['lists'];
+		);
+
+		return $response['lists'] ?? [];
 	}
 
 	/**
@@ -157,10 +161,12 @@ class BrevoAction extends Action
 	 */
 	protected static function getTemplates(): array
 	{
-		return static::cache(
+		$response = static::cache(
 			'templates',
 			fn () => static::request('GET', '/smtp/templates?limit=1000')?->json()
-		)['templates'];
+		);
+
+		return $response['templates'] ?? [];
 	}
 
 
@@ -169,10 +175,12 @@ class BrevoAction extends Action
 	 */
 	protected static function getAttributeFields(): array
 	{
-		$attributes = static::cache(
+		$response = static::cache(
 			'attributes',
 			fn () => static::request('GET', '/contacts/attributes')?->json()
-		)['attributes'];
+		);
+
+		$attributes = $response['attributes'] ?? [];
 
 
 		$fields = [
