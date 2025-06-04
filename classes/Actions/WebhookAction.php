@@ -4,6 +4,7 @@ namespace tobimori\DreamForm\Actions;
 
 use Kirby\Http\Remote;
 use Kirby\Http\Url;
+use Kirby\Toolkit\I18n;
 use Throwable;
 
 /**
@@ -84,7 +85,11 @@ class WebhookAction extends Action
 		}
 
 		if ($request->code() > 299) {
-			$this->cancel('dreamform.actions.webhook.log.error');
+			$this->cancel(
+				I18n::template('dreamform.actions.webhook.log.error', replace: [
+					'url' => $this->block()->webhookUrl()->value()
+				])
+			);
 		}
 
 		$this->log([

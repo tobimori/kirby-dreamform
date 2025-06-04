@@ -11,7 +11,7 @@ const props = defineProps({
 	body: String
 })
 
-const body = props.body.replaceAll(`\n`, "<br>").replaceAll("———", "<hr>")
+const body = props.body.replaceAll('\n', "<br>").replaceAll("———", "<hr>")
 
 const isExpanded = ref(false)
 const uuid = ref(Math.random().toString(36).substring(2))

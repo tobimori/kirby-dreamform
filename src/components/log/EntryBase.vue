@@ -22,7 +22,7 @@ const date = formatDate(props.timestamp)
 			<div class="df-log-entry-heading">
 				<span
 					v-html="
-						encodeURIComponent($t(props.title, props.template, props.title))
+						$t(props.title, props.template, props.title)
 					"
 				></span>
 				<span> • {{ date }}</span>

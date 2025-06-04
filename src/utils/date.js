@@ -2,7 +2,7 @@ export function formatDate(timestamp) {
 	const locale = window.panel.user.language
 	const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" })
 
-	const diff = (Date().now() - timestamp * 1000) / 1000
+	const diff = (Date.now() - timestamp * 1000) / 1000
 	const units = [
 		{ unit: "year", seconds: 365 * 24 * 60 * 60 },
 		{ unit: "month", seconds: 30 * 24 * 60 * 60 },
