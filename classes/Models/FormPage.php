@@ -213,12 +213,20 @@ class FormPage extends BasePage
 		$referer = null;
 		$url = $request->header("Referer");
 		if (isset($url)) {
-			$site = Url::toObject($this->site()->url());
+			$siteUrl = $this->site()->url();
+			$site = Url::toObject($siteUrl);
 			$path = Url::toObject($url);
+
+			// Get the site host, falling back to HTTP_HOST for headless setups
+			$siteHost = $site->host();
+			if (empty($siteHost) && $siteUrl === '/') {
+				// In headless mode with url: '/', use HTTP_HOST as fallback
+				$siteHost = $request->server('HTTP_HOST');
+			}
 
 			// if the referer is from the same site, we can assume
 			// a "safe" PRG redirect
-			if ($site->host() === $path->host()) {
+			if ($siteHost === $path->host()) {
 				$referer = $path->path();
 			}
 		}

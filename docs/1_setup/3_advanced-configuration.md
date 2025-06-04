@@ -56,3 +56,22 @@ This is particularly useful when:
 - Forms can be embedded on any page, so the referer represents where the form was displayed
 - If no custom resolver is provided, DreamForm uses its default page lookup mechanism
 - The referer URL is preserved exactly as submitted, including any query parameters or fragments
+
+## Headless CMS Configuration
+
+When using Kirby as a headless CMS with `url` set to `/` in your config, DreamForm automatically handles referer validation by using the `HTTP_HOST` server variable as a fallback. This ensures forms work correctly even in headless setups where `$site->host()` returns empty.
+
+```php
+// site/config/config.php
+return [
+  'url' => '/', // Headless setup
+  'tobimori.dreamform' => [
+    // DreamForm will automatically use HTTP_HOST for referer validation
+  ]
+];
+```
+
+This is particularly useful when:
+- Forms are embedded in iframes
+- Kirby is used as a headless CMS but forms need to work normally
+- You need relative URLs throughout your site but still want secure form submissions
