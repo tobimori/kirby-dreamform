@@ -14,7 +14,7 @@ use tobimori\DreamForm\Models\FormPage;
  */
 class EmailAction extends Action
 {
-	const TYPE = 'email';
+	public const TYPE = 'email';
 
 	/**
 	 * Returns the Blocks fieldset blueprint for the actions' settings
@@ -296,7 +296,7 @@ class EmailAction extends Action
 					$attachments[] = $file;
 				}
 			} else { // is PHP file object
-				$files = array_values(A::filter($value->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
+				$files = array_values(A::filter($value->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
 				foreach ($files as $file) {
 					$name = $file['tmp_name'];
 					$tmpName = pathinfo($name);

@@ -24,7 +24,7 @@ trait SubmissionMetadata
 	 */
 	public function updateMetadata(array $data): static
 	{
-		App::instance()->impersonate('kirby', fn() => $this->version(VersionId::LATEST)->update([
+		App::instance()->impersonate('kirby', fn () => $this->version(VersionId::LATEST)->update([
 			'dreamform_sender' => array_merge($this->metadata()->toArray(), $data)
 		]));
 

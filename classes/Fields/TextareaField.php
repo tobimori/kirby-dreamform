@@ -4,7 +4,7 @@ namespace tobimori\DreamForm\Fields;
 
 class TextareaField extends Field
 {
-	const TYPE = 'textarea';
+	public const TYPE = 'textarea';
 
 	public static function blueprint(): array
 	{

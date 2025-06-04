@@ -4,7 +4,7 @@ namespace tobimori\DreamForm\Fields;
 
 class HiddenField extends Field
 {
-	const TYPE = 'hidden';
+	public const TYPE = 'hidden';
 
 	public static function blueprint(): array
 	{

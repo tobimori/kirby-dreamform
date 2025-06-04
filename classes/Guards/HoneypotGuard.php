@@ -7,12 +7,12 @@ use tobimori\DreamForm\Models\SubmissionPage;
 
 class HoneypotGuard extends Guard
 {
-	const TYPE = 'honeypot';
+	public const TYPE = 'honeypot';
 
 	public function fieldName(): string
 	{
 		$available = DreamForm::option('guards.honeypot.fields', []);
-		$used = $this->form()->fields()->map(fn($field) => $field->key());
+		$used = $this->form()->fields()->map(fn ($field) => $field->key());
 
 		foreach ($available as $field) {
 			if (!in_array($field, $used->data())) {

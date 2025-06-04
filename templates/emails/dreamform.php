@@ -5,13 +5,13 @@
 
 <?php foreach ($fields = $form->fields()->filterBy(fn ($f) => $f::hasValue() && $f::type() !== 'file-upload') as $field) :
 	$value = $submission->valueFor($field->key())?->escape();
-	if(str_starts_with($value ?? "", 'page://')) {
+	if (str_starts_with($value ?? "", 'page://')) {
 		$page = \Kirby\Cms\App::instance()->site()->find($value);
-		if($page) {
+		if ($page) {
 			$value = $page->title();
 		}
 	}
-?>
+	?>
 <?= $field->label() ?>:
 <?= $value ?? "—" ?>
 

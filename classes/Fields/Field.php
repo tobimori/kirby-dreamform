@@ -20,7 +20,7 @@ abstract class Field
 {
 	use HasCache;
 
-	const TYPE = 'field';
+	public const TYPE = 'field';
 
 	private string $id;
 
@@ -97,7 +97,9 @@ abstract class Field
 	 * Run logic after the form submission
 	 * e.g. for storing an uploaded file
 	 */
-	public function afterSubmit(SubmissionPage $submission): void {}
+	public function afterSubmit(SubmissionPage $submission): void
+	{
+	}
 
 	/**
 	 * Returns the sanitzed value of the field

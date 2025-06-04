@@ -7,7 +7,7 @@ namespace tobimori\DreamForm\Actions;
  */
 class AbortAction extends Action
 {
-	const TYPE = 'abort';
+	public const TYPE = 'abort';
 
 	/**
 	 * Returns the Blocks fieldset blueprint for the actions' settings

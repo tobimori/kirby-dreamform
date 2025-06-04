@@ -36,7 +36,7 @@ return [
 					$limitType = [$limitType];
 				}
 
-				$limitType = array_filter($limitType, fn($type) => $type !== null);
+				$limitType = array_filter($limitType, fn ($type) => $type !== null);
 				if (empty($limitType)) {
 					return null;
 				}

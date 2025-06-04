@@ -11,12 +11,14 @@ use tobimori\DreamForm\Models\SubmissionPage;
 
 class AkismetGuard extends Guard
 {
-	const TYPE = 'akismet';
+	public const TYPE = 'akismet';
 
 	/**
 	 * Akismet guard doesn't trigger pre-validation checks
 	 */
-	public function run(): void {}
+	public function run(): void
+	{
+	}
 
 	/**
 	 * Returns the content to be sent to Akismet
@@ -54,7 +56,7 @@ class AkismetGuard extends Guard
 				'referrer' => $request->header("Referer"),
 
 				// send honeypot if used
-				'honeypot_field_name' => $honeypotField = A::find($this->form()->guards(), fn($guard) => $guard instanceof HoneypotGuard)?->fieldName(),
+				'honeypot_field_name' => $honeypotField = A::find($this->form()->guards(), fn ($guard) => $guard instanceof HoneypotGuard)?->fieldName(),
 				'hidden_honeypot_field' => $honeypotField ? SubmissionPage::valueFromBody($honeypotField) : null,
 			], $this->contentForSubmission($submission)));
 
@@ -125,9 +127,9 @@ class AkismetGuard extends Guard
 					'api_key' => static::apiKey(),
 					'blog' => App::instance()->site()->url(),
 					'comment_type' => 'contact-form',
-					'blog_lang' => $kirby->multilang() ? $kirby->languages()->map(fn($lang) => $lang->code())->join(', ') : null,
+					'blog_lang' => $kirby->multilang() ? $kirby->languages()->map(fn ($lang) => $lang->code())->join(', ') : null,
 					'blog_charset' => 'UTF-8'
-				], $data), fn($value) => $value !== null)
+				], $data), fn ($value) => $value !== null)
 			]
 		);
 	}

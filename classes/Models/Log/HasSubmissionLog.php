@@ -33,7 +33,7 @@ trait HasSubmissionLog
 		]);
 
 		$items = $items->add($item);
-		App::instance()->impersonate('kirby', fn() => $this->version(VersionId::LATEST)->update([
+		App::instance()->impersonate('kirby', fn () => $this->version(VersionId::LATEST)->update([
 			'dreamform_log' => Yaml::encode($items->toArray())
 		]));
 

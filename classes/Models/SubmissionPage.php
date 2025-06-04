@@ -271,7 +271,7 @@ class SubmissionPage extends BasePage
 	 */
 	public function setField(FormField $field): static
 	{
-		App::instance()->impersonate('kirby', fn() => $this->version(VersionId::LATEST)->update([$field->key() => $field->value()->value()]));
+		App::instance()->impersonate('kirby', fn () => $this->version(VersionId::LATEST)->update([$field->key() => $field->value()->value()]));
 		return $this;
 	}
 
@@ -371,7 +371,7 @@ class SubmissionPage extends BasePage
 		// set partial state for showing "success"
 		$state = $this->state()->toArray();
 		$state['partial'] = false;
-		App::instance()->impersonate('kirby', fn() => $this->version(VersionId::LATEST)->update(['dreamform_state' => $state]));
+		App::instance()->impersonate('kirby', fn () => $this->version(VersionId::LATEST)->update(['dreamform_state' => $state]));
 
 		$submission = $this->applyHook('after');
 
@@ -586,7 +586,7 @@ class SubmissionPage extends BasePage
 			}
 		}
 
-		App::instance()->impersonate('kirby', fn() => $this->update([
+		App::instance()->impersonate('kirby', fn () => $this->update([
 			'dreamform_gravatar' => false
 		]));
 

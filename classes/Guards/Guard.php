@@ -12,22 +12,30 @@ abstract class Guard extends Performer
 	/**
 	 * Create a new Guard instance
 	 */
-	public function __construct(private FormPage $form) {}
+	public function __construct(private FormPage $form)
+	{
+	}
 
 	/**
 	 * Additional post field validation check
 	 */
-	public function postValidation(SubmissionPage	$submission): void {}
+	public function postValidation(SubmissionPage	$submission): void
+	{
+	}
 
 	/**
 	 * Reports the submission as spam to a third-party service
 	 */
-	public function reportSubmissionAsSpam(SubmissionPage $submission): void {}
+	public function reportSubmissionAsSpam(SubmissionPage $submission): void
+	{
+	}
 
 	/**
 	 * Reports the submission as ham to a third-party service
 	 */
-	public function reportSubmissionAsHam(SubmissionPage $submission): void {}
+	public function reportSubmissionAsHam(SubmissionPage $submission): void
+	{
+	}
 
 	/**
 	 * Returns the form the guard is being run on

@@ -16,7 +16,7 @@ abstract class Performer
 {
 	use HasCache;
 
-	const TYPE = 'performer';
+	public const TYPE = 'performer';
 
 	/**
 	 * Cancel the form submission

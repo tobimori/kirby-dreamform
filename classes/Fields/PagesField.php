@@ -6,7 +6,7 @@ use tobimori\DreamForm\DreamForm;
 
 class PagesField extends Field
 {
-	const TYPE = 'pages';
+	public const TYPE = 'pages';
 
 	public static function blueprint(): array
 	{

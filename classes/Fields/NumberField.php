@@ -6,7 +6,7 @@ use Kirby\Toolkit\V;
 
 class NumberField extends Field
 {
-	const TYPE = 'number';
+	public const TYPE = 'number';
 
 	public static function blueprint(): array
 	{

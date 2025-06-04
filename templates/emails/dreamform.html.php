@@ -148,14 +148,14 @@
                                 <td style="vertical-align:top;padding:0px;">
                                   <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="" width="100%">
                                     <tbody> <?php foreach ($fields = $form->fields()->filterBy(fn ($f) => $f::hasValue() && $f::type() !== 'file-upload') as $field) :
-							$value = $submission->valueFor($field->key())?->escape();
-							if(str_starts_with($value ?? "", 'page://')) {
-								$page = \Kirby\Cms\App::instance()->site()->find($value);
-								if($page) {
-									$value = $page->title();
-								}
-							}
-						?> <tr>
+                                    	$value = $submission->valueFor($field->key())?->escape();
+                                    	if (str_starts_with($value ?? "", 'page://')) {
+                                    		$page = \Kirby\Cms\App::instance()->site()->find($value);
+                                    		if ($page) {
+                                    			$value = $page->title();
+                                    		}
+                                    	}
+                                    	?> <tr>
                                         <td align="left" style="font-size:0px;padding:0px;padding-bottom:8px;word-break:break-word;">
                                           <div style="font-family:Inter;font-size:14px;font-weight:700;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#000000;"><?= $field->label() ?></div>
                                         </td>
@@ -163,9 +163,9 @@
                                       <tr>
                                         <td align="left" style="font-size:0px;padding:0px;word-break:break-word;">
                                           <div style="font-family:Inter;font-size:14px;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#737373;"><?= $value ?? "—"
-						?></div>
+                                    	?></div>
                                         </td>
-                                      </tr> <?php if($fields->last() !== $field) : ?> <tr>
+                                      </tr> <?php if ($fields->last() !== $field) : ?> <tr>
                                         <td align="center" style="font-size:0px;padding:16px 0;word-break:break-word;">
                                           <p style="border-top:solid 1px #f0f0f0;font-size:1px;margin:0px auto;width:100%;">
                                           </p>
@@ -173,7 +173,7 @@
 </td></tr></table><![endif]-->
                                         </td>
                                       </tr> <?php endif;
-							endforeach ?>
+                                    endforeach ?>
                                     </tbody>
                                   </table>
                                 </td>

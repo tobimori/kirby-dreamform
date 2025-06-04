@@ -62,7 +62,7 @@ class FormPage extends BasePage
 			'hx-vals' => Json::encode(array_filter([
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
 				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
-			], fn($value) => $value !== null))
+			], fn ($value) => $value !== null))
 		];
 
 		return $htmx;
@@ -341,7 +341,7 @@ class FormPage extends BasePage
 			// if dreamform is used in API mode, return the submission state as JSON
 			if ($mode === 'api') {
 				$kirby->response()->code($submission->isSuccessful() ? 200 : 400);
-				return json_encode(A::merge(array_filter($submission->state()->toArray(), fn($key) => A::has([
+				return json_encode(A::merge(array_filter($submission->state()->toArray(), fn ($key) => A::has([
 					'success',
 					'step',
 					'redirect',
