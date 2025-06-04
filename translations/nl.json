@@ -65,6 +65,7 @@
 	"actions.brevo.doubleOptIn.label": "Een dubbele opt-in verplicht?",
 	"actions.brevo.doubleOptInTemplate.help": "Selecteer de template die gebruikt wordt voor de bevestigingsmail.",
 	"actions.brevo.doubleOptInTemplate.label": "Template voor bevestigingsmail",
+	"actions.brevo.doubleOptInTemplate.empty": "Geen sjablonen gevonden in je Brevo-account. Maak eerst een sjabloon aan in Brevo.",
 	"actions.brevo.doubleOptInRedirect.help": "Brevo stuurt gebruikers na bevestiging door naar deze pagina.",
 	"actions.brevo.doubleOptInRedirect.label": "Na bevestiging doorsturen naar...",
 	"actions.brevo.attributes.empty": "Geen attribuuttoewijzingen ingesteld",

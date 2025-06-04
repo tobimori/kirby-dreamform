@@ -65,6 +65,7 @@
 	"actions.brevo.doubleOptIn.label": "Exiger une double confirmation ?",
 	"actions.brevo.doubleOptInTemplate.help": "Sélectionne le modèle à utiliser pour l'e-mail de confirmation.",
 	"actions.brevo.doubleOptInTemplate.label": "Modèle pour l'e-mail de confirmation",
+	"actions.brevo.doubleOptInTemplate.empty": "Aucun modèle trouvé dans votre compte Brevo. Veuillez d'abord créer un modèle dans Brevo.",
 	"actions.brevo.doubleOptInRedirect.help": "Brevo redirige les utilisatrices vers cette page après confirmation.",
 	"actions.brevo.doubleOptInRedirect.label": "Rediriger après confirmation vers...",
 	"actions.brevo.attributes.empty": "Aucun mappage d'attributs défini",

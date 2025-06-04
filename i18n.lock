@@ -67,6 +67,7 @@ checksums:
     actions.brevo.doubleOptIn.label: 2e609e04487551b862f58bb4d8adcfea
     actions.brevo.doubleOptInTemplate.help: 0bcb51e4a859c8d6b3beae23d43b7d3c
     actions.brevo.doubleOptInTemplate.label: c81d6ce79de2836b0aff90432aa3cb10
+    actions.brevo.doubleOptInTemplate.empty: 625875ac8905b390974bce1147b234e8
     actions.brevo.doubleOptInRedirect.help: f325d215347731e94b66cfbdc77eaa92
     actions.brevo.doubleOptInRedirect.label: ba7734f1d29584fd74cbbd9ede2f45f3
     actions.brevo.attributes.empty: e5e5b34b9bde28b9da1bbe22d66de0a7

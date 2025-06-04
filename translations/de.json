@@ -65,6 +65,7 @@
 	"actions.brevo.doubleOptIn.label": "Erfordere Double Opt-In? (Email-Bestätigung)",
 	"actions.brevo.doubleOptInTemplate.help": "Wähle die Vorlage aus, das für die Bestätigungsemail verwendet werden soll.",
 	"actions.brevo.doubleOptInTemplate.label": "Vorlage für Bestätigungsemail",
+	"actions.brevo.doubleOptInTemplate.empty": "Keine Vorlagen in deinem Brevo-Konto gefunden. Bitte erstelle zuerst eine Vorlage in Brevo.",
 	"actions.brevo.doubleOptInRedirect.help": "Brevo leitet Nutzer nach der Bestätigung zu dieser Seite weiter.",
 	"actions.brevo.doubleOptInRedirect.label": "Weiterleiten nach Bestätigung zu...",
 	"actions.brevo.attributes.empty": "Keine Attributzuordnungen gesetzt",

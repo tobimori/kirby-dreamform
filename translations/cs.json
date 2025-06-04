@@ -65,6 +65,7 @@
 	"actions.brevo.doubleOptIn.label": "Vyžadovat dvojí souhlas?",
 	"actions.brevo.doubleOptInTemplate.help": "Vyberte šablonu, která bude použita pro potvrzovací e-mail.",
 	"actions.brevo.doubleOptInTemplate.label": "Šablona pro potvrzovací e-mail",
+	"actions.brevo.doubleOptInTemplate.empty": "Ve vašem účtu Brevo nebyly nalezeny žádné šablony. Prosím, nejprve vytvořte šablonu v Brevo.",
 	"actions.brevo.doubleOptInRedirect.help": "Brevo přesměruje uživatele na tuto stránku po potvrzení.",
 	"actions.brevo.doubleOptInRedirect.label": "Po potvrzení přesměrovat na...",
 	"actions.brevo.attributes.empty": "Není nastaveno žádné mapování atributů",

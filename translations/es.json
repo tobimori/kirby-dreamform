@@ -65,6 +65,7 @@
 	"actions.brevo.doubleOptIn.label": "¿Requerir confirmación doble?",
 	"actions.brevo.doubleOptInTemplate.help": "Selecciona la plantilla que se usará para el correo de confirmación.",
 	"actions.brevo.doubleOptInTemplate.label": "Plantilla para correo de confirmación",
+	"actions.brevo.doubleOptInTemplate.empty": "No se encontraron plantillas en tu cuenta de Brevo. Por favor, crea primero una plantilla en Brevo.",
 	"actions.brevo.doubleOptInRedirect.help": "Brevo redirige a las usuarias a esta página después de la confirmación.",
 	"actions.brevo.doubleOptInRedirect.label": "Redirigir después de la confirmación a...",
 	"actions.brevo.attributes.empty": "No hay mapeos de atributos configurados",

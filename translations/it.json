@@ -65,6 +65,7 @@
 	"actions.brevo.doubleOptIn.label": "Richiedi doppia conferma?",
 	"actions.brevo.doubleOptInTemplate.help": "Seleziona il template da utilizzare per l'email di conferma.",
 	"actions.brevo.doubleOptInTemplate.label": "Template per l'email di conferma",
+	"actions.brevo.doubleOptInTemplate.empty": "Nessun modello trovato nel tuo account Brevo. Per favore, crea prima un modello in Brevo.",
 	"actions.brevo.doubleOptInRedirect.help": "Brevo reindirizza gli utenti a questa pagina dopo la conferma.",
 	"actions.brevo.doubleOptInRedirect.label": "Inoltra dopo la conferma a...",
 	"actions.brevo.attributes.empty": "Nessuna mappatura degli attributi impostata",
