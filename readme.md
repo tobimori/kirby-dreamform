@@ -74,7 +74,7 @@ Read more about DreamForm on the [official plugin website](https://plugins.andki
 
 Kirby DreamForm is not free software. In order to run it on a public server, you'll have to purchase a valid Kirby license & a [valid DreamForm license](https://plugins.andkindness.com/dreamform/pricing).
 
-Copyright 2024 © Tobias Möritz - Love & Kindness GmbH
+Copyright 2024-2025 © Tobias Möritz - Love & Kindness GmbH
 
 ---
 
