@@ -1,4 +1,4 @@
-name: CI
+name: ci
 
 on:
   push:
@@ -6,33 +6,35 @@ on:
 
 jobs:
   lint-and-format:
+    name: lint and format
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: checkout
+        uses: actions/checkout@v4
 
-      - name: Setup PHP
+      - name: setup php
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.3"
           tools: php-cs-fixer
 
-      - name: Setup Node.js
+      - name: setup node
         uses: actions/setup-node@v4
         with:
           node-version: "24"
 
-      - name: Install pnpm
+      - name: install pnpm
         uses: pnpm/action-setup@v3
 
-      - name: Install dependencies
+      - name: install node dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run ESLint
+      - name: run eslint
         run: pnpm run lint
 
-      - name: Check Prettier formatting
+      - name: check prettier formatting
         run: pnpm exec prettier --check "src/**/*.{js,vue}"
 
-      - name: Run PHP CS Fixer (dry-run)
+      - name: run php cs fixer
         run: php-cs-fixer fix --dry-run --diff --verbose

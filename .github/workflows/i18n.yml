@@ -14,6 +14,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - uses: lingodotdev/lingo.dev@main
+      - name: translation magic ✨
+        uses: lingodotdev/lingo.dev@main
         with:
           api-key: ${{ secrets.LINGODOTDEV_API_KEY }}
