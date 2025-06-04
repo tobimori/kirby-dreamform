@@ -21,16 +21,13 @@ class NumberField extends Field
 					'fields' => [
 						'key' => 'dreamform/fields/key',
 						'label' => 'dreamform/fields/label',
-						'placeholder' => [
-							'extends' => 'dreamform/fields/placeholder',
-							'width' => '2/3'
-						],
+						'placeholder' => 'dreamform/fields/placeholder',
 						'step' => [
 							'label' => t('dreamform.fields.number.step.label'),
 							'type' => 'number',
 							'default' => 1,
 							'required' => true,
-							'width' => '1/3',
+							'width' => '1/2',
 							'help' => t('dreamform.fields.number.step.help')
 						],
 					]
@@ -41,18 +38,15 @@ class NumberField extends Field
 						'min' => [
 							'label' => t('dreamform.fields.number.min.label'),
 							'type' => 'number',
-							'width' => '1/3'
+							'width' => '1/2'
 						],
 						'max' => [
 							'label' => t('dreamform.fields.number.max.label'),
 							'type' => 'number',
-							'width' => '1/3'
+							'width' => '1/2'
 						],
 						'required' => 'dreamform/fields/required',
-						'errorMessage' => [
-							'extends' => 'dreamform/fields/error-message',
-							'width' => '1'
-						],
+						'errorMessage' => 'dreamform/fields/error-message',
 					]
 				]
 			]

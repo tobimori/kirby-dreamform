@@ -43,17 +43,17 @@ class FileUploadField extends Field
 				'validation' => [
 					'label' => t('dreamform.validation'),
 					'fields' => [
+						'required' => 'dreamform/fields/required',
 						'maxSize' => [
 							'label' => t('dreamform.fields.upload.maxSize.label'),
 							'type' => 'number',
 							'help' => tt('dreamform.fields.upload.maxSize.help', null, ['size' => ini_get('upload_max_filesize')]),
 							'after' => 'MB',
-							'width' => '1/4',
+							'width' => '1/2',
 						],
 						'allowedTypes' => [
 							'label' => t('dreamform.fields.upload.allowedTypes.label'),
 							'type' => 'multiselect',
-							'width' => '3/4',
 							'options' => A::map(
 								array_keys(static::availableTypes()),
 								fn ($type) => [
@@ -62,7 +62,6 @@ class FileUploadField extends Field
 								]
 							)
 						],
-						'required' => 'dreamform/fields/required',
 						'errorMessage' => 'dreamform/fields/error-message',
 					]
 				]

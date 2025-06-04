@@ -26,14 +26,14 @@ class PagesField extends Field
 							'label' => t('dreamform.common.options.label'),
 							'type' => 'pages',
 							'query' => DreamForm::option('fields.pages.query'),
-							'width' => '2/3',
+							'width' => '1/2',
 						],
 						'useChildren' => [
 							'label' => t('dreamform.fields.pages.useChildren.label'),
 							'help' => t('dreamform.fields.pages.useChildren.help'),
 							'type' => 'toggle',
 							'default' => false,
-							'width' => '1/3',
+							'width' => '1/2',
 						],
 					]
 				],
