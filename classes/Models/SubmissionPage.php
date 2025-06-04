@@ -74,6 +74,11 @@ class SubmissionPage extends BasePage
 
 	/**
 	 * Looks up the referer as page in the site structure
+	 *
+	 * If your pages use custom URLs (by overriding the url() method),
+	 * this method may not be able to find the page. You can use the
+	 * 'refererPageResolver' config option to implement custom page
+	 * resolution logic.
 	 */
 	public function findRefererPage(): Page|null
 	{
@@ -81,7 +86,14 @@ class SubmissionPage extends BasePage
 			return null;
 		}
 
-		return DreamForm::findPageOrDraftRecursive($this->referer());
+		$resolver = DreamForm::option('refererPageResolver');
+		if (is_callable($resolver)) {
+			return $resolver($this->referer(), $this);
+		} elseif ($page = DreamForm::findPageOrDraftRecursive($this->referer())) {
+			return $page;
+		}
+
+		return null;
 	}
 
 	/**

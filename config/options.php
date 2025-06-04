@@ -1,6 +1,7 @@
 <?php
 
 use Kirby\Cms\App;
+use tobimori\DreamForm\DreamForm;
 
 return [
 	'cache' => [
@@ -95,7 +96,7 @@ return [
 			'apiKey' => null // Loops API key
 		],
 		'brevo' => [
-			'apiKey' => null // Mailchimp API key
+			'apiKey' => null // Brevo API key
 		],
 		'buttondown' => [
 			'apiKey' => null, // Buttondown API key
@@ -114,5 +115,6 @@ return [
 	],
 	'integrations' => [
 		'gravatar' => true, // Get profile pictures for email fields from Gravatar
-	]
+	],
+	'refererPageResolver' => fn (string | null $referer) => DreamForm::findPageOrDraftRecursive($referer) // Callback to resolve custom page URLs to pages
 ];

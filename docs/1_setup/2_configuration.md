@@ -22,6 +22,7 @@ description: Configure DreamForm to your needs
 | tobimori.dreamform.layouts | `['1/1', '1/2, 1/2']` | `array` | Enabled layouts for the form builder |
 | tobimori.dreamform.page | `page://forms` | `string` | The page where all forms are stored |
 | tobimori.dreamform.integrations.gravatar | `true` | `boolean` | If enabled, submissions with email fields fetch an avatar from Gravatar to show in the panel |
+| tobimori.dreamform.refererPageResolver | `callable` | `callable` | Custom callback to resolve pages with custom URLs |
 
 ## Example Configuration
 
