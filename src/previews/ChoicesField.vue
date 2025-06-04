@@ -1,23 +1,23 @@
 <script setup>
-import { props as blockProps } from "@/utils/block"
-import FieldHeader from "@/components/FieldHeader.vue"
-import Options from "@/components/Options.vue"
-import FieldError from "@/components/FieldError.vue"
-import { computed } from "kirbyuse"
+import FieldError from "@/components/FieldError.vue";
+import FieldHeader from "@/components/FieldHeader.vue";
+import Options from "@/components/Options.vue";
+import { props as blockProps } from "@/utils/block";
+import { computed } from "kirbyuse";
 
-const props = defineProps(blockProps)
+const props = defineProps(blockProps);
 
-const emit = defineEmits(["update", "open"])
-const update = (value) => emit("update", { ...props.content, ...value })
+const emit = defineEmits(["update", "open"]);
+const update = (value) => emit("update", { ...props.content, ...value });
 const open = (e) => {
-	if (e.target === e.currentTarget) emit("open")
-}
+	if (e.target === e.currentTarget) emit("open");
+};
 
 const useWriter = computed(
 	() =>
 		props.fieldset.type === "radio-field" ||
-		props.fieldset.type === "checkbox-field"
-)
+		props.fieldset.type === "checkbox-field",
+);
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const useWriter = computed(
 		<options
 			:classMod="{
 				'is-radio': fieldset.type === 'radio-field',
-				'is-checkbox': fieldset.type === 'checkbox-field'
+				'is-checkbox': fieldset.type === 'checkbox-field',
 			}"
 			:useWriter="useWriter"
 			:writerOptions="
@@ -51,9 +51,9 @@ const useWriter = computed(
 		display: block;
 		width: 1rem;
 		height: 1rem;
-		border: 1px solid var(--choice-color-border);
+		border: 1px solid var(--input-color-border);
 		margin-right: var(--spacing-2);
-		background: var(--color-white);
+		background: light-dark(var(--color-white), var(--color-gray-700));
 		box-shadow: var(--shadow-sm);
 		flex-shrink: 0;
 	}
@@ -63,7 +63,7 @@ const useWriter = computed(
 		box-shadow: none;
 
 		.df-option-icon {
-			background: var(--color-gray-100);
+			background: light-dark(var(--color-gray-100), var(--color-gray-800));
 			outline: 2px solid var(--color-focus);
 			box-shadow: var(--shadow-md);
 		}

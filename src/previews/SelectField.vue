@@ -1,17 +1,17 @@
 <script setup>
-import { props as blockProps } from "@/utils/block"
-import FieldHeader from "@/components/FieldHeader.vue"
-import Options from "@/components/Options.vue"
-import FieldError from "@/components/FieldError.vue"
-import FieldInput from "@/components/FieldInput.vue"
+import FieldError from "@/components/FieldError.vue";
+import FieldHeader from "@/components/FieldHeader.vue";
+import FieldInput from "@/components/FieldInput.vue";
+import Options from "@/components/Options.vue";
+import { props as blockProps } from "@/utils/block";
 
-const props = defineProps(blockProps)
+const props = defineProps(blockProps);
 
-const emit = defineEmits(["update", "open"])
-const update = (value) => emit("update", { ...props.content, ...value })
+const emit = defineEmits(["update", "open"]);
+const update = (value) => emit("update", { ...props.content, ...value });
 const open = (e) => {
-	if (e.target === e.currentTarget) emit("open")
-}
+	if (e.target === e.currentTarget) emit("open");
+};
 </script>
 
 <template>
@@ -42,8 +42,8 @@ const open = (e) => {
 		display: flex;
 		align-items: center;
 		box-shadow: var(--shadow-sm);
-		background: var(--color-white);
-		outline: 1px solid var(--color-gray-200);
+		background: var(--input-color-back);
+		outline: 1px solid var(--input-color-border);
 		padding: var(--spacing-1) var(--spacing-1) var(--spacing-1) var(--spacing-2);
 		border-radius: var(--input-rounded);
 		font-variant-numeric: tabular-nums;
@@ -67,7 +67,7 @@ const open = (e) => {
 		padding-right: var(--spacing-2);
 
 		&:hover {
-			color: var(--color-gray-800);
+			color: light-dark(var(--color-gray-800), var(--color-gray-400));
 			opacity: 1;
 		}
 	}

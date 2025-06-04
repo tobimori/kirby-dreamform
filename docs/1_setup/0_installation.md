@@ -5,8 +5,8 @@ description: Get started with using DreamForm
 
 ## Requirements
 
-- Kirby 4.1+ or later
-- PHP 8.2+ or later
+- Kirby 5.0+ or later
+- PHP 8.3+ or later
 - A valid Kirby license & DreamForm license
 - UUIDs enabled in your Kirby installation
 

@@ -1,13 +1,13 @@
 <script setup>
-import Editable from "@/components/Editable.vue"
+import Editable from "@/components/Editable.vue";
 
 const props = defineProps({
 	icon: String,
 	content: Object,
-	placeholder: String
-})
+	placeholder: String,
+});
 
-const emit = defineEmits(["update"])
+const emit = defineEmits(["update"]);
 </script>
 
 <template>
@@ -27,7 +27,8 @@ const emit = defineEmits(["update"])
 .df-input {
 	display: flex;
 	position: relative;
-	color: var(--color-gray-700);
+	color: var(--input-color-placeholder);
+	background-color: var(--input-color-back);
 	box-shadow: var(--shadow-sm);
 	outline: 1px solid var(--input-color-border);
 	padding: 0.65rem var(--spacing-2);

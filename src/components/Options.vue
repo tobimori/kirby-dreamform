@@ -1,92 +1,92 @@
 <script setup>
-import { ref, onMounted, watch, useApp, nextTick } from "kirbyuse"
-import Editable from "@/components/Editable.vue"
+import Editable from "@/components/Editable.vue";
+import { nextTick, onMounted, ref, useApp, watch } from "kirbyuse";
 
-const app = useApp()
+const app = useApp();
 
 const props = defineProps({
 	classMod: String,
 	useWriter: Boolean,
 	writerOptions: Object,
-	options: Array
-})
+	options: Array,
+});
 
 // convert options to items, handle vue rendering
-const items = ref([])
+const items = ref([]);
 const setItems = (options) => {
 	items.value = options.map((option) => ({
 		_id: app.$helper.uuid(),
-		...option
-	}))
-}
+		...option,
+	}));
+};
 
-onMounted(() => setItems(props.options))
+onMounted(() => setItems(props.options));
 watch(
 	() => props.options,
-	(options) => setItems(options)
-)
+	(options) => setItems(options),
+);
 
 // handle updating
-const emit = defineEmits(["update"])
-const update = (value) => emit("update", value)
-const sort = () => update(items.value)
+const emit = defineEmits(["update"]);
+const update = (value) => emit("update", value);
+const sort = () => update(items.value);
 
 const updateOption = (id, value) => {
-	const index = items.value.findIndex((item) => item._id === id)
-	items.value[index] = { ...items.value[index], ...value }
-	update(items.value)
-}
+	const index = items.value.findIndex((item) => item._id === id);
+	items.value[index] = { ...items.value[index], ...value };
+	update(items.value);
+};
 
 const addOption = () => {
-	update([...items.value, { value: "", label: "" }])
-	nextTick(() => focusLabel(items.value[items.value.length - 1]._id))
-}
+	update([...items.value, { value: "", label: "" }]);
+	nextTick(() => focusLabel(items.value[items.value.length - 1]._id));
+};
 
 const removeOption = (id) => {
-	update(items.value.filter((item) => item._id !== id))
+	update(items.value.filter((item) => item._id !== id));
 	nextTick(() => {
 		if (items.value.length) {
-			focusValue(items.value[items.value.length - 1]._id)
+			focusValue(items.value[items.value.length - 1]._id);
 		}
-	})
-}
+	});
+};
 
 // handle focus
-const labelInputs = ref([])
-const valueInputs = ref([])
+const labelInputs = ref([]);
+const valueInputs = ref([]);
 
 const focusEndOf = (el) => {
-	console.log(labelInputs.value, valueInputs.value)
-	if (!el) return
+	console.log(labelInputs.value, valueInputs.value);
+	if (!el) return;
 
-	el.focus()
-	const range = document.createRange()
-	const selection = window.getSelection()
-	range.setStart(el, el.childNodes.length)
-	range.collapse(true)
-	selection.removeAllRanges()
-	selection.addRange(range)
-}
+	el.focus();
+	const range = document.createRange();
+	const selection = window.getSelection();
+	range.setStart(el, el.childNodes.length);
+	range.collapse(true);
+	selection.removeAllRanges();
+	selection.addRange(range);
+};
 
 const focusLabel = (id) => {
-	const index = items.value.findIndex((item) => item._id === id)
-	focusEndOf(labelInputs.value[index].el)
-}
+	const index = items.value.findIndex((item) => item._id === id);
+	focusEndOf(labelInputs.value[index].el);
+};
 
 const focusValue = (id) => {
-	const index = items.value.findIndex((item) => item._id === id)
-	focusEndOf(valueInputs.value[index].el)
-}
+	const index = items.value.findIndex((item) => item._id === id);
+	focusEndOf(valueInputs.value[index].el);
+};
 
 const focusNextOrAddOption = (id) => {
-	const index = items.value.findIndex((item) => item._id === id)
+	const index = items.value.findIndex((item) => item._id === id);
 
 	if (index === items.value.length - 1) {
-		addOption()
+		addOption();
 	} else {
-		focusLabel(items.value[index + 1]._id)
+		focusLabel(items.value[index + 1]._id);
 	}
-}
+};
 </script>
 
 <template>
@@ -204,8 +204,8 @@ const focusNextOrAddOption = (id) => {
 
 .df-option-value {
 	margin-left: var(--spacing-2);
-	color: var(--color-gray-700);
-	background: var(--color-gray-200);
+	color: var(--color-text-dimmed);
+	background: var(--menu-color-back);
 	padding: var(--spacing-1) 0.375rem;
 	border-radius: var(--input-rounded);
 	font-size: var(--text-xs);

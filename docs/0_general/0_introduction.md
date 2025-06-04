@@ -2,7 +2,7 @@
 title: Introduction
 ---
 
-**DreamForm** is an opiniated form builder plugin for Kirby CMS 4+ that makes forms work like magic.
+**DreamForm** is an opiniated form builder plugin for Kirby CMS 5+ that makes forms work like magic.
 
 ### Key features
 
