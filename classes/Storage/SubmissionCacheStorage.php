@@ -2,40 +2,55 @@
 
 namespace tobimori\DreamForm\Storage;
 
+use Kirby\Cache\Cache;
 use Kirby\Cms\App;
 use Kirby\Cms\Language;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Content\Storage;
 use Kirby\Content\VersionId;
-use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\SubmissionPage;
 
 /**
- * Storage handler that uses PHP sessions for storing submission data
+ * Storage handler that uses Kirby cache for sessionless storage
  */
-class SubmissionSessionStorage extends Storage
+class SubmissionCacheStorage extends Storage
 {
 	/**
-	 * Returns the session key for storing submission data
+	 * Cache instance
 	 */
-	protected function sessionKey(): string
+	protected Cache $cache;
+
+	/**
+	 * Sets up the cache instance
+	 */
+	public function __construct(protected ModelWithContent $model)
 	{
-		return DreamForm::SESSION_KEY . ':data:' . $this->model->id();
+		parent::__construct($model);
+		$this->cache = App::instance()->cache('tobimori.dreamform.sessionless');
 	}
 
 	/**
-	 * Get submission data from session
+	 * Returns the cache key for storing submission data
 	 */
-	protected function getSessionData(): array
+	protected function cacheKey(): string
 	{
-		return App::instance()->session()->get($this->sessionKey(), []);
+		return $this->model->id() . ':data';
 	}
 
 	/**
-	 * Set submission data in session
+	 * Get submission data from cache
 	 */
-	protected function setSessionData(array $data): void
+	protected function getCacheData(): array
 	{
-		App::instance()->session()->set($this->sessionKey(), $data);
+		return $this->cache->get($this->cacheKey()) ?? [];
+	}
+
+	/**
+	 * Set submission data in cache
+	 */
+	protected function setCacheData(array $data): void
+	{
+		$this->cache->set($this->cacheKey(), $data, 60 * 24); // 24 hours
 	}
 
 	/**
@@ -43,9 +58,9 @@ class SubmissionSessionStorage extends Storage
 	 */
 	public function delete(VersionId $versionId, Language $language): void
 	{
-		$data = $this->getSessionData();
+		$data = $this->getCacheData();
 		unset($data[$versionId->value()][$language->code()]);
-		$this->setSessionData($data);
+		$this->setCacheData($data);
 	}
 
 	/**
@@ -53,7 +68,7 @@ class SubmissionSessionStorage extends Storage
 	 */
 	public function exists(VersionId $versionId, Language $language): bool
 	{
-		$data = $this->getSessionData();
+		$data = $this->getCacheData();
 		return isset($data[$versionId->value()][$language->code()]);
 	}
 
@@ -62,7 +77,7 @@ class SubmissionSessionStorage extends Storage
 	 */
 	public function modified(VersionId $versionId, Language $language): int|null
 	{
-		$data = $this->getSessionData();
+		$data = $this->getCacheData();
 		return $data[$versionId->value()][$language->code()]['_modified'] ?? null;
 	}
 
@@ -73,7 +88,7 @@ class SubmissionSessionStorage extends Storage
 	 */
 	public function read(VersionId $versionId, Language $language): array
 	{
-		$data = $this->getSessionData();
+		$data = $this->getCacheData();
 		$fields = $data[$versionId->value()][$language->code()] ?? [];
 		unset($fields['_modified']);
 		return $fields;
@@ -90,9 +105,9 @@ class SubmissionSessionStorage extends Storage
 			throw new \Kirby\Exception\NotFoundException('Version does not exist');
 		}
 
-		$data = $this->getSessionData();
+		$data = $this->getCacheData();
 		$data[$versionId->value()][$language->code()]['_modified'] = time();
-		$this->setSessionData($data);
+		$this->setCacheData($data);
 	}
 
 	/**
@@ -102,14 +117,14 @@ class SubmissionSessionStorage extends Storage
 	 */
 	protected function write(VersionId $versionId, Language $language, array $fields): void
 	{
-		$data = $this->getSessionData();
+		$data = $this->getCacheData();
 		$fields['_modified'] = time();
 		$data[$versionId->value()][$language->code()] = $fields;
-		$this->setSessionData($data);
+		$this->setCacheData($data);
 	}
 
 	/**
-	 * Store submission reference in session
+	 * Store submission reference in cache
 	 */
 	public function storeReference(): void
 	{
@@ -119,29 +134,29 @@ class SubmissionSessionStorage extends Storage
 
 		/** @var SubmissionPage $submission */
 		$submission = $this->model;
-		$session = App::instance()->session();
 
-		if ($submission->exists()) {
-			// Page exists on disk - just store the slug
-			$session->set(DreamForm::SESSION_KEY, $submission->slug());
-		} else {
-			// Page doesn't exist - store a data array that can be used to reconstruct it
-			$session->set(DreamForm::SESSION_KEY, [
+		if (!$submission->exists()) {
+			// Store metadata that can be used to reconstruct the submission
+			$this->cache->set($submission->slug(), [
 				'type' => 'submission',
 				'template' => $submission->intendedTemplate()->name(),
 				'slug' => $submission->slug(),
 				'parent' => $submission->parent()?->id(),
 				// Content is already stored via the storage handler's write() method
-			]);
+			], 60 * 24); // 24 hours
 		}
+		// If exists on disk, the reference will be passed via request body
 	}
 
 	/**
-	 * Clean up session data for this submission
+	 * Clean up cache data for this submission
 	 */
 	public function cleanup(): void
 	{
-		App::instance()->session()->remove($this->sessionKey());
-		App::instance()->session()->remove(DreamForm::SESSION_KEY);
+		$this->cache->remove($this->cacheKey());
+
+		if ($this->model instanceof SubmissionPage) {
+			$this->cache->remove($this->model->slug());
+		}
 	}
 }

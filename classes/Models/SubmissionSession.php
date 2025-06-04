@@ -3,10 +3,11 @@
 namespace tobimori\DreamForm\Models;
 
 use Kirby\Cms\App;
-use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\SubmissionPage;
+use tobimori\DreamForm\Storage\SubmissionSessionStorage;
+use tobimori\DreamForm\Storage\SubmissionCacheStorage;
 use tobimori\DreamForm\Support\Htmx;
 
 trait SubmissionSession
@@ -14,36 +15,77 @@ trait SubmissionSession
 	private static SubmissionPage|null $session = null;
 
 	/**
-	 * Store submission in session for use with PRG pattern
+	 * Store submission reference for retrieval
 	 */
 	public function storeSession(): static
 	{
 		$kirby = App::instance();
 		$mode = DreamForm::option('mode', 'prg');
-		if ($mode === 'api' || Htmx::isActive() && Htmx::isHtmxRequest()) {
-			return $this->storeSessionlessCache();
-		}
+		$storage = $this->storage();
 
-		$kirby->session()->set(
-			DreamForm::SESSION_KEY,
-			// if the page exists on disk, we store the UUID only so we can save files since they can't be serialized
-			$this->exists() ? $this->slug() : $this
-		);
+		// If using a session-aware storage handler, let it handle the reference
+		if (
+			$storage instanceof SubmissionSessionStorage ||
+			$storage instanceof SubmissionCacheStorage
+		) {
+			$storage->storeReference();
+		} else {
+			// For PlainTextStorage (already persisted), store the slug reference
+			if ($mode === 'api' || (Htmx::isActive() && Htmx::isHtmxRequest())) {
+				// In sessionless mode, the reference is passed via request body
+				// Nothing to store server-side
+			} else {
+				// Store slug in PHP session for PRG mode
+				$kirby->session()->set(DreamForm::SESSION_KEY, $this->slug());
+			}
+		}
 
 		return static::$session = $this;
 	}
 
-	public function storeSessionlessCache(): static
+	/**
+	 * Reconstruct submission from data
+	 */
+	private static function reconstructSubmission(mixed $data): SubmissionPage|null
 	{
-		if (A::has(['prg', 'htmx'], DreamForm::option('mode', 'prg')) && !Htmx::isHtmxRequest()) {
-			return $this->storeSession();
+		if (is_string($data)) {
+			// It's a slug reference - submission exists on disk
+			return DreamForm::findPageOrDraftRecursive($data);
 		}
 
-		if (!$this->exists()) {
-			App::instance()->cache('tobimori.dreamform.sessionless')->set($this->slug(), serialize($this), 60 * 24);
+		if (is_array($data) && isset($data['type']) && $data['type'] === 'submission') {
+			// It's submission metadata - reconstruct the submission
+			$parent = DreamForm::findPageOrDraftRecursive($data['parent']);
+			if ($parent) {
+				return new SubmissionPage([
+					'template' => $data['template'],
+					'slug' => $data['slug'],
+					'parent' => $parent,
+				]);
+			}
 		}
 
-		return static::$session = $this;
+		return null;
+	}
+
+	/**
+	 * Clean up submission if appropriate
+	 */
+	private static function cleanupIfNeeded(SubmissionPage $submission): void
+	{
+		// Only clean up if submission is finished
+		// Don't clean up on validation errors - they're expected during form filling
+		if ($submission->isFinished()) {
+			$kirby = App::instance();
+			$storage = $submission->storage();
+
+			if ($storage instanceof SubmissionSessionStorage) {
+				$kirby->session()->remove(DreamForm::SESSION_KEY);
+				$storage->cleanup();
+			} elseif ($storage instanceof SubmissionCacheStorage) {
+				$storage->cleanup();
+			}
+		}
 	}
 
 	/**
@@ -51,84 +93,46 @@ trait SubmissionSession
 	 */
 	public static function fromSession(): SubmissionPage|null
 	{
+		// Return cached instance if available
+		if (static::$session) {
+			return static::$session;
+		}
+
 		$kirby = App::instance();
 		$mode = DreamForm::option('mode', 'prg');
-		if ($mode === 'api' || $mode === 'htmx' && Htmx::isHtmxRequest()) {
-			return static::fromSessionlessCache();
+
+		// Determine where to look for data
+		if ($mode === 'api' || ($mode === 'htmx' && Htmx::isHtmxRequest())) {
+			// Get from request body
+			$raw = $kirby->request()->body()->get('dreamform:session');
+			if (!$raw || $raw === 'null') {
+				return null;
+			}
+
+			$id = Htmx::decrypt($raw);
+			if (Str::startsWith($id, 'page://')) {
+				$data = $id;
+			} else {
+				// Get from cache
+				$data = $kirby->cache('tobimori.dreamform.sessionless')->get($id);
+			}
+		} else {
+			// Get from PHP session
+			$data = $kirby->session()->get(DreamForm::SESSION_KEY);
 		}
 
-		if (static::$session) {
-			return static::$session;
-		}
-
-		$session = $kirby->session()->get(DreamForm::SESSION_KEY, null);
-		if (is_string($session)) { // if the page exists on disk, we store the UUID only so we can save files
-			$session = DreamForm::findPageOrDraftRecursive("page://{$session}");
-		}
-
-		if (!($session instanceof SubmissionPage)) {
+		if (!$data) {
 			return null;
 		}
 
-		static::$session = $session;
-
-		// remove it from the session for subsequent loads
-		if (
-			static::$session && ( // if the session exists
-				static::$session->isFinished() // & if the submission is finished
-				|| (static::$session->currentStep() === 1 && !static::$session->isSuccessful()) // or if it's the first step and not successful
-			)
-		) {
-			$kirby->session()->remove(DreamForm::SESSION_KEY);
-		}
-
-		return static::$session;
-	}
-
-	/**
-	 * Get submission from sessionless cache
-	 */
-	public static function fromSessionlessCache(): SubmissionPage|null
-	{
-		$kirby = App::instance();
-		if (DreamForm::option('mode', 'prg') === 'prg' && !Htmx::isHtmxRequest()) {
-			return static::fromSession();
-		}
-
-		if (static::$session) {
-			return static::$session;
-		}
-
-		$raw = $kirby->request()->body()->get('dreamform:session');
-		if (!$raw || $raw === 'null') {
+		// Reconstruct submission
+		$submission = static::reconstructSubmission($data);
+		if (!($submission instanceof SubmissionPage)) {
 			return null;
 		}
 
-		$id = Htmx::decrypt($raw);
-		if (Str::startsWith($id, 'page://')) {
-			static::$session = DreamForm::findPageOrDraftRecursive($id);
-
-			if (static::$session) {
-				return static::$session;
-			}
-		}
-
-		$cache = $kirby->cache('tobimori.dreamform.sessionless');
-		$serialized = $cache->get($id);
-		if ($serialized) {
-			$submission = unserialize($serialized);
-			if ($submission instanceof SubmissionPage) {
-				static::$session = $submission;
-
-				// remove it from the session for subsequent loads
-				if (
-					$submission->isFinished() // & if the submission is finished
-					|| ($submission->currentStep() === 1 && !$submission->isSuccessful()) // or if it's the first step and not successful
-				) {
-					$cache->remove($id);
-				}
-			}
-		}
+		static::$session = $submission;
+		static::cleanupIfNeeded($submission);
 
 		return static::$session;
 	}

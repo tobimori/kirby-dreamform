@@ -25,6 +25,8 @@ use tobimori\DreamForm\Fields\Field as FormField;
 use tobimori\DreamForm\Models\Log\HasSubmissionLog;
 use tobimori\DreamForm\Permissions\SubmissionPermissions;
 use tobimori\DreamForm\Storage\SubmissionSessionStorage;
+use tobimori\DreamForm\Storage\SubmissionCacheStorage;
+use tobimori\DreamForm\Support\Htmx;
 
 /**
  * The submission page is the heart of the plugin.
@@ -47,7 +49,13 @@ class SubmissionPage extends BasePage
 		parent::__construct($props);
 
 		if (!$this->exists()) {
-			$this->changeStorage(SubmissionSessionStorage::class);
+			$mode = DreamForm::option('mode', 'prg');
+
+			if ($mode === 'api' || (Htmx::isActive() && Htmx::isHtmxRequest())) {
+				$this->changeStorage(SubmissionCacheStorage::class);
+			} else {
+				$this->changeStorage(SubmissionSessionStorage::class);
+			}
 		}
 	}
 
@@ -56,7 +64,12 @@ class SubmissionPage extends BasePage
 	 */
 	public function referer(): string|null
 	{
-		return $this->content()->get('dreamform_referer')->value();
+		$referer = $this->content()->get('dreamform_referer');
+		if (is_array($referer->value())) {
+			return null;
+		}
+
+		return $referer->value();
 	}
 
 	/**
@@ -380,7 +393,6 @@ class SubmissionPage extends BasePage
 		// so when $saveToDisk is false, and partial submissions are enabled we save anyway (?)
 		// TBH: this might be unwanted behaviour - but i'm now sure how to handle this otherwise? delete the submission but keep partial?
 		// (this might also be an issue in previous versions with multi-step forms since they also save partials)
-		// TODO: discuss with community before final release of 1.5.0
 		if ($saveToDisk || $this->form()->partialSubmissions()->toBool() && DreamForm::option('partialSubmissions') === true) {
 			return $submission->saveSubmission();
 		}
@@ -401,23 +413,29 @@ class SubmissionPage extends BasePage
 		}
 
 		// check if content exists to save request (don't save empty submissions)
-		$allowSafe = false;
+		$hasContent = false;
 		foreach ($this->values()->toArray() as $value) {
 			if ($value !== null) {
-				$allowSafe = true;
+				$hasContent = true;
 				break;
 			}
 		}
 
-		if (!$allowSafe) {
+		if (!$hasContent) {
 			return $this;
 		}
 
 		// store uuid
 		$this->uuid()->populate();
 
-		// elevate permissions to save the submission
-		return $this->changeStorage(PlainTextStorage::class);
+		// If using temporary storage, persist to disk
+		$storage = $this->storage();
+		if ($storage instanceof SubmissionSessionStorage || $storage instanceof SubmissionCacheStorage) {
+			return $this->changeStorage(PlainTextStorage::class);
+		}
+
+		// Already using PlainTextStorage
+		return $this;
 	}
 
 	/**

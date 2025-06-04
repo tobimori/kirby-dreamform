@@ -387,9 +387,14 @@ class FormPage extends BasePage
 				];
 
 				if ($isPrecognitiveRequest) {
-					// syntax is formId/fieldId/xxx (kirby nanoid / uuidv4)
+					// syntax is formId/fieldId/xxx (kirby nanoid / uuidv4 - index)
 					// we already know the form from the request url.
 					$fieldId = Str::split($kirby->request()->header('Hx-Trigger'), '/')[1];
+					// Remove index suffix for checkbox/radio fields (e.g., -1, -2)
+					if (preg_match('/^(.+)-\d+$/', $fieldId, $matches)) {
+						$fieldId = $matches[1];
+					}
+
 					/** @var \tobimori\DreamForm\Fields\Field $field */
 					$field = $this->fields()->find($fieldId);
 
