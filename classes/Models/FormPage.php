@@ -361,6 +361,9 @@ class FormPage extends BasePage
 			if ($mode === 'htmx' && Htmx::isHtmxRequest()) {
 				try {
 					$page = DreamForm::findPageOrDraftRecursive(Htmx::decrypt($kirby->request()->body()->get('dreamform:page')));
+					// set the current page
+					site()->visit($page);
+
 					$attr = Json::decode(Htmx::decrypt($kirby->request()->body()->get('dreamform:attr')));
 
 					// if an error is thrown, this means the data must have been tampered with
