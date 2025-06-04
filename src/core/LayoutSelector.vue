@@ -43,11 +43,11 @@
 
 <script>
 export default {
-	extends: "k-layout-selector",
-};
+	extends: "k-layout-selector"
+}
 </script>
 
-<style lang="scss">
+<style>
 .df-layout-selector-page {
 	grid-column: span 12;
 	background: var(--color-back);

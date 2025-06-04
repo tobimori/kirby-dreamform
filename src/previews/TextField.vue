@@ -1,30 +1,30 @@
 <script setup>
-import { computed } from "kirbyuse";
-import { props as blockProps } from "@/utils/block";
-import FieldError from "@/components/FieldError.vue";
-import FieldInput from "@/components/FieldInput.vue";
-import FieldHeader from "@/components/FieldHeader.vue";
+import { computed } from "kirbyuse"
+import { props as blockProps } from "@/utils/block"
+import FieldError from "@/components/FieldError.vue"
+import FieldInput from "@/components/FieldInput.vue"
+import FieldHeader from "@/components/FieldHeader.vue"
 
-const props = defineProps(blockProps);
+const props = defineProps(blockProps)
 
-const emit = defineEmits(["update", "open"]);
-const update = (value) => emit("update", { ...props.content, ...value });
+const emit = defineEmits(["update", "open"])
+const update = (value) => emit("update", { ...props.content, ...value })
 const open = (e) => {
 	if (e.target === e.currentTarget) {
-		emit("open");
+		emit("open")
 	}
-};
+}
 
 const showError = computed(() => {
 	// required always needs an error message
 	if (props.content.required) {
-		return true;
+		return true
 	}
 
 	// fields that could have validation errors
 	// without additional fields
 	if (props.fieldset.type === "email-field") {
-		return true;
+		return true
 	}
 
 	if (
@@ -32,23 +32,23 @@ const showError = computed(() => {
 		props.fieldset.type === "number-field" &&
 		(props.content.min !== "" || props.content.max !== "")
 	) {
-		return true;
+		return true
 	}
 
-	return false;
-});
+	return false
+})
 
 const icon = computed(() => {
 	if (["title", "text-left"].includes(props.fieldset.icon)) {
-		return null;
+		return null
 	}
 
 	if (props.fieldset.icon === "document") {
-		return "angle-down";
+		return "angle-down"
 	}
 
-	return props.fieldset.icon;
-});
+	return props.fieldset.icon
+})
 </script>
 
 <template>
@@ -64,7 +64,7 @@ const icon = computed(() => {
 	</div>
 </template>
 
-<style lang="scss">
+<style>
 .k-block-type-textarea-field .df-field {
 	.df-input {
 		max-height: none;

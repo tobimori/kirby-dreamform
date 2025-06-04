@@ -3,9 +3,9 @@ const props = defineProps({
 	text: String,
 	template: {
 		type: Object,
-		default: () => ({}),
-	},
-});
+		default: () => ({})
+	}
+})
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const props = defineProps({
 	></div>
 </template>
 
-<style lang="scss">
+<style>
 .df-log-info-entry {
 	padding: var(--spacing-2) var(--spacing-3);
 	background: var(--color-white);

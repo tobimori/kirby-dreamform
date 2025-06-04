@@ -1,11 +1,11 @@
 <script setup>
-import Editable from "@/components/Editable.vue";
+import Editable from "@/components/Editable.vue"
 
 const props = defineProps({
-	content: Object,
-});
+	content: Object
+})
 
-const emit = defineEmits(["update"]);
+const emit = defineEmits(["update"])
 </script>
 
 <template>
@@ -20,7 +20,7 @@ const emit = defineEmits(["update"]);
 	</div>
 </template>
 
-<style lang="scss">
+<style>
 .df-field-error {
 	display: flex;
 	align-items: center;

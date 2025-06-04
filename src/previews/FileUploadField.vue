@@ -1,17 +1,17 @@
 <script setup>
-import { props as blockProps } from "@/utils/block";
-import FieldError from "@/components/FieldError.vue";
-import FieldHeader from "@/components/FieldHeader.vue";
+import { props as blockProps } from "@/utils/block"
+import FieldError from "@/components/FieldError.vue"
+import FieldHeader from "@/components/FieldHeader.vue"
 
-const props = defineProps(blockProps);
+const props = defineProps(blockProps)
 
-const emit = defineEmits(["update", "open"]);
-const update = (value) => emit("update", { ...props.content, ...value });
+const emit = defineEmits(["update", "open"])
+const update = (value) => emit("update", { ...props.content, ...value })
 const open = (e) => {
 	if (e.target === e.currentTarget) {
-		emit("open");
+		emit("open")
 	}
-};
+}
 </script>
 
 <template>
@@ -38,7 +38,7 @@ const open = (e) => {
 	</div>
 </template>
 
-<style lang="scss">
+<style>
 .df-file-upload {
 	display: flex;
 	align-items: center;

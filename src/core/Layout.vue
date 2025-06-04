@@ -12,7 +12,7 @@ similar to https://github.com/tobimori/kirby-icon-field.
 		:data-selected="isSelected"
 		class="k-layout"
 		:class="{
-			'df-layout-page': isPageIndicator,
+			'df-layout-page': isPageIndicator
 		}"
 		tabindex="0"
 		@click="$emit('select')"
@@ -25,13 +25,13 @@ similar to https://github.com/tobimori/kirby-icon-field.
 					...column,
 					endpoints,
 					fieldsetGroups,
-					fieldsets,
+					fieldsets
 				}"
 				@input="
 					$emit('updateColumn', {
 						column,
 						columnIndex,
-						blocks: $event,
+						blocks: $event
 					})
 				"
 			/>
@@ -69,14 +69,14 @@ export default {
 				return (
 					this.columns.length === 1 &&
 					this.columns[0].width === "dreamform-page"
-				);
-			},
-		},
-	},
-};
+				)
+			}
+		}
+	}
+}
 </script>
 
-<style lang="scss">
+<style>
 .df-layout-page {
 	display: flex;
 	align-items: center;
@@ -110,7 +110,7 @@ export default {
 }
 
 body:has(.k-page-view[data-template="form"]) {
-	// Tighter layout (we don't have layout config options)
+	/* Tighter layout (we don't have layout config options) */
 	.k-layout-column {
 		min-height: 4rem;
 	}

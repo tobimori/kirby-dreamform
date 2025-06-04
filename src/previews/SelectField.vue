@@ -1,17 +1,17 @@
 <script setup>
-import { props as blockProps } from "@/utils/block";
-import FieldHeader from "@/components/FieldHeader.vue";
-import Options from "@/components/Options.vue";
-import FieldError from "@/components/FieldError.vue";
-import FieldInput from "@/components/FieldInput.vue";
+import { props as blockProps } from "@/utils/block"
+import FieldHeader from "@/components/FieldHeader.vue"
+import Options from "@/components/Options.vue"
+import FieldError from "@/components/FieldError.vue"
+import FieldInput from "@/components/FieldInput.vue"
 
-const props = defineProps(blockProps);
+const props = defineProps(blockProps)
 
-const emit = defineEmits(["update", "open"]);
-const update = (value) => emit("update", { ...props.content, ...value });
+const emit = defineEmits(["update", "open"])
+const update = (value) => emit("update", { ...props.content, ...value })
 const open = (e) => {
-	if (e.target === e.currentTarget) emit("open");
-};
+	if (e.target === e.currentTarget) emit("open")
+}
 </script>
 
 <template>
@@ -32,7 +32,7 @@ const open = (e) => {
 	</div>
 </template>
 
-<style lang="scss">
+<style>
 .df-select-field .df-options-list {
 	margin-top: var(--spacing-2);
 }

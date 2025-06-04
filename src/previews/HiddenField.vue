@@ -1,10 +1,10 @@
 <script setup>
-import { props as blockProps } from "@/utils/block";
-import Editable from "@/components/Editable.vue";
+import { props as blockProps } from "@/utils/block"
+import Editable from "@/components/Editable.vue"
 
-const props = defineProps(blockProps);
+const props = defineProps(blockProps)
 
-const emit = defineEmits(["update", "open"]);
+const emit = defineEmits(["update", "open"])
 </script>
 
 <template>
@@ -26,7 +26,7 @@ const emit = defineEmits(["update", "open"]);
 	</div>
 </template>
 
-<style lang="scss">
+<style>
 .df-hidden-key {
 	font-size: var(--text-xs);
 	line-height: var(--leading-h3);

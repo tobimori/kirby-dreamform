@@ -1,32 +1,32 @@
 <script setup>
-import { useSection, ref, useApp, usePanel } from "kirbyuse";
-import { section } from "kirbyuse/props";
+import { useSection, ref, useApp, usePanel } from "kirbyuse"
+import { section } from "kirbyuse/props"
 
-import EntryBase from "@/components/log/EntryBase.vue";
+import EntryBase from "@/components/log/EntryBase.vue"
 
-const props = defineProps(section);
+const props = defineProps(section)
 
-const app = useApp();
-const panel = usePanel();
+const app = useApp()
+const panel = usePanel()
 
-const didLoad = ref(false);
-const isSpam = ref(false);
-const isPartial = ref(false);
-const log = ref([]);
+const didLoad = ref(false)
+const isSpam = ref(false)
+const isPartial = ref(false)
+const log = ref([])
 
 const loadSection = async () => {
-	const { load } = useSection();
+	const { load } = useSection()
 	const response = await load({
 		parent: props.parent,
-		name: props.name,
-	});
+		name: props.name
+	})
 
-	didLoad.value = true;
-	isSpam.value = response.isSpam;
-	isPartial.value = response.isPartial;
-	log.value = response.log;
-	console.log(log.value);
-};
+	didLoad.value = true
+	isSpam.value = response.isSpam
+	isPartial.value = response.isPartial
+	log.value = response.log
+	console.log(log.value)
+}
 
 const toggleSpam = () => {
 	app.$dialog(
@@ -36,30 +36,30 @@ const toggleSpam = () => {
 		{
 			on: {
 				success(res) {
-					panel.dialog.close();
-					panel.notification.success(res.message);
-					loadSection();
-				},
-			},
-		},
-	);
-};
+					panel.dialog.close()
+					panel.notification.success(res.message)
+					loadSection()
+				}
+			}
+		}
+	)
+}
 
 const runActions = () => {
 	app.$dialog(`submission/${props.parent.split("/")[2]}/run-actions`, {
 		on: {
 			success(res) {
-				panel.dialog.close();
-				panel.notification.success(res.message);
-				loadSection();
-			},
-		},
-	});
-};
+				panel.dialog.close()
+				panel.notification.success(res.message)
+				loadSection()
+			}
+		}
+	})
+}
 
-const exists = (type) => app.$helper.isComponent(`df-log-${type}-entry`);
+const exists = (type) => app.$helper.isComponent(`df-log-${type}-entry`)
 
-loadSection();
+loadSection()
 </script>
 
 <template>
@@ -105,7 +105,7 @@ loadSection();
 					$t(
 						isSpam
 							? "dreamform.submission.reportAsHam.button"
-							: "dreamform.submission.reportAsSpam.button",
+							: "dreamform.submission.reportAsSpam.button"
 					)
 				}}
 			</k-button>
@@ -138,7 +138,7 @@ loadSection();
 	</k-section>
 </template>
 
-<style lang="scss">
+<style>
 .df-submission-section {
 	background: var(--item-color-back);
 	border-radius: var(--rounded);
@@ -158,31 +158,31 @@ loadSection();
 .df-stat {
 	padding: var(--spacing-3) var(--spacing-6);
 	line-height: var(--leading-tight);
+}
 
-	&-value {
-		white-space: pre;
-		font-weight: var(--font-semi);
-		margin-right: -0.25rem;
+.df-stat-value {
+	white-space: pre;
+	font-weight: var(--font-semi);
+	margin-right: -0.25rem;
+
+	.k-icon {
+		display: inline-block;
+		--icon-size: 1rem;
+		vertical-align: text-bottom;
+		color: var(--color-blue-600);
+		margin-right: 0.125rem;
+	}
+
+	&.is-positive,
+	&.is-positive .k-icon {
+		color: var(--color-green-700);
+	}
+
+	&.is-negative {
+		color: var(--color-red-600);
 
 		.k-icon {
-			display: inline-block;
-			--icon-size: 1rem;
-			vertical-align: text-bottom;
-			color: var(--color-blue-600);
-			margin-right: 0.125rem;
-		}
-
-		&.is-positive,
-		&.is-positive .k-icon {
-			color: var(--color-green-700);
-		}
-
-		&.is-negative {
-			color: var(--color-red-600);
-
-			.k-icon {
-				color: var(--color-red-700);
-			}
+			color: var(--color-red-700);
 		}
 	}
 }

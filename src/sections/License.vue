@@ -1,38 +1,38 @@
 <script setup>
-import { ref, useApp, usePanel, useSection } from "kirbyuse";
-import { section } from "kirbyuse/props";
+import { ref, useApp, usePanel, useSection } from "kirbyuse"
+import { section } from "kirbyuse/props"
 
-const props = defineProps(section);
+const props = defineProps(section)
 
-const activated = ref(true);
-const local = ref(false);
+const activated = ref(true)
+const local = ref(false)
 
 const loadSection = async () => {
-	const { load } = useSection();
+	const { load } = useSection()
 	const response = await load({
 		parent: props.parent,
-		name: props.name,
-	});
+		name: props.name
+	})
 
-	activated.value = response.activated;
-	local.value = response.local;
-};
+	activated.value = response.activated
+	local.value = response.local
+}
 
-const app = useApp();
-const panel = usePanel();
+const app = useApp()
+const panel = usePanel()
 const openDialog = () => {
 	app.$dialog("dreamform/activate", {
 		on: {
 			success(t) {
-				panel.dialog.close();
-				panel.notification.success(t.message);
-				loadSection();
-			},
-		},
-	});
-};
+				panel.dialog.close()
+				panel.notification.success(t.message)
+				loadSection()
+			}
+		}
+	})
+}
 
-loadSection();
+loadSection()
 </script>
 
 <template>
@@ -67,7 +67,7 @@ loadSection();
 	</k-section>
 </template>
 
-<style lang="scss">
+<style>
 .df-logo {
 	display: flex;
 	align-items: center;
@@ -89,16 +89,6 @@ loadSection();
 	justify-content: space-between;
 	color: var(--color-black);
 
-	&,
-	&-wrapper {
-		display: flex;
-		align-items: center;
-	}
-
-	&-wrapper {
-		padding: var(--spacing-1);
-	}
-
 	a:not(.df-logo) {
 		display: block;
 		color: var(--color-blue-800);
@@ -108,5 +98,15 @@ loadSection();
 		margin-right: 0.75rem;
 		margin-left: auto;
 	}
+}
+
+.df-license-section,
+.df-license-section-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.df-license-section-wrapper {
+	padding: var(--spacing-1);
 }
 </style>

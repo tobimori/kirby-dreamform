@@ -1,42 +1,42 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "kirbyuse";
+import { ref, computed, onMounted, onUnmounted } from "kirbyuse"
 
 const props = defineProps({
 	template: {
 		type: Object,
-		default: () => ({}),
+		default: () => ({})
 	},
 	from: String,
 	subject: String,
-	body: String,
-});
+	body: String
+})
 
-const body = props.body.replaceAll(`\n`, "<br>").replaceAll("———", "<hr>");
+const body = props.body.replaceAll(`\n`, "<br>").replaceAll("———", "<hr>")
 
-const isExpanded = ref(false);
-const uuid = ref(Math.random().toString(36).substring(2));
+const isExpanded = ref(false)
+const uuid = ref(Math.random().toString(36).substring(2))
 
-const contentRef = ref(null);
-const height = ref(0);
+const contentRef = ref(null)
+const height = ref(0)
 
 const updateHeight = () => {
-	height.value = contentRef.value?.clientHeight + 24;
-};
+	height.value = contentRef.value?.clientHeight + 24
+}
 
 onMounted(() => {
-	updateHeight();
-	window.addEventListener("resize", updateHeight);
-});
+	updateHeight()
+	window.addEventListener("resize", updateHeight)
+})
 
 onUnmounted(() => {
-	window.removeEventListener("resize", updateHeight);
-});
+	window.removeEventListener("resize", updateHeight)
+})
 
 const meta = computed(() => [
 	{ key: "subject", value: props.subject },
 	{ key: "to", value: props.template.to },
-	{ key: "from", value: props.from },
-]);
+	{ key: "from", value: props.from }
+])
 </script>
 
 <template>
@@ -82,7 +82,7 @@ const meta = computed(() => [
 	</div>
 </template>
 
-<style lang="scss">
+<style>
 .df-log-email-entry {
 	overflow: hidden;
 	width: 100%;
@@ -124,53 +124,53 @@ const meta = computed(() => [
 		transition: all 0.15s ease-in-out;
 	}
 
-	&-body {
-		padding: var(--spacing-4) var(--spacing-3);
-	}
-
-	&-meta {
-		padding-block: var(--spacing-2);
-		padding-inline: var(--spacing-3);
-		display: grid;
-		grid-template-columns: auto 1fr;
-		border-block-end: 1px solid var(--color-gray-200);
-		white-space: nowrap;
-		overflow: hidden;
-
-		&-value {
-			text-overflow: ellipsis;
-			overflow: hidden;
-			max-width: max-content;
-			display: block;
-			line-height: var(--leading-normal);
-			margin-inline-start: var(--spacing-2);
-		}
-
-		&-value:not([data-type="subject"]) {
-			background: var(--color-gray-200);
-			border-radius: 9999px;
-			padding-inline: var(--spacing-2);
-		}
-
-		&-label {
-			color: var(--color-gray-700);
-		}
-	}
-
-	&-expand {
-		position: absolute;
-		inset: auto var(--spacing-3) var(--spacing-3) auto;
-		z-index: 20;
-		display: flex;
-		color: var(--color-gray-700);
-		gap: var(--spacing-1);
-		align-items: center;
-		background: var(--color-white);
-	}
-
 	hr {
 		border-top: 1px solid var(--color-gray-200);
 		margin-bottom: -1.25rem;
 	}
+}
+
+.df-log-email-entry-body {
+	padding: var(--spacing-4) var(--spacing-3);
+}
+
+.df-log-email-entry-meta {
+	padding-block: var(--spacing-2);
+	padding-inline: var(--spacing-3);
+	display: grid;
+	grid-template-columns: auto 1fr;
+	border-block-end: 1px solid var(--color-gray-200);
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.df-log-email-entry-meta-value {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: max-content;
+	display: block;
+	line-height: var(--leading-normal);
+	margin-inline-start: var(--spacing-2);
+
+	&:not([data-type="subject"]) {
+		background: var(--color-gray-200);
+		border-radius: 9999px;
+		padding-inline: var(--spacing-2);
+	}
+}
+
+.df-log-email-entry-meta-label {
+	color: var(--color-gray-700);
+}
+
+.df-log-email-entry-expand {
+	position: absolute;
+	inset: auto var(--spacing-3) var(--spacing-3) auto;
+	z-index: 20;
+	display: flex;
+	color: var(--color-gray-700);
+	gap: var(--spacing-1);
+	align-items: center;
+	background: var(--color-white);
 }
 </style>

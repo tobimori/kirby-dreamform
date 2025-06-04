@@ -1,7 +1,7 @@
 <script setup>
-import { watch } from "kirbyuse";
-import { computed } from "kirbyuse";
-import { usePanel, ref } from "kirbyuse";
+import { watch } from "kirbyuse"
+import { computed } from "kirbyuse"
+import { usePanel, ref } from "kirbyuse"
 import {
 	id,
 	autofocus,
@@ -10,10 +10,10 @@ import {
 	name,
 	type,
 	help,
-	required,
-} from "kirbyuse/props";
+	required
+} from "kirbyuse/props"
 
-const emit = defineEmits(["input"]);
+const emit = defineEmits(["input"])
 
 const props = defineProps({
 	...disabled,
@@ -26,66 +26,66 @@ const props = defineProps({
 	...required,
 	options: {
 		type: Array,
-		default: () => [],
+		default: () => []
 	},
 	value: {
 		type: Object,
 		default: () => ({
 			type: "dynamic",
 			field: null,
-			value: null,
-		}),
-	},
-});
+			value: null
+		})
+	}
+})
 
-const { $t } = usePanel();
+const { $t } = usePanel()
 
 const changeType = (type) => {
 	emit("input", {
 		type,
 		value: props.value?.value ?? null,
-		field: props.value?.field ?? null,
-	});
-};
+		field: props.value?.field ?? null
+	})
+}
 
 const typeOptions = [
 	{
 		id: "dynamic",
 		icon: "input-cursor-move",
-		label: $t("dreamform.fromField"),
+		label: $t("dreamform.fromField")
 	},
 	{
 		id: "static",
 		icon: "status-draft",
-		label: $t("dreamform.static"),
-	},
-];
+		label: $t("dreamform.static")
+	}
+]
 
 const currentType = computed(
 	() =>
-		typeOptions.find((type) => type.id === props.value.type) ?? typeOptions[0],
-);
+		typeOptions.find((type) => type.id === props.value.type) ?? typeOptions[0]
+)
 
 const currentField = computed(() =>
-	props.options.find((field) => field.id === props.value.field),
-);
+	props.options.find((field) => field.id === props.value.field)
+)
 
-const staticIsInvalid = ref(props.invalid ?? false);
+const staticIsInvalid = ref(props.invalid ?? false)
 const isInvalid = computed(() => {
 	if (!props.required) {
-		return false;
+		return false
 	}
 
 	if (currentType.value.id === "static") {
-		return staticIsInvalid.value;
+		return staticIsInvalid.value
 	}
 
-	return !currentField.value;
-});
+	return !currentField.value
+})
 
 // element refs
-const types = ref(null);
-const fields = ref(null);
+const types = ref(null)
+const fields = ref(null)
 </script>
 
 <template>
@@ -108,7 +108,7 @@ const fields = ref(null);
 					:options="
 						typeOptions.map((obj) => ({
 							...obj,
-							click: () => changeType(obj.id),
+							click: () => changeType(obj.id)
 						}))
 					"
 				/>
@@ -137,7 +137,7 @@ const fields = ref(null);
 							props.options.map((obj) => ({
 								...obj,
 								label: obj.type ? `${obj.label} (${obj.type})` : obj.label,
-								click: () => emit('input', { type: 'dynamic', field: obj.id }),
+								click: () => emit('input', { type: 'dynamic', field: obj.id })
 							}))
 						"
 					/>
@@ -164,7 +164,7 @@ const fields = ref(null);
 	</k-field>
 </template>
 
-<style lang="scss">
+<style>
 .df-dynamic-field-input-header {
 	grid-template-columns: max-content minmax(0, 1fr) max-content;
 	padding-inline-end: 0.25rem;

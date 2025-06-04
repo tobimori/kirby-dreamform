@@ -1,24 +1,24 @@
-import "@/index.scss";
+import "@/index.css"
 
-import Layout from "@/core/Layout.vue";
-import LayoutSelector from "@/core/LayoutSelector.vue";
-import ApiObject from "@/fields/ApiObject.vue";
-import DynamicField from "@/fields/DynamicField.vue";
-import License from "@/sections/License.vue";
-import Submission from "@/sections/Submission.vue";
-import TextField from "@/previews/TextField.vue";
-import SelectField from "@/previews/SelectField.vue";
-import HiddenField from "@/previews/HiddenField.vue";
-import FileUploadField from "@/previews/FileUploadField.vue";
-import ChoicesField from "@/previews/ChoicesField.vue";
-import ButtonField from "@/previews/ButtonField.vue";
-import ErrorEntry from "@/components/log/ErrorEntry.vue";
-import InfoEntry from "@/components/log/InfoEntry.vue";
-import EmailEntry from "@/components/log/EmailEntry.vue";
-import FieldHeader from "@/components/FieldHeader.vue";
-import FieldError from "@/components/FieldError.vue";
-import FieldInput from "@/components/FieldInput.vue";
 import DynamicFieldPreview from "@/components/DynamicFieldPreview.vue"
+import FieldError from "@/components/FieldError.vue"
+import FieldHeader from "@/components/FieldHeader.vue"
+import FieldInput from "@/components/FieldInput.vue"
+import EmailEntry from "@/components/log/EmailEntry.vue"
+import ErrorEntry from "@/components/log/ErrorEntry.vue"
+import InfoEntry from "@/components/log/InfoEntry.vue"
+import Layout from "@/core/Layout.vue"
+import LayoutSelector from "@/core/LayoutSelector.vue"
+import ApiObject from "@/fields/ApiObject.vue"
+import DynamicField from "@/fields/DynamicField.vue"
+import ButtonField from "@/previews/ButtonField.vue"
+import ChoicesField from "@/previews/ChoicesField.vue"
+import FileUploadField from "@/previews/FileUploadField.vue"
+import HiddenField from "@/previews/HiddenField.vue"
+import SelectField from "@/previews/SelectField.vue"
+import TextField from "@/previews/TextField.vue"
+import License from "@/sections/License.vue"
+import Submission from "@/sections/Submission.vue"
 
 panel.plugin("tobimori/dreamform", {
 	icons: {
@@ -36,7 +36,7 @@ panel.plugin("tobimori/dreamform", {
 		brevo:
 			'<path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24ZM7.2 4.8h5.747c2.34 0 3.895 1.406 3.895 3.516 0 1.022-.348 1.862-1.09 2.588C17.189 11.812 18 13.22 18 14.785c0 2.86-2.64 5.016-6.164 5.016H7.199v-15L7.2 4.8Zm2.085 1.952v5.537h.07c.233-.432.858-.796 2.249-1.226 2.039-.659 3.037-1.52 3.037-2.655 0-.998-.766-1.656-1.924-1.656H9.285Zm4.87 5.266c-.766.385-1.67.748-2.76 1.11-1.229.387-2.11 1.386-2.11 2.407v2.315h2.365c2.387 0 4.149-1.34 4.149-3.155 0-1.067-.624-2.087-1.644-2.677Z"/>',
 		loops:
-			'<path d="M13.6019 1.6445h-3.2317C4.641 1.6515-.0015 6.2851-.0065 12.0021c.007 5.7161 4.6486 10.3476 10.3767 10.3547h3.2437c5.7291-.0051 10.3726-4.6376 10.3796-10.3547-.006-5.723-4.6565-10.3586-10.3916-10.3576ZM1.2782 12.0021c0-5.0077 4.0672-9.0659 9.0849-9.0659.5073 0 1.0146.041 1.5149.1251 4.3783.7224 7.5841 4.5074 7.5681 8.9358-.005 2.8426-2.0612 5.2679-4.8697 5.7432 1.838-1.3388 2.9236-3.4729 2.9216-5.7432.006-3.2487-2.1962-6.0873-5.3499-6.8947a7.1148 7.1148 0 0 0-1.785-.2261c-3.934.012-7.1168 3.1957-7.1208 7.1208-.01 3.557 1.815 6.8678 4.8296 8.7648-3.9912-1.0456-6.7777-4.6415-6.7867-8.7598h-.007Zm10.7028-5.594c2.4984.7174 4.2183 2.9996 4.2163 5.594.001 2.5934-1.7189 4.8737-4.2163 5.5911-2.4973-.7174-4.2163-2.9977-4.2163-5.5911-.002-2.5944 1.718-4.8766 4.2163-5.594Zm1.6209 14.655h-.037a9.3357 9.3357 0 0 1-1.4738-.1251c-4.2623-.7054-7.429-4.3224-7.5571-8.6317v-.3042c.003-2.8435 2.0601-5.2698 4.8686-5.744-1.838 1.3387-2.9246 3.4728-2.9246 5.744-.004 3.2478 2.1982 6.0853 5.3509 6.8928a7.0177 7.0177 0 0 0 1.785.2251c3.9381-.004 7.1299-3.1877 7.1359-7.1179.011-3.5569-1.814-6.8687-4.8306-8.7647 3.9911 1.0476 6.7736 4.6465 6.7746 8.7647a9.0513 9.0513 0 0 1-2.6654 6.4095 9.0918 9.0918 0 0 1-6.4265 2.6515Z"/>',
+			'<path d="M13.6019 1.6445h-3.2317C4.641 1.6515-.0015 6.2851-.0065 12.0021c.007 5.7161 4.6486 10.3476 10.3767 10.3547h3.2437c5.7291-.0051 10.3726-4.6376 10.3796-10.3547-.006-5.723-4.6565-10.3586-10.3916-10.3576ZM1.2782 12.0021c0-5.0077 4.0672-9.0659 9.0849-9.0659.5073 0 1.0146.041 1.5149.1251 4.3783.7224 7.5841 4.5074 7.5681 8.9358-.005 2.8426-2.0612 5.2679-4.8697 5.7432 1.838-1.3388 2.9236-3.4729 2.9216-5.7432.006-3.2487-2.1962-6.0873-5.3499-6.8947a7.1148 7.1148 0 0 0-1.785-.2261c-3.934.012-7.1168 3.1957-7.1208 7.1208-.01 3.557 1.815 6.8678 4.8296 8.7648-3.9912-1.0456-6.7777-4.6415-6.7867-8.7598h-.007Zm10.7028-5.594c2.4984.7174 4.2183 2.9996 4.2163 5.594.001 2.5934-1.7189 4.8737-4.2163 5.5911-2.4973-.7174-4.2163-2.9977-4.2163-5.5911-.002-2.5944 1.718-4.8766 4.2163-5.594Zm1.6209 14.655h-.037a9.3357 9.3357 0 0 1-1.4738-.1251c-4.2623-.7054-7.429-4.3224-7.5571-8.6317v-.3042c.003-2.8435 2.0601-5.2698 4.8686-5.744-1.838 1.3387-2.9246 3.4728-2.9246 5.744-.004 3.2478 2.1982 6.0853 5.3509 6.8928a7.0177 7.0177 0 0 0 1.785.2251c3.9381-.004 7.1299-3.1877 7.1359-7.1179.011-3.5569-1.814-6.8687-4.8306-8.7647 3.9911 1.0476 6.7736 4.6465 6.7746 8.7647a9.0513 9.0513 0 0 1-2.6654 6.4095 9.0918 9.0918 0 0 1-6.4265 2.6515Z"/>'
 	},
 	components: {
 		// Replaced core components
@@ -63,14 +63,14 @@ panel.plugin("tobimori/dreamform", {
 		"file-upload-field": FileUploadField,
 		"hidden-field": HiddenField,
 		"select-field": SelectField,
-		"text-field": TextField,
+		"text-field": TextField
 	},
 	fields: {
 		"dreamform-api-object": ApiObject,
-		"dreamform-dynamic-field": DynamicField,
+		"dreamform-dynamic-field": DynamicField
 	},
 	sections: {
 		"dreamform-license": License,
-		"dreamform-submission": Submission,
-	},
-});
+		"dreamform-submission": Submission
+	}
+})

@@ -1,9 +1,9 @@
 <script setup>
-import { props as blockProps } from "@/utils/block";
-import Editable from "@/components/Editable.vue";
+import { props as blockProps } from "@/utils/block"
+import Editable from "@/components/Editable.vue"
 
-const props = defineProps(blockProps);
-const emit = defineEmits(["update"]);
+const props = defineProps(blockProps)
+const emit = defineEmits(["update"])
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const emit = defineEmits(["update"]);
 	</div>
 </template>
 
-<style lang="scss">
+<style>
 .df-button-input {
 	outline: none;
 	background: var(--color-black);

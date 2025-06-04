@@ -1,15 +1,15 @@
 <script setup>
-import Editable from "@/components/Editable.vue";
+import Editable from "@/components/Editable.vue"
 
 const props = defineProps({
 	content: Object,
 	fieldset: Object,
 	requireLabel: Boolean,
-	minAsRequired: Boolean,
-});
+	minAsRequired: Boolean
+})
 
-const emit = defineEmits(["update"]);
-const update = (value) => emit("update", { ...props.content, ...value });
+const emit = defineEmits(["update"])
+const update = (value) => emit("update", { ...props.content, ...value })
 </script>
 
 <template>
@@ -29,13 +29,13 @@ const update = (value) => emit("update", { ...props.content, ...value });
 				:class="{
 					'is-active': minAsRequired
 						? props.content.min
-						: props.content.required,
+						: props.content.required
 				}"
 				@click="
 					update(
 						minAsRequired
 							? { min: props.content.min ? null : 1 }
-							: { required: !props.content.required },
+							: { required: !props.content.required }
 					)
 				"
 			>
@@ -55,7 +55,7 @@ const update = (value) => emit("update", { ...props.content, ...value });
 	</div>
 </template>
 
-<style lang="scss">
+<style>
 .df-field-header {
 	justify-content: space-between;
 	font-weight: var(--font-semi);

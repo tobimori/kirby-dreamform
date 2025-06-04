@@ -7,8 +7,7 @@
 	},
 	"devDependencies": {
 		"kirbyup": "^3.3.0",
-		"mjml": "^4.15.3",
-		"sass": "^1.89.1"
+		"mjml": "^4.15.3"
 	},
 	"dependencies": {
 		"kirbyuse": "^0.12.1"
