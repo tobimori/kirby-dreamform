@@ -24,6 +24,21 @@ abstract class Guard extends Performer
 	}
 
 	/**
+	 * Run the guard
+	 */
+	public function run(): void
+	{
+		$this->precognitiveRun();
+	}
+
+	/**
+	 * Precognitive run
+	 */
+	public function precognitiveRun(): void
+	{
+	}
+
+	/**
 	 * Reports the submission as spam to a third-party service
 	 */
 	public function reportSubmissionAsSpam(SubmissionPage $submission): void

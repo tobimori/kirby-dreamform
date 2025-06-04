@@ -28,7 +28,7 @@ class CsrfGuard extends Guard
 	/**
 	 * Validate the CSRF token
 	 */
-	public function run(): void
+	public function precognitiveRun(): void
 	{
 		$token = $this->csrf();
 		$submitted = SubmissionPage::valueFromBody('dreamform-csrf');

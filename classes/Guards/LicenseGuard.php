@@ -9,7 +9,7 @@ class LicenseGuard extends Guard
 {
 	public const TYPE = 'license';
 
-	public function run(): void
+	public function precognitiveRun(): void
 	{
 		$license = License::fromDisk();
 		if (!$license->isValid() && !App::instance()->system()->isLocal() && !App::instance()->user()?->isAdmin()) {

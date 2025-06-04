@@ -23,7 +23,7 @@ class HoneypotGuard extends Guard
 		return 'dreamform-guard';
 	}
 
-	public function run(): void
+	public function precognitiveRun(): void
 	{
 		$value = SubmissionPage::valueFromBody($this->fieldName());
 

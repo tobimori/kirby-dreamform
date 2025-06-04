@@ -33,6 +33,19 @@ trait SubmissionHandling
 	}
 
 	/**
+	 * Handles the form submission precognitive guards
+	 * @internal
+	 */
+	public function handlePrecognitiveGuards(): SubmissionPage
+	{
+		foreach ($this->form()->guards() as $guard) {
+			$guard->precognitiveRun();
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Handles the form submission guards
 	 * @internal
 	 */

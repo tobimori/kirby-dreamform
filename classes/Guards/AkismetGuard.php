@@ -3,7 +3,6 @@
 namespace tobimori\DreamForm\Guards;
 
 use Kirby\Cms\App;
-use Kirby\Data\Json;
 use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
@@ -12,13 +11,6 @@ use tobimori\DreamForm\Models\SubmissionPage;
 class AkismetGuard extends Guard
 {
 	public const TYPE = 'akismet';
-
-	/**
-	 * Akismet guard doesn't trigger pre-validation checks
-	 */
-	public function run(): void
-	{
-	}
 
 	/**
 	 * Returns the content to be sent to Akismet

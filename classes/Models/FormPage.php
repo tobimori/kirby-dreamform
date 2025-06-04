@@ -271,16 +271,20 @@ class FormPage extends BasePage
 					->applyHook('before');
 			}
 
-			$submission = $submission->collectMetadata()
-				->handleGuards()
-				->handleFields();
+			$submission = $submission->collectMetadata();
 
 			if (!$precognition) {
 				$submission = $submission
+					->handleGuards()
+					->handleFields()
 					->handleGuards(postValidation: true)
 					->handleActions()
 					->finalize()
 					->handleAfterSubmitFields();
+			} else {
+				$submission = $submission
+					->handlePrecognitiveGuards()
+					->handleFields();
 			}
 		} catch (Exception $e) {
 			// PerformerExceptions stop the workflow early, and not save the submission

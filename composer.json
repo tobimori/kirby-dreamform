@@ -15,6 +15,7 @@
 			"tobimori\\DreamForm\\": "classes"
 		}
 	},
+	"minimum-stability": "RC",
 	"require": {
 		"php": ">=8.3.0",
 		"getkirby/composer-installer": "^1.2.1"
@@ -31,5 +32,8 @@
 	},
 	"extra": {
 		"kirby-cms-path": false
+	},
+	"require-dev": {
+		"getkirby/cms": "^5"
 	}
 }
