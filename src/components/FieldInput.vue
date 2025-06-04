@@ -1,13 +1,13 @@
 <script setup>
-import Editable from "@/components/Editable.vue";
+import Editable from "@/components/Editable.vue"
 
 const props = defineProps({
 	icon: String,
 	content: Object,
-	placeholder: String,
-});
+	placeholder: String
+})
 
-const emit = defineEmits(["update"]);
+const emit = defineEmits(["update"])
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const emit = defineEmits(["update"]);
 			tag="div"
 			class="df-placeholder"
 			:placeholder="placeholder ?? $t('dreamform.common.placeholder.label')"
-			:modelValue="content.placeholder"
+			:model-value="content.placeholder"
 			@update:modelValue="emit('update', { ...content, placeholder: $event })"
 		/>
 		<k-icon v-if="icon" :type="icon" />

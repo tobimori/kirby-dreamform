@@ -20,7 +20,7 @@ const update = (value) => emit("update", { ...props.content, ...value })
 				class="df-field-label"
 				:placeholder="fieldset.name"
 				:class="{ 'is-invalid': !content.label && requireLabel }"
-				:modelValue="content.label"
+				:model-value="content.label"
 				@update:modelValue="update({ label: $event })"
 			/>
 			<button
@@ -47,7 +47,7 @@ const update = (value) => emit("update", { ...props.content, ...value })
 				tag="code"
 				:slugify="true"
 				:placeholder="$t('dreamform.common.key.label')"
-				:modelValue="content.key"
+				:model-value="content.key"
 				@update:modelValue="update({ key: $event })"
 			/>
 			<k-icon type="key" />

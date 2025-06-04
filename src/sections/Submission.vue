@@ -63,18 +63,18 @@ loadSection()
 </script>
 
 <template>
-	<k-section :headline="$t('dreamform.submission')" v-if="didLoad">
+	<k-section v-if="didLoad" :headline="$t('dreamform.submission')">
 		<k-button
+			slot="options"
 			icon="play"
 			size="xs"
-			slot="options"
 			variant="filled"
 			@click="runActions"
 		>
 			{{ $t("dreamform.submission.runActions.button") }}
 		</k-button>
 		<div class="df-submission-section">
-			<div class="df-stat" v-if="!isPartial">
+			<div v-if="!isPartial" class="df-stat">
 				{{ $t("dreamform.submission.markedAs").split("…")[0] }}
 				<span
 					class="df-stat-value"
@@ -92,7 +92,7 @@ loadSection()
 				</span>
 			</div>
 		</div>
-		<div class="df-submission-section" v-if="!isPartial">
+		<div v-if="!isPartial" class="df-submission-section">
 			<k-button
 				type="button"
 				variant="dimmed"
@@ -121,8 +121,8 @@ loadSection()
 					:icon="entry.icon"
 				>
 					<component
-						v-if="entry.type !== 'none'"
 						:is="`df-log-${entry.type}-entry`"
+						v-if="entry.type !== 'none'"
 						v-bind="entry.data"
 					/>
 				</EntryBase>

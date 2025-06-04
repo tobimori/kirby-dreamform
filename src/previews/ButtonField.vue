@@ -12,7 +12,7 @@ const emit = defineEmits(["update"])
 			tag="div"
 			class="df-button-input"
 			:placeholder="$t('dreamform.fields.button.label.label')"
-			:modelValue="content.label"
+			:model-value="content.label"
 			@update:modelValue="emit('update', { ...props.content, label: $event })"
 			@dblClick="open"
 		/>

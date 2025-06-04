@@ -1,16 +1,15 @@
 <script setup>
-import { watch } from "kirbyuse"
 import { computed } from "kirbyuse"
-import { usePanel, ref } from "kirbyuse"
+import { ref, usePanel } from "kirbyuse"
 import {
-	id,
 	autofocus,
 	disabled,
+	help,
+	id,
 	label,
 	name,
-	type,
-	help,
-	required
+	required,
+	type
 } from "kirbyuse/props"
 
 const emit = defineEmits(["input"])
@@ -114,7 +113,7 @@ const fields = ref(null)
 				/>
 
 				<!-- Input -->
-				<div style="display: contents" v-if="currentType.id === 'dynamic'">
+				<div v-if="currentType.id === 'dynamic'" style="display: contents">
 					<k-button
 						class="df-dynamic-field-input-toggle"
 						:class="{ 'is-empty': !currentField }"
@@ -131,8 +130,8 @@ const fields = ref(null)
 						}}
 					</k-button>
 					<k-dropdown-content
-						ref="fields"
 						v-if="props.options.length > 0"
+						ref="fields"
 						:options="
 							props.options.map((obj) => ({
 								...obj,

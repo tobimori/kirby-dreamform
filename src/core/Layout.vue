@@ -17,7 +17,7 @@ similar to https://github.com/tobimori/kirby-icon-field.
 		tabindex="0"
 		@click="$emit('select')"
 	>
-		<k-grid class="k-layout-columns" v-if="!isPageIndicator">
+		<k-grid v-if="!isPageIndicator" class="k-layout-columns">
 			<k-layout-column
 				v-for="(column, columnIndex) in columns"
 				:key="column.id"
@@ -36,7 +36,7 @@ similar to https://github.com/tobimori/kirby-icon-field.
 				"
 			/>
 		</k-grid>
-		<div class="k-layout-columns df-layout-column" v-else>
+		<div v-else class="k-layout-columns df-layout-column">
 			<k-icon type="survey" />
 			{{ $t("dreamform.form.nextPage") }}
 		</div>

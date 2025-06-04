@@ -20,14 +20,10 @@ const date = formatDate(props.timestamp)
 		<span class="df-log-entry-line"></span>
 		<div class="df-log-entry-content">
 			<div class="df-log-entry-heading">
-				<span
-					v-html="
-						$t(props.title, props.template, props.title)
-					"
-				></span>
+				<span v-html="$t(props.title, props.template, props.title)"></span>
 				<span> • {{ date }}</span>
 			</div>
-			<div class="df-log-entry-details" v-if="$slots.default">
+			<div v-if="$slots.default" class="df-log-entry-details">
 				<slot></slot>
 			</div>
 		</div>

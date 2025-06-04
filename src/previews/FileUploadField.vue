@@ -17,7 +17,7 @@ const open = (e) => {
 <template>
 	<div class="df-field" @dblclick="open">
 		<field-header
-			:requireLabel="true"
+			:require-label="true"
 			:content="content"
 			:fieldset="fieldset"
 			@update="update"

@@ -135,13 +135,13 @@ const focus = () => el.value.focus()
 <template>
 	<component :is="tag" class="df-editable" @click="focus">
 		<span
+			ref="el"
 			contenteditable
+			role="text-box"
 			@input="handleUpdate"
 			@blur="handleUpdate"
 			@keydown="handleKeyDown"
 			@paste="handlePaste"
-			ref="el"
-			role="text-box"
 		>
 		</span>
 		<span v-if="!modelValue">{{ placeholder }}</span>

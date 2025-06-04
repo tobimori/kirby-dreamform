@@ -3,9 +3,9 @@ const props = defineProps({
 	text: String,
 	template: {
 		type: Object,
-		default: () => ({}),
-	},
-});
+		default: () => ({})
+	}
+})
 </script>
 
 <template>

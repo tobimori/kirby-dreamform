@@ -1,41 +1,41 @@
 <script setup>
-import { computed } from "kirbyuse";
+import { computed } from "kirbyuse"
 const props = defineProps({
 	column: {
 		default: () => ({}),
-		type: Object,
+		type: Object
 	},
 	field: {
 		default: () => ({}),
-		type: Object,
+		type: Object
 	},
 	value: {
 		type: Object,
 		default: () => ({
 			type: "dynamic",
 			field: null,
-			value: null,
-		}),
-	},
-});
+			value: null
+		})
+	}
+})
 
 const currentField = computed(() =>
-	props.field.options.find((field) => field.id === props.value.field),
-);
+	props.field.options.find((field) => field.id === props.value.field)
+)
 </script>
 
 <template>
 	<div class="k-link-field-preview" :class="$options.class">
 		<div
-			class="k-tag df-dynamic-field-tag"
 			v-if="value.type === 'dynamic' && currentField"
+			class="k-tag df-dynamic-field-tag"
 		>
 			<k-icon :type="currentField.icon" />
 			<span class="k-tag-text">
 				{{ currentField.label }}
 			</span>
 		</div>
-		<div :class="$options.class" v-else-if="value.type === 'static'">
+		<div v-else-if="value.type === 'static'" :class="$options.class">
 			{{ value.value }}
 		</div>
 	</div>

@@ -11,7 +11,7 @@ const props = defineProps({
 	body: String
 })
 
-const body = props.body.replaceAll('\n', "<br>").replaceAll("———", "<hr>")
+const body = props.body.replaceAll("\n", "<br>").replaceAll("———", "<hr>")
 
 const isExpanded = ref(false)
 const uuid = ref(Math.random().toString(36).substring(2))
@@ -46,15 +46,15 @@ const meta = computed(() => [
 		:style="{ '--height': height + 'px' }"
 	>
 		<div
-			class="df-log-email-entry-content"
-			:aria-hidden="!isExpanded"
 			:id="uuid"
 			ref="contentRef"
+			class="df-log-email-entry-content"
+			:aria-hidden="!isExpanded"
 		>
 			<div
-				class="df-log-email-entry-meta"
 				v-for="{ key, value } in meta"
 				:key="key"
+				class="df-log-email-entry-meta"
 			>
 				<span class="df-log-email-entry-meta-label">
 					{{ $t(`dreamform.actions.email.log.${key}`) }}
@@ -68,12 +68,12 @@ const meta = computed(() => [
 		<k-button
 			type="button"
 			class="df-log-email-entry-expand"
-			@click="isExpanded = !isExpanded"
 			:aria-expanded="isExpanded"
 			:aria-controls="uuid"
 			variant="filled"
 			size="xs"
 			:dropdown="true"
+			@click="isExpanded = !isExpanded"
 		>
 			{{
 				$t(`dreamform.actions.email.log.${isExpanded ? "collapse" : "expand"}`)

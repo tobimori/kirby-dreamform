@@ -1,30 +1,30 @@
 <script setup>
-import FieldError from "@/components/FieldError.vue";
-import FieldHeader from "@/components/FieldHeader.vue";
-import FieldInput from "@/components/FieldInput.vue";
-import Options from "@/components/Options.vue";
-import { props as blockProps } from "@/utils/block";
+import FieldError from "@/components/FieldError.vue"
+import FieldHeader from "@/components/FieldHeader.vue"
+import FieldInput from "@/components/FieldInput.vue"
+import Options from "@/components/Options.vue"
+import { props as blockProps } from "@/utils/block"
 
-const props = defineProps(blockProps);
+const props = defineProps(blockProps)
 
-const emit = defineEmits(["update", "open"]);
-const update = (value) => emit("update", { ...props.content, ...value });
+const emit = defineEmits(["update", "open"])
+const update = (value) => emit("update", { ...props.content, ...value })
 const open = (e) => {
-	if (e.target === e.currentTarget) emit("open");
-};
+	if (e.target === e.currentTarget) emit("open")
+}
 </script>
 
 <template>
 	<div class="df-field df-select-field" @dblclick="open">
 		<field-header
-			:requireLabel="true"
+			:require-label="true"
 			:content="content"
 			:fieldset="fieldset"
 			@update="update"
 		/>
-		<field-input :content="content" @update="update" icon="angle-down" />
+		<field-input :content="content" icon="angle-down" @update="update" />
 		<options
-			classMod="is-select"
+			class-mod="is-select"
 			:options="content.options"
 			@update="update({ options: $event })"
 		/>

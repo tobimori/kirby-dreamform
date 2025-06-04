@@ -19,7 +19,7 @@ const emit = defineEmits(["update", "open"])
 				class="df-hidden-key"
 				:slugify="true"
 				:placeholder="$t('dreamform.fields.hidden.placeholder')"
-				:modelValue="content.key"
+				:model-value="content.key"
 				@update:modelValue="emit('update', { ...props.content, key: $event })"
 			/>
 		</div>

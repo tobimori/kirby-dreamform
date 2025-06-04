@@ -36,7 +36,7 @@ loadSection()
 </script>
 
 <template>
-	<k-section class="df-license-section" v-if="!activated">
+	<k-section v-if="!activated" class="df-license-section">
 		<div class="df-license-section-wrapper">
 			<a
 				href="https://plugins.andkindness.com/dreamform"
