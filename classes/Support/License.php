@@ -7,10 +7,13 @@ use Kirby\Cms\App;
 use Kirby\Data\Json;
 use Kirby\Filesystem\F;
 use Kirby\Http\Remote;
+use Kirby\Plugin\License as KirbyLicense;
+use Kirby\Plugin\LicenseStatus;
+use Kirby\Plugin\Plugin;
 use Kirby\Toolkit\Str;
 
 /**
- * License management & validation
+ * DreamForm License implementation for Kirby 5
  *
  * If you're here to crack the plugin, please buy a license instead.
  * I'm an independent developer and this plugin helps fund my open-source work as well.
@@ -20,28 +23,69 @@ use Kirby\Toolkit\Str;
  * the license validation being too strict, please let me know at support@andkindness.com.
  * I'm happy to help.
  */
-final class License
+final class License extends KirbyLicense
 {
 	private const LICENSE_FILE = '.dreamform_license';
 	private const BASE = "https://plugins.andkindness.com/licenses/";
 
-	private function __construct(
-		protected string|null $license = null,
-		protected string|null $plugin = null,
-		protected string|null $edition = null,
-		protected bool $allowOfflineUse = false,
-		protected string|null $purchasedOn = null,
-		protected string|null $assignedUrl = null,
-		protected string|null $email = null,
-		protected string|null $signature = null
+	protected string|null $license = null;
+	protected string|null $pluginName = null;
+	protected string|null $edition = null;
+	protected bool $allowOfflineUse = false;
+	protected string|null $purchasedOn = null;
+	protected string|null $assignedUrl = null;
+	protected string|null $email = null;
+	protected string|null $signature = null;
+
+	public function __construct(
+		protected Plugin $plugin
 	) {
+		$this->name = 'DreamForm License';
+
+		// Load license data from disk
+		$this->loadFromDisk();
+		$kirby = App::instance();
+
+		// Determine status based on existing license validation
+		if ($this->isValid()) {
+			$this->status = new LicenseStatus(
+				value: 'active',
+				icon: 'check',
+				label: t('dreamform.license.status.valid'),
+				theme: 'positive'
+			);
+			// No link needed for active license
+			$this->link = null;
+		} elseif ($kirby->system()->isLocal()) {
+			// Local environment - show as demo
+			$this->status = new LicenseStatus(
+				value: 'demo',
+				icon: 'preview',
+				label: t('dreamform.license.status.demo'),
+				theme: 'info',
+				dialog: 'dreamform/activate'
+			);
+			// No link, use dialog instead
+			$this->link = null;
+		} else {
+			// Production without valid license
+			$this->status = new LicenseStatus(
+				value: 'missing',
+				icon: 'alert',
+				label: t('dreamform.license.status.missing'),
+				theme: 'negative',
+				dialog: 'dreamform/activate'
+			);
+			// No link, use dialog instead
+			$this->link = null;
+		}
 	}
 
 	public function licenseData(): array
 	{
 		return [
 			'license' => $this->license,
-			'plugin' => $this->plugin,
+			'plugin' => $this->pluginName,
 			'edition' => $this->edition,
 			'allowOfflineUse' => $this->allowOfflineUse,
 			'purchasedOn' => $this->purchasedOn,
@@ -58,29 +102,34 @@ final class License
 
 	public static function licenseFile(): string
 	{
-		return dirname(App::instance()->root('license')) . '/' . License::LICENSE_FILE;
+		return dirname(App::instance()->root('license')) . '/' . self::LICENSE_FILE;
 	}
 
-	public static function fromDisk(): License
+	protected function loadFromDisk(): void
 	{
 		$licenseFile = static::licenseFile();
 		if (!F::exists($licenseFile)) {
-			return new License();
+			return;
 		}
 
 		try {
 			$licenseData = Json::read($licenseFile);
+			foreach ($licenseData as $key => $value) {
+				// Map 'plugin' to 'pluginName' to avoid conflict with parent property
+				if ($key === 'plugin') {
+					$this->pluginName = $value;
+				} elseif (property_exists($this, $key) && $key !== 'plugin') {
+					$this->$key = $value;
+				}
+			}
 		} catch (Exception $e) {
-			return new License();
+			// Invalid license file
 		}
-
-		return new License(...$licenseData);
 	}
 
 	public function isComplete(): bool
 	{
 		return $this->license !== null
-			&& $this->plugin !== null
 			&& $this->edition !== null
 			&& $this->purchasedOn !== null
 			&& $this->assignedUrl !== null
@@ -128,7 +177,7 @@ final class License
 		}
 
 		$license = Str::lower($this->license);
-		$request = Remote::post(License::BASE . "{$license}/validate", [
+		$request = Remote::post(self::BASE . "{$license}/validate", [
 			'headers' => [
 				'Content-Type' => 'application/json',
 				'Accept' => 'application/json',
@@ -158,7 +207,7 @@ final class License
 	public static function downloadLicense(string $email, string $license): static
 	{
 		$license = Str::lower($license);
-		$request = Remote::post(License::BASE . "{$license}/download", [
+		$request = Remote::post(self::BASE . "{$license}/download", [
 			'headers' => [
 				'Content-Type' => 'application/json',
 				'Accept' => 'application/json',
@@ -173,12 +222,25 @@ final class License
 			throw new \Exception('Invalid license');
 		}
 
-		$license = new License(...$request->json());
-		if (!$license->isValid()) {
+		$licenseData = $request->json();
+		// Save to disk
+		Json::write(static::licenseFile(), $licenseData);
+
+		// Create new instance with downloaded data
+		$newLicense = new static(App::instance()->plugin('tobimori/dreamform'));
+
+		if (!$newLicense->isValid()) {
 			throw new \Exception('Downloaded license is invalid');
 		}
 
-		Json::write(static::licenseFile(), $license->licenseData());
-		return $license;
+		return $newLicense;
+	}
+
+	/**
+	 * Create a License instance from disk for backwards compatibility
+	 */
+	public static function fromDisk(): static
+	{
+		return new static(App::instance()->plugin('tobimori/dreamform'));
 	}
 }

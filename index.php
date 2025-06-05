@@ -50,6 +50,7 @@ DreamForm::register(
 // register plugin
 App::plugin(
 	'tobimori/dreamform',
+	license: fn (\Kirby\Plugin\Plugin $plugin) => new \tobimori\DreamForm\Support\License($plugin),
 	extends: [
 		'api' => require __DIR__ . '/config/api.php',
 		'options' => require __DIR__ . '/config/options.php',
