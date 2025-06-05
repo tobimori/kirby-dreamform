@@ -86,7 +86,9 @@ class SubmissionPage extends BasePage
 			return null;
 		}
 
-		$resolver = DreamForm::option('refererPageResolver');
+		// this is not using DreamForm::option function
+		// since that would resolve our callable without input
+		$resolver = App::instance()->option("tobimori.dreamform.refererPageResolver");
 		if (is_callable($resolver)) {
 			return $resolver($this->referer(), $this);
 		} elseif ($page = DreamForm::findPageOrDraftRecursive($this->referer())) {

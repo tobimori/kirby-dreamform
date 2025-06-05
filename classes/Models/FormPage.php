@@ -16,7 +16,6 @@ use Kirby\Http\Query;
 use Kirby\Http\Response;
 use Kirby\Http\Url;
 use Kirby\Toolkit\A;
-use Kirby\Toolkit\I18n;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 use tobimori\DreamForm\DreamForm;
@@ -221,7 +220,7 @@ class FormPage extends BasePage
 			$siteHost = $site->host();
 			if (empty($siteHost) && $siteUrl === '/') {
 				// In headless mode with url: '/', use HTTP_HOST as fallback
-				$siteHost = $request->server('HTTP_HOST');
+				$siteHost = App::instance()->environment()->host();
 			}
 
 			// if the referer is from the same site, we can assume
