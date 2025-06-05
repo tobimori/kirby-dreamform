@@ -41,6 +41,7 @@ final class License extends KirbyLicense
 		protected Plugin $plugin
 	) {
 		$this->name = 'DreamForm License';
+		$this->link = 'https://plugins.andkindness.com/license-agreement';
 
 		// Load license data from disk
 		$this->loadFromDisk();
@@ -48,36 +49,27 @@ final class License extends KirbyLicense
 
 		// Determine status based on existing license validation
 		if ($this->isValid()) {
-			$this->status = new LicenseStatus(
-				value: 'active',
-				icon: 'check',
-				label: t('dreamform.license.status.valid'),
-				theme: 'positive'
-			);
-			// No link needed for active license
-			$this->link = null;
+			$this->status = LicenseStatus::from('active');
 		} elseif ($kirby->system()->isLocal()) {
 			// Local environment - show as demo
+			$demo = LicenseStatus::from('demo');
 			$this->status = new LicenseStatus(
-				value: 'demo',
-				icon: 'preview',
-				label: t('dreamform.license.status.demo'),
-				theme: 'info',
+				value: $demo->value(),
+				icon: $demo->icon(),
+				label: $demo->label(),
+				theme: $demo->theme(),
 				dialog: 'dreamform/activate'
 			);
-			// No link, use dialog instead
-			$this->link = null;
 		} else {
 			// Production without valid license
+			$missing = LicenseStatus::from('missing');
 			$this->status = new LicenseStatus(
-				value: 'missing',
-				icon: 'alert',
-				label: t('dreamform.license.status.missing'),
-				theme: 'negative',
+				value: $missing->value(),
+				icon: $missing->icon(),
+				label: $missing->label(),
+				theme: $missing->theme(),
 				dialog: 'dreamform/activate'
 			);
-			// No link, use dialog instead
-			$this->link = null;
 		}
 	}
 
