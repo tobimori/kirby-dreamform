@@ -191,6 +191,9 @@ checksums:
     license.error.submission: 2c008fe67967d7a8e0d303b0355c9bc0
     license.key.help: ad04dd0dff9e7f9bdaf305569345eb40
     license.key.label: 9e6c372f3ad766c856901a310fd712cc
+    license.status.valid: 1fc3e06e2d8717e6e2c993801d999468
+    license.status.demo: 27d6fdfbcca2dba6e8ba7440251a8c4c
+    license.status.missing: a5e62f7cf50b8489eb5441e63512d509
     settings: 8df6777277469c1fd88cc18dde2f1cc3
     static: b710755aa0f691b41165f72352cfbbf0
     submission: ff6c46274f54943672d1ad163e74bcb5
