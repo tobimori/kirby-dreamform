@@ -64,6 +64,7 @@ class ComposerStaticInit99ea25880654549400db6165b3f448d9
 		'tobimori\\DreamForm\\Guards\\AkismetGuard' => __DIR__ . '/../..' . '/classes/Guards/AkismetGuard.php',
 		'tobimori\\DreamForm\\Guards\\CsrfGuard' => __DIR__ . '/../..' . '/classes/Guards/CsrfGuard.php',
 		'tobimori\\DreamForm\\Guards\\Guard' => __DIR__ . '/../..' . '/classes/Guards/Guard.php',
+		'tobimori\\DreamForm\\Guards\\HCaptchaGuard' => __DIR__ . '/../..' . '/classes/Guards/HCaptchaGuard.php',
 		'tobimori\\DreamForm\\Guards\\HoneypotGuard' => __DIR__ . '/../..' . '/classes/Guards/HoneypotGuard.php',
 		'tobimori\\DreamForm\\Guards\\LicenseGuard' => __DIR__ . '/../..' . '/classes/Guards/LicenseGuard.php',
 		'tobimori\\DreamForm\\Guards\\RatelimitGuard' => __DIR__ . '/../..' . '/classes/Guards/RatelimitGuard.php',

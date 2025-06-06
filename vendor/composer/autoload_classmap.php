@@ -41,6 +41,7 @@ return array(
 	'tobimori\\DreamForm\\Guards\\AkismetGuard' => $baseDir . '/classes/Guards/AkismetGuard.php',
 	'tobimori\\DreamForm\\Guards\\CsrfGuard' => $baseDir . '/classes/Guards/CsrfGuard.php',
 	'tobimori\\DreamForm\\Guards\\Guard' => $baseDir . '/classes/Guards/Guard.php',
+	'tobimori\\DreamForm\\Guards\\HCaptchaGuard' => $baseDir . '/classes/Guards/HCaptchaGuard.php',
 	'tobimori\\DreamForm\\Guards\\HoneypotGuard' => $baseDir . '/classes/Guards/HoneypotGuard.php',
 	'tobimori\\DreamForm\\Guards\\LicenseGuard' => $baseDir . '/classes/Guards/LicenseGuard.php',
 	'tobimori\\DreamForm\\Guards\\RatelimitGuard' => $baseDir . '/classes/Guards/RatelimitGuard.php',
