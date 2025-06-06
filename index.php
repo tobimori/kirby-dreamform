@@ -42,6 +42,7 @@ DreamForm::register(
 	\tobimori\DreamForm\Fields\SelectField::class,
 	\tobimori\DreamForm\Guards\CsrfGuard::class,
 	\tobimori\DreamForm\Guards\HoneypotGuard::class,
+	\tobimori\DreamForm\Guards\HCaptchaGuard::class,
 	\tobimori\DreamForm\Guards\TurnstileGuard::class,
 	\tobimori\DreamForm\Guards\RatelimitGuard::class,
 	\tobimori\DreamForm\Guards\AkismetGuard::class
@@ -125,6 +126,7 @@ App::plugin(
 			'dreamform/guards/csrf' => __DIR__ . '/snippets/guards/csrf.php',
 			'dreamform/guards/honeypot' => __DIR__ . '/snippets/guards/honeypot.php',
 			'dreamform/guards/turnstile' => __DIR__ . '/snippets/guards/turnstile.php',
+			'dreamform/guards/hcaptcha' => __DIR__ . '/snippets/guards/hcaptcha.php',
 		],
 		// get all files from /translations and register them as language files
 		'translations' => A::keyBy(

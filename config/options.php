@@ -52,6 +52,14 @@ return [
 			'secretKey' => null,
 			'injectScript' => true
 		],
+		'hcaptcha' => [
+			'theme' => 'auto', // 'auto', 'light', 'dark', 'custom', or custom theme object
+			'size' => 'normal', // 'normal' or 'compact'
+			'siteKey' => null,
+			'secretKey' => null,
+			'injectScript' => true,
+			'customTheme' => null // Custom theme configuration (Pro/Enterprise only)
+		],
 		'ratelimit' => [
 			'limit' => 10,
 			'interval' => 3
