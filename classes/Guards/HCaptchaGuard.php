@@ -41,6 +41,7 @@ class HCaptchaGuard extends Guard
 
 		if (
 			$remote->code() !== 200 ||
+			$result['success'] !== true
 		) {
 			$this->cancel(t('dreamform.submission.error.captcha'));
 		}
