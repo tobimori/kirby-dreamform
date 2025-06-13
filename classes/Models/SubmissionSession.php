@@ -30,13 +30,13 @@ trait SubmissionSession
 		) {
 			$storage->storeReference();
 		} else {
-			// For PlainTextStorage (already persisted), store the slug reference
+			// For PlainTextStorage (already persisted), store the uuid reference
 			if ($mode === 'api' || (Htmx::isActive() && Htmx::isHtmxRequest())) {
 				// In sessionless mode, the reference is passed via request body
 				// Nothing to store server-side
 			} else {
-				// Store slug in PHP session for PRG mode
-				$kirby->session()->set(DreamForm::SESSION_KEY, $this->slug());
+				// Store UUID in PHP session for PRG mode
+				$kirby->session()->set(DreamForm::SESSION_KEY, $this->uuid()->toString());
 			}
 		}
 
@@ -49,7 +49,7 @@ trait SubmissionSession
 	private static function reconstructSubmission(mixed $data): SubmissionPage|null
 	{
 		if (is_string($data)) {
-			// It's a slug reference - submission exists on disk
+			// It's a slug / uuid reference - submission exists on disk
 			return DreamForm::findPageOrDraftRecursive($data);
 		}
 
