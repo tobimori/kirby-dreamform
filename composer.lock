@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b45fa06a8bce22151292ed848cfde19c",
+    "content-hash": "17b1fc7453b6a8578b53d12266ada9c1",
     "packages": [
         {
             "name": "getkirby/composer-installer",
@@ -321,16 +321,16 @@
         },
         {
             "name": "getkirby/cms",
-            "version": "5.0.0-rc.3",
+            "version": "5.0.0-rc.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getkirby/kirby.git",
-                "reference": "6dac5cd0e1d579685509d4306b2561962e06f013"
+                "reference": "2e17f85e671dccb631e7c250ca618fe85fb8ae6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getkirby/kirby/zipball/6dac5cd0e1d579685509d4306b2561962e06f013",
-                "reference": "6dac5cd0e1d579685509d4306b2561962e06f013",
+                "url": "https://api.github.com/repos/getkirby/kirby/zipball/2e17f85e671dccb631e7c250ca618fe85fb8ae6f",
+                "reference": "2e17f85e671dccb631e7c250ca618fe85fb8ae6f",
                 "shasum": ""
             },
             "require": {
@@ -421,7 +421,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-06-03T11:50:31+00:00"
+            "time": "2025-06-12T14:04:39+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
