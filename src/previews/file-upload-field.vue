@@ -1,7 +1,7 @@
 <script setup>
 import { props as blockProps } from "@/utils/block"
-import FieldError from "@/components/FieldError.vue"
-import FieldHeader from "@/components/FieldHeader.vue"
+import FieldError from "@/components/field-error.vue"
+import FieldHeader from "@/components/field-header.vue"
 
 const props = defineProps(blockProps)
 

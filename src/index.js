@@ -1,22 +1,23 @@
 import "@/index.css"
 
-import DynamicFieldPreview from "@/components/DynamicFieldPreview.vue"
-import FieldError from "@/components/FieldError.vue"
-import FieldHeader from "@/components/FieldHeader.vue"
-import FieldInput from "@/components/FieldInput.vue"
-import EmailEntry from "@/components/log/EmailEntry.vue"
-import ErrorEntry from "@/components/log/ErrorEntry.vue"
-import InfoEntry from "@/components/log/InfoEntry.vue"
-import Layout from "@/core/Layout.vue"
-import LayoutSelector from "@/core/LayoutSelector.vue"
-import ApiObject from "@/fields/ApiObject.vue"
-import DynamicField from "@/fields/DynamicField.vue"
-import ButtonField from "@/previews/ButtonField.vue"
-import ChoicesField from "@/previews/ChoicesField.vue"
-import FileUploadField from "@/previews/FileUploadField.vue"
-import HiddenField from "@/previews/HiddenField.vue"
-import SelectField from "@/previews/SelectField.vue"
-import TextField from "@/previews/TextField.vue"
+import DynamicFieldPreview from "@/components/dynamic-field-preview.vue"
+import FieldError from "@/components/field-error.vue"
+import FieldHeader from "@/components/field-header.vue"
+import FieldInput from "@/components/field-input.vue"
+import EmailEntry from "@/components/log/email-entry.vue"
+import ErrorEntry from "@/components/log/error-entry.vue"
+import InfoEntry from "@/components/log/info-entry.vue"
+import Layout from "@/core/layout.vue"
+import LayoutSelector from "@/core/layout-selector.vue"
+import ApiObject from "@/fields/api-object.vue"
+import DynamicField from "@/fields/dynamic-field.vue"
+import FieldSlugField from "@/fields/field-slug-field.vue"
+import ButtonField from "@/previews/button-field.vue"
+import ChoicesField from "@/previews/choices-field.vue"
+import FileUploadField from "@/previews/file-upload-field.vue"
+import HiddenField from "@/previews/hidden-field.vue"
+import SelectField from "@/previews/select-field.vue"
+import TextField from "@/previews/text-field.vue"
 import License from "@/sections/License.vue"
 import Submission from "@/sections/Submission.vue"
 
@@ -67,7 +68,8 @@ panel.plugin("tobimori/dreamform", {
 	},
 	fields: {
 		"dreamform-api-object": ApiObject,
-		"dreamform-dynamic-field": DynamicField
+		"dreamform-dynamic-field": DynamicField,
+		"dreamform-field-slug": FieldSlugField
 	},
 	sections: {
 		"dreamform-license": License,

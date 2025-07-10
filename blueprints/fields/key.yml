@@ -1,9 +1,7 @@
 label: dreamform.common.key.label
-type: slug
+type: dreamform-field-slug
 required: true
 width: 1/2
 icon: false # none would show an empty icon which cuts of the input too early
-wizard:
-  field: label
-  text: "​" # TODO: find a better way to add an empty text
 allow: a-zA-Z0-9_ # we need to allow underscores for url params
+sync: label

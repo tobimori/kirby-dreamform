@@ -1,4 +1,4 @@
-import { disabled, id, section } from "kirbyuse/props"
+import { disabled, id, section } from "kirbyuse/props";
 
 export const props = {
 	fieldset: section.fieldset,
@@ -6,7 +6,7 @@ export const props = {
 	...id,
 	endpoints: {
 		default: () => ({}),
-		type: [Array, Object]
+		type: [Array, Object],
 	},
-	content: Object
-}
+	content: Object,
+};

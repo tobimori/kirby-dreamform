@@ -1,7 +1,7 @@
 <script setup>
-import FieldError from "@/components/FieldError.vue"
-import FieldHeader from "@/components/FieldHeader.vue"
-import Options from "@/components/Options.vue"
+import FieldError from "@/components/field-error.vue"
+import FieldHeader from "@/components/field-header.vue"
+import Options from "@/components/options.vue"
 import { props as blockProps } from "@/utils/block"
 import { computed } from "kirbyuse"
 

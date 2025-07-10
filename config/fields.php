@@ -125,5 +125,13 @@ return [
 				}
 			},
 		]
+	],
+	'dreamform-field-slug' => [
+		'extends' => 'slug',
+		'props' => [
+			'allow' => function (string $allow = 'a-zA-Z0-9_') {
+				return $allow;
+			}
+		]
 	]
 ];

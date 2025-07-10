@@ -1,5 +1,6 @@
 <script setup>
-import Editable from "@/components/Editable.vue"
+import Editable from "@/components/editable.vue"
+import { useSyncedSlug } from "@/utils/useSyncedSlug"
 
 const props = defineProps({
 	content: Object,
@@ -10,6 +11,14 @@ const props = defineProps({
 
 const emit = defineEmits(["update"])
 const update = (value) => emit("update", { ...props.content, ...value })
+
+// use the composable for key syncing
+const { handleManualInput } = useSyncedSlug({
+	initialValue: props.content?.key,
+	syncField: 'label',
+	syncSource: props.content,
+	onUpdate: (value) => update({ key: value })
+})
 </script>
 
 <template>
@@ -48,7 +57,7 @@ const update = (value) => emit("update", { ...props.content, ...value })
 				:slugify="true"
 				:placeholder="$t('dreamform.common.key.label')"
 				:model-value="content.key"
-				@update:modelValue="update({ key: $event })"
+				@update:modelValue="handleManualInput"
 			/>
 			<k-icon type="key" />
 		</div>

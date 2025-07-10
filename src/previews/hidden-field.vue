@@ -1,6 +1,6 @@
 <script setup>
 import { props as blockProps } from "@/utils/block"
-import Editable from "@/components/Editable.vue"
+import Editable from "@/components/editable.vue"
 
 const props = defineProps(blockProps)
 

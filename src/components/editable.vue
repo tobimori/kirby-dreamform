@@ -42,7 +42,7 @@ const handleUpdate = () => {
 	const value = props.slugify
 		? app.$helper.slug(
 				el.value.textContent,
-				[panel.language.rules ?? panel.$system.slugs, panel.$system.ascii],
+				[panel.language.rules ?? panel.system.slugs, panel.system.ascii],
 				"a-zA-Z0-9_"
 			)
 		: el.value.textContent

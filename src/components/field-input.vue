@@ -1,5 +1,5 @@
 <script setup>
-import Editable from "@/components/Editable.vue"
+import Editable from "@/components/editable.vue"
 
 const props = defineProps({
 	icon: String,

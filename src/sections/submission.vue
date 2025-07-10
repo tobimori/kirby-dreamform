@@ -2,7 +2,7 @@
 import { useSection, ref, useApp, usePanel } from "kirbyuse"
 import { section } from "kirbyuse/props"
 
-import EntryBase from "@/components/log/EntryBase.vue"
+import EntryBase from "@/components/log/entry-base.vue"
 
 const props = defineProps(section)
 
