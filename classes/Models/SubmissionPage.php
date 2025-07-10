@@ -546,6 +546,19 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
+	 * Check if the submission has any filled values
+	 */
+	public function isEmpty(): bool
+	{
+		foreach ($this->values()->toArray() as $value) {
+			if ($value !== null && $value !== '' && $value !== []) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Return the corresponding form page
 	 */
 	public function form(): FormPage

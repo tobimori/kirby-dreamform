@@ -76,13 +76,10 @@ trait SubmissionSession
 		// Only clean up if submission is finished
 		// Don't clean up on validation errors - they're expected during form filling
 		if ($submission->isFinished()) {
-			$kirby = App::instance();
 			$storage = $submission->storage();
 
-			if ($storage instanceof SubmissionSessionStorage) {
-				$kirby->session()->remove(DreamForm::SESSION_KEY);
-				$storage->cleanup();
-			} elseif ($storage instanceof SubmissionCacheStorage) {
+			if (method_exists($storage, 'cleanup')) {
+				/** @var SubmissionSessionStorage|SubmissionCacheStorage $storage */
 				$storage->cleanup();
 			}
 		}
