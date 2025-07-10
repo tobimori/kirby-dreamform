@@ -202,6 +202,7 @@
 	"submission.error.logType": "Il tipo di log di invio \"{{ type }}\" non è valido.",
 	"submission.error.ratelimit": "Hai inviato il modulo troppe volte. Attendi un momento e riprova.",
 	"submission.error.csrf": "Il modulo è scaduto. Ricarica la pagina e riprova.",
+	"submission.error.emptyFields": "Per favore compila almeno un campo prima di inviare.",
 	"submission.ham": "Non spam",
 	"submission.log.error": "Errore non gestito nell'esecutore <strong>\"{{ type }}\"</strong>",
 	"submission.markedAs": "Questa risposta è {{ status }}",

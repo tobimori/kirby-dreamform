@@ -65,6 +65,8 @@ trait SubmissionHandling
 	public function handleFields()
 	{
 		$currentStep = App::instance()->request()->query()->get('dreamform-step', 1);
+		$allFieldsEmpty = true;
+
 		foreach ($this->form()->fields($currentStep) as $field) {
 			// skip "decorative" fields that don't have a value
 			if (!$field::hasValue()) {
@@ -84,6 +86,16 @@ trait SubmissionHandling
 			} else {
 				$this->removeError($field->key());
 			}
+
+			// check if at least one field is not empty
+			if (!$field->isEmpty()) {
+				$allFieldsEmpty = false;
+			}
+		}
+
+		// reject submission if all fields are empty
+		if ($allFieldsEmpty) {
+			$this->setError(t('dreamform.submission.error.emptyFields'));
 		}
 
 		return $this;

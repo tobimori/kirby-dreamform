@@ -202,6 +202,7 @@
 	"submission.error.logType": "El tipo de registro de envío \"{{ type }}\" no es válido.",
 	"submission.error.ratelimit": "Has enviado el formulario demasiadas veces. Por favor, espera un momento e inténtalo de nuevo.",
 	"submission.error.csrf": "El formulario ha expirado. Por favor, recarga la página e inténtalo de nuevo.",
+	"submission.error.emptyFields": "Por favor, completa al menos un campo antes de enviar.",
 	"submission.ham": "No es spam",
 	"submission.log.error": "Error no controlado en el ejecutor <strong>\"{{ type }}\"</strong>",
 	"submission.markedAs": "Esta respuesta está {{ status }}",

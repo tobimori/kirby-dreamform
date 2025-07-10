@@ -94,6 +94,14 @@ abstract class Field
 	}
 
 	/**
+	 * Check if the field value is empty
+	 */
+	public function isEmpty(): bool
+	{
+		return $this->value()->isEmpty();
+	}
+
+	/**
 	 * Run logic after the form submission
 	 * e.g. for storing an uploaded file
 	 */

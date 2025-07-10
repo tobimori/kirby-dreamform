@@ -202,6 +202,7 @@
 	"submission.error.logType": "Le type de journal de soumission \"{{ type }}\" n'est pas valide.",
 	"submission.error.ratelimit": "Vous avez soumis le formulaire trop souvent. Veuillez attendre un moment et réessayer.",
 	"submission.error.csrf": "Le formulaire a expiré. Veuillez recharger la page et réessayer.",
+	"submission.error.emptyFields": "Veuillez remplir au moins un champ avant de soumettre.",
 	"submission.ham": "Pas du spam",
 	"submission.log.error": "Erreur non gérée dans l'exécuteur <strong>\"{{ type }}\"</strong>",
 	"submission.markedAs": "Cette réponse est {{ status }}",

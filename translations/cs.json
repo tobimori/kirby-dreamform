@@ -202,6 +202,7 @@
 	"submission.error.logType": "Typ položky „{{ type }}“ není platný.",
 	"submission.error.ratelimit": "Formulář jste odeslali příliš často. Počkejte prosím chvíli a zkuste to znovu.",
 	"submission.error.csrf": "Platnost formuláře vypršela. Znovu načtěte stránku a zkuste to znovu.",
+	"submission.error.emptyFields": "Prosím vyplň alespoň jedno pole před odesláním.",
 	"submission.ham": "Není spam",
 	"submission.log.error": "Neznámá chyba v <strong>„{{ type }}“</strong>",
 	"submission.markedAs": "Tato odpověď byla označena jako {{ status }}",

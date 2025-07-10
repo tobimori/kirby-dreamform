@@ -550,7 +550,8 @@ class SubmissionPage extends BasePage
 	 */
 	public function isEmpty(): bool
 	{
-		foreach ($this->values()->toArray() as $value) {
+		foreach ($this->values()->toArray() as $key => $value) {
+			ray($key, $value);
 			if ($value !== null && $value !== '' && $value !== []) {
 				return false;
 			}

@@ -202,6 +202,7 @@
 	"submission.error.logType": "Het inzending logtype \"{{ type }}\" is niet geldig.",
 	"submission.error.ratelimit": "Je hebt het formulier te vaak ingezonden. Wacht een moment en probeer het overnieuw.",
 	"submission.error.csrf": "Het formulier is verlopen. Herlaad de pagina en probeer het overnieuw.",
+	"submission.error.emptyFields": "Vul alsjeblieft ten minste één veld in voordat je het formulier verstuurt.",
 	"submission.ham": "Geen spam",
 	"submission.log.error": "Onverwerkte fout in performer <strong>\"{{ type }}\"</strong>",
 	"submission.markedAs": "Deze inzending is {{ status }}",

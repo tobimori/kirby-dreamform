@@ -100,6 +100,24 @@ class FileUploadField extends Field
 		return true;
 	}
 
+	/**
+	 * Check if the file upload field is empty
+	 */
+	public function isEmpty(): bool
+	{
+		$files = $this->value()->value();
+
+		// if no files array, it's empty
+		if (!is_array($files)) {
+			return true;
+		}
+
+		// check if any file was successfully uploaded (error code 0 = UPLOAD_ERR_OK)
+		$uploadedFiles = array_filter($files, fn ($file) => is_array($file) && isset($file['error']) && $file['error'] === UPLOAD_ERR_OK);
+
+		return empty($uploadedFiles);
+	}
+
 	// abusing the sanitize method to get the file from the request
 	protected function sanitize(ContentField $value): ContentField
 	{
