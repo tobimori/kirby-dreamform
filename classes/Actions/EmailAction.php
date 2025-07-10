@@ -298,15 +298,14 @@ class EmailAction extends Action
 			} else { // is PHP file object
 				$files = array_values(A::filter($value->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
 				foreach ($files as $file) {
-					$name = $file['tmp_name'];
-					$tmpName = pathinfo($name);
+					$tmpName = pathinfo($file['tmp_name']);
 					$filename = $tmpName['dirname'] . '/' . F::safeName($file['name']);
 
-					if (rename($file['tmp_name'], $filename)) {
-						$name = $filename;
+					if (!F::exists($filename)) {
+						rename($file['tmp_name'], $filename);
 					}
 
-					$attachments[] = $name;
+					$attachments[] = $filename;
 				}
 			}
 		}
