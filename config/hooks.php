@@ -28,10 +28,9 @@ return [
 	'page.render:after' => function (string $contentType, array $data, string $html, Kirby\Cms\Page $page) {
 		$submission = $data['submission'] ?? null;
 
-		// if submission exists, has errors, and is empty, clean it up after render
+		// if submission exists, is empty clean it up after render
 		if (
 			$submission instanceof SubmissionPage &&
-			!$submission->isSuccessful() &&
 			$submission->isEmpty()
 		) {
 			$storage = $submission->storage();

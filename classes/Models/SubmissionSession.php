@@ -76,8 +76,9 @@ trait SubmissionSession
 		// Only clean up if submission is finished
 		// Don't clean up on validation errors - they're expected during form filling
 		if ($submission->isFinished()) {
-			$storage = $submission->storage();
+			App::instance()->session()->remove(DreamForm::SESSION_KEY);
 
+			$storage = $submission->storage();
 			if (method_exists($storage, 'cleanup')) {
 				/** @var SubmissionSessionStorage|SubmissionCacheStorage $storage */
 				$storage->cleanup();
