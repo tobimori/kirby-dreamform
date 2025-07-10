@@ -1,6 +1,6 @@
 <script setup>
 import Editable from "@/components/editable.vue"
-import { useSyncedSlug } from "@/utils/useSyncedSlug"
+import { useSyncedSlug } from "@/utils/use-synced-slug"
 
 const props = defineProps({
 	content: Object,
@@ -15,7 +15,7 @@ const update = (value) => emit("update", { ...props.content, ...value })
 // use the composable for key syncing
 const { handleManualInput } = useSyncedSlug({
 	initialValue: props.content?.key,
-	syncField: 'label',
+	syncField: "label",
 	syncSource: props.content,
 	onUpdate: (value) => update({ key: value })
 })

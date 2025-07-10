@@ -5,8 +5,8 @@ import {
 	useApp,
 	useContent,
 	usePanel,
-	watch,
-} from "kirbyuse";
+	watch
+} from "kirbyuse"
 
 /**
  * Composable for syncing slug values with auto-generation and uniqueness
@@ -22,34 +22,34 @@ export function useSyncedSlug({
 	initialValue,
 	syncField,
 	syncSource,
-	onUpdate,
+	onUpdate
 }) {
-	const app = useApp();
-	const panel = usePanel();
-	const { currentContent } = useContent();
+	const app = useApp()
+	const panel = usePanel()
+	const { currentContent } = useContent()
 
-	const slug = ref(initialValue || "");
-	const shouldAutoGenerate = ref(!initialValue);
+	const slug = ref(initialValue || "")
+	const shouldAutoGenerate = ref(!initialValue)
 
 	// stop auto-generation on publish
 	const handlePublish = () => {
 		if (slug.value) {
-			shouldAutoGenerate.value = false;
+			shouldAutoGenerate.value = false
 		}
-	};
+	}
 
 	onMounted(() => {
-		panel.events.on("content.publish", handlePublish);
-	});
+		panel.events.on("content.publish", handlePublish)
+	})
 
 	onUnmounted(() => {
-		panel.events.off("content.publish", handlePublish);
-	});
+		panel.events.off("content.publish", handlePublish)
+	})
 
 	// get all existing keys from the current content
 	const getExistingKeys = () => {
-		const keys = [];
-		const content = currentContent.value;
+		const keys = []
+		const content = currentContent.value
 
 		if (content?.fields && Array.isArray(content.fields)) {
 			// iterate through all field layouts
@@ -59,33 +59,33 @@ export function useSyncedSlug({
 						if (column.blocks && Array.isArray(column.blocks)) {
 							column.blocks.forEach((block) => {
 								// check if this block has a key field
-								const key = block.content?.key;
+								const key = block.content?.key
 								if (key && key !== slug.value) {
-									keys.push(key);
+									keys.push(key)
 								}
-							});
+							})
 						}
-					});
+					})
 				}
-			});
+			})
 		}
 
-		return keys;
-	};
+		return keys
+	}
 
 	// ensure slug is unique by adding suffix if needed
 	const ensureUniqueSlug = (baseSlug) => {
-		const existingKeys = getExistingKeys();
-		let uniqueSlug = baseSlug;
-		let counter = 2;
+		const existingKeys = getExistingKeys()
+		let uniqueSlug = baseSlug
+		let counter = 2
 
 		while (existingKeys.includes(uniqueSlug)) {
-			uniqueSlug = `${baseSlug}_${counter}`;
-			counter++;
+			uniqueSlug = `${baseSlug}_${counter}`
+			counter++
 		}
 
-		return uniqueSlug;
-	};
+		return uniqueSlug
+	}
 
 	// watch for sync field changes
 	if (syncField && syncSource) {
@@ -93,27 +93,27 @@ export function useSyncedSlug({
 			() => syncSource[syncField],
 			(newValue) => {
 				if (shouldAutoGenerate.value && newValue) {
-					const baseSlug = app.$helper.slug(newValue);
-					const uniqueSlug = ensureUniqueSlug(baseSlug);
-					slug.value = uniqueSlug;
-					onUpdate?.(uniqueSlug);
+					const baseSlug = app.$helper.slug(newValue)
+					const uniqueSlug = ensureUniqueSlug(baseSlug)
+					slug.value = uniqueSlug
+					onUpdate?.(uniqueSlug)
 				}
 			},
-			{ immediate: true },
-		);
+			{ immediate: true }
+		)
 	}
 
 	// handle manual input
 	const handleManualInput = (value) => {
 		// disable auto-generation when user manually edits
-		shouldAutoGenerate.value = false;
-		slug.value = value;
-		onUpdate?.(value);
-	};
+		shouldAutoGenerate.value = false
+		slug.value = value
+		onUpdate?.(value)
+	}
 
 	return {
 		slug,
 		shouldAutoGenerate,
-		handleManualInput,
-	};
+		handleManualInput
+	}
 }

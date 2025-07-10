@@ -20,7 +20,10 @@ export default [
 			"vue/multi-word-component-names": "off",
 			"vue/require-default-prop": "off",
 			"vue/require-prop-types": "error",
-			"no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^props$" }],
+			"no-unused-vars": [
+				"error",
+				{ argsIgnorePattern: "^_", varsIgnorePattern: "^props$" },
+			],
 		},
 		languageOptions: {
 			ecmaVersion: 2022,
@@ -28,8 +31,8 @@ export default [
 				window: "readonly",
 				document: "readonly",
 				console: "readonly",
-				panel: "readonly"
-			}
+				panel: "readonly",
+			},
 		},
 	},
 ];

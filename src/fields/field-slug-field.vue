@@ -12,7 +12,7 @@ import {
 	name,
 	required
 } from "kirbyuse/props"
-import { useSyncedSlug } from "@/utils/useSyncedSlug"
+import { useSyncedSlug } from "@/utils/use-synced-slug"
 
 const props = defineProps({
 	formData: {
@@ -71,9 +71,12 @@ const fieldProps = computed(() => {
 })
 
 // sync external value changes
-watch(() => props.value, (newValue) => {
-	slug.value = newValue || ""
-})
+watch(
+	() => props.value,
+	(newValue) => {
+		slug.value = newValue || ""
+	}
+)
 
 const input = ref(null)
 
