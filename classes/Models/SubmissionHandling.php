@@ -68,7 +68,7 @@ trait SubmissionHandling
 		$allFieldsEmpty = true;
 		$hasRequiredFields = false;
 
-		foreach ($this->form()->fields($currentStep) as $field) {
+		foreach ($this->form()->formFields($currentStep) as $field) {
 			// skip "decorative" fields that don't have a value
 			if (!$field::hasValue()) {
 				continue;
@@ -175,7 +175,7 @@ trait SubmissionHandling
 	{
 		$currentStep = App::instance()->request()->query()->get('dreamform-step', 1);
 		if ($this->isSuccessful()) {
-			foreach ($this->form()->fields($currentStep) as $field) {
+			foreach ($this->form()->formFields($currentStep) as $field) {
 				$field->afterSubmit($this);
 			}
 		}

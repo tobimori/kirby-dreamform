@@ -26,79 +26,41 @@ class EmailAction extends Action
 			'preview' => 'fields',
 			'wysiwyg' => true,
 			'icon' => 'email',
-			'tabs' => [
-				'addresses' => [
-					'label' => t('dreamform.actions.email.addresses.label'),
-					'fields' => [
-						'sendTo' => [
-							'label' => t('dreamform.actions.email.sendTo.label'),
-							'extends' => 'dreamform/fields/static-dynamic-toggles',
-						],
-						'sendToField' => [
-							'label' => ' ',
-							'extends' => 'dreamform/fields/field',
-							'width' => '3/4',
-							'when' => [
-								'sendTo' => 'field'
-							]
-						],
-						'sendToStatic' => [
-							'label' => ' ',
-							'type' => 'text',
-							'width' => '3/4',
-							'placeholder' => t('email.placeholder'),
-							'when' => [
-								'sendTo' => 'static'
-							]
-						],
-						'replyTo' => [
-							'label' => t('dreamform.actions.email.replyTo.label'),
-							'extends' => 'dreamform/fields/static-dynamic-toggles',
-						],
-						'replyToField' => [
-							'label' => ' ',
-							'extends' => 'dreamform/fields/field',
-							'width' => '3/4',
-							'when' => [
-								'replyTo' => 'field'
-							]
-						],
-						'replyToStatic' => [
-							'label' => ' ',
-							'type' => 'text',
-							'width' => '3/4',
-							'when' => [
-								'replyTo' => 'static'
-							]
-						]
-					]
+			'fields' => [
+				'sendTo' => [
+					'label' => t('dreamform.actions.email.sendTo.label'),
+					'type' => 'dreamform-dynamic-field',
+					'limitType' => 'email',
+					'required' => true,
+					'width' => '1/2'
 				],
-				'template' => [
+				'replyTo' => [
+					'label' => t('dreamform.actions.email.replyTo.label'),
+					'type' => 'dreamform-dynamic-field',
+					'limitType' => 'email',
+					'width' => '1/2'
+				],
+				'subject' => [
+					'label' => t('dreamform.actions.email.subject.label'),
+					'type' => 'text',
+					'required' => true
+				],
+				'fieldTemplate' => [
 					'label' => t('template'),
-					'fields' => [
-						'subject' => [
-							'label' => t('dreamform.actions.email.subject.label'),
-							'type' => 'text',
-							'required' => true
-						],
-						'kirbyTemplate' => [
-							'extends' => 'dreamform/fields/email-template',
-							'width' => '1/2',
-							'required' => true,
-							'default' => 'dreamform'
-						],
-						'attachments' => [
-							'label' => t('dreamform.actions.email.attachments.label'),
-							'type' => 'multiselect',
-							'options' => FormPage::getFields('file-upload'),
-							'width' => '1/2',
-						],
-						'fieldTemplate' => [
-							'label' => t('template'),
-							'extends' => 'dreamform/fields/writer-with-fields',
-						],
-					]
-				]
+					'extends' => 'dreamform/fields/writer-with-fields',
+				],
+				'kirbyTemplate' => [
+					'extends' => 'dreamform/fields/email-template',
+					'width' => '1/2',
+					'required' => true,
+					'default' => 'dreamform'
+				],
+				'attachments' => [
+					'label' => t('dreamform.actions.email.attachments.label'),
+					'type' => 'multiselect',
+					'options' => FormPage::getFields('file-upload'),
+					'width' => '1/2',
+				],
 			]
 		];
 	}
@@ -132,11 +94,7 @@ class EmailAction extends Action
 	 */
 	protected function to(): string
 	{
-		if ($this->block()->sendTo()->value() === 'field') {
-			$value = $this->submission()->valueForId($this->block()->sendToField())->value();
-		} else {
-			$value = $this->block()->sendToStatic()->value();
-		}
+		$value = $this->submission()->valueForDynamicField($this->block()->sendTo())->value();
 
 		if (empty($value)) {
 			$this->silentCancel('dreamform.actions.email.error.recipient');
@@ -150,12 +108,10 @@ class EmailAction extends Action
 	 */
 	protected function replyTo(): string
 	{
-		if ($this->block()->replyTo()->value() === 'field') {
-			return $this->submission()->valueForId($this->block()->replyToField())->value();
-		}
+		$value = $this->submission()->valueForDynamicField($this->block()->replyTo())?->value();
 
-		if (($static = $this->block()->replyToStatic())->isNotEmpty()) {
-			return $static->value();
+		if (!empty($value)) {
+			return $value;
 		}
 
 		return $this->from()->email();

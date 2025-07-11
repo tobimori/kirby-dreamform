@@ -70,7 +70,7 @@ class MailchimpAction extends Action
 		$mapping = $this->block()->fieldMapping()->toObject();
 
 		// get the email address from the submission
-		$email = $this->submission()->valueForId($mapping->emailAddress()->value())?->value();
+		$email = $this->submission()->valueForDynamicField($mapping->emailAddress())?->value();
 		if (!$email) {
 			return;
 		}
@@ -86,7 +86,7 @@ class MailchimpAction extends Action
 				continue;
 			}
 
-			if ($value = $this->submission()->valueForId($fieldId)?->value()) {
+			if ($value = $this->submission()->valueForDynamicField($fieldId)?->value()) {
 				$mergeFields[Str::upper($mergeField)] = $value;
 			}
 		}
@@ -95,7 +95,7 @@ class MailchimpAction extends Action
 		$tags = A::map(
 			($mapping->tags()->value() === 'static' ?
 				$mapping->tagsStatic()->value() :
-				$this->submission()->valueForId($mapping->tagsField()->value())?->split()) ?? [],
+				$this->submission()->valueForDynamicField($mapping->tagsField())?->split()) ?? [],
 			fn ($tag) => isset(static::getTags($list)[$tag]) ? static::getTags($list)[$tag] : $tag
 		);
 
@@ -181,9 +181,9 @@ class MailchimpAction extends Action
 		$blueprint = [
 			'emailAddress' => [
 				'label' => t('email'),
-				'type' => 'select',
+				'type' => 'dreamform-dynamic-field',
 				'required' => true,
-				'options' => $options = FormPage::getFields(),
+				'limitType' => 'email'
 			],
 		];
 
@@ -192,8 +192,7 @@ class MailchimpAction extends Action
 			if (!A::has(['address', 'birthday', 'date', 'imageurl'], $mergeField['type'])) {
 				$blueprint[Str::lower($mergeField['tag'])] = [
 					'label' => "{$mergeField['name']} ({$mergeField['tag']})",
-					'type' => 'select',
-					'options' => $options,
+					'type' => 'dreamform-dynamic-field'
 				];
 			}
 		}
@@ -216,8 +215,7 @@ class MailchimpAction extends Action
 			],
 			'tagsField' => [
 				'label' => t('dreamform.actions.mailchimp.tags.label'),
-				'type' => 'select',
-				'options' => $options,
+				'type' => 'dreamform-dynamic-field',
 				'width' => '2/3',
 				'when' => [
 					'tags' => 'field'

@@ -1,5 +1,6 @@
 <?php
 
+use Kirby\Content\VersionId;
 use Kirby\Data\Data;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Toolkit\A;
@@ -72,7 +73,7 @@ return [
 				$limit = $this->limitType();
 				return DreamForm::requestCache($limit ? [$page->uuid()->id(), implode(';', $limit)] : $page->uuid()->id(), function () use ($page, $limit) {
 					$fields = [];
-					foreach ($page->fields() as $field) {
+					foreach ($page->formFields(null, VersionId::CHANGES) as $field) {
 						if (!$field::hasValue()) {
 							continue;
 						}
@@ -103,7 +104,7 @@ return [
 
 				if ($value['type'] === 'dynamic' && $value['field']) {
 					$limit = $this->limitType();
-					foreach ($this->model->fields() as $field) {
+					foreach ($this->model->formFields() as $field) {
 						if (!$field::hasValue()) {
 							continue;
 						}

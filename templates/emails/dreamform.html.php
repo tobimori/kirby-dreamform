@@ -147,7 +147,7 @@
                               <tr>
                                 <td style="vertical-align:top;padding:0px;">
                                   <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="" width="100%">
-                                    <tbody> <?php foreach ($fields = $form->fields()->filterBy(fn ($f) => $f::hasValue() && $f::type() !== 'file-upload') as $field) :
+                                    <tbody> <?php foreach ($fields = $form->formFields()->filterBy(fn ($f) => $f::hasValue() && $f::type() !== 'file-upload') as $field) :
                                     	$value = $submission->valueFor($field->key())?->escape();
                                     	if (str_starts_with($value ?? "", 'page://')) {
                                     		$page = \Kirby\Cms\App::instance()->site()->find($value);

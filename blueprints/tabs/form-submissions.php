@@ -14,7 +14,7 @@ return function () {
 	}
 
 	$columns = [];
-	foreach ($page?->fields()->filterBy(fn ($field) => $field::hasValue())->limit(4) as $field) {
+	foreach ($page?->formFields()->filterBy(fn ($field) => $field::hasValue())->limit(4) as $field) {
 		$columns[$field->key()] = [
 			'label' => $field->block()->label()->value(),
 		];

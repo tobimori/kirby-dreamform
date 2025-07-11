@@ -15,7 +15,7 @@ use tobimori\DreamForm\Support\Htmx;
 if (
 	// Output guards before the last button field of the current step
 	// so that the context is right for captcha guards
-	($buttonFields = $form->fields(
+	($buttonFields = $form->formFields(
 		$submission?->form()->is($form) ? $submission?->currentStep() ?? 1 : 1
 	)->filterBy('type', 'button'))
 	&& $buttonFields->last() === $field

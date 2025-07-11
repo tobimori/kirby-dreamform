@@ -32,7 +32,7 @@ use tobimori\DreamForm\Support\Htmx;
 class FormPage extends BasePage
 {
 	/** @var \Kirby\Cms\Collection[] */
-	private array $fields;
+	private array $formFieldsCache;
 
 	/** @var \Kirby\Cms\Layouts[] */
 	private array $steps;
@@ -117,7 +117,7 @@ class FormPage extends BasePage
 	 *
 	 * @return \Kirby\Cms\Layouts[]
 	 */
-	public function steps(): array
+	public function steps(VersionId|string|null $versionId = null): array
 	{
 		if (isset($this->steps)) {
 			return $this->steps;
@@ -126,7 +126,7 @@ class FormPage extends BasePage
 		$steps = [];
 		$step = Layouts::factory([], ['parent' => $this]);
 
-		foreach ($this->content()->get('fields')->toLayouts() as $layout) {
+		foreach ($this->version($versionId)->content()->get('fields')->toLayouts() as $layout) {
 			if ($layout->columns()->first()->width() === 'dreamform-page') {
 				$steps[] = $step;
 				$step = Layouts::factory([], ['parent' => $this]);
@@ -150,18 +150,18 @@ class FormPage extends BasePage
 	/**
 	 * Returns the fields for a form
 	 */
-	public function fields(int|null $step = null): Collection
+	public function formFields(int|null $step = null, VersionId|string|null $versionId = null): Collection
 	{
 		if (isset($step) && ($step < 1 || $step > count($this->steps()))) {
 			throw new Exception("Step {$step} does not exist");
 		}
 
-		if (isset($this->fields)) {
-			return new Collection($step ? $this->fields[$step - 1] : $this->fields);
+		if (isset($this->formFieldsCache)) {
+			return new Collection($step ? $this->formFieldsCache[$step - 1] : $this->formFieldsCache);
 		}
 
 		$steps = [];
-		foreach ($this->steps() as $stepLayout) {
+		foreach ($this->steps($versionId) as $stepLayout) {
 			$fields = [];
 			foreach ($stepLayout->toBlocks() as $block) {
 				$type = Str::replace($block->type(), '-field', '');
@@ -175,7 +175,7 @@ class FormPage extends BasePage
 			$steps[] = new Collection($fields);
 		}
 
-		$this->fields = $steps;
+		$this->formFieldsCache = $steps;
 		return new Collection($step ? $steps[$step - 1] : $steps);
 	}
 
@@ -403,7 +403,7 @@ class FormPage extends BasePage
 					}
 
 					/** @var \tobimori\DreamForm\Fields\Field $field */
-					$field = $this->fields()->find($fieldId);
+					$field = $this->formFields()->find($fieldId);
 
 					return A::join([
 						snippet("dreamform/fields/{$field->type()}", [
@@ -458,7 +458,7 @@ class FormPage extends BasePage
 	 */
 	public function enctype(): string
 	{
-		if ($this->fields()->findBy('type', 'file-upload')) {
+		if ($this->formFields()->findBy('type', 'file-upload')) {
 			return 'multipart/form-data';
 		}
 
@@ -475,7 +475,7 @@ class FormPage extends BasePage
 	): static {
 		// create a clone to avoid modifying the original
 		$clone = $this->clone();
-		unset($clone->steps, $clone->fields); // reset layout calculations cache
+		unset($clone->steps, $clone->formFieldsCache); // reset layout calculations cache
 
 		// move the old model into memory
 		$this->changeStorage(
@@ -495,7 +495,7 @@ class FormPage extends BasePage
 
 		// check for duplicate keys
 		$keys = [];
-		foreach ($clone->fields() as $field) {
+		foreach ($clone->formFields() as $field) {
 			$key = $field->key();
 			if (in_array($key, $keys)) {
 				throw new Exception(tt('dreamform.form.error.duplicateKey', ['key' => $key]));
@@ -550,9 +550,9 @@ class FormPage extends BasePage
 			return null;
 		}
 
-		$field = $this->fields()->findBy('key', $key);
+		$field = $this->formFields()->findBy('key', $key);
 		if (!$field) {
-			$field = $this->fields()->findBy('id', $key);
+			$field = $this->formFields()->findBy('id', $key);
 		}
 
 		if (!$field) {
@@ -583,7 +583,7 @@ class FormPage extends BasePage
 		}
 
 		$fields = [];
-		foreach ($page->fields() as $field) {
+		foreach ($page->formFields() as $field) {
 			if (!$field::hasValue()) {
 				continue;
 			}

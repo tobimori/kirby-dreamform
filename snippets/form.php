@@ -110,7 +110,7 @@ if ($submission?->isFinished() && $submission->form()->is($form)) {
 				])) ?>>
 					<?php foreach ($layoutColumn->blocks() as $block) {
 						// get the field instance to access field methods
-						$field = $block->toFormField($form->fields());
+						$field = $block->toFormField($form->formFields());
 
 						if ($field) {
 							snippet(

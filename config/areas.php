@@ -156,7 +156,7 @@ return [
 
 					if ($formId && $formPage = App::instance()->site()->find($formId)) {
 						// get available fields from form
-						foreach ($formPage->fields() as $field) {
+						foreach ($formPage->formFields() as $field) {
 							if (!$field::hasValue() || $field->block()->type() === 'file-upload-field') {
 								continue;
 							}

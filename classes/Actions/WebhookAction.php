@@ -50,7 +50,7 @@ class WebhookAction extends Action
 		// get all fields that should be exposed, or use all fields if none are specified
 		$exposed = $this->block()->exposedFields()->split();
 		if (empty($exposed)) {
-			$exposed = $this->form()->fields()->keys();
+			$exposed = $this->form()->formFields()->keys();
 		}
 
 		// get the values & keys of the exposed fields
@@ -61,7 +61,7 @@ class WebhookAction extends Action
 				continue;
 			}
 
-			$field = $this->form()->fields()->find($fieldId);
+			$field = $this->form()->formFields()->find($fieldId);
 			$value = $this->submission()->valueForId($fieldId);
 
 			if ($field && $value?->isNotEmpty()) {

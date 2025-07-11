@@ -26,7 +26,7 @@ class ConditionalAction extends Action
 							'fields' => [
 								'field' => [
 									'label' => 'dreamform.actions.conditional.if.label',
-									'extends' => 'dreamform/fields/field',
+									'type' => 'dreamform-dynamic-field',
 									'required' => true,
 									'width' => '1/3'
 								],
@@ -82,7 +82,7 @@ class ConditionalAction extends Action
 	public function conditionsMet(): bool
 	{
 		foreach ($this->block()->conditions()->toStructure() as $condition) {
-			$submitted = $this->submission()->valueForId($condition->content()->get('field')->value())?->value();
+			$submitted = $this->submission()->valueForDynamicField($condition->content()->get('field'))?->value();
 			$expected = $condition->value()->value();
 
 			switch ($condition->operator()->value()) {

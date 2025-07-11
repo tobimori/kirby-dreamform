@@ -8,9 +8,9 @@ return function () {
 	$blueprint = [];
 	$fields = [];
 	if ($page?->intendedTemplate()?->name() === 'form') {
-		$fields = $page->fields();
+		$fields = $page->formFields();
 	} elseif ($page?->intendedTemplate()?->name() === 'submission') {
-		$fields = $page->form()->fields();
+		$fields = $page->form()->formFields();
 	}
 
 	foreach ($fields as $field) {

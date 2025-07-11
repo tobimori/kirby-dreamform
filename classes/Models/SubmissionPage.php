@@ -142,7 +142,7 @@ class SubmissionPage extends BasePage
 	public function valueForId(string $id): Field|null
 	{
 		/** @var tobimori\DreamForm\Fields\Field|null $field */
-		$field = $this->form()->fields()->find($id);
+		$field = $this->form()->formFields()->find($id);
 		if ($field) {
 			if (!($key = $field->key())) {
 				return null;
@@ -197,7 +197,7 @@ class SubmissionPage extends BasePage
 	public function values(): Content
 	{
 		$values = [];
-		foreach ($this->form()->fields() as $field) {
+		foreach ($this->form()->formFields() as $field) {
 			if ($field::hasValue()) {
 				$values[$field->key()] = $this->valueFor($field->key());
 			}
@@ -551,11 +551,11 @@ class SubmissionPage extends BasePage
 	public function isEmpty(): bool
 	{
 		foreach ($this->values()->toArray() as $key => $value) {
-			ray($key, $value);
 			if ($value !== null && $value !== '' && $value !== []) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 

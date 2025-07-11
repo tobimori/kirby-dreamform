@@ -95,7 +95,7 @@ class BrevoAction extends Action
 		$mapping = $this->block()->attributes()->toObject();
 
 		// get the email address from the submission
-		$email = $this->submission()->valueForId($mapping->email()->value())?->value();
+		$email = $this->submission()->valueForDynamicField($mapping->email())?->value();
 		if (!$email) {
 			return;
 		}
@@ -111,7 +111,7 @@ class BrevoAction extends Action
 				continue;
 			}
 
-			if ($value = $this->submission()->valueForId($fieldId)?->value()) {
+			if ($value = $this->submission()->valueForDynamicField($fieldId)?->value()) {
 				$attributes[Str::upper($attribute)] = $value;
 			}
 		}
@@ -186,9 +186,9 @@ class BrevoAction extends Action
 		$fields = [
 			'email' => [
 				'label' => t('email'),
-				'type' => 'select',
+				'type' => 'dreamform-dynamic-field',
 				'required' => true,
-				'options' => $options = FormPage::getFields(),
+				'limitType' => 'email'
 			]
 		];
 
@@ -201,8 +201,7 @@ class BrevoAction extends Action
 			if (isset($attribute['type']) && $attribute['type'] === 'text') {
 				$fields[$attribute['name']] = [
 					'label' => $attribute['name'],
-					'type' => 'select',
-					'options' => $options
+					'type' => 'dreamform-dynamic-field'
 				];
 			}
 		}

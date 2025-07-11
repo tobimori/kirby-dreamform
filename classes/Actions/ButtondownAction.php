@@ -44,7 +44,8 @@ class ButtondownAction extends Action
 						'emailField' => [
 							'label' => t('dreamform.actions.buttondown.emailField.label'),
 							'required' => true,
-							'extends' => 'dreamform/fields/field',
+							'type' => 'dreamform-dynamic-field',
+							'limitType' => 'email'
 						],
 						'exposeMetadata' => [
 							'label' => t('dreamform.actions.buttondown.exposeMetadata.label'),
@@ -75,7 +76,7 @@ class ButtondownAction extends Action
 			],
 			'tagsField' => [
 				'label' => ' ',
-				'extends' => 'dreamform/fields/field',
+				'type' => 'dreamform-dynamic-field',
 				'width' => '2/3',
 				'when' => [
 					'tags' => 'field'
@@ -107,7 +108,7 @@ class ButtondownAction extends Action
 
 		$tags = [];
 		if ($this->block()->tags()->value() === 'field') {
-			$tags = $this->submission()->valueForId($this->block()->tagsField()->value())->value();
+			$tags = $this->submission()->valueForDynamicField($this->block()->tagsField())->value();
 		} else {
 			$tags = $this->block()->tagsStatic()->value();
 		}
@@ -126,8 +127,10 @@ class ButtondownAction extends Action
 	{
 		$metadata = [];
 		foreach ($this->block()->exposeMetadata()->split() as $fieldId) {
-			$field = $this->form()->fields()->find($fieldId);
-			$metadata[$field->key()] = $this->submission()->valueForId($fieldId)->value();
+			$field = $this->form()->formFields()->find($fieldId);
+			if ($field) {
+				$metadata[$field->key()] = $this->submission()->valueForId($fieldId)->value();
+			}
 		}
 
 		return count($metadata) > 0 ? $metadata : null;
@@ -140,7 +143,7 @@ class ButtondownAction extends Action
 	{
 		// check if email is valid
 		$emailField = $this->block()->emailField()->value();
-		$email = $this->submission()->valueForId($emailField)?->value();
+		$email = $this->submission()->valueForDynamicField($this->block()->emailField())?->value();
 		if (!$email) {
 			return;
 		}
