@@ -117,6 +117,8 @@
 	"common.firstName": "First Name",
 	"common.lastName": "Last Name",
 	"common.source": "Source",
+	"common.insert": "Insert",
+	"common.update": "Update",
 	"field": "Field",
 	"fields": "Fields",
 	"fields.button.label.label": "Submit",
@@ -223,5 +225,7 @@
 	"submissions.empty": "No Submissions",
 	"submissions.recent": "Recent Submissions",
 	"validation": "Validation",
-	"workflow": "Workflow"
+	"workflow": "Workflow",
+	"writerNodes.formField": "Field Value",
+	"writerNodes.selectField": "Select Form Field"
 }

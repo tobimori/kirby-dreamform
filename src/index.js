@@ -12,6 +12,7 @@ import LayoutSelector from "@/core/layout-selector.vue"
 import ApiObject from "@/fields/api-object.vue"
 import DynamicField from "@/fields/dynamic-field.vue"
 import FieldSlugField from "@/fields/field-slug-field.vue"
+import formFieldNode from "@/nodes/form-field.js"
 import ButtonField from "@/previews/button-field.vue"
 import ChoicesField from "@/previews/choices-field.vue"
 import FileUploadField from "@/previews/file-upload-field.vue"
@@ -23,6 +24,7 @@ import Submission from "@/sections/Submission.vue"
 
 panel.plugin("tobimori/dreamform", {
 	icons: {
+		"input-field": `<path d="M8 5H11V19H8V21H16V19H13V5H16V3H8V5ZM2 7C1.44772 7 1 7.44772 1 8V16C1 16.5523 1.44772 17 2 17H8V15H3V9H8V7H2ZM16 9H21V15H16V17H22C22.5523 17 23 16.5523 23 16V8C23 7.44772 22.5523 7 22 7H16V9Z" />`,
 		"mail-send": `<path d="M21 3c.5523 0 1 .4477 1 1v16.0066c0 .5486-.4553.9934-.9918.9934H2.9918C2.444 21 2 20.5551 2 20.0066V19h18V7.3l-8 7.2-10-9V4c0-.5523.4477-1 1-1h18ZM8 15v2H0v-2h8Zm-3-5v2H0v-2h5Zm14.5659-5H4.4341L12 11.8093 19.5659 5Z"/>`,
 		dreamform: `<path fill="#1B4493" d="M3 1.5h4.5l16.5 9v3l-16.5 9H3l1.5-9H12v-3H4.5L3 1.5Z"/>`,
 		"shield-check": `<path d="m12 1 8.2169 1.826A1 1 0 0 1 21 3.8022v9.9867a6 6 0 0 1-2.6718 4.9923L12 23l-6.3282-4.2188A6 6 0 0 1 3 13.7889V3.8022a1 1 0 0 1 .783-.9762L12 1Zm0 2.0488L5 4.6043v9.1846a4 4 0 0 0 1.7812 3.3282L12 20.5963l5.2188-3.4792A4 4 0 0 0 19 13.7889V4.6043l-7-1.5555Zm4.4524 5.173 1.4142 1.4142L11.5026 16 7.26 11.7574l1.4142-1.4143 2.8277 2.8278 4.9505-4.949Z"/>`,
@@ -74,5 +76,8 @@ panel.plugin("tobimori/dreamform", {
 	sections: {
 		"dreamform-license": License,
 		"dreamform-submission": Submission
+	},
+	writerNodes: {
+		dreamformFormField: formFieldNode
 	}
 })

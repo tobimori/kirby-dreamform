@@ -50,7 +50,6 @@ const props = defineProps({
 
 const emit = defineEmits(["input"])
 
-// use the composable for slug syncing
 const { slug, handleManualInput } = useSyncedSlug({
 	initialValue: props.value,
 	syncField: props.sync,

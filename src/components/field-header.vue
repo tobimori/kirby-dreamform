@@ -12,7 +12,6 @@ const props = defineProps({
 const emit = defineEmits(["update"])
 const update = (value) => emit("update", { ...props.content, ...value })
 
-// use the composable for key syncing
 const { handleManualInput } = useSyncedSlug({
 	initialValue: props.content?.key,
 	syncField: "label",

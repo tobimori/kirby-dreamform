@@ -117,6 +117,8 @@
 	"common.firstName": "Voornaam",
 	"common.lastName": "Achternaam",
 	"common.source": "Bron",
+	"common.insert": "Invoegen",
+	"common.update": "Bijwerken",
 	"field": "Veld",
 	"fields": "Velden",
 	"fields.button.label.label": "Verstuur",
@@ -223,5 +225,7 @@
 	"submissions.empty": "Geen inzendingen",
 	"submissions.recent": "Recente inzendingen",
 	"validation": "Validatie",
-	"workflow": "Workflow"
+	"workflow": "Workflow",
+	"writerNodes.formField": "Veldwaarde",
+	"writerNodes.selectField": "Selecteer formulierveld"
 }

@@ -29,6 +29,11 @@ return [
 	'page' => 'page://forms', // Slug or URI to the page where the forms are located
 	'secret' => null, // Encryption secret for htmx attributes
 	'marks' => ['bold', 'italic', 'underline', 'strike', 'link', 'email'], // Marks to be used in writer fields
+	'nodes' => [
+		'heading',
+		'bulletList',
+		'orderedList'
+	], // Nodes to be used in writer fields
 	'metadata' => [
 		'collect' => [] // 'ip' | 'userAgent'
 	],

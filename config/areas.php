@@ -138,6 +138,77 @@ return [
 					];
 				}
 			],
+			'dreamform/form-fields' => [
+				'load' => function () {
+					$fieldKey = App::instance()->request()->get('field');
+					$formId = App::instance()->request()->get('form');
+
+					// get form from referrer if not provided
+					if (!$formId) {
+						$path = App::instance()->request()->header('x-fiber-referrer');
+						if ($path && preg_match('/pages\/([^\/]+\+[^\/]+)/', $path, $matches)) {
+							$formId = Str::replace($matches[1], '+', '/');
+						}
+					}
+
+					$options = [];
+					$currentValue = null;
+
+					if ($formId && $formPage = App::instance()->site()->find($formId)) {
+						// get available fields from form
+						foreach ($formPage->fields() as $field) {
+							if (!$field::hasValue() || $field->block()->type() === 'file-upload-field') {
+								continue;
+							}
+
+							$key = $field->key();
+							$label = $field->label() ?: $key;
+							$type = Str::replace($field->block()->type(), '-field', '');
+
+							// store both key and label in value for JS to use
+							$options[] = [
+								'value' => json_encode(['key' => $key, 'label' => $label]),
+								'text' => $label,
+								'info' => $type
+							];
+
+							// set current value if field matches
+							if ($fieldKey === $key) {
+								$currentValue = json_encode(['key' => $key, 'label' => $label]);
+							}
+						}
+					}
+
+					// default to first option if no selection
+					if (!$currentValue && !empty($options)) {
+						$currentValue = $options[0]['value'];
+					}
+
+					return [
+						'component' => 'k-form-dialog',
+						'props' => [
+							'fields' => [
+								'field' => [
+									'type'  => 'select',
+									'label' => t('dreamform.writerNodes.selectField'),
+									'options' => $options,
+									'required' => true,
+									'empty' => empty($options) ? t('dreamform.common.noFields') : false
+								]
+							],
+							'value' => [
+								'field' => $currentValue
+							],
+							'submitButton' => [
+								'text' => $fieldKey ? t('dreamform.common.update') : t('dreamform.common.insert')
+							]
+						]
+					];
+				},
+				'submit' => function () {
+					return true;
+				}
+			]
 		]
 	]
 ];

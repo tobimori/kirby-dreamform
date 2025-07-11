@@ -117,6 +117,8 @@
 	"common.firstName": "Křestní jméno",
 	"common.lastName": "Příjmení",
 	"common.source": "Zdroj",
+	"common.insert": "Vložit",
+	"common.update": "Aktualizovat",
 	"field": "Pole",
 	"fields": "Pole",
 	"fields.button.label.label": "Odeslat",
@@ -223,5 +225,7 @@
 	"submissions.empty": "Žádné podání",
 	"submissions.recent": "Nedávná podání",
 	"validation": "Validace",
-	"workflow": "Akce"
+	"workflow": "Akce",
+	"writerNodes.formField": "Hodnota pole",
+	"writerNodes.selectField": "Vybrat formulářové pole"
 }

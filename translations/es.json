@@ -117,6 +117,8 @@
 	"common.firstName": "Nombre",
 	"common.lastName": "Apellido",
 	"common.source": "Origen",
+	"common.insert": "Insertar",
+	"common.update": "Actualizar",
 	"field": "Campo",
 	"fields": "Campos",
 	"fields.button.label.label": "Enviar",
@@ -223,5 +225,7 @@
 	"submissions.empty": "Sin envíos",
 	"submissions.recent": "Envíos recientes",
 	"validation": "Validación",
-	"workflow": "Flujo de trabajo"
+	"workflow": "Flujo de trabajo",
+	"writerNodes.formField": "Valor del campo",
+	"writerNodes.selectField": "Seleccionar campo de formulario"
 }

@@ -9,3 +9,34 @@
 		display: none;
 	}
 }
+
+.k-writer span[data-dreamform-field] {
+	background: var(--color-purple-200);
+	color: var(--color-purple-700);
+	padding: var(--spacing-1) var(--spacing-2);
+	border-radius: var(--rounded-sm);
+	display: inline-flex;
+	gap: 0.25rem;
+	white-space: nowrap;
+	align-items: center;
+	font-size: 0.875em;
+	line-height: 1;
+	cursor: pointer;
+	margin-inline: 2px;
+	font-weight: 500;
+	transition: all 0.2s;
+
+	&:hover {
+		background: var(--color-purple-300);
+		color: var(--color-purple-800);
+	}
+}
+
+.k-writer-input .k-toolbar-button:nth-child(3) {
+	padding-inline: var(--spacing-5);
+	--button-width: auto;
+
+	&::after {
+		content: attr(title);
+	}
+}
