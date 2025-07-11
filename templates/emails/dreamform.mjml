@@ -25,11 +25,18 @@
 						<?= $form->site()->title() ?>
 					</mj-text>
 					<mj-text color="#737373">
+						<?php if (isset($body) && $body !== null): ?>
+						<?= $body['html'] ?>
+						<?php else: ?>
 						<?= tt('dreamform.actions.email.defaultTemplate.text', null, ['form' =>
 						"<strong>{$form->title()}</strong>"]) ?>
+						<?php endif; ?>
 					</mj-text>
 				</mj-column>
 			</mj-section>
+			<mj-raw>
+			<?php if (!isset($body) && $body === null): ?>
+			</mj-raw>
 			<mj-section
 				css-class="shadow"
 				padding="24px"
@@ -67,6 +74,9 @@
 					</mj-raw>
 				</mj-column>
 			</mj-section>
+			<mj-raw>
+			<?php endif; ?>
+			</mj-raw>
 		</mj-wrapper>
 	</mj-body>
 </mjml>

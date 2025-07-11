@@ -1,5 +1,7 @@
+<?php if (isset($body) && $body !== null): ?>
+<?= $body['text'] ?>
+<?php else: ?>
 <?= tt('dreamform.actions.email.defaultTemplate.text', null, ['form' => $form->title()]) ?>
-
 
 ———
 
@@ -20,4 +22,5 @@
 ———
 
 <?php endif;
-endforeach ?>
+endforeach;
+endif; ?>

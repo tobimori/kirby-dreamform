@@ -117,8 +117,8 @@
                                       </tr>
                                       <tr>
                                         <td align="left" style="font-size:0px;padding:0px;word-break:break-word;">
-                                          <div style="font-family:Inter;font-size:14px;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#737373;"><?= tt('dreamform.actions.email.defaultTemplate.text', null, ['form' =>
-						"<strong>{$form->title()}</strong>"]) ?></div>
+                                          <div style="font-family:Inter;font-size:14px;letter-spacing:-0.01em;line-height:1.5em;text-align:left;color:#737373;"><?php if (isset($body) && $body !== null): ?> <?= $body['html'] ?> <?php else: ?> <?= tt('dreamform.actions.email.defaultTemplate.text', null, ['form' =>
+						"<strong>{$form->title()}</strong>"]) ?> <?php endif; ?></div>
                                         </td>
                                       </tr>
                                     </tbody>
@@ -134,7 +134,7 @@
                   </tbody>
                 </table>
               </div>
-              <!--[if mso | IE]></td></tr></table></td></tr><tr><td class="shadow-outlook" width="696px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="shadow-outlook" role="presentation" style="width:696px;" width="696" bgcolor="#ffffff" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+              <!--[if mso | IE]></td></tr></table></td></tr><![endif]--> <?php if (!isset($body) && $body === null): ?> <!--[if mso | IE]><tr><td class="shadow-outlook" width="696px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="shadow-outlook" role="presentation" style="width:696px;" width="696" bgcolor="#ffffff" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
               <div class="shadow" style="background:#ffffff;background-color:#ffffff;margin:0px auto;border-radius:4px;max-width:696px;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;background-color:#ffffff;width:100%;border-radius:4px;">
                   <tbody>
@@ -187,7 +187,7 @@
                   </tbody>
                 </table>
               </div>
-              <!--[if mso | IE]></td></tr></table></td></tr></table><![endif]-->
+              <!--[if mso | IE]></td></tr></table></td></tr><![endif]--> <?php endif; ?> <!--[if mso | IE]></table><![endif]-->
             </td>
           </tr>
         </tbody>

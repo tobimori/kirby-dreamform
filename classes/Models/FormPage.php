@@ -574,9 +574,6 @@ class FormPage extends BasePage
 
 	/**
 	 * Static function to get page fields based on the API request url for use in panel blueprints
-	 *
-	 * TOOD: remove in next major version -
-	 * @deprecated use dreamform-dynamic-field instead or DreamForm::currentPage()->fields()
 	 */
 	public static function getFields(string|null $filterByType = null): array
 	{

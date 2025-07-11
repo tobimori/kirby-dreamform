@@ -81,24 +81,11 @@ class EmailAction extends Action
 							'type' => 'text',
 							'required' => true
 						],
-						'templateType' => [
-							'label' => t('dreamform.actions.email.templateType.label'),
-							'type' => 'select',
-							'width' => '1/2',
-							'required' => true,
-							'default' => 'default',
-							'options' => [
-								'default' => t('dreamform.actions.email.templateType.default'),
-								'kirby' => t('dreamform.actions.email.templateType.kirby'),
-								'field' => t('dreamform.actions.email.templateType.field')
-							],
-						],
 						'kirbyTemplate' => [
 							'extends' => 'dreamform/fields/email-template',
 							'width' => '1/2',
-							'when' => [
-								'templateType' => 'kirby'
-							]
+							'required' => true,
+							'default' => 'dreamform'
 						],
 						'attachments' => [
 							'label' => t('dreamform.actions.email.attachments.label'),
@@ -109,9 +96,6 @@ class EmailAction extends Action
 						'fieldTemplate' => [
 							'label' => t('template'),
 							'extends' => 'dreamform/fields/writer-with-fields',
-							'when' => [
-								'templateType' => 'field'
-							]
 						],
 					]
 				]
@@ -124,17 +108,23 @@ class EmailAction extends Action
 	 */
 	protected function template(): string|null
 	{
-		$type = $this->block()->templateType()->value();
+		// legacy support for old templateType field
+		if ($this->block()->templateType()->exists() && $this->block()->templateType()->isNotEmpty()) {
+			$type = $this->block()->templateType()->value();
 
-		if ($type === 'kirby') {
-			return $this->block()->kirbyTemplate()->value();
+			if ($type === 'kirby') {
+				return $this->block()->kirbyTemplate()->value();
+			}
+
+			if ($type === 'default' || $type === 'field') {
+				return 'dreamform';
+			}
+
+			return null;
 		}
 
-		if ($type === 'default') {
-			return 'dreamform';
-		}
-
-		return null;
+		// new format: just use kirbyTemplate directly
+		return $this->block()->kirbyTemplate()->value() ?: 'dreamform';
 	}
 
 	/**
@@ -191,18 +181,26 @@ class EmailAction extends Action
 	 */
 	protected function body(): array|null
 	{
-		if ($this->block()->templateType()->value() !== 'field') {
-			return null;
+		if ($this->block()->fieldTemplate()->isNotEmpty()) {
+			$html = $this->submission()->toString(
+				$this->block()->fieldTemplate()->value(),
+				$this->templateValues()
+			);
+
+			return $this->formatEmailBody($html);
 		}
 
-		$html = $this->submission()->toString(
-			$this->block()->fieldTemplate()->value(),
-			$this->templateValues()
-		);
+		// otherwise, let the template handle the body
+		return null;
+	}
 
+	/**
+	 * Formats HTML email body to plain text
+	 */
+	protected function formatEmailBody(string $html): array
+	{
 		return [
 			'html' => $html,
-
 			// i wish we had a pipe operator
 			'text' => html_entity_decode(
 				trim(
@@ -257,8 +255,9 @@ class EmailAction extends Action
 				'replyTo' => $this->replyTo(),
 				'to' => $this->to(),
 				'subject' => $this->subject(),
-				'body' => $this->body(),
+				'body' => $body = $this->body(),
 				'data' => [
+					'body' => $body,
 					'action' => $this,
 					'submission' => $this->submission(),
 					'form' => $this->submission()->form(),
