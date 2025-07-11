@@ -66,6 +66,7 @@ trait SubmissionHandling
 	{
 		$currentStep = App::instance()->request()->query()->get('dreamform-step', 1);
 		$allFieldsEmpty = true;
+		$hasRequiredFields = false;
 
 		foreach ($this->form()->fields($currentStep) as $field) {
 			// skip "decorative" fields that don't have a value
@@ -75,6 +76,11 @@ trait SubmissionHandling
 
 			// create a field instance & set the value from the request
 			$field = $this->updateFieldFromRequest($field);
+
+			// check if this field is required
+			if ($field->block()->required()->toBool()) {
+				$hasRequiredFields = true;
+			}
 
 			// validate the field
 			$validation = $field->validate();
@@ -93,9 +99,11 @@ trait SubmissionHandling
 			}
 		}
 
-		// reject submission if all fields are empty
-		if ($allFieldsEmpty) {
+		// only show empty fields error on final step when no required fields exist
+		if ($this->isFinalStep() && $allFieldsEmpty && !$hasRequiredFields) {
 			$this->setError(t('dreamform.submission.error.emptyFields'));
+		} else {
+			$this->removeError();
 		}
 
 		return $this;
