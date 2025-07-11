@@ -73,6 +73,10 @@ checksums:
     actions.brevo.attributes.empty: e5e5b34b9bde28b9da1bbe22d66de0a7
     actions.brevo.attributes.help: e9cb390eb748ee7c9cb434b5a27ac853
     actions.brevo.attributes.label: 6acf323625ea07d402b23658aea03717
+    actions.brevo.ipError.label: 0a3498f8f8cbe775b2237e863892bb76
+    actions.brevo.ipError.text: 9cf0fe243a24b0071b3de8ee7c202f52
+    actions.brevo.ipError.log: e00e5ed62ca063d9c02d755b6017c1da
+    actions.brevo.log.success: 2a51d1ebb2e7b6b49dcd9b7ba13b5c09
     actions.loops.name: 260edfa905346fdb4ec5eaaff0c13f93
     actions.loops.lists.label: 0bfe54a513c26c9d71537bd4df18ac71
     actions.loops.subscribed.label: 2797b56a63e796d2767b4b5cf4bab92b

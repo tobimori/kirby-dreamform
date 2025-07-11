@@ -81,12 +81,13 @@ class MailchimpAction extends Action
 
 		// get data for merge fields from the submission
 		$mergeFields = [];
-		foreach ($mapping->data() as $mergeField => $fieldId) {
-			if (A::has(['emailaddress', 'tags', 'tagsfield', 'tagsstatic'], $mergeField) || !$fieldId) {
+		foreach ($mapping->data() as $mergeField => $field) {
+			if (A::has(['emailaddress', 'tags', 'tagsfield', 'tagsstatic'], $mergeField)) {
 				continue;
 			}
 
-			if ($value = $this->submission()->valueForDynamicField($fieldId)?->value()) {
+			// get the field value using the field object method
+			if ($value = $this->submission()->valueForDynamicField($mapping->$mergeField())?->value()) {
 				$mergeFields[Str::upper($mergeField)] = $value;
 			}
 		}

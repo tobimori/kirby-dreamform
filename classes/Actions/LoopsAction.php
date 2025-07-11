@@ -2,7 +2,6 @@
 
 namespace tobimori\DreamForm\Actions;
 
-use Kirby\Content\Field;
 use Kirby\Data\Json;
 use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
@@ -83,14 +82,15 @@ class LoopsAction extends Action
 				continue;
 			}
 
-			$value = $this->submission()->valueForDynamicField(new Field($this->form(), $key, $field));
+			// get the field value using the field object method
+			$value = $this->submission()->valueForDynamicField($fields->$key())?->value();
 
 			if ($value) {
 				$casedKey = A::find($casedKeys, fn ($k) => Str::lower($k) === Str::lower($key));
 				if (!$casedKey) {
 					continue;
 				}
-				$values[$casedKey] = $value->value();
+				$values[$casedKey] = $value;
 			}
 		}
 

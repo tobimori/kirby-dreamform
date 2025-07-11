@@ -19,6 +19,21 @@ class BrevoAction extends Action
 	 */
 	public static function blueprint(): array
 	{
+		// check if we can fetch lists to detect ip authorization errors
+		$ipError = static::checkForIpError();
+		$fields = [];
+
+		if ($ipError) {
+			$fields['ip_error'] = [
+				'label' => t('dreamform.actions.brevo.ipError.label', 'IP Authorization Required'),
+				'type' => 'info',
+				'theme' => 'negative',
+				'text' => tt('dreamform.actions.brevo.ipError.text', null, [
+					'ip' => $ipError['ip'] ?? 'unknown'
+				]),
+			];
+		}
+
 		return [
 			'name' => t('dreamform.actions.brevo.name'),
 			'preview' => 'fields',
@@ -27,14 +42,15 @@ class BrevoAction extends Action
 			'tabs' => [
 				'settings' => [
 					'label' => t('dreamform.settings'),
-					'fields' => [
+					'fields' => array_merge($fields, [
 						'list' => [
 							'label' => t('dreamform.actions.brevo.list.label'),
 							'type' => 'select',
 							'options' => A::reduce(static::getLists(), fn ($prev, $list) => A::merge($prev, [
 								"id-{$list['id']}" => $list['name']
 							]), []),
-							'required' => true
+							'required' => true,
+							'disabled' => $ipError !== null
 						],
 						'doubleOptIn' => [
 							'label' => t('dreamform.actions.brevo.doubleOptIn.label'),
@@ -80,7 +96,7 @@ class BrevoAction extends Action
 							'empty' => t('dreamform.actions.brevo.attributes.empty'),
 							'fields' => static::getAttributeFields()
 						],
-					]
+					])
 				]
 			]
 		];
@@ -91,6 +107,23 @@ class BrevoAction extends Action
 	 */
 	public function run(): void
 	{
+		// check for ip authorization error first
+		$ipError = static::checkForIpError();
+
+		if ($ipError) {
+			$this->cancel(
+				tt('dreamform.actions.brevo.ipError.text', null, [
+					'ip' => $ipError['ip'] ?? 'unknown'
+				]),
+				public: false,
+				log: [
+					'icon' => 'brevo',
+					'title' => 'dreamform.actions.brevo.ipError.log',
+					'type' => 'error'
+				]
+			);
+		}
+
 		$list = $this->block()->list()->value();
 		$mapping = $this->block()->attributes()->toObject();
 
@@ -106,12 +139,13 @@ class BrevoAction extends Action
 
 		// get data for merge fields from the submission
 		$attributes = [];
-		foreach ($mapping->data() as $attribute => $fieldId) {
-			if ($attribute === 'email' || !$fieldId) {
+		foreach ($mapping->data() as $attribute => $fieldData) {
+			if ($attribute === 'email' || empty($fieldData['field'])) {
 				continue;
 			}
 
-			if ($value = $this->submission()->valueForDynamicField($fieldId)?->value()) {
+			$field = $this->submission()->content()->get($fieldData['field']);
+			if ($field && $value = $this->submission()->valueForDynamicField($field)?->value()) {
 				$attributes[Str::upper($attribute)] = $value;
 			}
 		}
@@ -130,11 +164,14 @@ class BrevoAction extends Action
 			$this->cancel($request->json()['message'] ?? "dreamform.submission.error.email");
 		}
 
+		$listId = intval(Str::replace($list, 'id-', ''));
+		$listEntry = A::find(static::getLists(), fn ($entry) => $entry['id'] === $listId);
+
 		$this->log(
 			[
 				'template' => [
 					'email' => $email,
-					'list' => A::find(static::getLists(), fn ($entry) => $entry['id'] === $list)['name']
+					'list' => $listEntry['name'] ?? 'Unknown List'
 				]
 			],
 			type: 'none',
@@ -267,5 +304,32 @@ class BrevoAction extends Action
 			'icon' => 'brevo',
 			'title' => 'dreamform.actions.brevo.name'
 		];
+	}
+
+	/**
+	 * Check if there's an IP authorization error when making API requests
+	 */
+	protected static function checkForIpError(): array|null
+	{
+		if (!static::apiKey()) {
+			return null;
+		}
+
+		// make a simple api request to check for ip authorization error
+		$response = static::request('GET', '/account');
+
+		if ($response->code() === 401) {
+			$json = $response->json();
+			if (isset($json['code']) && $json['code'] === 'unauthorized' && Str::contains($json['message'] ?? '', 'IP address')) {
+				// extract ip address from message
+				preg_match('/IP address ([0-9.]+)/', $json['message'], $matches);
+				return [
+					'ip' => $matches[1] ?? 'unknown',
+					'message' => $json['message']
+				];
+			}
+		}
+
+		return null;
 	}
 }
