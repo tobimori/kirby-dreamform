@@ -42,7 +42,7 @@ class FormPage extends BasePage
 	 */
 	public function title(): Field
 	{
-		return $this->content()->get('title')->or($this->slug());
+		return $this->content('current')->get('title')->or($this->slug());
 	}
 
 	/**
@@ -126,7 +126,7 @@ class FormPage extends BasePage
 		$steps = [];
 		$step = Layouts::factory([], ['parent' => $this]);
 
-		foreach ($this->version($versionId)->content()->get('fields')->toLayouts() as $layout) {
+		foreach ($this->version($versionId)->content('current')->get('fields')->toLayouts() as $layout) {
 			if ($layout->columns()->first()->width() === 'dreamform-page') {
 				$steps[] = $step;
 				$step = Layouts::factory([], ['parent' => $this]);
