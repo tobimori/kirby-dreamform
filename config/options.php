@@ -65,6 +65,12 @@ return [
 			'injectScript' => true,
 			'customTheme' => null // Custom theme configuration (Pro/Enterprise only)
 		],
+		'cap' => [
+			'endpoint' => null,
+			'secretKey' => null,
+			'injectScript' => true,
+			'useAssetServer' => false
+		],
 		'ratelimit' => [
 			'limit' => 10,
 			'interval' => 3

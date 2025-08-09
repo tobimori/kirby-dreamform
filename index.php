@@ -45,7 +45,8 @@ DreamForm::register(
 	\tobimori\DreamForm\Guards\HCaptchaGuard::class,
 	\tobimori\DreamForm\Guards\TurnstileGuard::class,
 	\tobimori\DreamForm\Guards\RatelimitGuard::class,
-	\tobimori\DreamForm\Guards\AkismetGuard::class
+	\tobimori\DreamForm\Guards\AkismetGuard::class,
+	\tobimori\DreamForm\Guards\CapGuard::class
 );
 
 // register plugin
@@ -127,6 +128,7 @@ App::plugin(
 			'dreamform/guards/honeypot' => __DIR__ . '/snippets/guards/honeypot.php',
 			'dreamform/guards/turnstile' => __DIR__ . '/snippets/guards/turnstile.php',
 			'dreamform/guards/hcaptcha' => __DIR__ . '/snippets/guards/hcaptcha.php',
+			'dreamform/guards/cap' => __DIR__ . '/snippets/guards/cap.php'
 		],
 		// get all files from /translations and register them as language files
 		'translations' => A::keyBy(
