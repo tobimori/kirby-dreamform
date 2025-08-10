@@ -1,3 +1,4 @@
+---
 title: Cap
 description: Cap proof-of-work captcha integration
 ---
