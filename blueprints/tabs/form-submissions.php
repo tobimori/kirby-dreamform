@@ -35,6 +35,7 @@ return function () {
 			'search' => true,
 			'rawvalues' => true,
 			'sortBy' => 'sortDate desc',
+			'batch' => true,
 			'columns' => A::merge([
 				'date' => [
 					'label' => t('dreamform.submission.submittedAt'),
