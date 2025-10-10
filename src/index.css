@@ -32,11 +32,13 @@
 	}
 }
 
-.k-writer-input .k-toolbar-button:nth-child(3) {
-	padding-inline: var(--spacing-5);
-	--button-width: auto;
+[data-template="form"] {
+	.k-writer-input .k-toolbar-button:nth-child(3) {
+		padding-inline: var(--spacing-5);
+		--button-width: auto;
 
-	&::after {
-		content: attr(title);
+		&::after {
+			content: attr(title);
+		}
 	}
 }
