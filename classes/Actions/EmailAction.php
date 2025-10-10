@@ -205,6 +205,7 @@ class EmailAction extends Action
 	public function run(): void
 	{
 		try {
+
 			$email = App::instance()->email([
 				'template' => $this->template(),
 				'from' => $this->from(),
@@ -218,7 +219,19 @@ class EmailAction extends Action
 					'submission' => $this->submission(),
 					'form' => $this->submission()->form(),
 				],
-				'attachments' => $this->attachments()
+				'attachments' => [], // don't pass attachments here, add them in beforeSend
+				'beforeSend' => function ($mailer) {
+					// add attachments with custom names
+					foreach ($this->attachments() as $attachment) {
+						if (is_array($attachment)) {
+							$mailer->addAttachment($attachment['path'], $attachment['name']);
+						} else {
+							$mailer->addAttachment($attachment);
+						}
+					}
+
+					return $mailer;
+				}
 			]);
 
 			$this->log([
@@ -253,14 +266,10 @@ class EmailAction extends Action
 			} else { // is PHP file object
 				$files = array_values(A::filter($value->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
 				foreach ($files as $file) {
-					$tmpName = pathinfo($file['tmp_name']);
-					$filename = $tmpName['dirname'] . '/' . F::safeName($file['name']);
-
-					if (!F::exists($filename)) {
-						rename($file['tmp_name'], $filename);
-					}
-
-					$attachments[] = $filename;
+					$attachments[] = [
+						'path' => $file['tmp_name'],
+						'name' => F::safeName($file['name'])
+					];
 				}
 			}
 		}
