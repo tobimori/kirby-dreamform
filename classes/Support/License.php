@@ -155,7 +155,10 @@ final class License extends KirbyLicense
 			return false;
 		}
 
-		if ($this->assignedUrl !== static::normalizeUrl(App::instance()->system()->indexUrl())) {
+		$currentUrl = static::normalizeUrl(App::instance()->system()->indexUrl());
+		$assignedUrl = static::normalizeUrl($this->assignedUrl);
+
+		if ($assignedUrl !== $currentUrl) {
 			return false;
 		}
 
@@ -175,7 +178,7 @@ final class License extends KirbyLicense
 				'Accept' => 'application/json',
 			],
 			'data' => Json::encode([
-				'url' => App::instance()->system()->indexUrl(),
+				'url' => $this->assignedUrl,
 			])
 		]);
 
