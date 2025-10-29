@@ -158,6 +158,7 @@ class BrevoAction extends Action
 			($doubleOptIn ? 'includeListIds' : 'listIds') => [intval(Str::replace($list, 'id-', ''))],
 			'templateId' => $doubleOptIn ? intval(Str::replace($this->block()->doubleOptInTemplate()->value(), 'id-', '')) : null,
 			'redirectionUrl' => $doubleOptIn ? $this->block()->doubleOptInRedirect()->toUrl() : null,
+			'updateEnabled' => true,
 		]);
 
 		if ($request->code() > 299) {
