@@ -226,7 +226,7 @@ class FormPage extends BasePage
 			// if the referer is from the same site, we can assume
 			// a "safe" PRG redirect
 			if ($siteHost === $path->host()) {
-				$referer = $path->path();
+				$referer = $path->path()->toString();
 			}
 		}
 
