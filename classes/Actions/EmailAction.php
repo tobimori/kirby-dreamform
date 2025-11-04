@@ -221,8 +221,8 @@ class EmailAction extends Action
 					'submission' => $this->submission(),
 					'form' => $this->submission()->form(),
 				],
-				'attachments' => [], // don't pass attachments here, add them in beforeSend
-				'beforeSend' => function ($mailer) use ($attachments) { // pass attachments to closure otherwise this->attachments() won't work
+				'attachments' => [], // attachments added in beforeSend for custom naming
+				'beforeSend' => function ($mailer) use ($attachments) { // use captured attachments to ensure files are accessed at the correct time
 					// add attachments with custom names
 					foreach ($attachments as $attachment) {
 						if (is_array($attachment)) {
