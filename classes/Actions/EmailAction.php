@@ -205,6 +205,8 @@ class EmailAction extends Action
 	public function run(): void
 	{
 		try {
+			// get attachments before email is created
+			$attachments = $this->attachments();
 
 			$email = App::instance()->email([
 				'template' => $this->template(),
@@ -220,9 +222,9 @@ class EmailAction extends Action
 					'form' => $this->submission()->form(),
 				],
 				'attachments' => [], // don't pass attachments here, add them in beforeSend
-				'beforeSend' => function ($mailer) {
+				'beforeSend' => function ($mailer) use ($attachments) { // pass attachments to closure otherwise this->attachments() won't work
 					// add attachments with custom names
-					foreach ($this->attachments() as $attachment) {
+					foreach ($attachments as $attachment) {
 						if (is_array($attachment)) {
 							$mailer->addAttachment($attachment['path'], $attachment['name']);
 						} else {
@@ -264,7 +266,7 @@ class EmailAction extends Action
 					$attachments[] = $file;
 				}
 			} else { // is PHP file object
-				$files = array_values(A::filter($value->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
+				$files = array_values(A::filter($value->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
 				foreach ($files as $file) {
 					$attachments[] = [
 						'path' => $file['tmp_name'],
