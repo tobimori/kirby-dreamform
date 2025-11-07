@@ -228,7 +228,8 @@ class EmailAction extends Action
 						if (is_array($attachment)) {
 							$mailer->addAttachment($attachment['path'], $attachment['name']);
 						} else {
-							$mailer->addAttachment($attachment);
+							// handle kirby file objects
+							$mailer->addAttachment($attachment->root(), $attachment->filename());
 						}
 					}
 
@@ -266,7 +267,7 @@ class EmailAction extends Action
 					$attachments[] = $file;
 				}
 			} else { // is PHP file object
-				$files = array_values(A::filter($value->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
+				$files = array_values(A::filter($value->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
 				foreach ($files as $file) {
 					$attachments[] = [
 						'path' => $file['tmp_name'],
