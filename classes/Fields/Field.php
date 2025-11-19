@@ -199,7 +199,7 @@ abstract class Field
 	/**
 	 * Get the fields's cache instance
 	 */
-	private static function cacheInstance(): Cache
+	protected static function cacheInstance(): Cache
 	{
 		return App::instance()->cache('tobimori.dreamform.fields');
 	}
