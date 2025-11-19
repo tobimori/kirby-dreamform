@@ -79,7 +79,7 @@ abstract class Performer
 	/**
 	 * Get the performer's cache instance
 	 */
-	private static function cacheInstance(): Cache
+	protected static function cacheInstance(): Cache
 	{
 		return App::instance()->cache('tobimori.dreamform.performer');
 	}
