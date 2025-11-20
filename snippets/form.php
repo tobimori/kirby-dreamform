@@ -10,6 +10,7 @@
  */
 
 use Kirby\Toolkit\A;
+use tobimori\DreamForm\DreamForm;
 
 $attr = A::merge([
 	// general attributes
@@ -98,16 +99,21 @@ if ($submission?->isFinished() && $submission->form()->is($form)) {
 )) ?>>
 	<?php snippet('dreamform/session', ['form' => $form, 'submission' => $submission]) ?>
 
-	<div <?= attr(A::merge(['data-error' => true, 'role' => 'alert', 'aria-atomic' => true], $attr['error'])) ?>><?= $submission?->errorFor(null, $form) ?></div>
+	<?php
+	$formError = $submission?->errorFor(null, $form);
+$hideEmptyErrors = DreamForm::option('hideEmptyErrors');
+if (!$hideEmptyErrors || $formError) : ?>
+		<div <?= attr(A::merge(['data-error' => true, 'role' => 'alert', 'aria-atomic' => true], $attr['error'])) ?>><?= $formError ?></div>
+	<?php endif; ?>
 
 	<?php foreach ($form->currentLayouts() as $layoutRow) : ?>
 		<div <?= attr(A::merge($attr['row'], [
-			'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
-		])) ?>>
+		'style' => 'display: grid; grid-template-columns: repeat(12, 1fr);',
+	])) ?>>
 			<?php foreach ($layoutRow->columns() as $layoutColumn) : ?>
 				<div <?= attr(A::merge($attr['column'], [
-					'style' => "grid-column-start: span {$layoutColumn->span(12)};",
-				])) ?>>
+				'style' => "grid-column-start: span {$layoutColumn->span(12)};",
+			])) ?>>
 					<?php foreach ($layoutColumn->blocks() as $block) {
 						// get the field instance to access field methods
 						$field = $block->toFormField($form->formFields());

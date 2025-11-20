@@ -10,8 +10,12 @@
  */
 
 use Kirby\Toolkit\A;
+use tobimori\DreamForm\DreamForm;
 
-$error = $submission?->errorFor($block->key(), $form) ?>
+$error = $submission?->errorFor($block->key(), $form);
+$hideEmptyErrors = DreamForm::option('hideEmptyErrors');
+
+if (!$hideEmptyErrors || $error) : ?>
 
 <span <?= attr(A::merge(
 	$attr['error'] ?? [],
@@ -22,3 +26,5 @@ $error = $submission?->errorFor($block->key(), $form) ?>
 		'aria-atomic' => true
 	]
 )) ?>><?= $error ?></span>
+
+<?php endif; ?>

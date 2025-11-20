@@ -17,6 +17,7 @@ return [
 	],
 	'useDataAttributes' => false, // uses data-form-url instead of action
 	'mode' => 'prg', // prg / api / htmx
+	'hideEmptyErrors' => false, // hide error elements when there's no error message
 	'multiStep' => true, // Enable multi-step forms
 	'storeSubmissions' => true, // Store submissions in the content folder
 	'partialSubmissions' => true, // Allow partial submissions toggle in panel (requires precognition)
