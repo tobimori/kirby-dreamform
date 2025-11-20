@@ -4,11 +4,14 @@ namespace tobimori\DreamForm\Actions;
 
 use Kirby\Cms\App;
 use Kirby\Cms\User;
+use Kirby\Data\Yaml;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
+use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\FormPage;
 
+use function is_string;
 use function is_array;
 
 /**
@@ -263,13 +266,14 @@ class EmailAction extends Action
 		foreach ($this->block()->attachments()->split() as $id) {
 			$value = $this->submission()->valueForId($id);
 
-			if (is_string($value->value())) { // is a file uuid
+			if (Str::contains($value->value(), 'file://')) { // is a file uuid
 				$files = $value->toFiles();
 				foreach ($files as $file) {
 					$attachments[] = $file;
 				}
-			} else { // is PHP file object
-				$files = array_values(A::filter($value->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
+			} else { // is PHP file object stored as YAML
+				$uploadData = Yaml::decode($value->value());
+				$files = array_values(A::filter($uploadData, fn ($file) => $file['error'] === UPLOAD_ERR_OK));
 				foreach ($files as $file) {
 					$attachments[] = [
 						'path' => $file['tmp_name'],
