@@ -30,7 +30,7 @@ class LoopsAction extends Action
 						'lists' => [
 							'label' => t('dreamform.actions.loops.lists.label'),
 							'type' => 'multiselect',
-							'options' => A::reduce(static::getLists(), fn ($prev, $list) => A::merge($prev, [
+							'options' => A::reduce(static::getLists(), fn($prev, $list) => A::merge($prev, [
 								$list['id'] => $list['name']
 							]), []),
 							'help' => t('dreamform.actions.loops.lists.help'),
@@ -86,7 +86,7 @@ class LoopsAction extends Action
 			$value = $this->submission()->valueForDynamicField($fields->$key())?->value();
 
 			if ($value) {
-				$casedKey = A::find($casedKeys, fn ($k) => Str::lower($k) === Str::lower($key));
+				$casedKey = A::find($casedKeys, fn($k) => Str::lower($k) === Str::lower($key));
 				if (!$casedKey) {
 					continue;
 				}
@@ -159,7 +159,7 @@ class LoopsAction extends Action
 		foreach (
 			static::cache(
 				'customfields',
-				fn () => static::request('GET', '/contacts/customFields')->json()
+				fn() => static::request('GET', '/contacts/customFields')->json()
 			) as $field
 		) {
 			if ($field['type'] === 'date' || $field['type'] === 'boolean') {
@@ -183,7 +183,7 @@ class LoopsAction extends Action
 	{
 		return static::cache(
 			'lists',
-			fn () => static::request('GET', '/lists')?->json()
+			fn() => static::request('GET', '/lists')?->json()
 		);
 	}
 
@@ -202,14 +202,14 @@ class LoopsAction extends Action
 	{
 		if ($method !== 'GET') {
 			$params = [
-				'data' => Json::encode(A::filter($data, fn ($value) => $value !== null)),
+				'data' => Json::encode(A::filter($data, fn($value) => $value !== null)),
 				'headers' => [
 					'Content-Type' => 'application/json',
 				]
 			];
 		}
 
-		return Remote::$method("https://app.loops.so/api/v1" . $url, A::merge(
+		return Remote::$method("https://app.loops.so/api/v1{$url}", A::merge(
 			$params ?? [],
 			[
 				'headers' => [
@@ -219,7 +219,6 @@ class LoopsAction extends Action
 			]
 		));
 	}
-
 
 	/**
 	 * Returns true if the Loops action is available
@@ -232,12 +231,12 @@ class LoopsAction extends Action
 
 		return static::cache(
 			['api-key', hash('md5', static::apiKey())],
-			fn () => static::request('GET', '/api-key')?->json()
+			fn() => static::request('GET', '/api-key')?->json()
 		)["success"] === true;
 	}
 
 	/**
-	 * Returns the actions' blueprint group
+	 * @inheritDoc
 	 */
 	public static function group(): string
 	{
@@ -245,7 +244,7 @@ class LoopsAction extends Action
 	}
 
 	/**
-	 * Returns the base log settings for the action
+	 * @inheritDoc
 	 */
 	protected function logSettings(): array|bool
 	{

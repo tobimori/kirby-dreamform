@@ -14,6 +14,9 @@ class WebhookAction extends Action
 {
 	public const TYPE = 'webhook';
 
+	/**
+	 * @inheritDoc
+	 */
 	public static function blueprint(): array
 	{
 		return [
@@ -45,6 +48,9 @@ class WebhookAction extends Action
 		];
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function run(): void
 	{
 		// get all fields that should be exposed, or use all fields if none are specified
@@ -100,7 +106,7 @@ class WebhookAction extends Action
 	}
 
 	/**
-	 * Returns the base log settings for the action
+	 * @inheritDoc
 	 */
 	protected function logSettings(): array|bool
 	{

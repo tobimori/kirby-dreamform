@@ -9,6 +9,9 @@ use Kirby\Http\Url;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
 
+use function count;
+use function sprintf;
+
 /**
  * Action for sending an server-side event to Plausible
  */
@@ -17,7 +20,7 @@ class PlausibleAction extends Action
 	public const TYPE = 'plausible';
 
 	/**
-	 * Returns the Blocks fieldset blueprint for the actions' settings
+	 * @inheritDoc
 	 */
 	public static function blueprint(): array
 	{
@@ -48,7 +51,7 @@ class PlausibleAction extends Action
 	}
 
 	/**
-	 * Run the action
+	 * @inheritDoc
 	 */
 	public function run(): void
 	{
@@ -77,7 +80,7 @@ class PlausibleAction extends Action
 	}
 
 	/**
-	 * Returns the actions' blueprint group
+	 * @inheritDoc
 	 */
 	public static function group(): string
 	{

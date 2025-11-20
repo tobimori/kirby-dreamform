@@ -1,4 +1,5 @@
 {
+	"queues.name": "Invio DreamForm",
 	"actions.abort.name": "Interrompi",
 	"actions.abort.showError.label": "Mostrare il messaggio di errore?",
 	"actions.buttondown.emailField.label": "Usa email da…",
@@ -159,6 +160,8 @@
 	"fields.upload.multiple.label": "Consentire più file?",
 	"fields.upload.name": "Caricamento File",
 	"form": "Modulo",
+	"form.runWorkflowInQueue.label": "Esegui flusso di lavoro in background",
+	"form.runWorkflowInQueue.help": "Se questa opzione è attivata, il flusso di lavoro verrà eseguito in background. L'utente riceverà immediatamente un messaggio di successo, anche se successivamente si verifica un errore nel flusso di lavoro.",
 	"form.continueOnError.help": "Se questa opzione è attivata, l'invio sarà memorizzato e verrà mostrato un messaggio di successo anche in caso di errore.",
 	"form.continueOnError.label": "Continua l'invio in caso di errore",
 	"form.empty": "Nessun modulo selezionato",

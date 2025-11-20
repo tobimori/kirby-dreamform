@@ -9,14 +9,14 @@ use Throwable;
 use tobimori\DreamForm\DreamForm;
 
 /**
- * Action for sending a message in a discord channel.
+ * Action for sending a message in a discord channel
  */
 class DiscordWebhookAction extends Action
 {
 	public const TYPE = 'discord-webhook';
 
 	/**
-	 * Returns the Blocks fieldset blueprint for the actions' settings
+	 * @inheritDoc
 	 */
 	public static function blueprint(): array
 	{
@@ -82,7 +82,7 @@ class DiscordWebhookAction extends Action
 	}
 
 	/**
-	 * Run the action
+	 * @inheritDoc
 	 */
 	public function run(): void
 	{
@@ -132,7 +132,7 @@ class DiscordWebhookAction extends Action
 	}
 
 	/**
-	 * Returns the actions' blueprint group
+	 * @inheritDoc
 	 */
 	public static function group(): string
 	{
@@ -140,7 +140,7 @@ class DiscordWebhookAction extends Action
 	}
 
 	/**
-	 * Returns the base log settings for the action
+	 * @inheritDoc
 	 */
 	protected function logSettings(): array|bool
 	{

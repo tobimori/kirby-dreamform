@@ -1,8 +1,10 @@
 <?php
 
 use tobimori\DreamForm\DreamForm;
+use tobimori\DreamForm\Jobs\SubmissionJob;
 use tobimori\DreamForm\Models\SubmissionPage;
 use tobimori\DreamForm\Storage\SubmissionSessionStorage;
+use tobimori\Queues\Queues;
 
 return [
 	/**
@@ -10,6 +12,10 @@ return [
 	 */
 	'system.loadPlugins:after' => function () {
 		DreamForm::install();
+
+		if (class_exists('tobimori\Queues\Job')) {
+			Queues::register(SubmissionJob::class);
+		}
 	},
 
 	/**

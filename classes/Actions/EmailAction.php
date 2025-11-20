@@ -9,15 +9,17 @@ use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\FormPage;
 
+use function is_array;
+
 /**
- * Action for sending an email with the submission data.
+ * Action for sending an email with the submission data
  */
 class EmailAction extends Action
 {
 	public const TYPE = 'email';
 
 	/**
-	 * Returns the Blocks fieldset blueprint for the actions' settings
+	 * @inheritDoc
 	 */
 	public static function blueprint(): array
 	{
@@ -198,15 +200,15 @@ class EmailAction extends Action
 		return new User(compact('name', 'email'));
 	}
 
-
 	/**
-	 * Run the action
+	 * @inheritDoc
 	 */
 	public function run(): void
 	{
 		try {
 			// get attachments before email is created
 			$attachments = $this->attachments();
+			$body = $this->body();
 
 			$email = App::instance()->email([
 				'template' => $this->template(),
@@ -214,7 +216,7 @@ class EmailAction extends Action
 				'replyTo' => $this->replyTo(),
 				'to' => $this->to(),
 				'subject' => $this->subject(),
-				'body' => $body = $this->body(),
+				'body' => $body,
 				'data' => [
 					'body' => $body,
 					'action' => $this,
@@ -267,7 +269,7 @@ class EmailAction extends Action
 					$attachments[] = $file;
 				}
 			} else { // is PHP file object
-				$files = array_values(A::filter($value->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
+				$files = array_values(A::filter($value->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
 				foreach ($files as $file) {
 					$attachments[] = [
 						'path' => $file['tmp_name'],
@@ -281,7 +283,7 @@ class EmailAction extends Action
 	}
 
 	/**
-	 * Returns the base log settings for the action
+	 * @inheritDoc
 	 */
 	protected function logSettings(): array|bool
 	{

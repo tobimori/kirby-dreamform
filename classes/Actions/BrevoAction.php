@@ -8,14 +8,21 @@ use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
 use tobimori\DreamForm\DreamForm;
-use tobimori\DreamForm\Models\FormPage;
 
+use function intval;
+use function count;
+
+/**
+ * Action for subscribing a user to a Brevo newsletter list
+ *
+ * @see https://developers.brevo.com/docs/getting-started
+ */
 class BrevoAction extends Action
 {
 	public const TYPE = 'brevo';
 
 	/**
-	 * Returns the Blocks fieldset blueprint for the actions' settings
+	 * @inheritDoc
 	 */
 	public static function blueprint(): array
 	{
@@ -46,7 +53,7 @@ class BrevoAction extends Action
 						'list' => [
 							'label' => t('dreamform.actions.brevo.list.label'),
 							'type' => 'select',
-							'options' => A::reduce(static::getLists(), fn ($prev, $list) => A::merge($prev, [
+							'options' => A::reduce(static::getLists(), fn($prev, $list) => A::merge($prev, [
 								"id-{$list['id']}" => $list['name']
 							]), []),
 							'required' => true,
@@ -63,7 +70,7 @@ class BrevoAction extends Action
 							'type' => count(static::getTemplates()) > 0 ? 'select' : 'info',
 							'width' => '1/2',
 							'required' => count(static::getTemplates()) > 0,
-							'options' => A::reduce(static::getTemplates(), fn ($prev, $template) => A::merge($prev, [
+							'options' => A::reduce(static::getTemplates(), fn($prev, $template) => A::merge($prev, [
 								"id-{$template['id']}" => $template['name']
 							]), []),
 							'help' => count(static::getTemplates()) > 0
@@ -166,7 +173,7 @@ class BrevoAction extends Action
 		}
 
 		$listId = intval(Str::replace($list, 'id-', ''));
-		$listEntry = A::find(static::getLists(), fn ($entry) => $entry['id'] === $listId);
+		$listEntry = A::find(static::getLists(), fn($entry) => $entry['id'] === $listId);
 
 		$this->log(
 			[
@@ -188,7 +195,7 @@ class BrevoAction extends Action
 	{
 		$response = static::cache(
 			'lists',
-			fn () => static::request('GET', '/contacts/lists')?->json()
+			fn() => static::request('GET', '/contacts/lists')?->json()
 		);
 
 		return $response['lists'] ?? [];
@@ -201,7 +208,7 @@ class BrevoAction extends Action
 	{
 		$response = static::cache(
 			'templates',
-			fn () => static::request('GET', '/smtp/templates?limit=1000')?->json()
+			fn() => static::request('GET', '/smtp/templates?limit=1000')?->json()
 		);
 
 		return $response['templates'] ?? [];
@@ -215,7 +222,7 @@ class BrevoAction extends Action
 	{
 		$response = static::cache(
 			'attributes',
-			fn () => static::request('GET', '/contacts/attributes')?->json()
+			fn() => static::request('GET', '/contacts/attributes')?->json()
 		);
 
 		$attributes = $response['attributes'] ?? [];
@@ -262,14 +269,14 @@ class BrevoAction extends Action
 	{
 		if ($method !== 'GET') {
 			$params = [
-				'data' => Json::encode(A::filter($data, fn ($value) => $value !== null)),
+				'data' => Json::encode(A::filter($data, fn($value) => $value !== null)),
 				'headers' => [
 					'Content-Type' => 'application/json',
 				]
 			];
 		}
 
-		return Remote::$method('https://api.brevo.com/v3/' . $url, A::merge(
+		return Remote::$method("https://api.brevo.com/v3/{$url}", A::merge(
 			$params ?? [],
 			[
 				'headers' => [
@@ -289,7 +296,7 @@ class BrevoAction extends Action
 	}
 
 	/**
-	 * Returns the actions' blueprint group
+	 * @inheritDoc
 	 */
 	public static function group(): string
 	{
@@ -297,7 +304,7 @@ class BrevoAction extends Action
 	}
 
 	/**
-	 * Returns the base log settings for the action
+	 * @inheritDoc
 	 */
 	protected function logSettings(): array|bool
 	{

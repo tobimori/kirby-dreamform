@@ -9,6 +9,8 @@ use tobimori\DreamForm\Models\FormPage;
 use tobimori\DreamForm\Models\SubmissionPage;
 use tobimori\DreamForm\Performer;
 
+use function is_bool;
+
 /**
  * Drop the form submission with a visible error message
  */

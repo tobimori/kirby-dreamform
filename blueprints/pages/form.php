@@ -5,7 +5,7 @@ use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Support\Htmx;
 
-return fn () => [
+return fn() => [
 	'title' => 'dreamform.form',
 	'image' => [
 		'icon' => 'survey',
@@ -96,6 +96,13 @@ return fn () => [
 								'label' => 'dreamform.form.continueOnError.label',
 								'type' => 'toggle',
 								'help' => 'dreamform.form.continueOnError.help',
+								'width' => '1/2'
+							],
+							'runWorkflowInQueue' => [
+								'label' => 'dreamform.form.runWorkflowInQueue.label',
+								'type' => class_exists('tobimori\Queues\Job') ? 'toggle' : 'hidden',
+								'default' => 'true',
+								'help' => 'dreamform.form.runWorkflowInQueue.help',
 								'width' => '1/2'
 							]
 						]

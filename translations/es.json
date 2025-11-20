@@ -1,4 +1,5 @@
 {
+	"queues.name": "Envío de DreamForm",
 	"actions.abort.name": "Abortar",
 	"actions.abort.showError.label": "¿Mostrar mensaje de error?",
 	"actions.buttondown.emailField.label": "Usar email de…",
@@ -159,6 +160,8 @@
 	"fields.upload.multiple.label": "¿Permitir múltiples archivos?",
 	"fields.upload.name": "Subida de archivo",
 	"form": "Formulario",
+	"form.runWorkflowInQueue.label": "Ejecutar flujo de trabajo en segundo plano",
+	"form.runWorkflowInQueue.help": "Si esta opción está activada, el flujo de trabajo se ejecutará en segundo plano. La usuaria recibirá inmediatamente un mensaje de éxito, incluso si ocurre un error más tarde en el flujo de trabajo.",
 	"form.continueOnError.help": "Si esta opción está activada, el envío se almacenará y se mostrará un mensaje de éxito incluso si ocurre un error.",
 	"form.continueOnError.label": "Continuar envío en caso de error",
 	"form.empty": "Ningún formulario seleccionado",

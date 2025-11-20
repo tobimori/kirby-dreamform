@@ -1,4 +1,5 @@
 {
+	"queues.name": "DreamForm Inzending",
 	"actions.abort.name": "Annuleren",
 	"actions.abort.showError.label": "Foutmelding tonen?",
 	"actions.buttondown.emailField.label": "Gebruik e-mailadres van…",
@@ -159,6 +160,8 @@
 	"fields.upload.multiple.label": "Sta meerdere bestanden toe?",
 	"fields.upload.name": "Bestandsupload",
 	"form": "Formulier",
+	"form.runWorkflowInQueue.label": "Workflow op de achtergrond uitvoeren",
+	"form.runWorkflowInQueue.help": "Als deze optie is ingeschakeld, wordt de workflow op de achtergrond uitgevoerd. De gebruikster ontvangt direct een succesbericht, zelfs als er later in de workflow een fout optreedt.",
 	"form.continueOnError.help": "Als deze optie is geactiveerd, wordt de inzending opgeslagen en de succesmelding getoond, zelfs als er een fout optreedt.",
 	"form.continueOnError.label": "Ga door na fout bij inzending",
 	"form.empty": "Geen formulier geselecteerd",

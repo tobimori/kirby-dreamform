@@ -10,7 +10,7 @@ class AbortAction extends Action
 	public const TYPE = 'abort';
 
 	/**
-	 * Returns the Blocks fieldset blueprint for the actions' settings
+	 * @inheritDoc
 	 */
 	public static function blueprint(): array
 	{
@@ -44,7 +44,7 @@ class AbortAction extends Action
 	}
 
 	/**
-	 * Run the action
+	 * @inheritDoc
 	 */
 	public function run(): void
 	{
@@ -53,5 +53,13 @@ class AbortAction extends Action
 		} else {
 			$this->success();
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function supportsQueues(): bool
+	{
+		return false;
 	}
 }

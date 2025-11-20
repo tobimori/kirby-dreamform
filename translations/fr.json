@@ -1,4 +1,5 @@
 {
+	"queues.name": "Soumission DreamForm",
 	"actions.abort.name": "Abandonner",
 	"actions.abort.showError.label": "Afficher le message d'erreur ?",
 	"actions.buttondown.emailField.label": "Utiliser l'email de…",
@@ -159,6 +160,8 @@
 	"fields.upload.multiple.label": "Autoriser plusieurs fichiers ?",
 	"fields.upload.name": "Téléversement de fichier",
 	"form": "Formulaire",
+	"form.runWorkflowInQueue.label": "Exécuter le workflow en arrière-plan",
+	"form.runWorkflowInQueue.help": "Si cette option est activée, le workflow sera exécuté en arrière-plan. L'utilisatrice recevra immédiatement un message de réussite, même si une erreur survient ultérieurement dans le workflow.",
 	"form.continueOnError.help": "Si cette option est activée, la soumission sera enregistrée et un message de succès sera affiché même si une erreur se produit.",
 	"form.continueOnError.label": "Continuer la soumission en cas d'erreur",
 	"form.empty": "Aucun formulaire sélectionné",

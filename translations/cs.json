@@ -1,4 +1,5 @@
 {
+	"queues.name": "Odeslání DreamForm",
 	"actions.abort.name": "Zrušit",
 	"actions.abort.showError.label": "Zobrazit chybovou zprávu?",
 	"actions.buttondown.emailField.label": "Použít e-mail z…",
@@ -159,6 +160,8 @@
 	"fields.upload.multiple.label": "Povolit více souborů?",
 	"fields.upload.name": "Nahrát soubor",
 	"form": "Formulář",
+	"form.runWorkflowInQueue.label": "Spustit workflow na pozadí",
+	"form.runWorkflowInQueue.help": "Pokud je tato možnost povolena, workflow bude spuštěno na pozadí. Uživatelka okamžitě obdrží zprávu o úspěchu, i když později ve workflow dojde k chybě.",
 	"form.continueOnError.help": "Pokud je tato možnost aktivní, odpověď se uloží a zobrazí se zpráva o úspěchu, i když dojde k chybě.",
 	"form.continueOnError.label": "Pokračovat v odesílání při chybě",
 	"form.empty": "Žádný formulář nebyl vybrán",

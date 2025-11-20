@@ -3,12 +3,15 @@
 namespace tobimori\DreamForm\Actions;
 
 /**
- * Action for conditionally running other actions.
+ * Action for conditionally running other actions
  */
 class ConditionalAction extends Action
 {
 	public const TYPE = 'conditional';
 
+	/**
+	 * @inheritDoc
+	 */
 	public static function blueprint(): array
 	{
 		return [
@@ -122,11 +125,24 @@ class ConditionalAction extends Action
 		return true;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function run(): void
 	{
 		$collection = $this->conditionsMet() ? $this->block()->thatActions() : $this->block()->elseActions();
 		foreach ($this->submission()->createActions($collection->toBlocks()) as $action) {
 			$action->run();
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function supportsQueues(): bool
+	{
+		// for now, let's execute anything inside conditions immediately
+		// TODO: implement queue support for conditional actions
+		return false;
 	}
 }

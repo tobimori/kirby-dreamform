@@ -3,12 +3,15 @@
 namespace tobimori\DreamForm\Actions;
 
 /**
- * Action for redirecting the user to a success page after submitting.
+ * Action for redirecting the user to a success page after submitting
  */
 class RedirectAction extends Action
 {
 	public const TYPE = 'redirect';
 
+	/**
+	 * @inheritDoc
+	 */
 	public static function blueprint(): array
 	{
 		return [
@@ -36,11 +39,22 @@ class RedirectAction extends Action
 		];
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function run(): void
 	{
 		$redirect = $this->block()->redirectTo()->toUrl();
 		if ($redirect) {
 			$this->submission()->setRedirect($redirect);
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function supportsQueues(): bool
+	{
+		return false;
 	}
 }

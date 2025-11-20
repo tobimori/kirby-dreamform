@@ -1,4 +1,5 @@
 {
+	"queues.name": "DreamForm-Einreichung",
 	"actions.abort.name": "Abbrechen",
 	"actions.abort.showError.label": "Fehlermeldung anzeigen?",
 	"actions.buttondown.emailField.label": "Verwende E-Mail-Adresse aus…",
@@ -159,6 +160,8 @@
 	"fields.upload.multiple.label": "Mehrere Dateien erlauben?",
 	"fields.upload.name": "Datei hochladen",
 	"form": "Formular",
+	"form.runWorkflowInQueue.label": "Workflow im Hintergrund ausführen",
+	"form.runWorkflowInQueue.help": "Wenn diese Option aktiviert ist, wird der Workflow im Hintergrund ausgeführt. Die Benutzerin erhält sofort eine Erfolgsmeldung, auch wenn später im Workflow ein Fehler auftritt.",
 	"form.continueOnError.help": "Falls diese Option aktiv ist, wird, auch wenn ein Fehler auftritt, die Antwort gespeichert und eine Erfolgsmeldung angezeigt.",
 	"form.continueOnError.label": "Antwort bei Workflow-Fehler akzeptieren",
 	"form.empty": "Kein Formular ausgewählt",
