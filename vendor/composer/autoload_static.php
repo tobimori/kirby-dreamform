@@ -69,6 +69,7 @@ class ComposerStaticInit99ea25880654549400db6165b3f448d9
         'tobimori\\DreamForm\\Guards\\LicenseGuard' => __DIR__ . '/../..' . '/classes/Guards/LicenseGuard.php',
         'tobimori\\DreamForm\\Guards\\RatelimitGuard' => __DIR__ . '/../..' . '/classes/Guards/RatelimitGuard.php',
         'tobimori\\DreamForm\\Guards\\TurnstileGuard' => __DIR__ . '/../..' . '/classes/Guards/TurnstileGuard.php',
+        'tobimori\\DreamForm\\Jobs\\SubmissionJob' => __DIR__ . '/../..' . '/classes/Jobs/SubmissionJob.php',
         'tobimori\\DreamForm\\Models\\BasePage' => __DIR__ . '/../..' . '/classes/Models/BasePage.php',
         'tobimori\\DreamForm\\Models\\FormPage' => __DIR__ . '/../..' . '/classes/Models/FormPage.php',
         'tobimori\\DreamForm\\Models\\FormsPage' => __DIR__ . '/../..' . '/classes/Models/FormsPage.php',

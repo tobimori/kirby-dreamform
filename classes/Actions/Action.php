@@ -22,7 +22,9 @@ abstract class Action extends Performer
 	 * Create a new Action instance.
 	 * @internal
 	 */
-	public function __construct(private Block $block, private SubmissionPage $submission, private bool $force = false) {}
+	public function __construct(private Block $block, private SubmissionPage $submission, private bool $force = false)
+	{
+	}
 
 	/**
 	 * Returns the submission the performer is being run on

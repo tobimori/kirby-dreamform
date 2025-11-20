@@ -269,7 +269,7 @@ class EmailAction extends Action
 					$attachments[] = $file;
 				}
 			} else { // is PHP file object
-				$files = array_values(A::filter($value->value(), fn($file) => $file['error'] === UPLOAD_ERR_OK));
+				$files = array_values(A::filter($value->value(), fn ($file) => $file['error'] === UPLOAD_ERR_OK));
 				foreach ($files as $file) {
 					$attachments[] = [
 						'path' => $file['tmp_name'],

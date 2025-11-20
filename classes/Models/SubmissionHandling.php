@@ -7,6 +7,8 @@ use Kirby\Cms\App;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SuccessException;
+use tobimori\DreamForm\Jobs\SubmissionJob;
+use tobimori\Queues\Queues;
 
 /**
  * Handle the submission process
@@ -117,37 +119,86 @@ trait SubmissionHandling
 	{
 		if (
 			$force ||
-			($this->isFinalStep()
-				&& $this->isSuccessful()
-				&& $this->isHam())
+			$this->isFinalStep()
+			&& $this->isSuccessful()
+			&& $this->isHam()
 		) {
 			$this->updateState(['actionsdidrun' => true]);
-			foreach ($this->createActions(force: $force) as $action) {
-				try {
-					$action->run();
-				} catch (Exception $e) {
-					// we only want to log "unknown" exceptions
-					if (
-						$e instanceof PerformerException || $e instanceof SuccessException
-					) {
-						if (!$e->shouldContinue()) {
-							throw $e;
-						}
 
-						continue;
+			$actions = $this->createActions(force: $force);
+
+			// check if queue support is enabled for this form
+			// queues require submissions to be stored (so the job can retrieve them)
+			$useQueue = $this->form()->content()->get('runWorkflowInQueue')->toBool()
+				&& $this->form()->storeSubmissions()->toBool()
+				&& class_exists('tobimori\Queues\Queues');
+
+			if ($useQueue) {
+				// separate actions into immediate and queueable
+				// TODO: currently, all conditional nested actions are run immediately
+				// figure out a way to handle conditional nested actions in bg
+				$immediateActions = $actions->filter(fn ($action) => !$action->supportsQueues());
+				$queueableActions = $actions->filter(fn ($action) => $action->supportsQueues());
+
+				// run immediate actions synchronously
+				foreach ($immediateActions as $action) {
+					try {
+						$action->run();
+					} catch (Exception $e) {
+						$this->handleActionException($e, $action);
 					}
+				}
 
-					$this->addLogEntry([
-						'text' => $e->getMessage(),
-						'template' => [
-							'type' => $action->type(),
-						]
-					], type: 'error', icon: 'alert', title: "dreamform.submission.log.error");
+				// queue the queueable actions if there are any
+				if ($queueableActions->isNotEmpty()) {
+					Queues::push('dreamform-submission', [
+						'submissionUuid' => $this->uuid()->toString(),
+						'actionBlocks' => $queueableActions->map(fn ($action) => [
+							'id' => $action->block()->id(),
+							'type' => $action->block()->type(),
+							'content' => $action->block()->content()->toArray()
+						])->data(),
+						'force' => $force
+					]);
+				}
+			} else {
+				// run synchronously
+				foreach ($actions as $action) {
+					try {
+						$action->run();
+					} catch (Exception $e) {
+						$this->handleActionException($e, $action);
+					}
 				}
 			}
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Handle exceptions from action execution
+	 * @internal
+	 */
+	protected function handleActionException(Exception $e, $action): void
+	{
+		// we only want to log "unknown" exceptions
+		if (
+			$e instanceof PerformerException || $e instanceof SuccessException
+		) {
+			if (!$e->shouldContinue()) {
+				throw $e;
+			}
+
+			return;
+		}
+
+		$this->addLogEntry([
+			'text' => $e->getMessage(),
+			'template' => [
+				'type' => $action->type(),
+			]
+		], type: 'error', icon: 'alert', title: "dreamform.submission.log.error");
 	}
 
 	/**

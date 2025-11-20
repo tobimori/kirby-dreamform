@@ -90,7 +90,7 @@ class ButtondownAction extends Action
 				'label' => ' ',
 				'type' => 'multiselect',
 				'width' => '2/3',
-				'options' => A::map(static::tags(), fn($tag) => [
+				'options' => A::map(static::tags(), fn ($tag) => [
 					'text' => $tag['name'],
 					'value' => $tag['id']
 				]),
@@ -162,7 +162,7 @@ class ButtondownAction extends Action
 			'metadata' => static::metadata(),
 			'tags' => static::submissionTags(),
 			'referrer_url' => $this->submission()->referer(),
-		], fn($value) => $value !== null);
+		], fn ($value) => $value !== null);
 
 		$logData = ['template' => ['email' => $email]];
 
@@ -172,13 +172,13 @@ class ButtondownAction extends Action
 			'utm_campaign' => $this->submission()->valueFor('utm_campaign')?->value(),
 			'utm_medium' => $this->submission()->valueFor('utm_medium')?->value(),
 			'utm_source' => $this->submission()->valueFor('utm_source')?->value()
-		], fn($value) => $value !== null)));
+		], fn ($value) => $value !== null)));
 
 		// some error occurred, check for next steps
 		if ($subscribeRequest->code() !== 201) {
 			// update subscriber data if email already exists
 			if (!static::simpleMode() && $subscribeRequest->json()['code'] === 'email_already_exists') {
-				$updateRequest = static::request('PATCH', "/subscribers/{$email}", array_filter($data, fn($key) => $key !== 'email', ARRAY_FILTER_USE_KEY));
+				$updateRequest = static::request('PATCH', "/subscribers/{$email}", array_filter($data, fn ($key) => $key !== 'email', ARRAY_FILTER_USE_KEY));
 
 				// send reminder if subscriber is unactivated
 				if ($updateRequest->json()['subscriber_type'] === 'unactivated') {

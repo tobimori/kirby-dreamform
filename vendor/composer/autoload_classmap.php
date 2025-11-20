@@ -46,6 +46,7 @@ return array(
     'tobimori\\DreamForm\\Guards\\LicenseGuard' => $baseDir . '/classes/Guards/LicenseGuard.php',
     'tobimori\\DreamForm\\Guards\\RatelimitGuard' => $baseDir . '/classes/Guards/RatelimitGuard.php',
     'tobimori\\DreamForm\\Guards\\TurnstileGuard' => $baseDir . '/classes/Guards/TurnstileGuard.php',
+    'tobimori\\DreamForm\\Jobs\\SubmissionJob' => $baseDir . '/classes/Jobs/SubmissionJob.php',
     'tobimori\\DreamForm\\Models\\BasePage' => $baseDir . '/classes/Models/BasePage.php',
     'tobimori\\DreamForm\\Models\\FormPage' => $baseDir . '/classes/Models/FormPage.php',
     'tobimori\\DreamForm\\Models\\FormsPage' => $baseDir . '/classes/Models/FormsPage.php',
