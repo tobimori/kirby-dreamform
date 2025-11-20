@@ -33,7 +33,7 @@
 }
 
 [data-template="form"] {
-	.k-writer-input .k-toolbar-button:nth-child(3) {
+	:where(.k-field-name-successmessage, .k-field-name-fieldtemplate) .k-writer-input .k-toolbar-button:first-child {
 		padding-inline: var(--spacing-5);
 		--button-width: auto;
 
