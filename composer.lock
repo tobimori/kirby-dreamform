@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0a9354f8f012e82628e61604b1b9006",
+    "content-hash": "8b7fc7994411418192124ded3aab29d1",
     "packages": [
         {
             "name": "getkirby/composer-installer",
@@ -116,16 +116,16 @@
         },
         {
             "name": "claviska/simpleimage",
-            "version": "4.2.1",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/claviska/SimpleImage.git",
-                "reference": "ec6d5021e5a7153a2520d64c59b86b6f3c4157c5"
+                "reference": "6d928c779e343100cef40f75bac3e301c32c3741"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/claviska/SimpleImage/zipball/ec6d5021e5a7153a2520d64c59b86b6f3c4157c5",
-                "reference": "ec6d5021e5a7153a2520d64c59b86b6f3c4157c5",
+                "url": "https://api.github.com/repos/claviska/SimpleImage/zipball/6d928c779e343100cef40f75bac3e301c32c3741",
+                "reference": "6d928c779e343100cef40f75bac3e301c32c3741",
                 "shasum": ""
             },
             "require": {
@@ -157,7 +157,7 @@
             "description": "A PHP class that makes working with images as simple as possible.",
             "support": {
                 "issues": "https://github.com/claviska/SimpleImage/issues",
-                "source": "https://github.com/claviska/SimpleImage/tree/4.2.1"
+                "source": "https://github.com/claviska/SimpleImage/tree/4.4.0"
             },
             "funding": [
                 {
@@ -165,7 +165,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-22T13:25:03+00:00"
+            "time": "2025-11-20T16:58:37+00:00"
         },
         {
             "name": "composer/semver",
@@ -317,21 +317,21 @@
         },
         {
             "name": "getkirby/cms",
-            "version": "5.1.4",
+            "version": "5.2.0-rc.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getkirby/kirby.git",
-                "reference": "2278dae6b41879bd1a8ac70ae62a6ea781fc629a"
+                "reference": "a4784a42b78d551d31ea8c364907b7fa722386fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getkirby/kirby/zipball/2278dae6b41879bd1a8ac70ae62a6ea781fc629a",
-                "reference": "2278dae6b41879bd1a8ac70ae62a6ea781fc629a",
+                "url": "https://api.github.com/repos/getkirby/kirby/zipball/a4784a42b78d551d31ea8c364907b7fa722386fe",
+                "reference": "a4784a42b78d551d31ea8c364907b7fa722386fe",
                 "shasum": ""
             },
             "require": {
                 "christian-riesen/base32": "1.6.0",
-                "claviska/simpleimage": "4.2.1",
+                "claviska/simpleimage": "4.4.0",
                 "composer/semver": "3.4.4",
                 "ext-ctype": "*",
                 "ext-curl": "*",
@@ -348,34 +348,29 @@
                 "getkirby/composer-installer": "^1.2.1",
                 "laminas/laminas-escaper": "2.18.0",
                 "michelf/php-smartypants": "1.8.1",
-                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
-                "phpmailer/phpmailer": "6.10.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "phpmailer/phpmailer": "7.0.1",
                 "symfony/polyfill-intl-idn": "1.33.0",
                 "symfony/polyfill-mbstring": "1.33.0",
-                "symfony/yaml": "7.3.5"
+                "symfony/yaml": "7.4.0"
             },
             "replace": {
                 "symfony/polyfill-php72": "*"
             },
             "suggest": {
-                "ext-PDO": "Support for using databases",
                 "ext-apcu": "Support for the Apcu cache driver",
                 "ext-exif": "Support for exif information from images",
                 "ext-fileinfo": "Improved mime type detection for files",
                 "ext-imagick": "Improved thumbnail generation",
                 "ext-intl": "Improved i18n number formatting",
                 "ext-memcached": "Support for the Memcached cache driver",
+                "ext-pdo": "Support for using databases",
                 "ext-redis": "Support for the Redis cache driver",
                 "ext-sodium": "Support for the crypto class and more robust session handling",
                 "ext-zip": "Support for ZIP archive file functions",
                 "ext-zlib": "Sanitization and validation for svgz files"
             },
             "type": "kirby-cms",
-            "extra": {
-                "unused": [
-                    "symfony/polyfill-intl-idn"
-                ]
-            },
             "autoload": {
                 "files": [
                     "config/setup.php",
@@ -418,7 +413,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-11-18T10:47:26+00:00"
+            "time": "2025-12-02T10:42:09+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
@@ -598,16 +593,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.10.0",
+            "version": "v7.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "bf74d75a1fde6beaa34a0ddae2ec5fce0f72a144"
+                "reference": "360ae911ce62e25e11249f6140fa58939f556ebe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/bf74d75a1fde6beaa34a0ddae2ec5fce0f72a144",
-                "reference": "bf74d75a1fde6beaa34a0ddae2ec5fce0f72a144",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/360ae911ce62e25e11249f6140fa58939f556ebe",
+                "reference": "360ae911ce62e25e11249f6140fa58939f556ebe",
                 "shasum": ""
             },
             "require": {
@@ -621,13 +616,14 @@
                 "doctrine/annotations": "^1.2.6 || ^1.13.3",
                 "php-parallel-lint/php-console-highlighter": "^1.0.0",
                 "php-parallel-lint/php-parallel-lint": "^1.3.2",
-                "phpcompatibility/php-compatibility": "^9.3.5",
-                "roave/security-advisories": "dev-latest",
-                "squizlabs/php_codesniffer": "^3.7.2",
+                "phpcompatibility/php-compatibility": "^10.0.0@dev",
+                "squizlabs/php_codesniffer": "^3.13.5",
                 "yoast/phpunit-polyfills": "^1.0.4"
             },
             "suggest": {
                 "decomplexity/SendOauth2": "Adapter for using XOAUTH2 authentication",
+                "directorytree/imapengine": "For uploading sent messages via IMAP, see gmail example",
+                "ext-imap": "Needed to support advanced email address parsing according to RFC822",
                 "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
                 "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
                 "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
@@ -667,7 +663,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.10.0"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v7.0.1"
             },
             "funding": [
                 {
@@ -675,7 +671,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-04-24T15:19:31+00:00"
+            "time": "2025-11-25T07:18:09+00:00"
         },
         {
             "name": "psr/log",
@@ -1136,28 +1132,28 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v7.3.5",
+            "version": "v7.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "90208e2fc6f68f613eae7ca25a2458a931b1bacc"
+                "reference": "6c84a4b55aee4cd02034d1c528e83f69ddf63810"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/90208e2fc6f68f613eae7ca25a2458a931b1bacc",
-                "reference": "90208e2fc6f68f613eae7ca25a2458a931b1bacc",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/6c84a4b55aee4cd02034d1c528e83f69ddf63810",
+                "reference": "6c84a4b55aee4cd02034d1c528e83f69ddf63810",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
-                "symfony/deprecation-contracts": "^2.5|^3.0",
+                "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
                 "symfony/console": "<6.4"
             },
             "require-dev": {
-                "symfony/console": "^6.4|^7.0"
+                "symfony/console": "^6.4|^7.0|^8.0"
             },
             "bin": [
                 "Resources/bin/yaml-lint"
@@ -1188,7 +1184,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v7.3.5"
+                "source": "https://github.com/symfony/yaml/tree/v7.4.0"
             },
             "funding": [
                 {
@@ -1208,7 +1204,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-27T09:00:46+00:00"
+            "time": "2025-11-16T10:14:42+00:00"
         }
     ],
     "aliases": [],
