@@ -23,7 +23,7 @@ if (!$hideEmptyErrors || $error) : ?>
 		'data-error' => $block->key(),
 		'id' => $form->elementId("{$block->id()}/error"),
 		'role' => 'alert',
-		'aria-atomic' => true
+		'aria-atomic' => 'true'
 	]
 )) ?>><?= $error ?></span>
 
