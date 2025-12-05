@@ -226,7 +226,12 @@ class FormPage extends BasePage
 			// if the referer is from the same site, we can assume
 			// a "safe" PRG redirect
 			if ($siteHost === $path->host()) {
-				$referer = $path->path()->toString();
+				// strip the base path to get a Kirby-relative path
+				// this prevents duplicate paths when Kirby is installed in a subfolder
+				// we use baseUri (not site url) because site url may include the language
+				$fullPath = $path->path()->toString();
+				$basePath = App::instance()->environment()->baseUri()->path()->toString();
+				$referer = Str::afterStart($fullPath, $basePath);
 			}
 		}
 
