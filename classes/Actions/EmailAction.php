@@ -266,7 +266,7 @@ class EmailAction extends Action
 		foreach ($this->block()->attachments()->split() as $id) {
 			$value = $this->submission()->valueForId($id);
 
-			if (Str::contains($value->value(), 'file://')) { // is a file uuid
+			if (is_string($value->value()) && Str::contains($value->value(), 'file://')) { // is a file uuid
 				$files = $value->toFiles();
 				foreach ($files as $file) {
 					$attachments[] = $file;
