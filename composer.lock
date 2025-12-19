@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd586ffcff7d34b62bc58bc8a4bf0e0c",
+    "content-hash": "069909f0e5a44dfa105bfbd70f0d1fff",
     "packages": [
         {
             "name": "getkirby/composer-installer",
@@ -317,16 +317,16 @@
         },
         {
             "name": "getkirby/cms",
-            "version": "5.2.0-rc.1",
+            "version": "5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getkirby/kirby.git",
-                "reference": "a4784a42b78d551d31ea8c364907b7fa722386fe"
+                "reference": "42cd286dab62d87a331e53abfe103e4fba118dd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getkirby/kirby/zipball/a4784a42b78d551d31ea8c364907b7fa722386fe",
-                "reference": "a4784a42b78d551d31ea8c364907b7fa722386fe",
+                "url": "https://api.github.com/repos/getkirby/kirby/zipball/42cd286dab62d87a331e53abfe103e4fba118dd6",
+                "reference": "42cd286dab62d87a331e53abfe103e4fba118dd6",
                 "shasum": ""
             },
             "require": {
@@ -352,7 +352,7 @@
                 "phpmailer/phpmailer": "7.0.1",
                 "symfony/polyfill-intl-idn": "1.33.0",
                 "symfony/polyfill-mbstring": "1.33.0",
-                "symfony/yaml": "7.4.0"
+                "symfony/yaml": "7.4.1"
             },
             "replace": {
                 "symfony/polyfill-php72": "*"
@@ -413,7 +413,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-12-02T10:42:09+00:00"
+            "time": "2025-12-16T09:23:12+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
@@ -1132,16 +1132,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v7.4.0",
+            "version": "v7.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "6c84a4b55aee4cd02034d1c528e83f69ddf63810"
+                "reference": "24dd4de28d2e3988b311751ac49e684d783e2345"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/6c84a4b55aee4cd02034d1c528e83f69ddf63810",
-                "reference": "6c84a4b55aee4cd02034d1c528e83f69ddf63810",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/24dd4de28d2e3988b311751ac49e684d783e2345",
+                "reference": "24dd4de28d2e3988b311751ac49e684d783e2345",
                 "shasum": ""
             },
             "require": {
@@ -1184,7 +1184,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v7.4.0"
+                "source": "https://github.com/symfony/yaml/tree/v7.4.1"
             },
             "funding": [
                 {
@@ -1204,7 +1204,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-16T10:14:42+00:00"
+            "time": "2025-12-04T18:11:45+00:00"
         }
     ],
     "aliases": [],
@@ -1216,5 +1216,5 @@
         "php": ">=8.3.0"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
