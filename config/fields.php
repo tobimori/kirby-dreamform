@@ -70,6 +70,13 @@ return [
 			'options'	=> function () {
 				$page = $this->model;
 
+				// when creating a page, it doesn't exist yet
+				// accessing uuid()->id() below would trigger uuid generation,
+				// which writes to disk and creates the page directory prematurely
+				if (!$page?->exists()) {
+					return [];
+				}
+				
 				$limit = $this->limitType();
 				return DreamForm::requestCache($limit ? [$page->uuid()->id(), implode(';', $limit)] : $page->uuid()->id(), function () use ($page, $limit) {
 					$fields = [];
