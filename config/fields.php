@@ -76,7 +76,7 @@ return [
 				if (!$page?->exists()) {
 					return [];
 				}
-				
+
 				$limit = $this->limitType();
 				return DreamForm::requestCache($limit ? [$page->uuid()->id(), implode(';', $limit)] : $page->uuid()->id(), function () use ($page, $limit) {
 					$fields = [];
