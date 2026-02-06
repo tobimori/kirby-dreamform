@@ -193,7 +193,7 @@ final class License extends KirbyLicense
 	public static function normalizeUrl(string $url): string
 	{
 		return preg_replace(
-			'/^https?:\/\/(?:www\.|staging\.|test\.|dev\.)?|\/$/',
+			'/^(?:https?:\/\/)?(?:www\.|staging\.|test\.|dev\.)?|\/$/',
 			'',
 			$url
 		);
