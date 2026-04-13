@@ -56,7 +56,7 @@ class FormPage extends BasePage
 
 		$htmx = [
 			'hx-post' => $this->url(),
-			'hx-disabled-elt' => 'find button',
+			'hx-disabled-elt' => "#{$this->elementId()} button",
 			'hx-swap' => 'outerHTML show:top',
 			'hx-vals' => Json::encode(array_filter([
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
