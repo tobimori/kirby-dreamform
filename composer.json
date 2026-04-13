@@ -4,7 +4,7 @@
 	"type": "kirby-plugin",
 	"license": "proprietary",
 	"homepage": "https://plugins.andkindness.com/dreamform",
-	"version": "2.1.5",
+	"version": "2.1.6",
 	"authors": [
 		{
 			"name": "Tobias Möritz",
