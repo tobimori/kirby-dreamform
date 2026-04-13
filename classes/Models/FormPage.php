@@ -494,7 +494,7 @@ class FormPage extends BasePage
 		// update the clone
 		$clone->version()->save(
 			$data ?? [],
-			$languageCode ?? 'default',
+			$languageCode ?? 'current',
 			$overwrite
 		);
 
