@@ -7,6 +7,16 @@ export default [
 	...vue.configs["flat/vue2-recommended"],
 	prettier,
 	{
+		files: ["**/*.{js,vue}"],
+		languageOptions: {
+			ecmaVersion: 2022,
+			globals: {
+				window: "readonly",
+				document: "readonly",
+				console: "readonly",
+				panel: "readonly",
+			},
+		},
 		rules: {
 			"vue/attributes-order": "error",
 			"vue/component-definition-name-casing": "off",
@@ -24,15 +34,6 @@ export default [
 				"error",
 				{ argsIgnorePattern: "^_", varsIgnorePattern: "^props$" },
 			],
-		},
-		languageOptions: {
-			ecmaVersion: 2022,
-			globals: {
-				window: "readonly",
-				document: "readonly",
-				console: "readonly",
-				panel: "readonly",
-			},
 		},
 	},
 ];
