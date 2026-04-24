@@ -49,21 +49,24 @@ class DreamformFormFieldView {
 	}
 
 	updateLabel() {
-		// get current content to find field label
 		const content = window.panel?.content?.version?.("changes") || {}
 		const label = this.findFieldLabel(content, this.fieldKey)
-		this.dom.innerText = label || this.fieldKey
+		// fall back to the kebab-case key so it matches what the field editor shows
+		this.dom.innerText = label || this.fieldKey.replaceAll("_", "-")
 	}
 
 	findFieldLabel(content, fieldKey) {
-		// flatten all blocks from the nested structure
 		const blocks =
 			content.fields?.flatMap(
 				(field) => field.columns?.flatMap((column) => column.blocks || []) || []
 			) || []
 
-		// find the block with matching key
-		const block = blocks.find((block) => block.content?.key === fieldKey)
+		// placeholders use snake_case but stored keys use kebab-case, so normalize both sides
+		const normalize = (key) => key?.replaceAll("-", "_")
+		const normalizedFieldKey = normalize(fieldKey)
+		const block = blocks.find(
+			(block) => normalize(block.content?.key) === normalizedFieldKey
+		)
 		return block?.content?.label || null
 	}
 
