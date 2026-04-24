@@ -16,6 +16,6 @@ if (Htmx::isActive()) : ?>
 		'id' => $id = $form->uuid()->id() . '-session',
 		'name' => 'dreamform:session',
 		'value' => $submission ? Htmx::encrypt(($submission->exists() ? "page://" : "") . $submission->slug()) : null,
-		'hx-swap-oob' => isset($swap) && $swap ? "outerHTML:#{$id}" : null
+		'hx-swap-oob' => isset($swap) && $swap ? "outerHTML:[id='{$id}']" : null
 	]) ?>>
 <?php endif ?>
