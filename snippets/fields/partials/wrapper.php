@@ -17,6 +17,7 @@ use tobimori\DreamForm\Support\Htmx;
 
 <div <?= attr(A::merge($attr['field'] ?? [], [
 	'hx-target' => Htmx::isActive() && DreamForm::option('precognition') ? 'this' : null,
+	'hx-sync' => Htmx::isActive() && DreamForm::option('precognition') ? 'this:replace' : null,
 	'data-has-error' => !!$submission?->errorFor($block->key(), $form)
 ])) ?>>
 	<?= $slot ?>
