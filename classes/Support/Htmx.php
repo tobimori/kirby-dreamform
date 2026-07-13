@@ -2,6 +2,7 @@
 
 namespace tobimori\DreamForm\Support;
 
+use Closure;
 use Kirby\Cms\App;
 use tobimori\DreamForm\DreamForm;
 
@@ -33,6 +34,18 @@ final class Htmx
 		$secret = DreamForm::option('secret');
 
 		if (empty($secret)) {
+			$salt = App::instance()->option('content.salt');
+
+			if ($salt instanceof Closure) {
+				$salt = $salt(null);
+			}
+
+			if (is_string($salt) && empty($salt) === false) {
+				$secret = hash_hkdf('sha256', $salt, 32, 'tobimori/dreamform');
+			}
+		}
+
+		if (empty($secret) || is_string($secret) === false) {
 			throw new \Exception('[DreamForm] Secret not set');
 		}
 

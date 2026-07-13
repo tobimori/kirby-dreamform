@@ -44,9 +44,19 @@ Uuid: forms
 
 ## Encryption secret
 
-**If you want to use the HTMX or API submission mode,** it is required to specify a secret used for encrypting certain variables that will be output on the template in plain text.
+**If you want to use the HTMX or API submission mode,** DreamForm requires a secret to encrypt values that are published with the form. By default, DreamForm derives this secret from Kirby's explicitly configured [`content.salt`](https://getkirby.com/docs/reference/system/options/content#salt-for-drafts-and-media-files):
 
-**You should not commit this secret to your repository,** but instead load it from an environment variable or a secrets file. My recommendation would be using the kirby-dotenv plugin by Bruno Meilick like this:
+```php
+// site/config/config.php
+
+return [
+  'content' => [
+    'salt' => fn () => env('CONTENT_SALT')
+  ]
+];
+```
+
+Kirby's insecure default content salt is not used for this fallback. If you haven't configured `content.salt`, or want to use a separate secret for DreamForm, set `tobimori.dreamform.secret` instead. This option takes precedence over `content.salt`:
 
 ```php
 // site/config/config.php
@@ -58,6 +68,8 @@ return [
   ],
 ];
 ```
+
+**You should not commit either secret to your repository,** but instead load it from an environment variable or a secrets file. For example, you can use the [kirby-dotenv plugin](https://plugins.getkirby.com/bnomei/dotenv) by Bruno Meilick as shown above.
 
 You can generate a good random secret using the OpenSSL CLI and the following command:
 

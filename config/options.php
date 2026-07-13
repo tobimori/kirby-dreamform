@@ -28,7 +28,7 @@ return [
 		'1/2, 1/2'
 	],
 	'page' => 'page://forms', // Slug or URI to the page where the forms are located
-	'secret' => null, // Encryption secret for htmx attributes
+	'secret' => null, // Optional encryption secret; falls back to Kirby's configured content.salt
 	'marks' => ['bold', 'italic', 'underline', 'strike', 'link', 'email'], // Marks to be used in writer fields
 	'nodes' => [
 		'heading',

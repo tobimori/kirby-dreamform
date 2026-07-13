@@ -5,11 +5,13 @@ description: Configure DreamForm to your needs
 
 ## Configuration Options
 
-### Required Settings
+### Encryption
 
 | Option | Default | Accepts | Description |
 | --- | --- | --- | --- |
-| tobimori.dreamform.secret | `null` | `string|callable` | Encryption secret for published values (required for HTMX and API modes) |
+| tobimori.dreamform.secret | `null` | `string|callable` | Optional encryption secret for published values; takes precedence over Kirby's `content.salt` |
+
+HTMX and API modes require either `tobimori.dreamform.secret` or an explicitly configured Kirby [`content.salt`](https://getkirby.com/docs/reference/system/options/content#salt-for-drafts-and-media-files). DreamForm does not use Kirby's insecure default content salt.
 
 ### Optional Settings
 
@@ -30,8 +32,10 @@ description: Configure DreamForm to your needs
 // site/config/config.php
 
 return [
+  'content' => [
+    'salt' => fn () => env('CONTENT_SALT')
+  ],
   'tobimori.dreamform' => [
-    'secret' => fn () => env('DREAMFORM_SECRET'),
     'mode' => 'htmx',
     'debug' => false,
     'layouts' => ['1/1', '1/2, 1/2', '1/3, 1/3, 1/3'],
