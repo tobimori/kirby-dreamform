@@ -91,6 +91,10 @@ checksums:
     actions.loops.userId.help: ad0ef664cb41f36c0b157fca1a4bbe68
     actions.loops.fields.label: dc5e476f6beca227b505d21489e8d365
     actions.loops.log.success: 1ae6915336a300c0456d4d8256882e92
+    actions.mailerlite.name: 9e56132d7047d912bd31dee9874fd7de
+    actions.mailerlite.groups.label: 040c760485e51e0bb985ecca0051f4f0
+    actions.mailerlite.fields.label: dc5e476f6beca227b505d21489e8d365
+    actions.mailerlite.log.success: e351ff43c9b68c1319b66a971cf61165
     actions.redirect.name: e991f3bc8d3b349ebfe83e1ee44f015a
     actions.redirect.redirectTo.label: 558ee8c0e7dda748794b2eba2b7bcb3c
     actions.slack.name: e981545fd4cc63e29c492257a506ca74
