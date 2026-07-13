@@ -18,6 +18,7 @@ Combining these actions, you can create complex, multi-dimensional workflows for
 * [Redirect](5_redirect.md) - Redirect users after form submission
 * [Webhook](6_webhook.md) - Send form data to third-party services via webhooks
 * [Buttondown](7_buttondown.md) - Subscribe users to Buttondown newsletters
+* [MailerLite](9_mailerlite.md) - Create or update MailerLite subscribers
 
 ### Creating Custom Actions
 

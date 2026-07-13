@@ -109,6 +109,9 @@ return [
 		'loops' => [
 			'apiKey' => null // Loops API key
 		],
+		'mailerlite' => [
+			'apiKey' => null // MailerLite API key
+		],
 		'brevo' => [
 			'apiKey' => null // Brevo API key
 		],
