@@ -34,8 +34,9 @@
 
 [data-template="form"] {
 	:where(.k-field-name-successmessage, .k-field-name-fieldtemplate) .k-writer-input .k-toolbar-button:first-child {
-		padding-inline: var(--spacing-5);
+		padding-inline: var(--spacing-3);
 		--button-width: auto;
+		aspect-ratio: auto;
 
 		&::after {
 			content: attr(title);
