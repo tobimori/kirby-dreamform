@@ -6,98 +6,99 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit99ea25880654549400db6165b3f448d9
 {
-    public static $prefixLengthsPsr4 = array (
-        't' =>
-        array (
-            'tobimori\\DreamForm\\' => 19,
-        ),
-        'K' =>
-        array (
-            'Kirby\\' => 6,
-        ),
-    );
+	public static $prefixLengthsPsr4 = array(
+		't' =>
+		array(
+			'tobimori\\DreamForm\\' => 19,
+		),
+		'K' =>
+		array(
+			'Kirby\\' => 6,
+		),
+	);
 
-    public static $prefixDirsPsr4 = array (
-        'tobimori\\DreamForm\\' =>
-        array (
-            0 => __DIR__ . '/../..' . '/classes',
-        ),
-        'Kirby\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/getkirby/composer-installer/src',
-        ),
-    );
+	public static $prefixDirsPsr4 = array(
+		'tobimori\\DreamForm\\' =>
+		array(
+			0 => __DIR__ . '/../..' . '/classes',
+		),
+		'Kirby\\' =>
+		array(
+			0 => __DIR__ . '/..' . '/getkirby/composer-installer/src',
+		),
+	);
 
-    public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Kirby\\ComposerInstaller\\CmsInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/CmsInstaller.php',
-        'Kirby\\ComposerInstaller\\Installer' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Installer.php',
-        'Kirby\\ComposerInstaller\\Plugin' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Plugin.php',
-        'Kirby\\ComposerInstaller\\PluginInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/PluginInstaller.php',
-        'tobimori\\DreamForm\\Actions\\AbortAction' => __DIR__ . '/../..' . '/classes/Actions/AbortAction.php',
-        'tobimori\\DreamForm\\Actions\\Action' => __DIR__ . '/../..' . '/classes/Actions/Action.php',
-        'tobimori\\DreamForm\\Actions\\BrevoAction' => __DIR__ . '/../..' . '/classes/Actions/BrevoAction.php',
-        'tobimori\\DreamForm\\Actions\\ButtondownAction' => __DIR__ . '/../..' . '/classes/Actions/ButtondownAction.php',
-        'tobimori\\DreamForm\\Actions\\ConditionalAction' => __DIR__ . '/../..' . '/classes/Actions/ConditionalAction.php',
-        'tobimori\\DreamForm\\Actions\\DiscordWebhookAction' => __DIR__ . '/../..' . '/classes/Actions/DiscordWebhookAction.php',
-        'tobimori\\DreamForm\\Actions\\EmailAction' => __DIR__ . '/../..' . '/classes/Actions/EmailAction.php',
-        'tobimori\\DreamForm\\Actions\\LoopsAction' => __DIR__ . '/../..' . '/classes/Actions/LoopsAction.php',
-        'tobimori\\DreamForm\\Actions\\MailchimpAction' => __DIR__ . '/../..' . '/classes/Actions/MailchimpAction.php',
-        'tobimori\\DreamForm\\Actions\\PlausibleAction' => __DIR__ . '/../..' . '/classes/Actions/PlausibleAction.php',
-        'tobimori\\DreamForm\\Actions\\RedirectAction' => __DIR__ . '/../..' . '/classes/Actions/RedirectAction.php',
-        'tobimori\\DreamForm\\Actions\\WebhookAction' => __DIR__ . '/../..' . '/classes/Actions/WebhookAction.php',
-        'tobimori\\DreamForm\\DreamForm' => __DIR__ . '/../..' . '/classes/DreamForm.php',
-        'tobimori\\DreamForm\\Exceptions\\PerformerException' => __DIR__ . '/../..' . '/classes/Exceptions/PerformerException.php',
-        'tobimori\\DreamForm\\Exceptions\\SuccessException' => __DIR__ . '/../..' . '/classes/Exceptions/SuccessException.php',
-        'tobimori\\DreamForm\\Fields\\ButtonField' => __DIR__ . '/../..' . '/classes/Fields/ButtonField.php',
-        'tobimori\\DreamForm\\Fields\\CheckboxField' => __DIR__ . '/../..' . '/classes/Fields/CheckboxField.php',
-        'tobimori\\DreamForm\\Fields\\EmailField' => __DIR__ . '/../..' . '/classes/Fields/EmailField.php',
-        'tobimori\\DreamForm\\Fields\\Field' => __DIR__ . '/../..' . '/classes/Fields/Field.php',
-        'tobimori\\DreamForm\\Fields\\FileUploadField' => __DIR__ . '/../..' . '/classes/Fields/FileUploadField.php',
-        'tobimori\\DreamForm\\Fields\\HiddenField' => __DIR__ . '/../..' . '/classes/Fields/HiddenField.php',
-        'tobimori\\DreamForm\\Fields\\NumberField' => __DIR__ . '/../..' . '/classes/Fields/NumberField.php',
-        'tobimori\\DreamForm\\Fields\\PagesField' => __DIR__ . '/../..' . '/classes/Fields/PagesField.php',
-        'tobimori\\DreamForm\\Fields\\RadioField' => __DIR__ . '/../..' . '/classes/Fields/RadioField.php',
-        'tobimori\\DreamForm\\Fields\\SelectField' => __DIR__ . '/../..' . '/classes/Fields/SelectField.php',
-        'tobimori\\DreamForm\\Fields\\TextField' => __DIR__ . '/../..' . '/classes/Fields/TextField.php',
-        'tobimori\\DreamForm\\Fields\\TextareaField' => __DIR__ . '/../..' . '/classes/Fields/TextareaField.php',
-        'tobimori\\DreamForm\\Guards\\AkismetGuard' => __DIR__ . '/../..' . '/classes/Guards/AkismetGuard.php',
-        'tobimori\\DreamForm\\Guards\\CsrfGuard' => __DIR__ . '/../..' . '/classes/Guards/CsrfGuard.php',
-        'tobimori\\DreamForm\\Guards\\Guard' => __DIR__ . '/../..' . '/classes/Guards/Guard.php',
-        'tobimori\\DreamForm\\Guards\\HCaptchaGuard' => __DIR__ . '/../..' . '/classes/Guards/HCaptchaGuard.php',
-        'tobimori\\DreamForm\\Guards\\HoneypotGuard' => __DIR__ . '/../..' . '/classes/Guards/HoneypotGuard.php',
-        'tobimori\\DreamForm\\Guards\\LicenseGuard' => __DIR__ . '/../..' . '/classes/Guards/LicenseGuard.php',
-        'tobimori\\DreamForm\\Guards\\RatelimitGuard' => __DIR__ . '/../..' . '/classes/Guards/RatelimitGuard.php',
-        'tobimori\\DreamForm\\Guards\\TurnstileGuard' => __DIR__ . '/../..' . '/classes/Guards/TurnstileGuard.php',
-        'tobimori\\DreamForm\\Jobs\\SubmissionJob' => __DIR__ . '/../..' . '/classes/Jobs/SubmissionJob.php',
-        'tobimori\\DreamForm\\Models\\BasePage' => __DIR__ . '/../..' . '/classes/Models/BasePage.php',
-        'tobimori\\DreamForm\\Models\\FormPage' => __DIR__ . '/../..' . '/classes/Models/FormPage.php',
-        'tobimori\\DreamForm\\Models\\FormsPage' => __DIR__ . '/../..' . '/classes/Models/FormsPage.php',
-        'tobimori\\DreamForm\\Models\\Log\\HasSubmissionLog' => __DIR__ . '/../..' . '/classes/Models/Log/HasSubmissionLog.php',
-        'tobimori\\DreamForm\\Models\\Log\\SubmissionLog' => __DIR__ . '/../..' . '/classes/Models/Log/SubmissionLog.php',
-        'tobimori\\DreamForm\\Models\\Log\\SubmissionLogEntry' => __DIR__ . '/../..' . '/classes/Models/Log/SubmissionLogEntry.php',
-        'tobimori\\DreamForm\\Models\\SubmissionHandling' => __DIR__ . '/../..' . '/classes/Models/SubmissionHandling.php',
-        'tobimori\\DreamForm\\Models\\SubmissionPage' => __DIR__ . '/../..' . '/classes/Models/SubmissionPage.php',
-        'tobimori\\DreamForm\\Models\\SubmissionSession' => __DIR__ . '/../..' . '/classes/Models/SubmissionSession.php',
-        'tobimori\\DreamForm\\Performer' => __DIR__ . '/../..' . '/classes/Performer.php',
-        'tobimori\\DreamForm\\Permissions\\FormPermissions' => __DIR__ . '/../..' . '/classes/Permissions/FormPermissions.php',
-        'tobimori\\DreamForm\\Permissions\\SubmissionPermissions' => __DIR__ . '/../..' . '/classes/Permissions/SubmissionPermissions.php',
-        'tobimori\\DreamForm\\Storage\\SubmissionCacheStorage' => __DIR__ . '/../..' . '/classes/Storage/SubmissionCacheStorage.php',
-        'tobimori\\DreamForm\\Storage\\SubmissionSessionStorage' => __DIR__ . '/../..' . '/classes/Storage/SubmissionSessionStorage.php',
-        'tobimori\\DreamForm\\Support\\HasCache' => __DIR__ . '/../..' . '/classes/Support/HasCache.php',
-        'tobimori\\DreamForm\\Support\\Htmx' => __DIR__ . '/../..' . '/classes/Support/Htmx.php',
-        'tobimori\\DreamForm\\Support\\License' => __DIR__ . '/../..' . '/classes/Support/License.php',
-        'tobimori\\DreamForm\\Support\\Menu' => __DIR__ . '/../..' . '/classes/Support/Menu.php',
-        'tobimori\\Dreamform\\Models\\SubmissionMetadata' => __DIR__ . '/../..' . '/classes/Models/SubmissionMetadata.php',
-    );
+	public static $classMap = array(
+		'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+		'Kirby\\ComposerInstaller\\CmsInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/CmsInstaller.php',
+		'Kirby\\ComposerInstaller\\Installer' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Installer.php',
+		'Kirby\\ComposerInstaller\\Plugin' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Plugin.php',
+		'Kirby\\ComposerInstaller\\PluginInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/PluginInstaller.php',
+		'tobimori\\DreamForm\\Actions\\AbortAction' => __DIR__ . '/../..' . '/classes/Actions/AbortAction.php',
+		'tobimori\\DreamForm\\Actions\\Action' => __DIR__ . '/../..' . '/classes/Actions/Action.php',
+		'tobimori\\DreamForm\\Actions\\BrevoAction' => __DIR__ . '/../..' . '/classes/Actions/BrevoAction.php',
+		'tobimori\\DreamForm\\Actions\\ButtondownAction' => __DIR__ . '/../..' . '/classes/Actions/ButtondownAction.php',
+		'tobimori\\DreamForm\\Actions\\ConditionalAction' => __DIR__ . '/../..' . '/classes/Actions/ConditionalAction.php',
+		'tobimori\\DreamForm\\Actions\\DiscordWebhookAction' => __DIR__ . '/../..' . '/classes/Actions/DiscordWebhookAction.php',
+		'tobimori\\DreamForm\\Actions\\EmailAction' => __DIR__ . '/../..' . '/classes/Actions/EmailAction.php',
+		'tobimori\\DreamForm\\Actions\\LoopsAction' => __DIR__ . '/../..' . '/classes/Actions/LoopsAction.php',
+		'tobimori\\DreamForm\\Actions\\MailchimpAction' => __DIR__ . '/../..' . '/classes/Actions/MailchimpAction.php',
+		'tobimori\\DreamForm\\Actions\\MailerLiteAction' => __DIR__ . '/../..' . '/classes/Actions/MailerLiteAction.php',
+		'tobimori\\DreamForm\\Actions\\PlausibleAction' => __DIR__ . '/../..' . '/classes/Actions/PlausibleAction.php',
+		'tobimori\\DreamForm\\Actions\\RedirectAction' => __DIR__ . '/../..' . '/classes/Actions/RedirectAction.php',
+		'tobimori\\DreamForm\\Actions\\WebhookAction' => __DIR__ . '/../..' . '/classes/Actions/WebhookAction.php',
+		'tobimori\\DreamForm\\DreamForm' => __DIR__ . '/../..' . '/classes/DreamForm.php',
+		'tobimori\\DreamForm\\Exceptions\\PerformerException' => __DIR__ . '/../..' . '/classes/Exceptions/PerformerException.php',
+		'tobimori\\DreamForm\\Exceptions\\SuccessException' => __DIR__ . '/../..' . '/classes/Exceptions/SuccessException.php',
+		'tobimori\\DreamForm\\Fields\\ButtonField' => __DIR__ . '/../..' . '/classes/Fields/ButtonField.php',
+		'tobimori\\DreamForm\\Fields\\CheckboxField' => __DIR__ . '/../..' . '/classes/Fields/CheckboxField.php',
+		'tobimori\\DreamForm\\Fields\\EmailField' => __DIR__ . '/../..' . '/classes/Fields/EmailField.php',
+		'tobimori\\DreamForm\\Fields\\Field' => __DIR__ . '/../..' . '/classes/Fields/Field.php',
+		'tobimori\\DreamForm\\Fields\\FileUploadField' => __DIR__ . '/../..' . '/classes/Fields/FileUploadField.php',
+		'tobimori\\DreamForm\\Fields\\HiddenField' => __DIR__ . '/../..' . '/classes/Fields/HiddenField.php',
+		'tobimori\\DreamForm\\Fields\\NumberField' => __DIR__ . '/../..' . '/classes/Fields/NumberField.php',
+		'tobimori\\DreamForm\\Fields\\PagesField' => __DIR__ . '/../..' . '/classes/Fields/PagesField.php',
+		'tobimori\\DreamForm\\Fields\\RadioField' => __DIR__ . '/../..' . '/classes/Fields/RadioField.php',
+		'tobimori\\DreamForm\\Fields\\SelectField' => __DIR__ . '/../..' . '/classes/Fields/SelectField.php',
+		'tobimori\\DreamForm\\Fields\\TextField' => __DIR__ . '/../..' . '/classes/Fields/TextField.php',
+		'tobimori\\DreamForm\\Fields\\TextareaField' => __DIR__ . '/../..' . '/classes/Fields/TextareaField.php',
+		'tobimori\\DreamForm\\Guards\\AkismetGuard' => __DIR__ . '/../..' . '/classes/Guards/AkismetGuard.php',
+		'tobimori\\DreamForm\\Guards\\CsrfGuard' => __DIR__ . '/../..' . '/classes/Guards/CsrfGuard.php',
+		'tobimori\\DreamForm\\Guards\\Guard' => __DIR__ . '/../..' . '/classes/Guards/Guard.php',
+		'tobimori\\DreamForm\\Guards\\HCaptchaGuard' => __DIR__ . '/../..' . '/classes/Guards/HCaptchaGuard.php',
+		'tobimori\\DreamForm\\Guards\\HoneypotGuard' => __DIR__ . '/../..' . '/classes/Guards/HoneypotGuard.php',
+		'tobimori\\DreamForm\\Guards\\LicenseGuard' => __DIR__ . '/../..' . '/classes/Guards/LicenseGuard.php',
+		'tobimori\\DreamForm\\Guards\\RatelimitGuard' => __DIR__ . '/../..' . '/classes/Guards/RatelimitGuard.php',
+		'tobimori\\DreamForm\\Guards\\TurnstileGuard' => __DIR__ . '/../..' . '/classes/Guards/TurnstileGuard.php',
+		'tobimori\\DreamForm\\Jobs\\SubmissionJob' => __DIR__ . '/../..' . '/classes/Jobs/SubmissionJob.php',
+		'tobimori\\DreamForm\\Models\\BasePage' => __DIR__ . '/../..' . '/classes/Models/BasePage.php',
+		'tobimori\\DreamForm\\Models\\FormPage' => __DIR__ . '/../..' . '/classes/Models/FormPage.php',
+		'tobimori\\DreamForm\\Models\\FormsPage' => __DIR__ . '/../..' . '/classes/Models/FormsPage.php',
+		'tobimori\\DreamForm\\Models\\Log\\HasSubmissionLog' => __DIR__ . '/../..' . '/classes/Models/Log/HasSubmissionLog.php',
+		'tobimori\\DreamForm\\Models\\Log\\SubmissionLog' => __DIR__ . '/../..' . '/classes/Models/Log/SubmissionLog.php',
+		'tobimori\\DreamForm\\Models\\Log\\SubmissionLogEntry' => __DIR__ . '/../..' . '/classes/Models/Log/SubmissionLogEntry.php',
+		'tobimori\\DreamForm\\Models\\SubmissionHandling' => __DIR__ . '/../..' . '/classes/Models/SubmissionHandling.php',
+		'tobimori\\DreamForm\\Models\\SubmissionPage' => __DIR__ . '/../..' . '/classes/Models/SubmissionPage.php',
+		'tobimori\\DreamForm\\Models\\SubmissionSession' => __DIR__ . '/../..' . '/classes/Models/SubmissionSession.php',
+		'tobimori\\DreamForm\\Performer' => __DIR__ . '/../..' . '/classes/Performer.php',
+		'tobimori\\DreamForm\\Permissions\\FormPermissions' => __DIR__ . '/../..' . '/classes/Permissions/FormPermissions.php',
+		'tobimori\\DreamForm\\Permissions\\SubmissionPermissions' => __DIR__ . '/../..' . '/classes/Permissions/SubmissionPermissions.php',
+		'tobimori\\DreamForm\\Storage\\SubmissionCacheStorage' => __DIR__ . '/../..' . '/classes/Storage/SubmissionCacheStorage.php',
+		'tobimori\\DreamForm\\Storage\\SubmissionSessionStorage' => __DIR__ . '/../..' . '/classes/Storage/SubmissionSessionStorage.php',
+		'tobimori\\DreamForm\\Support\\HasCache' => __DIR__ . '/../..' . '/classes/Support/HasCache.php',
+		'tobimori\\DreamForm\\Support\\Htmx' => __DIR__ . '/../..' . '/classes/Support/Htmx.php',
+		'tobimori\\DreamForm\\Support\\License' => __DIR__ . '/../..' . '/classes/Support/License.php',
+		'tobimori\\DreamForm\\Support\\Menu' => __DIR__ . '/../..' . '/classes/Support/Menu.php',
+		'tobimori\\Dreamform\\Models\\SubmissionMetadata' => __DIR__ . '/../..' . '/classes/Models/SubmissionMetadata.php',
+	);
 
-    public static function getInitializer(ClassLoader $loader)
-    {
-        return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit99ea25880654549400db6165b3f448d9::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit99ea25880654549400db6165b3f448d9::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit99ea25880654549400db6165b3f448d9::$classMap;
+	public static function getInitializer(ClassLoader $loader)
+	{
+		return \Closure::bind(function () use ($loader) {
+			$loader->prefixLengthsPsr4 = ComposerStaticInit99ea25880654549400db6165b3f448d9::$prefixLengthsPsr4;
+			$loader->prefixDirsPsr4 = ComposerStaticInit99ea25880654549400db6165b3f448d9::$prefixDirsPsr4;
+			$loader->classMap = ComposerStaticInit99ea25880654549400db6165b3f448d9::$classMap;
 
-        }, null, ClassLoader::class);
-    }
+		}, null, ClassLoader::class);
+	}
 }
