@@ -2,11 +2,11 @@
 	"version": 1.8,
 	"locale": {
 		"source": "en",
-		"targets": ["de", "en", "fr", "nl", "cs", "es", "it", "fi"]
+		"targets": ["de", "en", "fr", "nl", "cs", "es", "it", "fi", "pt-BR"]
 	},
 	"buckets": {
 		"json": {
-			"include": ["translations/[locale].json"]
+			"include": [{ "path": "translations/[locale].json", "delimiter": "_" }]
 		}
 	},
 	"$schema": "https://lingo.dev/schema/i18n.json"
