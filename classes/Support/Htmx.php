@@ -11,6 +11,11 @@ use tobimori\DreamForm\DreamForm;
  */
 final class Htmx
 {
+	public const REQUEST_INSTANCE = 'dreamform:instance';
+	public const REQUEST_SEQUENCE = 'dreamform:request';
+	public const CACHE_TTL = 60 * 24;
+	private static bool $staleRequest = false;
+
 	private function __construct()
 	{
 		throw new \Error('This class cannot be instantiated');
@@ -24,6 +29,81 @@ final class Htmx
 	public static function isHtmxRequest(): bool
 	{
 		return App::instance()->request()->header('Hx-Request') === 'true';
+	}
+
+	public static function requestInstance(): string|null
+	{
+		$value = App::instance()->request()->body()->get(static::REQUEST_INSTANCE);
+		if (!is_string($value) || $value === '') {
+			return null;
+		}
+
+		try {
+			return static::decrypt($value);
+		} catch (\Throwable) {
+			return null;
+		}
+	}
+
+	public static function requestSequence(): int|null
+	{
+		$value = App::instance()->request()->body()->get(static::REQUEST_SEQUENCE);
+		if (!(is_int($value) || is_string($value) && ctype_digit($value))) {
+			return null;
+		}
+
+		$value = (int) $value;
+		return $value > 0 ? $value : null;
+	}
+
+	public static function isStaleRequest(): bool
+	{
+		return static::$staleRequest;
+	}
+
+	public static function rejectRequest(): void
+	{
+		static::$staleRequest = true;
+	}
+
+	public static function instanceCacheKey(string $instance): string
+	{
+		return 'request-instance:' . hash('sha256', $instance);
+	}
+
+	/**
+	 * Serializes requests for one rendered form and marks stale request sequences.
+	 */
+	public static function synchronizeRequest(string $instance, int $sequence, Closure $callback): mixed
+	{
+		$hash = hash('sha256', $instance);
+		$lock = fopen(sys_get_temp_dir() . '/kirby-dreamform-' . substr($hash, 0, 2) . '.lock', 'c+');
+		if ($lock === false) {
+			throw new \RuntimeException('[DreamForm] Could not create request lock');
+		}
+
+		try {
+			if (flock($lock, LOCK_EX) === false) {
+				throw new \RuntimeException('[DreamForm] Could not acquire request lock');
+			}
+
+			$cache = App::instance()->cache('tobimori.dreamform.sessionless');
+			$key = static::instanceCacheKey($instance);
+			$state = $cache->get($key) ?? [];
+			$latest = (int) ($state['sequence'] ?? 0);
+			$isCurrent = $sequence > $latest;
+			static::$staleRequest = !$isCurrent;
+
+			if ($isCurrent) {
+				$state['sequence'] = $sequence;
+				$cache->set($key, $state, static::CACHE_TTL);
+			}
+
+			return $callback($isCurrent);
+		} finally {
+			flock($lock, LOCK_UN);
+			fclose($lock);
+		}
 	}
 
 	/**

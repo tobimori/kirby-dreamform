@@ -40,6 +40,19 @@ trait SubmissionSession
 			}
 		}
 
+		if ($mode === 'htmx' && DreamForm::option('precognition') && Htmx::isHtmxRequest() && ($instance = Htmx::requestInstance())) {
+			$cache = $kirby->cache('tobimori.dreamform.sessionless');
+			$key = Htmx::instanceCacheKey($instance);
+			$state = $cache->get($key) ?? [];
+			$state['submission'] = $this->exists() ? $this->uuid()->toString() : [
+				'type' => 'submission',
+				'template' => $this->intendedTemplate()->name(),
+				'slug' => $this->slug(),
+				'parent' => $this->parent()?->id(),
+			];
+			$cache->set($key, $state, Htmx::CACHE_TTL);
+		}
+
 		return static::$session = $this;
 	}
 
@@ -103,16 +116,21 @@ trait SubmissionSession
 		if ($mode === 'api' || ($mode === 'htmx' && Htmx::isHtmxRequest())) {
 			// Get from request body
 			$raw = $kirby->request()->body()->get('dreamform:session');
-			if (!$raw || $raw === 'null') {
-				return null;
-			}
-
-			$id = Htmx::decrypt($raw);
-			if (Str::startsWith($id, 'page://')) {
-				$data = $id;
+			if ($raw && $raw !== 'null') {
+				$id = Htmx::decrypt($raw);
+				if (Str::startsWith($id, 'page://')) {
+					$data = $id;
+				} else {
+					// Get from cache
+					$data = $kirby->cache('tobimori.dreamform.sessionless')->get($id);
+				}
+			} elseif ($mode === 'htmx' && DreamForm::option('precognition') && ($instance = Htmx::requestInstance())) {
+				$state = $kirby->cache('tobimori.dreamform.sessionless')->get(
+					Htmx::instanceCacheKey($instance)
+				);
+				$data = $state['submission'] ?? null;
 			} else {
-				// Get from cache
-				$data = $kirby->cache('tobimori.dreamform.sessionless')->get($id);
+				return null;
 			}
 		} else {
 			// Get from PHP session

@@ -8,6 +8,8 @@
  * @var \tobimori\DreamForm\Models\SubmissionPage|null $submission
  */
 
+use Kirby\Uuid\Uuid;
+use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Support\Htmx;
 
 if (Htmx::isActive()) : ?>
@@ -18,4 +20,20 @@ if (Htmx::isActive()) : ?>
 		'value' => $submission ? Htmx::encrypt(($submission->exists() ? "page://" : "") . $submission->slug()) : null,
 		'hx-swap-oob' => isset($swap) && $swap ? "outerHTML:[id='{$id}']" : null
 	]) ?>>
+	<?php if (DreamForm::option('precognition') && (!isset($swap) || !$swap)) : ?>
+		<input <?= attr([
+			'type' => 'hidden',
+			'id' => $form->uuid()->id() . '-request-instance',
+			'name' => Htmx::REQUEST_INSTANCE,
+			'value' => Htmx::encrypt(Htmx::requestInstance() ?? Uuid::generate()),
+			'hx-preserve' => true
+		]) ?>>
+		<input <?= attr([
+			'type' => 'hidden',
+			'id' => $form->uuid()->id() . '-request-sequence',
+			'name' => Htmx::REQUEST_SEQUENCE,
+			'value' => Htmx::requestSequence() ?? 0,
+			'hx-preserve' => true
+		]) ?>>
+	<?php endif ?>
 <?php endif ?>

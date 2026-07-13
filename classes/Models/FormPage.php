@@ -54,9 +54,12 @@ class FormPage extends BasePage
 			return [];
 		}
 
+		$precognition = DreamForm::option('precognition');
 		$htmx = [
 			'hx-post' => $this->url(),
 			'hx-disabled-elt' => "[id='{$this->elementId()}'] button",
+			'hx-on::config-request' => $precognition ? "const counter = this.elements['" . Htmx::REQUEST_SEQUENCE . "']; counter.value++; event.detail.parameters['" . Htmx::REQUEST_SEQUENCE . "'] = counter.value" : null,
+			'hx-on::before-swap' => $precognition ? "if (event.detail.target === this && event.detail.requestConfig.parameters['" . Htmx::REQUEST_SEQUENCE . "'] < this.elements['" . Htmx::REQUEST_SEQUENCE . "'].value) event.preventDefault()" : null,
 			'hx-swap' => 'outerHTML show:top',
 			'hx-vals' => Json::encode(array_filter([
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
@@ -265,6 +268,28 @@ class FormPage extends BasePage
 	 */
 	public function submit(bool $precognition = false): SubmissionPage
 	{
+		if (!Htmx::isActive() || !Htmx::isHtmxRequest() || !DreamForm::option('precognition')) {
+			return $this->handleSubmission($precognition);
+		}
+
+		$instance = Htmx::requestInstance();
+		$sequence = Htmx::requestSequence();
+		if ($instance === null || $sequence === null) {
+			Htmx::rejectRequest();
+			return SubmissionPage::fromSession() ?? $this->initSubmission();
+		}
+
+		return Htmx::synchronizeRequest($instance, $sequence, function (bool $isCurrent) use ($precognition) {
+			if (!$isCurrent) {
+				return SubmissionPage::fromSession() ?? $this->initSubmission();
+			}
+
+			return $this->handleSubmission($precognition);
+		});
+	}
+
+	private function handleSubmission(bool $precognition): SubmissionPage
+	{
 		// create a new submission or get the existing one from the session
 		$submission = SubmissionPage::fromSession() ?? $this->initSubmission();
 		// if the submission is from a different form, create a new one
@@ -353,6 +378,10 @@ class FormPage extends BasePage
 		if ($kirby->request()->method() === 'POST') {
 			$isPrecognitiveRequest = $kirby->request()->query()->get('precognition') === 'true';
 			$submission = $this->submit($isPrecognitiveRequest);
+			if ($mode === 'htmx' && Htmx::isStaleRequest()) {
+				$kirby->response()->code(204);
+				return '';
+			}
 
 			// if dreamform is used in API mode, return the submission state as JSON
 			if ($mode === 'api') {
