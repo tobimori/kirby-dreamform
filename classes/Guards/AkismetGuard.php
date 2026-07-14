@@ -66,6 +66,8 @@ class AkismetGuard extends Guard
 	protected function reportContentForSubmission(SubmissionPage $submission): array
 	{
 		return A::merge([
+			'user_ip' => $submission->metadata()->get('ip')->value(),
+			'user_agent' => $submission->metadata()->get('userAgent')->value(),
 			'comment_author' => $submission->metadata()->name()?->value(),
 			'comment_author_email' => $submission->metadata()->email()?->value(),
 			'comment_author_url' => $submission->metadata()->website()?->value(),
@@ -119,7 +121,7 @@ class AkismetGuard extends Guard
 					'api_key' => static::apiKey(),
 					'blog' => App::instance()->site()->url(),
 					'comment_type' => 'contact-form',
-					'blog_lang' => $kirby->multilang() ? $kirby->languages()->map(fn ($lang) => $lang->code())->join(', ') : null,
+					'blog_lang' => $kirby->multilang() ? implode(', ', $kirby->languages()->codes()) : null,
 					'blog_charset' => 'UTF-8'
 				], $data), fn ($value) => $value !== null)
 			]
@@ -138,9 +140,11 @@ class AkismetGuard extends Guard
 			return false;
 		}
 
-		return static::cache('verify-key', function () {
+		$cacheKey = ['verify-key', sha1(static::apiKey() . App::instance()->site()->url())];
+
+		return static::cache($cacheKey, function () {
 			$request = static::post('/verify-key');
-			return $request->code() === 200;
-		});
+			return $request->content() === 'valid';
+		}) ?? false;
 	}
 }
