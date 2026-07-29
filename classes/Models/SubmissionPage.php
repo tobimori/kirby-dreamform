@@ -442,9 +442,13 @@ class SubmissionPage extends BasePage
 		// store uuid
 		$this->uuid()->populate();
 
-		// If using temporary storage, persist to disk
+		// copy cached submissions to disk, since overlapping requests might still use the cached data
 		$storage = $this->storage();
-		if ($storage instanceof SubmissionSessionStorage || $storage instanceof SubmissionCacheStorage) {
+		if ($storage instanceof SubmissionCacheStorage) {
+			return $this->changeStorage(PlainTextStorage::class, copy: true);
+		}
+
+		if ($storage instanceof SubmissionSessionStorage) {
 			return $this->changeStorage(PlainTextStorage::class);
 		}
 
@@ -574,11 +578,34 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
+	 * Return the submission date with the modification date as fallback
+	 */
+	private function submittedAt(): DateTime
+	{
+		$value = $this->content()->get('dreamform_submitted')->value();
+		if (is_string($value) && $value !== '') {
+			try {
+				return new DateTime($value);
+			} catch (\Exception) {
+				// use fallback for invalid dates
+			}
+		}
+
+		$date = new DateTime();
+		$modified = $this->modified();
+		if (is_int($modified)) {
+			$date->setTimestamp($modified);
+		}
+
+		return $date;
+	}
+
+	/**
 	 * Format the submission date as integer for sorting
 	 */
 	public function sortDate(): string
 	{
-		return $this->content()->get('dreamform_submitted')->toDate();
+		return (string)$this->submittedAt()->getTimestamp();
 	}
 
 	/**
@@ -586,8 +613,7 @@ class SubmissionPage extends BasePage
 	 */
 	public function title(): Field
 	{
-		$date = new DateTime($this->content()->get('dreamform_submitted')->value());
-		return new Field($this, 'title', IntlDateFormatter::formatObject($date, IntlDateFormatter::MEDIUM));
+		return new Field($this, 'title', IntlDateFormatter::formatObject($this->submittedAt(), IntlDateFormatter::MEDIUM));
 	}
 
 	/**

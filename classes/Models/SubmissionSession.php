@@ -46,7 +46,7 @@ trait SubmissionSession
 	/**
 	 * Reconstruct submission from data
 	 */
-	private static function reconstructSubmission(mixed $data): SubmissionPage|null
+	private static function reconstructSubmission(mixed $data, string $temporaryStorage): SubmissionPage|null
 	{
 		if (is_string($data)) {
 			// It's a slug / uuid reference - submission exists on disk
@@ -57,11 +57,15 @@ trait SubmissionSession
 			// It's submission metadata - reconstruct the submission
 			$parent = DreamForm::findPageOrDraftRecursive($data['parent']);
 			if ($parent) {
-				return new SubmissionPage([
+				$submission = new SubmissionPage([
 					'template' => $data['template'],
 					'slug' => $data['slug'],
 					'parent' => $parent,
 				]);
+
+				// use storage from the reference, since the content file might not exist yet
+				$submission->storage = new $temporaryStorage($submission);
+				return $submission;
 			}
 		}
 
@@ -79,10 +83,11 @@ trait SubmissionSession
 			App::instance()->session()->remove(DreamForm::SESSION_KEY);
 
 			$storage = $submission->storage();
-			if (method_exists($storage, 'cleanup')) {
-				/** @var SubmissionSessionStorage|SubmissionCacheStorage $storage */
+			if ($storage instanceof SubmissionSessionStorage) {
 				$storage->cleanup();
 			}
+
+			// keep cache data until it expires, since other requests might still use it
 		}
 	}
 
@@ -101,6 +106,8 @@ trait SubmissionSession
 
 		// Determine where to look for data
 		if ($mode === 'api' || ($mode === 'htmx' && Htmx::isHtmxRequest())) {
+			$temporaryStorage = SubmissionCacheStorage::class;
+
 			// Get from request body
 			$raw = $kirby->request()->body()->get('dreamform:session');
 			if (!$raw || $raw === 'null') {
@@ -115,6 +122,8 @@ trait SubmissionSession
 				$data = $kirby->cache('tobimori.dreamform.sessionless')->get($id);
 			}
 		} else {
+			$temporaryStorage = SubmissionSessionStorage::class;
+
 			// Get from PHP session
 			$data = $kirby->session()->get(DreamForm::SESSION_KEY);
 		}
@@ -124,7 +133,7 @@ trait SubmissionSession
 		}
 
 		// Reconstruct submission
-		$submission = static::reconstructSubmission($data);
+		$submission = static::reconstructSubmission($data, $temporaryStorage);
 		if (!($submission instanceof SubmissionPage)) {
 			return null;
 		}
