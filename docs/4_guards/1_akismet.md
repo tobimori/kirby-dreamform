@@ -30,7 +30,7 @@ return [
 
 Ideally, you should not commit these keys to your repository, but instead load it from an environment variable, e.g. using the [kirby-dotenv plugin by Bruno Meilick](https://github.com/bnomei/kirby3-dotenv), as shown in the example above.
 
-Since Akismet requires the IP address and user agent of the sender, we have to configure the plugin to collect the data as well.
+Akismet requires the sender's IP address. The user agent is optional, but it helps Akismet improve spam detection. Configure the plugin to collect both values:
 
 ```php
 // site/config/config.php

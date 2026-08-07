@@ -56,7 +56,13 @@ class AkismetGuard extends Guard
 				$submission->markAsSpam(true);
 			}
 		} catch (\Throwable $e) {
-			// we don't want to block the submission if Akismet fails
+			try {
+				$submission->addLogEntry([
+					'text' => $e->getMessage(),
+					'template' => ['type' => static::type()]
+				], type: 'error', icon: 'alert', title: 'dreamform.submission.log.error');
+			} catch (\Throwable) {
+			}
 		}
 	}
 
