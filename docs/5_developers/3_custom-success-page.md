@@ -3,13 +3,13 @@ title: Custom Success Page
 description: Customizing the thank you message after form submission
 ---
 
-When editing a form, you can customize the "Thank you" message after switching to the "Settings" tab. However, if a simple text field isn't enough for your case, read on.
+When editing a form, you can customize the "Thank you" message in the "Settings" tab. If the default writer field is not enough, you can replace it with your own fields.
 
 ## Customizing the blueprint
 
-To customize the blueprint, create a new file in your blueprints folder: `site/blueprints/dreamform/fields/success.yml`
+To customize the blueprint, create `site/blueprints/dreamform/fields/success.yml` in your blueprints folder.
 
-The first line of the blueprint should always be `fields:`. After that, you can add any fields you want, the same way you know from your Kirby blueprints!
+The first line of the blueprint must be `fields:`. You can then add any number of fields of any Kirby field type, as in a regular Kirby blueprint.
 
 ```yaml
 fields:
@@ -21,13 +21,13 @@ fields:
     type: toggle
 ```
 
-You should make sure that the keys are not already in use. We recommend to prefix every field with `success` to avoid collission.
+Make sure that the field names are not already in use. We recommend that you prefix each field name with `success` to prevent collisions.
 
 ## Customizing the snippet
 
 To actually use the set field values in your forms, you have to override the included success snippet. To get going, create a new snippet file at `site/snippets/dreamform/success.php`.
 
-This file will be automatically output by the default form snippet when the submission was successful. It's important to keep in mind, that you'll only have access to `$kirby`, `$site`, `$page`, `$form` as well as the `$attr` array that includes assigned classes & attributes. - but no other custom variables you might be sending with your `snippet('dreamform/form')` call.
+The default form snippet automatically renders this file after a successful submission. You have access to `$kirby`, `$site`, `$page`, `$form`, `$submission`, and the `$attr` array, but not to other custom variables passed to `snippet('dreamform/form')`.
 
 The default snippet looks something like this - mix it up and change it the way you need. You have access to all fields set above with the `$form` variable, e.g. `$form->successShowIcon()->toBool()`.
 
