@@ -432,11 +432,11 @@ class FormPage extends BasePage
 
 			// continue with PRG submission
 			if (!$submission->isSuccessful()) {
-				return $submission->redirectToReferer();
+				return (string)$submission->redirectToReferer();
 			}
 
 			// otherwise, redirect to origin page (referer header)
-			return $submission->redirect();
+			return (string)$submission->redirect();
 		}
 
 		return parent::render($data, $contentType, $versionId);
