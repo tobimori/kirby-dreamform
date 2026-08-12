@@ -117,7 +117,6 @@ class SubmissionSessionStorage extends Storage
 			return;
 		}
 
-		/** @var SubmissionPage $submission */
 		$submission = $this->model;
 		$session = App::instance()->session();
 

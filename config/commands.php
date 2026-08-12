@@ -68,6 +68,7 @@ return [
 						);
 
 						$changed = false;
+						$c = null;
 
 						foreach ($actions as &$action) {
 							if (($action['type'] ?? null) !== 'email-action') {

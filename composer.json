@@ -24,6 +24,7 @@
 	"scripts": {
 		"dist": "composer install --no-dev --optimize-autoloader",
 		"fix": "@cs:fix",
+		"analyze": "psalm --show-info=false",
 		"cs:fix": "php-cs-fixer fix",
 		"cs:check": "php-cs-fixer fix --dry-run --diff --verbose"
 	},
@@ -38,6 +39,7 @@
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.95",
-		"getkirby/cms": "^5"
+		"getkirby/cms": "^5",
+		"vimeo/psalm": "6.16.1"
 	}
 }

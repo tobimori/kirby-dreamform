@@ -9,6 +9,7 @@ src/ export-ignore
 .php-cs-fixer.dist.php export-ignore
 .prettierrc export-ignore
 composer.lock export-ignore
+psalm.xml.dist export-ignore
 eslint.config.mjs export-ignore
 i18n.json export-ignore
 i18n.lock export-ignore

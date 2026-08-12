@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<psalm
+	errorLevel="7"
+	resolveFromConfigFile="true"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+	<projectFiles>
+		<directory name="blueprints" />
+		<directory name="classes" />
+		<directory name="config" />
+		<file name="index.php" />
+		<ignoreFiles>
+			<directory name="vendor" />
+		</ignoreFiles>
+	</projectFiles>
+
+	<issueHandlers>
+		<!-- Kirby binds these closures to runtime objects. -->
+		<InvalidScope>
+			<errorLevel type="suppress">
+				<directory name="config" />
+			</errorLevel>
+		</InvalidScope>
+
+		<!-- Match Kirby's suppressions for dynamic APIs and extension points. -->
+		<DuplicateArrayKey errorLevel="suppress" />
+		<MissingOverrideAttribute errorLevel="suppress" />
+		<MissingTemplateParam errorLevel="suppress" />
+		<PossiblyUnusedMethod errorLevel="suppress" />
+		<PossiblyUnusedParam errorLevel="suppress" />
+		<PossiblyUnusedProperty errorLevel="suppress" />
+		<PossiblyUnusedReturnValue errorLevel="suppress" />
+		<UnusedClass errorLevel="suppress" />
+		<UnusedClosureParam errorLevel="suppress" />
+		<UnusedForeachValue errorLevel="suppress" />
+		<UnusedVariable errorLevel="suppress" />
+		<UndefinedClass errorLevel="suppress" />
+
+		<UnusedConstructor>
+			<errorLevel type="suppress">
+				<file name="classes/Support/Htmx.php" />
+			</errorLevel>
+		</UnusedConstructor>
+	</issueHandlers>
+</psalm>

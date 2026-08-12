@@ -132,7 +132,6 @@ class SubmissionCacheStorage extends Storage
 			return;
 		}
 
-		/** @var SubmissionPage $submission */
 		$submission = $this->model;
 
 		if (!$submission->exists()) {

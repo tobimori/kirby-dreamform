@@ -1,6 +1,6 @@
 <?php
 
-namespace tobimori\Dreamform\Models;
+namespace tobimori\DreamForm\Models;
 
 use Exception;
 use Kirby\Cms\App;
