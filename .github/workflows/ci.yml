@@ -17,7 +17,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.3"
-          tools: php-cs-fixer
+          coverage: none
+          tools: composer:v2
+
+      - name: install php dependencies
+        run: composer install --no-interaction --prefer-dist
 
       - name: setup node
         uses: actions/setup-node@v4
@@ -37,4 +41,4 @@ jobs:
         run: pnpm exec prettier --check "src/**/*.{js,vue}"
 
       - name: run php cs fixer
-        run: php-cs-fixer fix --dry-run --diff --verbose
+        run: composer run cs:check
