@@ -18,6 +18,14 @@ You can move this divider freely around and change the fields of your form pages
 
 ![](./next-form-page-divider.png)
 
+## Adding a back button
+
+Add another Button field to each step that needs backward navigation. In the button settings, set **Action** to **Previous page**. You can set a custom label or use the default **Back** label.
+
+When a user selects this button, DreamForm stores the values from the current step without validation and returns to the previous step. Previously stored values are filled in when a step is shown again. File inputs cannot be filled in automatically because browsers prevent this.
+
+In API mode, send `dreamform:action=previous` with the submission token. A backward request does not run guards, submission hooks, or workflow actions.
+
 ## Technical limitations
 
 Multi-step forms are supported by all submission modes (HTMX, PRG & API) - if you're using the API submission mode, you'll have to ensure to send the submission token and correct step with each additional request.

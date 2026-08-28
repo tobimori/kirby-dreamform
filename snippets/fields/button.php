@@ -12,12 +12,14 @@
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\Support\Htmx;
 
+$isPrevious = $block->action()->value() === 'previous';
+
 if (
-	// Output guards before the last button field of the current step
+	// Output guards before the last forward button field of the current step
 	// so that the context is right for captcha guards
 	($buttonFields = $form->formFields(
 		$submission?->form()->is($form) ? $submission?->currentStep() ?? 1 : 1
-	)->filterBy('type', 'button'))
+	)->filter(fn ($buttonField) => $buttonField::type() === 'button' && $buttonField->block()->action()->value() !== 'previous'))
 	&& $buttonFields->last() === $field
 ) {
 	snippet('dreamform/guards', compact('form', 'attr'));
@@ -26,9 +28,12 @@ if (
 snippet('dreamform/fields/partials/wrapper', compact('block', 'field', 'form', 'attr'), slots: true) ?>
 
 <button <?= attr(A::merge($attr['button'] ?? [], [
-	'type' => 'submit'
+	'type' => 'submit',
+	'name' => $isPrevious ? 'dreamform:action' : null,
+	'value' => $isPrevious ? 'previous' : null,
+	'formnovalidate' => $isPrevious ? true : null
 ])) ?>>
-	<?= $block->label()->or(t('dreamform.fields.button.label.label'))->escape() ?>
+	<?= $block->label()->or(t($isPrevious ? 'dreamform.fields.button.label.previous' : 'dreamform.fields.button.label.label'))->escape() ?>
 </button>
 
 <?php endsnippet() ?>

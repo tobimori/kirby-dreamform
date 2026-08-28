@@ -277,6 +277,19 @@ class FormPage extends BasePage
 		 * Each step is a separate function
 		 */
 		try {
+			if ($submission->isPreviousStepRequest()) {
+				$submission = $submission->handlePreviousStep();
+
+				if (
+					$this->partialSubmissions()->toBool() &&
+					DreamForm::option('partialSubmissions') === true
+				) {
+					$submission = $submission->saveSubmission();
+				}
+
+				return $submission->storeSession();
+			}
+
 			if (!$precognition) {
 				// hooks are only executed on non-precognition requests
 				$submission = $submission

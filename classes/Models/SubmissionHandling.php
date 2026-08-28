@@ -7,6 +7,7 @@ use Kirby\Cms\App;
 use Kirby\Toolkit\A;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SuccessException;
+use tobimori\DreamForm\Fields\FileUploadField;
 use tobimori\DreamForm\Jobs\SubmissionJob;
 use tobimori\Queues\Queues;
 
@@ -109,6 +110,36 @@ trait SubmissionHandling
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Returns whether the request goes to the previous form step
+	 * @internal
+	 */
+	public function isPreviousStepRequest(): bool
+	{
+		return App::instance()->request()->body()->get('dreamform:action') === 'previous';
+	}
+
+	/**
+	 * Stores current values and goes to the previous form step
+	 * @internal
+	 */
+	public function handlePreviousStep(): SubmissionPage
+	{
+		if (!$this->form()->isMultiStep() || $this->currentStep() <= 1) {
+			return $this;
+		}
+
+		foreach ($this->form()->formFields($this->currentStep()) as $field) {
+			if (!$field::hasValue() || $field instanceof FileUploadField) {
+				continue;
+			}
+
+			$this->setField($this->updateFieldFromRequest($field));
+		}
+
+		return $this->clearErrors()->previousStep();
 	}
 
 	/**

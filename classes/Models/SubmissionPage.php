@@ -387,6 +387,29 @@ class SubmissionPage extends BasePage
 		return $this;
 	}
 
+	/**
+	 * Return the submission to the previous step
+	 */
+	public function previousStep(): static
+	{
+		if ($this->currentStep() <= 1) {
+			return $this;
+		}
+
+		return $this->updateState(['step' => $this->currentStep() - 1]);
+	}
+
+	/**
+	 * Remove all validation errors from the submission
+	 */
+	public function clearErrors(): static
+	{
+		return $this->updateState([
+			'success' => true,
+			'error' => null,
+			'errors' => []
+		]);
+	}
 
 	/**
 	 * Finish the submission and save it to the disk

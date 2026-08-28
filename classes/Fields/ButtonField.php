@@ -19,9 +19,19 @@ class ButtonField extends Field
 					'fields' => [
 						'label' => [
 							'extends' => 'dreamform/fields/label',
-							'width' => 1,
+							'width' => '1/2',
 							'required' => false,
 							'placeholder' => t('dreamform.fields.button.label.label')
+						],
+						'action' => [
+							'label' => t('dreamform.fields.button.action.label'),
+							'type' => 'select',
+							'width' => '1/2',
+							'default' => 'submit',
+							'options' => [
+								'submit' => t('dreamform.fields.button.action.submit'),
+								'previous' => t('dreamform.fields.button.action.previous'),
+							]
 						],
 					]
 				]
