@@ -132,8 +132,12 @@ checksums:
     common.update: 079fc039262fd31b10532929685c2d1b
     field: cfd632297d7809a3539e90c9cd4728d9
     fields: dc5e476f6beca227b505d21489e8d365
+    fields.button.action.label: c92af0bdf1698b0d10cf5b28d2ad4945
+    fields.button.action.previous: c8784a20adfc86992142350ed429b1af
+    fields.button.action.submit: 74489e155ef86a0e24aa43f457effcb7
     fields.button.label.label: 7c91ef5f747eea9f77a9c4f23e19fb2e
-    fields.button.name: 185d745897d642b43e06323a260416e6
+    fields.button.label.previous: f541015a827e37cb3b1234e56bc2aa3c
+    fields.button.name: c18d641c4d53381e61330584334ad656
     fields.category.advanced: 2c0f19e1dc6afd1e8f44fc36b9d8b497
     fields.category.common: 1a4153908fa1f863a1068b87751d5fc9
     fields.checkboxes.max.label: 454eaf982c46302d68c2d6e2280865ef
