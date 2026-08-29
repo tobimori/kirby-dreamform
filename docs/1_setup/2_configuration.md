@@ -18,6 +18,7 @@ HTMX and API modes require either `tobimori.dreamform.secret` or an explicitly c
 | Option | Default | Accepts | Description |
 | --- | --- | --- | --- |
 | tobimori.dreamform.mode | `'prg'` | `'prg'|'api'|'htmx'` | Set the submission mode for all form submissions |
+| tobimori.dreamform.htmx.version | `2` | `2|4` | Select the HTMX major version; HTMX 4 is opt-in |
 | tobimori.dreamform.multiStep | `true` | `boolean` | Enable or disable multi-step forms |
 | tobimori.dreamform.storeSubmissions | `true` | `boolean` | Whether to store submissions as pages in Kirby |
 | tobimori.dreamform.debug | `fn () => option('debug')` | `boolean|callable` | If enabled, sensitive errors are shown on form submission |
@@ -37,6 +38,9 @@ return [
   ],
   'tobimori.dreamform' => [
     'mode' => 'htmx',
+    'htmx' => [
+      'version' => 4,
+    ],
     'debug' => false,
     'layouts' => ['1/1', '1/2, 1/2', '1/3, 1/3, 1/3'],
     'guards' => [

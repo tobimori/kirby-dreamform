@@ -162,10 +162,13 @@ abstract class Field
 			// but we want to remove the error as soon as possible (on change)
 			'hx-trigger' => $this->validate() === true ? "change" : "change, input changed delay:500ms",
 
-			// for on change validation we need the morph extension (otherwise we lose focus)
-			'hx-swap' => 'morph:{ignoreActiveValue:true}',
-			'hx-ext' => 'morph'
+			// HTMX 4 includes morphing; HTMX 2 uses the Idiomorph extension
+			'hx-swap' => Htmx::isVersion(4) ? 'outerMorph' : 'morph:{ignoreActiveValue:true}'
 		];
+
+		if (Htmx::isVersion(2)) {
+			$htmx['hx-ext'] = 'morph';
+		}
 
 		return $htmx;
 	}

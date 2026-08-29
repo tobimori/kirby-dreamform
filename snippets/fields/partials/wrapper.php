@@ -13,11 +13,15 @@ use Kirby\Toolkit\A;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Support\Htmx;
 
+$precognition = Htmx::isActive() && DreamForm::option('precognition');
+$targetAttribute = Htmx::isVersion(4) ? 'hx-target:inherited' : 'hx-target';
+$syncAttribute = Htmx::isVersion(4) ? 'hx-sync:inherited' : 'hx-sync';
+
 ?>
 
 <div <?= attr(A::merge($attr['field'] ?? [], [
-	'hx-target' => Htmx::isActive() && DreamForm::option('precognition') ? 'this' : null,
-	'hx-sync' => Htmx::isActive() && DreamForm::option('precognition') ? 'this:replace' : null,
+	$targetAttribute => $precognition ? 'this' : null,
+	$syncAttribute => $precognition ? 'this:replace' : null,
 	'data-has-error' => !!$submission?->errorFor($block->key(), $form)
 ])) ?>>
 	<?= $slot ?>

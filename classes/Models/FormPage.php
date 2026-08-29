@@ -56,9 +56,9 @@ class FormPage extends BasePage
 
 		$htmx = [
 			'hx-post' => $this->url(),
-			'hx-disabled-elt' => "[id='{$this->elementId()}'] button",
+			(Htmx::isVersion(4) ? 'hx-disable:inherited' : 'hx-disabled-elt') => "[id='{$this->elementId()}'] button",
 			'hx-swap' => 'outerHTML show:top',
-			'hx-vals' => Json::encode(array_filter([
+			(Htmx::isVersion(4) ? 'hx-vals:inherited' : 'hx-vals') => Json::encode(array_filter([
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
 				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
 			], fn ($value) => $value !== null))
@@ -401,14 +401,19 @@ class FormPage extends BasePage
 				if ($isPrecognitiveRequest) {
 					// syntax is formId/fieldId/xxx (kirby nanoid / uuidv4 - index)
 					// we already know the form from the request url.
-					$fieldId = Str::split($kirby->request()->header('Hx-Trigger'), '/')[1];
+					$sourceId = Htmx::sourceId();
+					$fieldId = $sourceId ? (Str::split($sourceId, '/')[1] ?? null) : null;
+
 					// Remove index suffix for checkbox/radio fields (e.g., -1, -2)
-					if (preg_match('/^(.+)-\d+$/', $fieldId, $matches)) {
+					if ($fieldId && preg_match('/^(.+)-\d+$/', $fieldId, $matches)) {
 						$fieldId = $matches[1];
 					}
 
-					/** @var \tobimori\DreamForm\Fields\Field $field */
-					$field = $this->formFields()->find($fieldId);
+					/** @var \tobimori\DreamForm\Fields\Field|null $field */
+					$field = $fieldId ? $this->formFields()->find($fieldId) : null;
+					if (!$field) {
+						return t('dreamform.submission.error.generic');
+					}
 
 					return A::join([
 						snippet("dreamform/fields/{$field->type()}", [

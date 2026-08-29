@@ -16,11 +16,11 @@ if (
 
 	<?php if (Htmx::isActive()) : ?>
 		<script>
-			htmx.on("htmx:afterSettle", () => {
+			htmx.on("<?= Htmx::eventName('afterSettle') ?>", () => {
 				const el = document.querySelector(".cf-turnstile");
 				if (el) turnstile.render(el)
 			});
-			htmx.on("htmx:beforeSwap", () => turnstile.remove());
+			htmx.on("<?= Htmx::eventName('beforeSwap') ?>", () => turnstile.remove());
 		</script>
 <?php endif;
 endif ?>

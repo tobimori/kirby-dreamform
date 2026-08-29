@@ -17,11 +17,14 @@ return [
 	],
 	'useDataAttributes' => false, // uses data-form-url instead of action
 	'mode' => 'prg', // prg / api / htmx
+	'htmx' => [
+		'version' => 2 // 2 / 4; HTMX 4 is opt-in in DreamForm 2
+	],
 	'hideEmptyErrors' => false, // hide error elements when there's no error message
 	'multiStep' => true, // Enable multi-step forms
 	'storeSubmissions' => true, // Store submissions in the content folder
 	'partialSubmissions' => true, // Allow partial submissions toggle in panel (requires precognition)
-	'precognition' => false, // Enable precognition (HTMX mode only) - Requires "idiomorph" htmx extension
+	'precognition' => false, // HTMX mode only; HTMX 2 also requires the Idiomorph extension
 	'debug' => fn () => App::instance()->option('debug'),
 	'layouts' => [ // https://getkirby.com/docs/reference/panel/fields/layout#defining-your-own-layouts
 		'1/1',

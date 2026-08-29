@@ -21,9 +21,62 @@ final class Htmx
 		return DreamForm::option('mode', 'prg') === 'htmx';
 	}
 
+	/**
+	 * Returns the configured HTMX major version
+	 */
+	public static function version(): int
+	{
+		$version = DreamForm::option('htmx.version', 2);
+
+		if (!in_array($version, [2, 4, '2', '4'], true)) {
+			throw new \InvalidArgumentException('[DreamForm] HTMX version must be 2 or 4');
+		}
+
+		return (int)$version;
+	}
+
+	public static function isVersion(int $version): bool
+	{
+		return static::version() === $version;
+	}
+
 	public static function isHtmxRequest(): bool
 	{
 		return App::instance()->request()->header('Hx-Request') === 'true';
+	}
+
+	/**
+	 * Returns the ID of the element that triggered the request
+	 */
+	public static function sourceId(): string|null
+	{
+		$request = App::instance()->request();
+		$source = $request->header('Hx-Source');
+
+		// HTMX 4 sends "tag#id" in HX-Source
+		if (is_string($source) && str_contains($source, '#')) {
+			return explode('#', $source, 2)[1];
+		}
+
+		// HTMX 2 sends the element ID in HX-Trigger
+		$trigger = $request->header('Hx-Trigger');
+		return is_string($trigger) && $trigger !== '' ? $trigger : null;
+	}
+
+	/**
+	 * Returns a lifecycle event name for the configured HTMX version
+	 */
+	public static function eventName(string $event): string
+	{
+		if (static::isVersion(2)) {
+			return "htmx:{$event}";
+		}
+
+		return match ($event) {
+			'afterSettle' => 'htmx:after:settle',
+			'beforeSwap' => 'htmx:before:swap',
+			default => throw new \InvalidArgumentException("[DreamForm] Unknown HTMX event: {$event}")
+		};
 	}
 
 	/**

@@ -3,18 +3,19 @@ title: Precognition
 description: Real-time field validation with HTMX
 ---
 
-Precognition enables real-time field validation as users type, providing immediate feedback without requiring a full form submission. This feature is only available when using HTMX mode.
+Precognition validates fields as a user enters data. It is available only in HTMX mode.
 
 ## Prerequisites
 
-1. **HTMX Mode**: Your form must use HTMX mode
-2. **Idiomorph Extension**: Required for DOM morphing
+- **HTMX mode:** Set the DreamForm mode to `htmx`.
+- **HTMX 4:** No morph extension is necessary because morphing is part of HTMX 4.
+- **HTMX 2:** Install the [Idiomorph extension](https://htmx.org/extensions/idiomorph/).
 
-Install [HTMX](https://htmx.org/) and the [Idiomorph extension](https://htmx.org/extensions/idiomorph/).
+See the [HTMX support guide](../developers/htmx-support) for the version-specific installation instructions.
 
 ## Configuration
 
-Enable precognition in your config:
+Enable Precognition in your config:
 
 ```php
 // site/config/config.php
@@ -22,31 +23,38 @@ Enable precognition in your config:
 return [
   'tobimori.dreamform' => [
     'mode' => 'htmx',
+    'htmx' => [
+      'version' => 4,
+    ],
     'precognition' => true,
   ],
 ];
 ```
 
-## How It Works
+Remove the `htmx` block, or set its version to `2`, when your site uses HTMX 2.
 
-- Fields validate automatically as users type or change values
-- Text fields wait 500ms after typing stops before validating
-- Select/radio/checkbox fields validate immediately on change
-- Only the changed field is validated, not the entire form
-- No data is saved during precognitive validation
+## How it works
 
-## Partial Submissions
+- Fields validate automatically as the user enters or changes values.
+- Text fields wait 500 milliseconds after input stops.
+- Select, radio, and checkbox fields validate immediately.
+- DreamForm validates only the field that caused the request.
+- Precognitive validation does not complete the form submission.
+- HTMX 2 uses Idiomorph to keep input focus. HTMX 4 uses its built-in `outerMorph` swap.
 
-When precognition is enabled, you can also enable partial submissions:
+## Partial submissions
+
+When Precognition is enabled, you can also enable partial submissions:
 
 ```php
 // site/config/config.php
 
 return [
   'tobimori.dreamform' => [
-  	// ...
+    // ...
     'partialSubmissions' => true,
   ],
 ];
 ```
-This automatically saves each field's value as the user fills it out. This helps track progress for abandoned forms and prevents data loss from failed submissions.
+
+This option saves each field value while the user completes the form. It helps keep data from abandoned or failed submissions.
