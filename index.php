@@ -68,6 +68,7 @@ App::plugin(
 			'duplicateForms' => true,
 			'changeFormTitle' => true,
 			'changeFormStatus' => true,
+			'changeFormSlug' => true,
 			'accessSubmissions' => true,
 			'deleteSubmissions' => true,
 		],
