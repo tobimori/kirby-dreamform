@@ -2,6 +2,7 @@
 
 namespace tobimori\DreamForm\Guards;
 
+use Kirby\Cms\App;
 use Kirby\Http\Remote;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Models\SubmissionPage;
