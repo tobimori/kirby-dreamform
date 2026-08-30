@@ -1,11 +1,35 @@
 <?php
 
 use Kirby\Cms\App;
+use Kirby\Exception\NotFoundException;
+use Kirby\Exception\PermissionException;
 use Kirby\Panel\Field;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
 use tobimori\DreamForm\DreamForm;
+use tobimori\DreamForm\Models\SubmissionPage;
 use tobimori\DreamForm\Support\License;
+
+$resolveSubmission = static function (string $path): SubmissionPage {
+	$user = App::instance()->user();
+	if (
+		$user === null ||
+		$user->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions') !== true
+	) {
+		throw new PermissionException();
+	}
+
+	$submission = DreamForm::findPageOrDraftRecursive(Str::replace($path, '+', '/'));
+	if (!($submission instanceof SubmissionPage)) {
+		throw new NotFoundException();
+	}
+
+	if ($submission->permissions()->can('access') !== true) {
+		throw new PermissionException();
+	}
+
+	return $submission;
+};
 
 return [
 	'dreamform' => fn () => [
@@ -63,7 +87,9 @@ return [
 				}
 			],
 			'submission/(:any)/mark-as-spam' => [
-				'load' => function (string $path) {
+				'load' => function (string $path) use ($resolveSubmission) {
+					$resolveSubmission($path);
+
 					return [
 						'component' => 'k-text-dialog',
 						'props' => [
@@ -76,9 +102,8 @@ return [
 						]
 					];
 				},
-				'submit' => function (string $path) {
-					$submission = DreamForm::findPageOrDraftRecursive(Str::replace($path, '+', '/'));
-					$submission = $submission->markAsSpam();
+				'submit' => function (string $path) use ($resolveSubmission) {
+					$submission = $resolveSubmission($path)->markAsSpam();
 
 					return [
 						'message' => t('dreamform.submission.reportAsSpam.success'),
@@ -86,8 +111,8 @@ return [
 				}
 			],
 			'submission/(:any)/mark-as-ham' => [
-				'load' => function (string $path) {
-					$submission = DreamForm::findPageOrDraftRecursive(Str::replace($path, '+', '/'));
+				'load' => function (string $path) use ($resolveSubmission) {
+					$submission = $resolveSubmission($path);
 
 					return [
 						'component' => 'k-text-dialog',
@@ -101,9 +126,8 @@ return [
 						]
 					];
 				},
-				'submit' => function (string $path) {
-					$submission = DreamForm::findPageOrDraftRecursive(Str::replace($path, '+', '/'));
-					$submission = $submission->markAsHam();
+				'submit' => function (string $path) use ($resolveSubmission) {
+					$submission = $resolveSubmission($path)->markAsHam();
 
 					if (!$submission->actionsDidRun()) {
 						$submission->updateState(['actionsdidrun' => true]);
@@ -116,7 +140,9 @@ return [
 				}
 			],
 			'submission/(:any)/run-actions' => [
-				'load' => function () {
+				'load' => function (string $path) use ($resolveSubmission) {
+					$resolveSubmission($path);
+
 					return [
 						'component' => 'k-text-dialog',
 						'props' => [
@@ -129,9 +155,8 @@ return [
 						]
 					];
 				},
-				'submit' => function (string $path) {
-					$submission = DreamForm::findPageOrDraftRecursive(Str::replace($path, '+', '/'));
-					$submission = $submission->handleActions(force: true);
+				'submit' => function (string $path) use ($resolveSubmission) {
+					$submission = $resolveSubmission($path)->handleActions(force: true);
 
 					return [
 						'message' => t('dreamform.submission.runActions.success'),
