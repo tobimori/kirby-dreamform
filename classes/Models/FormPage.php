@@ -24,6 +24,7 @@ use tobimori\DreamForm\Exceptions\SuccessException;
 use tobimori\DreamForm\Guards\LicenseGuard;
 use tobimori\DreamForm\Permissions\FormPermissions;
 use tobimori\DreamForm\Support\Htmx;
+use UnexpectedValueException;
 
 /**
  * The form page stores the form configuration and is used
@@ -356,8 +357,7 @@ class FormPage extends BasePage
 
 			// if dreamform is used in API mode, return the submission state as JSON
 			if ($mode === 'api') {
-				$kirby->response()->code($submission->isSuccessful() ? 200 : 400);
-				return json_encode(A::merge(array_filter($submission->state()->toArray(), fn ($key) => A::has([
+				$payload = A::merge(array_filter($submission->state()->toArray(), fn ($key) => A::has([
 					'success',
 					'step',
 					'redirect',
@@ -366,7 +366,30 @@ class FormPage extends BasePage
 					'actions'
 				], $key), ARRAY_FILTER_USE_KEY), $this->isMultiStep() ? [
 					'session' => Htmx::encrypt($submission->slug())
-				] : []), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT);
+				] : []);
+
+				$payload = $kirby->apply('dreamform.api.response:before', [
+					'payload' => $payload,
+					'submission' => $submission,
+					'form' => $this,
+					'precognition' => $isPrecognitiveRequest,
+					'data' => $data,
+				], 'payload');
+
+				if (is_array($payload) === false) {
+					throw new UnexpectedValueException('[DreamForm] The dreamform.api.response:before hook must return an array');
+				}
+
+				$response = json_encode(
+					$payload,
+					JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR
+				);
+
+				$kirby->response()
+					->code($submission->isSuccessful() ? 200 : 400)
+					->type('application/json');
+
+				return $response;
 			}
 
 			// if dreamform is used in htmx mode, return the enhanced HTML

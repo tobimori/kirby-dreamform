@@ -35,6 +35,40 @@ return [
 ];
 ```
 
+## `dreamform.api.response:before`
+
+This hook is called in API mode after DreamForm removes sensitive submission data and before it encodes the JSON response. Each hook must return the modified `$payload` array. DreamForm continues to control the HTTP status and content type.
+
+The hook receives `$payload`, `$submission`, `$form`, `$precognition`, and `$data`. For example, you can add the rendered success message:
+
+```php
+use tobimori\DreamForm\Models\FormPage;
+use tobimori\DreamForm\Models\SubmissionPage;
+
+return [
+  'hooks' => [
+    'dreamform.api.response:before' => function (
+      array $payload,
+      SubmissionPage $submission,
+      FormPage $form
+    ): array {
+      if ($submission->isSuccessful()) {
+        $payload['successHtml'] = snippet('dreamform/success', [
+          'page' => page(),
+          'form' => $form,
+          'submission' => $submission,
+          'attr' => []
+        ], true);
+      }
+
+      return $payload;
+    }
+  ]
+];
+```
+
+The initial payload contains only the documented API response fields. A custom hook is responsible for the security of any data that it adds.
+
 ## `dreamform.upload:before`
 
 This hook is called before any file from a file upload field is processed.
