@@ -19,7 +19,9 @@ return [
   'tobimori.dreamform' => [
     'guards' => [
       'available' => ['honeypot'],
-      'honeypot.availableFields' => ['website', 'email', 'name', 'url', 'birthdate'], 
+      'honeypot' => [
+        'fields' => ['website', 'email', 'name', 'url', 'birthdate'],
+      ],
     ],
   ],
 ];
@@ -29,4 +31,4 @@ return [
 
 | Option | Default | Accepts | Description |
 | --- | --- | --- | --- |
-| tobimori.dreamform.guards.honeypot.availableFields | `[...]` | `array` | Available field keys for the honeypot field |
+| tobimori.dreamform.guards.honeypot.fields | `['website', 'email', 'name', 'url', 'birthdate', 'comment', 'summary', 'subject']` | `array` | Available field keys for the honeypot field |
