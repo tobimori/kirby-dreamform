@@ -7,7 +7,6 @@ use Kirby\Data\Json;
 use Kirby\Filesystem\Dir;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
-use tobimori\DreamForm\DreamForm;
 
 if (
 	version_compare(App::version() ?? '0.0.0', '5.0.0-rc.3', '<') === true ||
@@ -16,44 +15,46 @@ if (
 	throw new Exception('Kirby DreamForm requires Kirby 5');
 }
 
-// register all classes (guards, fields, actions)
-DreamForm::register(
-	\tobimori\DreamForm\Actions\AbortAction::class,
-	\tobimori\DreamForm\Actions\ConditionalAction::class,
-	\tobimori\DreamForm\Actions\DiscordWebhookAction::class,
-	\tobimori\DreamForm\Actions\EmailAction::class,
-	\tobimori\DreamForm\Actions\RedirectAction::class,
-	\tobimori\DreamForm\Actions\WebhookAction::class,
-	\tobimori\DreamForm\Actions\ButtondownAction::class,
-	\tobimori\DreamForm\Actions\BrevoAction::class,
-	\tobimori\DreamForm\Actions\MailchimpAction::class,
-	\tobimori\DreamForm\Actions\LoopsAction::class,
-	\tobimori\DreamForm\Actions\MailerLiteAction::class,
-	\tobimori\DreamForm\Actions\PlausibleAction::class,
-	\tobimori\DreamForm\Fields\ButtonField::class,
-	\tobimori\DreamForm\Fields\TextField::class,
-	\tobimori\DreamForm\Fields\TextareaField::class,
-	\tobimori\DreamForm\Fields\EmailField::class,
-	\tobimori\DreamForm\Fields\NumberField::class,
-	\tobimori\DreamForm\Fields\CheckboxField::class,
-	\tobimori\DreamForm\Fields\RadioField::class,
-	\tobimori\DreamForm\Fields\FileUploadField::class,
-	\tobimori\DreamForm\Fields\HiddenField::class,
-	\tobimori\DreamForm\Fields\PagesField::class,
-	\tobimori\DreamForm\Fields\SelectField::class,
-	\tobimori\DreamForm\Guards\CsrfGuard::class,
-	\tobimori\DreamForm\Guards\HoneypotGuard::class,
-	\tobimori\DreamForm\Guards\HCaptchaGuard::class,
-	\tobimori\DreamForm\Guards\TurnstileGuard::class,
-	\tobimori\DreamForm\Guards\RatelimitGuard::class,
-	\tobimori\DreamForm\Guards\AkismetGuard::class
-);
-
 // register plugin
 App::plugin(
 	'tobimori/dreamform',
 	license: fn (\Kirby\Plugin\Plugin $plugin) => new \tobimori\DreamForm\Support\License($plugin),
 	extends: [
+		'tobimori.dreamform.actions' => [
+			\tobimori\DreamForm\Actions\AbortAction::class,
+			\tobimori\DreamForm\Actions\ConditionalAction::class,
+			\tobimori\DreamForm\Actions\DiscordWebhookAction::class,
+			\tobimori\DreamForm\Actions\EmailAction::class,
+			\tobimori\DreamForm\Actions\RedirectAction::class,
+			\tobimori\DreamForm\Actions\WebhookAction::class,
+			\tobimori\DreamForm\Actions\ButtondownAction::class,
+			\tobimori\DreamForm\Actions\BrevoAction::class,
+			\tobimori\DreamForm\Actions\MailchimpAction::class,
+			\tobimori\DreamForm\Actions\LoopsAction::class,
+			\tobimori\DreamForm\Actions\MailerLiteAction::class,
+			\tobimori\DreamForm\Actions\PlausibleAction::class,
+		],
+		'tobimori.dreamform.fields' => [
+			\tobimori\DreamForm\Fields\ButtonField::class,
+			\tobimori\DreamForm\Fields\TextField::class,
+			\tobimori\DreamForm\Fields\TextareaField::class,
+			\tobimori\DreamForm\Fields\EmailField::class,
+			\tobimori\DreamForm\Fields\NumberField::class,
+			\tobimori\DreamForm\Fields\CheckboxField::class,
+			\tobimori\DreamForm\Fields\RadioField::class,
+			\tobimori\DreamForm\Fields\FileUploadField::class,
+			\tobimori\DreamForm\Fields\HiddenField::class,
+			\tobimori\DreamForm\Fields\PagesField::class,
+			\tobimori\DreamForm\Fields\SelectField::class,
+		],
+		'tobimori.dreamform.guards' => [
+			\tobimori\DreamForm\Guards\CsrfGuard::class,
+			\tobimori\DreamForm\Guards\HoneypotGuard::class,
+			\tobimori\DreamForm\Guards\HCaptchaGuard::class,
+			\tobimori\DreamForm\Guards\TurnstileGuard::class,
+			\tobimori\DreamForm\Guards\RatelimitGuard::class,
+			\tobimori\DreamForm\Guards\AkismetGuard::class,
+		],
 		'commands' => require __DIR__ . '/config/commands.php',
 		'api' => require __DIR__ . '/config/api.php',
 		'options' => require __DIR__ . '/config/options.php',

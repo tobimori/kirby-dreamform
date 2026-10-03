@@ -6,6 +6,8 @@ use Closure;
 use Kirby\Cms\App;
 use Kirby\Cms\Block;
 use Kirby\Cms\Page;
+use Kirby\Exception\InvalidArgumentException;
+use Kirby\Plugin\Plugin;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\Actions\Action;
@@ -31,6 +33,7 @@ final class DreamForm
 
 	/**
 	 * Registers a guard class with a custom type
+	 * @deprecated Use the tobimori.dreamform.guards plugin key instead; removed in v3
 	 */
 	public static function registerGuard(string $type, string $class): void
 	{
@@ -43,7 +46,7 @@ final class DreamForm
 	public static function guards(): array
 	{
 		$active = DreamForm::option('guards.available', ['csrf']);
-		$registered = static::$registeredGuards;
+		$registered = static::extensions('guards', Guard::class, static::$registeredGuards);
 
 		$guards = [];
 		foreach ($registered as $type => $guard) {
@@ -68,6 +71,7 @@ final class DreamForm
 
 	/**
 	 * Registers a field class with a custom type
+	 * @deprecated Use the tobimori.dreamform.fields plugin key instead; removed in v3
 	 */
 	public static function registerField(string $type, string $class)
 	{
@@ -80,7 +84,7 @@ final class DreamForm
 	public static function fields(FormPage|null $formPage = null): array
 	{
 		$active = DreamForm::option('fields.available', true);
-		$registered = static::$registeredFields;
+		$registered = static::extensions('fields', Field::class, static::$registeredFields);
 
 		$fields = [];
 		foreach ($registered as $type => $field) {
@@ -108,7 +112,7 @@ final class DreamForm
 			return null;
 		}
 
-		$field = static::$registeredFields[$type];
+		$field = $fields[$type];
 		return new $field($block);
 	}
 
@@ -119,6 +123,7 @@ final class DreamForm
 
 	/**
 	 * Registers an action class with a custom type
+	 * @deprecated Use the tobimori.dreamform.actions plugin key instead; removed in v3
 	 */
 	public static function registerAction(string $type, string $class): void
 	{
@@ -131,7 +136,7 @@ final class DreamForm
 	public static function actions(): array
 	{
 		$active = DreamForm::option('actions.available', true);
-		$registered = static::$registeredActions;
+		$registered = static::extensions('actions', Action::class, static::$registeredActions);
 
 		$actions = [];
 		foreach ($registered as $type => $action) {
@@ -159,13 +164,14 @@ final class DreamForm
 			return null;
 		}
 
-		$action = static::$registeredActions[$type];
+		$action = $actions[$type];
 		return new $action(...$data);
 	}
 
 	/**
 	 * Register multiple classes at once using the generic type
 	 * If you need to override the type, use the type-specific register method after DreamForm is loaded
+	 * @deprecated Use the tobimori.dreamform.fields, .actions or .guards plugin keys instead; removed in v3
 	 */
 	public static function register(string ...$classes)
 	{
@@ -178,6 +184,38 @@ final class DreamForm
 				static::registerAction($class::type(), $class);
 			}
 		}
+	}
+
+	/**
+	 * Read plugin extensions lazily, with built-ins first and legacy registrations last
+	 */
+	private static function extensions(string $kind, string $baseClass, array $legacy): array
+	{
+		$plugins = App::instance()->plugins();
+		$plugins = ['tobimori/dreamform' => $plugins['tobimori/dreamform'] ?? null] + $plugins;
+		$key = "tobimori.dreamform.{$kind}";
+		$registered = [];
+
+		foreach ($plugins as $plugin) {
+			if (!$plugin instanceof Plugin) {
+				continue;
+			}
+
+			$declared = $plugin->extends()[$key] ?? [];
+			if (!is_array($declared)) {
+				throw new InvalidArgumentException(message: "The plugin {$plugin->name()}: {$key} must be an array of class names");
+			}
+
+			foreach ($declared as $type => $class) {
+				if (!is_string($class) || !is_subclass_of($class, $baseClass)) {
+					throw new InvalidArgumentException(message: "The plugin {$plugin->name()}: {$key} must contain classes that extend {$baseClass}");
+				}
+
+				$registered[is_string($type) ? $type : $class::type()] = $class;
+			}
+		}
+
+		return array_replace($registered, $legacy);
 	}
 
 	/**
