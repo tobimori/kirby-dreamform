@@ -86,17 +86,25 @@ class DiscordAction extends Action
 
 ## Registering the action
 
-Go back to your `index.php` file. We now have to tell DreamForm that our Discord action exists, and we can do so using the register function.
+Add the class to the `tobimori.dreamform.actions` key in your plugin's `index.php`. Use Kirby's `load()` function or Composer to load the class lazily. This lets Kirby load your plugin before DreamForm, and lets the plugin register without DreamForm installed.
 
 ```php
 // [...]
 
-@include_once __DIR__ . '/DiscordAction.php'; // Tell PHP to load our class
+load([
+  'DiscordAction' => __DIR__ . '/DiscordAction.php',
+]);
 
-DreamForm::register(DiscordAction::class); // Register the class with DreamForm
-
-Kirby::plugin('tobimori/discord-action', []);
+Kirby::plugin('tobimori/discord-action', [
+  'tobimori.dreamform.actions' => [
+    DiscordAction::class,
+  ],
+]);
 ```
+
+The list uses each class's `type()`. To register a custom type or replace an existing type, use an associative entry, such as `'custom-action' => DiscordAction::class`. Built-in types load first, then plugin declarations in Kirby's plugin order. The last declaration for a type wins.
+
+`DreamForm::register()` and the type-specific registration methods still work in v2. They take priority over plugin declarations. These methods are deprecated and will be removed in v3; move registrations to the plugin key before upgrading.
 
 DreamForm automatically uses the type returned by `type()`. You should now be able to see the action available in your panel.
 

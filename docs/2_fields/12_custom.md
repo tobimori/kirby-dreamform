@@ -29,7 +29,7 @@ Kirby::plugin('tobimori/linkedin-field', []);
 
 ## The field class
 
-Let's create a new file for our class, `LinkedinField.php`. A basic field class only needs the following methods:
+Let's create a new file for our class, `LinkedInField.php`. A basic field class only needs the following methods:
 
 * `public static function blueprint(): array`   
   Returns an array with the blueprint definition used in the panel
@@ -122,21 +122,28 @@ snippet('dreamform/fields/text', [
 
 ## Registering and enabling the field
 
-Go back to your `index.php` file. We now have to tell DreamForm that our LinkedIn field exists, and we can do so using the register function.
+Add the class to the `tobimori.dreamform.fields` key in your plugin's `index.php`. Use Kirby's `load()` function or Composer to load the class lazily. This lets Kirby load your plugin before DreamForm, and lets the plugin register without DreamForm installed.
 
 ```php
 // [...]
 
-@include_once __DIR__ . '/LinkedInField.php'; // Tell PHP to load our class
-
-DreamForm::register(LinkedInField::class); // Register the class with DreamForm
+load([
+  'LinkedInField' => __DIR__ . '/LinkedInField.php',
+]);
 
 Kirby::plugin('tobimori/linkedin-field', [
+  'tobimori.dreamform.fields' => [
+    LinkedInField::class,
+  ],
   'snippets' => [
     'dreamform/fields/linkedin' => __DIR__ . '/snippets/linkedin.php' // Register the field snippet with Kirby
   ]
 ]);
 ```
+
+The list uses each class's `type()`. To register a custom type or replace an existing type, use an associative entry, such as `'custom-field' => LinkedInField::class`. Built-in types load first, then plugin declarations in Kirby's plugin order. The last declaration for a type wins.
+
+`DreamForm::register()` and the type-specific registration methods still work in v2. They take priority over plugin declarations. These methods are deprecated and will be removed in v3; move registrations to the plugin key before upgrading.
 
 DreamForm automatically uses the type returned by `type()` for accessing the snippet. You should now be able to see the field available in your panel. Add it to an example form and let's see how it looks in the frontend.
 
