@@ -104,8 +104,6 @@ Kirby::plugin('tobimori/discord-action', [
 
 The list uses each class's `type()`. To register a custom type or replace an existing type, use an associative entry, such as `'custom-action' => DiscordAction::class`. Built-in types load first, then plugin declarations in Kirby's plugin order. The last declaration for a type wins.
 
-`DreamForm::register()` and the type-specific registration methods still work in v2. They take priority over plugin declarations. These methods are deprecated and will be removed in v3; move registrations to the plugin key before upgrading.
-
 DreamForm automatically uses the type returned by `type()`. You should now be able to see the action available in your panel.
 
 ## Sending the webhook request
