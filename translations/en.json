@@ -207,7 +207,7 @@
 	"license.error.plugin": "This license key is not for DreamForm.",
 	"license.error.server": "The license server is not reachable. Please try again later.",
 	"license.error.submission": "This site is in demo mode. Submissions are only accepted from logged in users.",
-	"license.key.help": "You can find your license key after purchasing in the account area of the <a target=\"_blank\" href=\"https://www.andkindness.com/account\">Love & Kindness plugin</a> website.",
+	"license.key.help": "Hi lovely! Once you've purchased, your license key is waiting for you in the account area of the <a target=\"_blank\" href=\"https://www.andkindness.com/account\">Love & Kindness plugin</a> website.",
 	"license.key.label": "Enter your license key",
 	"license.status.valid": "Valid license",
 	"license.status.demo": "Demo",
