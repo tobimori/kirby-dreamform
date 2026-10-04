@@ -2,7 +2,6 @@
 
 use Kirby\Cms\App;
 use Kirby\Exception\Exception;
-use tobimori\DreamForm\Support\License;
 
 return [
 	'dreamform-submission' => [
@@ -30,8 +29,8 @@ return [
 			'local' => function () {
 				return App::instance()->system()->isLocal();
 			},
-			'activated' => function () {
-				return License::fromDisk()->isValid();
+			'state' => function () {
+				return App::instance()->plugin('tobimori/dreamform')->license()->state();
 			}
 		]
 	]

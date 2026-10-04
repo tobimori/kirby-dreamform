@@ -2,240 +2,366 @@
 
 namespace tobimori\DreamForm\Support;
 
-use Exception;
 use Kirby\Cms\App;
 use Kirby\Data\Json;
+use Kirby\Exception\InvalidArgumentException;
 use Kirby\Filesystem\F;
 use Kirby\Http\Remote;
 use Kirby\Plugin\License as KirbyLicense;
 use Kirby\Plugin\LicenseStatus;
 use Kirby\Plugin\Plugin;
+use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
+use Throwable;
 
 /**
  * DreamForm License implementation for Kirby 5
  *
  * If you're here to crack the plugin, please buy a license instead.
  * I'm an independent developer and this plugin helps fund my open-source work as well.
- * https://plugins.andkindness.com/dreamform/pricing
+ * https://www.andkindness.com/buy?plugin=dreamform
  *
  * If you're unable to afford a license, or you encounter any issues with
  * the license validation being too strict, please let me know at support@andkindness.com.
  * I'm happy to help.
+ *
+ * Licenses are read from two files next to Kirby's own license file:
+ * - `.tm-licenses` is shared by all my plugins and written by the Panel activation.
+ *   It holds a list of signed licenses, one per plugin and domain. Each plugin ships
+ *   its own copy of this class, so keep the file format in sync with the other
+ *   plugins and only change entries of this plugin.
+ * - `.dreamform_license` holds one signed license or a list of them. Older DreamForm
+ *   versions wrote it when activating, and it is also used for licenses downloaded from
+ *   the account area and added manually. It is never written.
+ *
+ * Licenses belong to a plugin by the prefix of their signed license key.
+ *
+ * Licenses are checked offline. Licenses with an expiry date are reissued by the
+ * license server shortly before they expire. Licenses without an expiry date
+ * (issued before expiry dates existed) are reissued once to get one, unless the
+ * shared file can't be written. Reissued copies are stored in `.tm-licenses`.
  */
 final class License extends KirbyLicense
 {
-	private const LICENSE_FILE = '.dreamform_license';
-	private const BASE = "https://plugins.andkindness.com/licenses/";
+	// license keys of this plugin start with this prefix, e.g. `DF-STD-…`
+	private const PREFIX = 'DF-';
+	private const FILE = '.tm-licenses';
+	private const MANUAL_FILE = '.dreamform_license';
+	private const BASE = 'https://plugins.andkindness.com/licenses/';
 
-	protected string|null $license = null;
-	protected string|null $pluginName = null;
-	protected string|null $edition = null;
-	protected bool $allowOfflineUse = false;
-	protected string|null $purchasedOn = null;
-	protected string|null $assignedUrl = null;
-	protected string|null $email = null;
-	protected string|null $signature = null;
+	// the order of the fields is part of the signature, `expires` is signed last if it exists
+	private const SIGNED_FIELDS = ['license', 'plugin', 'edition', 'allowOfflineUse', 'purchasedOn', 'assignedUrl', 'email'];
+
+	// seconds before the expiry date to start reissuing
+	private const REISSUE_BEFORE = 7 * 24 * 60 * 60;
+
+	// minutes to wait before the next reissue attempt after a failure
+	private const REISSUE_BACKOFF = [5, 60, 180, 720, 1440];
+
+	private array|null $data;
+
+	// whether the license is from the manual license file
+	private bool $manual;
 
 	public function __construct(
 		protected Plugin $plugin
 	) {
 		$this->name = 'DreamForm License';
-		$this->link = 'https://plugins.andkindness.com/license-agreement';
+		$this->link = 'https://www.andkindness.com/legal/license-agreement';
+		[$this->data, $this->manual] = static::find(App::instance()->system()->indexUrl());
+		$this->reissue();
 
-		// Load license data from disk
-		$this->loadFromDisk();
-		$kirby = App::instance();
-
-		// Determine status based on existing license validation
-		if ($this->isValid()) {
+		if (($state = $this->state()) === 'active') {
 			$this->status = LicenseStatus::from('active');
-		} elseif ($kirby->system()->isLocal()) {
-			// Local environment - show as demo
-			$demo = LicenseStatus::from('demo');
-			$this->status = new LicenseStatus(
-				value: $demo->value(),
-				icon: $demo->icon(),
-				label: $demo->label(),
-				theme: $demo->theme(),
-				dialog: 'dreamform/activate'
-			);
-		} else {
-			// Production without valid license
-			$missing = LicenseStatus::from('missing');
-			$this->status = new LicenseStatus(
-				value: $missing->value(),
-				icon: $missing->icon(),
-				label: $missing->label(),
-				theme: $missing->theme(),
-				dialog: 'dreamform/activate'
-			);
-		}
-	}
-
-	public function licenseData(): array
-	{
-		return [
-			'license' => $this->license,
-			'plugin' => $this->pluginName,
-			'edition' => $this->edition,
-			'allowOfflineUse' => $this->allowOfflineUse,
-			'purchasedOn' => $this->purchasedOn,
-			'assignedUrl' => $this->assignedUrl,
-			'email' => $this->email,
-			'signature' => $this->signature
-		];
-	}
-
-	private function signedData(): string
-	{
-		return Json::encode(array_diff_key($this->licenseData(), ['signature' => null]));
-	}
-
-	public static function licenseFile(): string
-	{
-		return dirname(App::instance()->root('license')) . '/' . self::LICENSE_FILE;
-	}
-
-	protected function loadFromDisk(): void
-	{
-		$licenseFile = static::licenseFile();
-		if (!F::exists($licenseFile)) {
 			return;
 		}
 
-		try {
-			$licenseData = Json::read($licenseFile);
-			foreach ($licenseData as $key => $value) {
-				// Map 'plugin' to 'pluginName' to avoid conflict with parent property
-				if ($key === 'plugin') {
-					$this->pluginName = $value;
-				} elseif (property_exists($this, $key) && $key !== 'plugin') {
-					$this->$key = $value;
-				}
-			}
-		} catch (Exception $e) {
-			// Invalid license file
-		}
-	}
-
-	public function isComplete(): bool
-	{
-		return $this->license !== null
-			&& $this->edition !== null
-			&& $this->purchasedOn !== null
-			&& $this->assignedUrl !== null
-			&& $this->email !== null
-			&& $this->signature !== null;
-	}
-
-	private $signatureStatus = false;
-	public function isSigned(): bool
-	{
-		if ($this->signatureStatus) {
-			return true;
-		}
-
-		if ($this->signature === null) {
-			return false;
-		}
-
-		return $this->signatureStatus = openssl_verify(
-			$this->signedData(),
-			base64_decode($this->signature),
-			openssl_pkey_get_public('file://' . dirname(__DIR__, 2) . '/public.pem'),
-			'RSA-SHA256'
-		) === 1;
-	}
-
-	private $remoteStatus = false;
-	public function isValid(): bool
-	{
-		if (!$this->isSigned() || !$this->isComplete()) {
-			return false;
-		}
-
-		$currentUrl = static::normalizeUrl(App::instance()->system()->indexUrl());
-		$assignedUrl = static::normalizeUrl($this->assignedUrl);
-
-		if ($assignedUrl !== $currentUrl) {
-			return false;
-		}
-
-		if ($this->allowOfflineUse || $this->remoteStatus) {
-			return true;
-		}
-
-		$licenseCache = App::instance()->cache('tobimori.dreamform.performer');
-		if ($licenseCache->get("license.{$this->license}") === true) {
-			return $this->remoteStatus = true;
-		}
-
-		$license = Str::lower($this->license);
-		$request = Remote::post(self::BASE . "{$license}/validate", [
-			'headers' => [
-				'Content-Type' => 'application/json',
-				'Accept' => 'application/json',
-			],
-			'data' => Json::encode([
-				'url' => $this->assignedUrl,
-			])
-		]);
-
-		if ($request->code() !== 200) {
-			return false;
-		}
-
-		$licenseCache->set("license.{$this->license}", true, 60 * 24);
-		return $this->remoteStatus = true;
-	}
-
-	public static function normalizeUrl(string $url): string
-	{
-		return preg_replace(
-			'/^(?:https?:\/\/)?(?:www\.|staging\.|test\.|dev\.)?|\/$/',
-			'',
-			$url
+		$status = LicenseStatus::from(App::instance()->system()->isLocal() ? 'demo' : 'missing');
+		$this->status = new LicenseStatus(
+			value: $status->value(),
+			icon: $state === 'missing' ? $status->icon() : 'alert',
+			label: $state === 'missing' ? $status->label() : t("dreamform.license.status.{$state}"),
+			theme: $state === 'missing' ? $status->theme() : 'negative',
+			dialog: 'dreamform/activate'
 		);
 	}
 
-	public static function downloadLicense(string $email, string $license): static
-	{
-		$license = Str::lower($license);
-		$request = Remote::post(self::BASE . "{$license}/download", [
-			'headers' => [
-				'Content-Type' => 'application/json',
-				'Accept' => 'application/json',
-			],
-			'data' => Json::encode([
-				'email' => $email,
-				'url' => static::normalizeUrl(App::instance()->system()->indexUrl()),
-			])
-		]);
-
-		if ($request->code() !== 200) {
-			throw new \Exception('Invalid license');
-		}
-
-		$licenseData = $request->json();
-		// Save to disk
-		Json::write(static::licenseFile(), $licenseData);
-
-		// Create new instance with downloaded data
-		$newLicense = new static(App::instance()->plugin('tobimori/dreamform'));
-
-		if (!$newLicense->isValid()) {
-			throw new \Exception('Downloaded license is invalid');
-		}
-
-		return $newLicense;
-	}
-
 	/**
-	 * Create a License instance from disk for backwards compatibility
+	 * Creates the license of the DreamForm plugin, which may reissue it
 	 */
 	public static function fromDisk(): static
 	{
 		return new static(App::instance()->plugin('tobimori/dreamform'));
+	}
+
+	/**
+	 * Checks without any requests whether a license was issued for this domain and not revoked.
+	 * Expired licenses still count, as they are only reissued when the Panel is used.
+	 */
+	public static function exists(): bool
+	{
+		[$license] = static::find(App::instance()->system()->indexUrl());
+
+		return $license !== null && ($license['revoked'] ?? false) !== true && static::isSigned($license);
+	}
+
+	public function isValid(): bool
+	{
+		return $this->data !== null && static::isActive($this->data);
+	}
+
+	/**
+	 * Returns `active`, `revoked` (moved to another domain or revoked by the license server),
+	 * `expired` (could not be reissued in time) or `missing`
+	 */
+	public function state(): string
+	{
+		return match (true) {
+			$this->isValid() => 'active',
+			($this->data['revoked'] ?? false) === true => 'revoked',
+			$this->data !== null && static::isSigned($this->data) => 'expired',
+			default => 'missing',
+		};
+	}
+
+	/**
+	 * Normalizes the domain like the license server and Kirby: testing subdomains
+	 * and `www.` are removed only for installations at the root of the domain
+	 */
+	public static function normalizeUrl(string $url): string
+	{
+		$url = rtrim(preg_replace('#^https?://#', '', Str::lower(trim($url))), '/');
+
+		return str_contains($url, '/') ? $url : preg_replace('/^(?:www|dev|test|staging)\./', '', $url);
+	}
+
+	/**
+	 * Downloads the license for the current domain and adds it to the shared file
+	 */
+	public static function activate(string $email, string $license): void
+	{
+		if (!static::isOwn(['license' => $license])) {
+			throw new InvalidArgumentException(t('dreamform.license.error.plugin'));
+		}
+
+		try {
+			$response = static::request(Str::lower($license) . '/download', [
+				'email' => $email,
+				'url' => static::normalizeUrl(App::instance()->system()->indexUrl()),
+				// older plugin versions can't verify licenses with an expiry date
+				'expires' => true,
+			]);
+		} catch (Throwable) {
+			throw new InvalidArgumentException(t('dreamform.license.error.server'));
+		}
+
+		$data = $response->code() === 200 ? $response->json() : null;
+		if (!is_array($data)) {
+			throw new InvalidArgumentException(t(match ($response->code()) {
+				404 => 'dreamform.license.error.key',
+				403 => 'dreamform.license.error.forbidden',
+				default => 'dreamform.license.error.download',
+			}));
+		}
+
+		if (!static::isOwn($data)) {
+			throw new InvalidArgumentException(t('dreamform.license.error.plugin'));
+		}
+
+		if (!static::isSigned($data)) {
+			throw new InvalidArgumentException(t('dreamform.license.error.download'));
+		}
+
+		static::write($data);
+	}
+
+	/**
+	 * Gets a new copy of the license from the license server if it expires soon,
+	 * or if it was issued before expiry dates existed.
+	 * A failed attempt is stored in the unsigned `failures` and `checked` fields of the license.
+	 */
+	private function reissue(): void
+	{
+		if (
+			$this->data === null
+			|| ($this->data['revoked'] ?? false) === true
+			// licenses for sites without internet access are never reissued
+			|| $this->data['allowOfflineUse'] === true
+			|| !static::isSigned($this->data)
+		) {
+			return;
+		}
+
+		if (isset($this->data['expires'])
+			? strtotime($this->data['expires']) - time() > self::REISSUE_BEFORE
+			// without a writable shared file, a reissued copy or failed attempt can't be stored
+			: $this->manual && !static::isWritable()
+		) {
+			return;
+		}
+
+		$failures = (int)($this->data['failures'] ?? 0);
+		$backoff = self::REISSUE_BACKOFF[min($failures, count(self::REISSUE_BACKOFF)) - 1] ?? 0;
+		if (time() - strtotime($this->data['checked'] ?? '') < $backoff * 60) {
+			return;
+		}
+
+		try {
+			$response = static::request(Str::lower($this->data['license']) . '/reissue', [
+				'url' => $this->data['assignedUrl'],
+			]);
+		} catch (Throwable) {
+			$response = null;
+		}
+
+		$license = $response?->code() === 200 ? $response->json() : null;
+
+		$this->data = match (true) {
+			// the license server issued a new copy of the license
+			is_array($license)
+				&& static::isOwn($license)
+				&& static::isSigned($license)
+				&& $license['license'] === $this->data['license'] => $license,
+			// the license was moved to another domain or revoked,
+			// keep it marked as revoked so it also blocks its copy in the manual file
+			$response?->code() === 410 => [...$this->data, 'revoked' => true],
+			// the license server is not reachable or failed, try again later
+			default => [
+				...$this->data,
+				'failures' => $failures + 1,
+				'checked' => date(DATE_ATOM),
+			],
+		};
+
+		try {
+			static::write($this->data);
+		} catch (Throwable) {
+			// the config folder is not writable, use the result for this request only
+		}
+	}
+
+	private static function request(string $path, array $data): Remote
+	{
+		return Remote::post(self::BASE . $path, [
+			'headers' => [
+				'Content-Type' => 'application/json',
+				'Accept' => 'application/json',
+			],
+			'data' => Json::encode($data),
+		]);
+	}
+
+	private static function path(string $file): string
+	{
+		return dirname(App::instance()->root('license')) . '/' . $file;
+	}
+
+	private static function isWritable(): bool
+	{
+		return is_writable(F::exists($path = static::path(self::FILE)) ? $path : dirname($path));
+	}
+
+	/**
+	 * Returns all licenses from a license file, including those of other plugins
+	 */
+	private static function read(string $file, bool $strict = false): array
+	{
+		try {
+			$licenses = F::exists($path = static::path($file)) ? Json::read($path) : [];
+		} catch (Throwable $error) {
+			if ($strict) {
+				throw $error;
+			}
+
+			return [];
+		}
+
+		// a manual license file can hold a single license
+		if (isset($licenses['license'])) {
+			$licenses = [$licenses];
+		}
+
+		return array_values(array_filter($licenses, 'is_array'));
+	}
+
+	/**
+	 * Returns the license of this plugin for the given domain and whether it is from the manual file,
+	 * preferring an active license from the shared file over the manual file
+	 *
+	 * @return array{0: array|null, 1: bool}
+	 */
+	private static function find(string $url): array
+	{
+		$shared = A::find(static::read(self::FILE), fn (array $license) => static::isFor($license, $url));
+		$manual = A::find(static::read(self::MANUAL_FILE), fn (array $license) => static::isFor($license, $url));
+
+		// a revoked license also blocks its copy in the manual file
+		if (($shared['revoked'] ?? false) === true && ($manual['license'] ?? null) === $shared['license']) {
+			return [$shared, false];
+		}
+
+		if ($manual !== null && ($shared === null || (!static::isActive($shared) && static::isActive($manual)))) {
+			return [$manual, true];
+		}
+
+		return [$shared, false];
+	}
+
+	/**
+	 * Adds the license to the shared file and replaces the license
+	 * of this plugin for the same domain and other copies of the same license key.
+	 * Fails if the shared file can't be read, so licenses of other plugins are never lost.
+	 */
+	private static function write(array $license): void
+	{
+		$licenses = array_filter(
+			static::read(self::FILE, strict: true),
+			fn (array $entry) => !static::isFor($entry, $license['assignedUrl'])
+				&& ($entry['license'] ?? null) !== $license['license']
+		);
+
+		Json::write(static::path(self::FILE), [...array_values($licenses), $license]);
+	}
+
+	/**
+	 * Checks that the license is signed, not expired and not revoked
+	 */
+	private static function isActive(array $license): bool
+	{
+		return ($license['revoked'] ?? false) !== true
+			&& static::isSigned($license)
+			&& (!isset($license['expires']) || strtotime($license['expires']) > time());
+	}
+
+	private static function isOwn(array $license): bool
+	{
+		return is_string($key = $license['license'] ?? null) && str_starts_with(Str::upper(trim($key)), self::PREFIX);
+	}
+
+	private static function isFor(array $license, string $url): bool
+	{
+		return static::isOwn($license)
+			&& static::normalizeUrl($license['assignedUrl'] ?? '') === static::normalizeUrl($url);
+	}
+
+	/**
+	 * Checks that the license is complete and signed by the license server
+	 */
+	private static function isSigned(array $license): bool
+	{
+		$signed = [];
+		$fields = isset($license['expires']) ? [...self::SIGNED_FIELDS, 'expires'] : self::SIGNED_FIELDS;
+		foreach ($fields as $field) {
+			if (($signed[$field] = $license[$field] ?? null) === null) {
+				return false;
+			}
+		}
+
+		return is_string($signature = $license['signature'] ?? null) && openssl_verify(
+			Json::encode($signed),
+			base64_decode($signature),
+			openssl_pkey_get_public('file://' . dirname(__DIR__, 2) . '/public.pem'),
+			'RSA-SHA256'
+		) === 1;
 	}
 }
