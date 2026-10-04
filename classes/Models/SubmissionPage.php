@@ -10,6 +10,7 @@ use Kirby\Cms\Collection;
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
 use Kirby\Cms\Responder;
+use Kirby\Cms\Template;
 use Kirby\Content\Content;
 use Kirby\Content\Field;
 use Kirby\Content\PlainTextStorage;
@@ -57,6 +58,14 @@ class SubmissionPage extends BasePage
 				$this->changeStorage(SubmissionSessionStorage::class);
 			}
 		}
+	}
+
+	/**
+	 * Uses the known submission template without scanning its directory
+	 */
+	public function intendedTemplate(): Template
+	{
+		return $this->intendedTemplate ??= $this->kirby()->template('submission');
 	}
 
 	/**

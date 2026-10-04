@@ -8,6 +8,7 @@ use Kirby\Cms\Collection;
 use Kirby\Cms\Layouts;
 use Kirby\Cms\ModelState;
 use Kirby\Cms\Page;
+use Kirby\Cms\Template;
 use Kirby\Content\Field;
 use Kirby\Content\ImmutableMemoryStorage;
 use Kirby\Content\VersionId;
@@ -37,6 +38,14 @@ class FormPage extends BasePage
 
 	/** @var \Kirby\Cms\Layouts[] */
 	private array $steps;
+
+	/**
+	 * Uses the known form template without scanning submission directories
+	 */
+	public function intendedTemplate(): Template
+	{
+		return $this->intendedTemplate ??= $this->kirby()->template('form');
+	}
 
 	/**
 	 * Returns the title field or the slug as fallback
