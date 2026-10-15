@@ -1,4 +1,6 @@
 <script setup>
+import { translateLog } from "@/utils/log"
+
 const props = defineProps({
 	text: String,
 	template: {
@@ -6,12 +8,14 @@ const props = defineProps({
 		default: () => ({})
 	}
 })
+
+const text = translateLog(props.text, props.template)
 </script>
 
 <template>
 	<k-box
 		class="df-log-error-entry"
-		:text="$t(props.text, props.template, props.text)"
+		:text="text"
 		theme="negative"
 		icon="alert"
 		:html="true"

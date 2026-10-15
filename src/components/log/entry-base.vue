@@ -1,5 +1,6 @@
 <script setup>
 import { formatDate } from "@/utils/date"
+import { translateLog } from "@/utils/log"
 
 const props = defineProps({
 	title: String,
@@ -12,6 +13,7 @@ const props = defineProps({
 })
 
 const date = formatDate(props.timestamp)
+const title = translateLog(props.title, props.template)
 </script>
 
 <template>
@@ -20,7 +22,8 @@ const date = formatDate(props.timestamp)
 		<span class="df-log-entry-line"></span>
 		<div class="df-log-entry-content">
 			<div class="df-log-entry-heading">
-				<span v-html="$t(props.title, props.template, props.title)"></span>
+				<!-- eslint-disable-next-line vue/no-v-html -- values are escaped -->
+				<span v-html="title"></span>
 				<span> • {{ date }}</span>
 			</div>
 			<div v-if="$slots.default" class="df-log-entry-details">

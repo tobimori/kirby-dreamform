@@ -19,8 +19,8 @@ import FileUploadField from "@/previews/file-upload-field.vue"
 import HiddenField from "@/previews/hidden-field.vue"
 import SelectField from "@/previews/select-field.vue"
 import TextField from "@/previews/text-field.vue"
-import License from "@/sections/License.vue"
-import Submission from "@/sections/Submission.vue"
+import License from "@/sections/license.vue"
+import Submission from "@/sections/submission.vue"
 
 panel.plugin("tobimori/dreamform", {
 	icons: {

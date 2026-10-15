@@ -1,4 +1,6 @@
 <script setup>
+import { translateLog } from "@/utils/log"
+
 const props = defineProps({
 	text: String,
 	template: {
@@ -6,13 +8,13 @@ const props = defineProps({
 		default: () => ({})
 	}
 })
+
+const text = translateLog(props.text, props.template)
 </script>
 
 <template>
-	<div
-		class="df-log-info-entry"
-		v-html="$t(props.text, props.template, props.text)"
-	></div>
+	<!-- eslint-disable-next-line vue/no-v-html -- values are escaped -->
+	<div class="df-log-info-entry" v-html="text"></div>
 </template>
 
 <style>

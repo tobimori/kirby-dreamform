@@ -11,7 +11,7 @@ const props = defineProps({
 	body: String
 })
 
-const body = props.body.replaceAll("\n", "<br>").replaceAll("———", "<hr>")
+const sections = props.body.split("———")
 
 const isExpanded = ref(false)
 const uuid = ref(Math.random().toString(36).substring(2))
@@ -63,7 +63,12 @@ const meta = computed(() => [
 					value
 				}}</span>
 			</div>
-			<p class="df-log-email-entry-body" v-html="body"></p>
+			<div class="df-log-email-entry-body">
+				<template v-for="(section, index) in sections">
+					<hr v-if="index > 0" :key="`hr-${index}`" />
+					<span :key="index">{{ section }}</span>
+				</template>
+			</div>
 		</div>
 		<k-button
 			type="button"
@@ -134,6 +139,7 @@ const meta = computed(() => [
 .df-log-email-entry-body {
 	padding: var(--spacing-4) var(--spacing-3);
 	color: var(--color-text);
+	white-space: pre-line;
 }
 
 .df-log-email-entry-meta {
