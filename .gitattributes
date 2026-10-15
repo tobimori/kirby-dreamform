@@ -1,6 +1,5 @@
 # Do not publish the following files via composer:
 .github/ export-ignore
-.husky/ export-ignore
 docs/ export-ignore
 src/ export-ignore
 .editorconfig export-ignore

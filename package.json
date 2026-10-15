@@ -7,17 +7,14 @@
 		"build": "kirbyup src/index.js",
 		"lint": "eslint \"src/**/*.{js,vue}\"",
 		"lint:fix": "npm run lint -- --fix",
-		"format": "prettier --write \"src/**/*.{js,vue}\"",
-		"prepare": "husky"
+		"format": "prettier --write \"src/**/*.{js,vue}\""
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"eslint": "^10.8.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-vue": "^10.10.0",
-		"husky": "^9.1.7",
 		"kirbyup": "^3.4.1",
-		"lint-staged": "^16.4.0",
 		"mjml": "^5.4.0",
 		"prettier": "^3.9.6",
 		"vue-eslint-parser": "^10.4.1"
@@ -40,14 +37,5 @@
 		"last 2 OperaMobile versions",
 		"last 2 UCAndroid versions"
 	],
-	"lint-staged": {
-		"src/*.{js,vue}": [
-			"eslint --fix",
-			"prettier --write"
-		],
-		"*.php": [
-			".husky/php-cs-fixer-lint-staged"
-		]
-	},
 	"packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }
