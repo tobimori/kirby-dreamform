@@ -30,6 +30,9 @@ importers:
       mjml:
         specifier: ^5.4.0
         version: 5.4.0(relateurl@0.2.7)(svgo@4.0.2)
+      portless:
+        specifier: ^0.15.8
+        version: 0.15.8
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
@@ -1668,6 +1671,12 @@ packages:
 
   pkg-types@2.3.1:
     resolution: {integrity: sha512-y+ichcgc2LrADuhLNAx8DFjVfgz91pRxfZdI3UDhxHvcVEZsenLO+7XaU5vOp0u/7V/wZ+plyuQxtrDlZJ+yeg==}
+
+  portless@0.15.8:
+    resolution: {integrity: sha512-kzGoG4xLsEytczl7O/COZaBwSAOKsWsZDxHv7/iFHKIC0X71OonpgbsQw58CGO29RklIHIx6yLM31TJMnTtPEw==}
+    engines: {node: '>=24'}
+    os: [darwin, linux, win32]
+    hasBin: true
 
   postcss-calc@10.1.1:
     resolution: {integrity: sha512-NYEsLHh8DgG/PRH2+G9BTuUdtf9ViS+vdoQ0YA5OQdGsfN4ztiwtDWNtBl9EKeqNMFnIu8IKZ0cLxEQ5r5KVMw==}
@@ -4170,6 +4179,8 @@ snapshots:
       confbox: 0.2.4
       exsolve: 1.1.1
       pathe: 2.0.3
+
+  portless@0.15.8: {}
 
   postcss-calc@10.1.1(postcss@8.5.26):
     dependencies:

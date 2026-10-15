@@ -7,7 +7,9 @@
 		"build": "kirbyup src/index.js",
 		"lint": "eslint \"src/**/*.{js,vue}\"",
 		"lint:fix": "npm run lint -- --fix",
-		"format": "prettier --write \"src/**/*.{js,vue}\""
+		"format": "prettier --write \"src/**/*.{js,vue}\"",
+		"playground": "PHP_CLI_SERVER_WORKERS=4 php -S ${HOST:-127.0.0.1}:${PORT:-8000} -t .playground .playground/kirby/router.php",
+		"playground:portless": "portless run --name dreamform pnpm playground"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
@@ -16,6 +18,7 @@
 		"eslint-plugin-vue": "^10.10.0",
 		"kirbyup": "^3.4.1",
 		"mjml": "^5.4.0",
+		"portless": "^0.15.8",
 		"prettier": "^3.9.6",
 		"vue-eslint-parser": "^10.4.1"
 	},

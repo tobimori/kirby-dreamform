@@ -6,6 +6,8 @@
 node_modules
 /tests
 index.dev.mjs
+/.repos/
+/.playground/
 
 # files of Composer dependencies that are not needed for the plugin
 /vendor/**/.*
