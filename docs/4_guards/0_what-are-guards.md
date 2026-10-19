@@ -19,11 +19,11 @@ Some guards might have a "silent" option, which means that they will not show an
 * [CSRF](2_csrf.md) - Cross-Site Request Forgery protection
 * [Honeypot](3_honeypot.md) - Hidden field spam protection
 * [Turnstile](4_turnstile.md) - Cloudflare Turnstile captcha integration
-* [Rate Limit](5_ratelimit.md) - IP-based rate limiting for form submissions
+* [Rate Limit](6_ratelimit.md) - IP-based rate limiting for form submissions
 
 ### Creating Custom Guards
 
-* [Custom Guards](6_custom.md) - Learn how to create your own custom guards
+* [Custom Guards](7_custom.md) - Learn how to create your own custom guards
 
 ### Guards created by the Community
 
