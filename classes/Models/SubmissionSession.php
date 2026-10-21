@@ -114,7 +114,12 @@ trait SubmissionSession
 				return null;
 			}
 
-			$id = Htmx::decrypt($raw);
+			try {
+				$id = Htmx::decrypt($raw);
+			} catch (\Exception) {
+				return null;
+			}
+
 			if (Str::startsWith($id, 'page://')) {
 				$data = $id;
 			} else {

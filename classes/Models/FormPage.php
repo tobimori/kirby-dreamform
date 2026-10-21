@@ -25,6 +25,7 @@ use tobimori\DreamForm\Exceptions\SuccessException;
 use tobimori\DreamForm\Guards\LicenseGuard;
 use tobimori\DreamForm\Permissions\FormPermissions;
 use tobimori\DreamForm\Support\Htmx;
+use Throwable;
 use UnexpectedValueException;
 
 /**
@@ -411,7 +412,7 @@ class FormPage extends BasePage
 					$attr = Json::decode(Htmx::decrypt($kirby->request()->body()->get('dreamform:attr')));
 
 					// if an error is thrown, this means the data must have been tampered with
-				} catch (Exception $e) {
+				} catch (Throwable $e) {
 					return t('dreamform.submission.error.generic');
 				}
 
