@@ -105,6 +105,11 @@ final class Htmx
 		return $secret;
 	}
 
+	private static function key(string $purpose, int $length): string
+	{
+		return hash_hkdf('sha256', static::secret(), $length, "tobimori/dreamform:htmx:{$purpose}");
+	}
+
 	public const CIPHER = 'AES-128-CBC';
 
 	/**
@@ -114,9 +119,9 @@ final class Htmx
 	public static function encrypt(string $value): string
 	{
 		$ivlen = openssl_cipher_iv_length(self::CIPHER);
-		$iv = openssl_random_pseudo_bytes($ivlen);
-		$encrypted = openssl_encrypt($value, self::CIPHER, static::secret(), OPENSSL_RAW_DATA, $iv);
-		$hmac = hash_hmac('sha256', $encrypted, static::secret(), true);
+		$iv = random_bytes($ivlen);
+		$encrypted = openssl_encrypt($value, self::CIPHER, static::key('encryption', 16), OPENSSL_RAW_DATA, $iv);
+		$hmac = hash_hmac('sha256', $iv . $encrypted, static::key('authentication', 32), true);
 
 		return base64_encode($iv . $hmac . $encrypted);
 	}
@@ -126,16 +131,28 @@ final class Htmx
 	 */
 	public static function decrypt(string $value): string
 	{
-		$c = base64_decode($value);
+		$c = base64_decode($value, true);
 		$ivlen = openssl_cipher_iv_length(static::CIPHER);
-		$iv = substr($c, 0, $ivlen);
-		$hmac = substr($c, $ivlen, $sha2len = 32);
-		$encrypted = substr($c, $ivlen + $sha2len);
+		$sha2len = 32;
 
-		if (empty($hmac) || !hash_equals($hmac, hash_hmac('sha256', $encrypted, static::secret(), true))) {
+		if ($c === false || strlen($c) <= $ivlen + $sha2len) {
 			throw new \Exception('Decryption failed');
 		}
 
-		return openssl_decrypt($encrypted, static::CIPHER, static::secret(), OPENSSL_RAW_DATA, $iv);
+		$iv = substr($c, 0, $ivlen);
+		$hmac = substr($c, $ivlen, $sha2len);
+		$encrypted = substr($c, $ivlen + $sha2len);
+
+		if (!hash_equals(hash_hmac('sha256', $iv . $encrypted, static::key('authentication', 32), true), $hmac)) {
+			throw new \Exception('Decryption failed');
+		}
+
+		$decrypted = openssl_decrypt($encrypted, static::CIPHER, static::key('encryption', 16), OPENSSL_RAW_DATA, $iv);
+
+		if ($decrypted === false) {
+			throw new \Exception('Decryption failed');
+		}
+
+		return $decrypted;
 	}
 }
