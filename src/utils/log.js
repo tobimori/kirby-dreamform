@@ -2,7 +2,8 @@ import { useApp, usePanel } from "kirbyuse"
 
 /**
  * Translates a log message to HTML. Kirby inserts template values without
- * escaping them, and log values can contain submitted data
+ * escaping them, and log values can contain submitted data. Text without a
+ * translation (e.g. exception messages) is escaped as plain text
  */
 export function translateLog(key, template = {}) {
 	const { $esc } = useApp()
@@ -17,5 +18,5 @@ export function translateLog(key, template = {}) {
 		return value
 	}
 
-	return usePanel().t(key, escape(template), key)
+	return usePanel().t(key, escape(template)) ?? $esc(key ?? "")
 }
