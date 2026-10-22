@@ -4,11 +4,11 @@ namespace tobimori\DreamForm\Actions;
 
 use Kirby\Cms\App;
 use Kirby\Cms\User;
-use Kirby\Data\Yaml;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
+use tobimori\DreamForm\Fields\FileUploadField;
 use tobimori\DreamForm\Models\FormPage;
 
 use function is_string;
@@ -262,22 +262,32 @@ class EmailAction extends Action
 	{
 		// our file field can either store the file uuids (when already handled, aka from previous multi-step page)
 		// or the PHP file object (when uploaded in the same request)
+		// submission content can be tampered with, so only files of this submission
+		// and uploads of the current request are attached
 		$attachments = [];
 		foreach ($this->block()->attachments()->split() as $id) {
-			$value = $this->submission()->valueForId($id);
+			$field = $this->submission()->form()->formFields()->find($id);
+			if (!($field instanceof FileUploadField)) {
+				continue;
+			}
 
-			if (is_string($value->value()) && Str::contains($value->value(), 'file://')) { // is a file uuid
-				$files = $value->toFiles();
-				foreach ($files as $file) {
-					$attachments[] = $file;
+			$value = $this->submission()->valueForId($id);
+			if (is_string($value?->value()) && Str::contains($value->value(), 'file://')) {
+				foreach ($value->toFiles() as $file) {
+					if ($this->submission()->is($file->parent())) {
+						$attachments[] = $file;
+					}
 				}
-			} else { // is PHP file object stored as YAML
-				$uploadData = Yaml::decode($value->value());
-				$files = array_values(A::filter($uploadData, fn ($file) => $file['error'] === UPLOAD_ERR_OK));
-				foreach ($files as $file) {
+
+				continue;
+			}
+
+			$uploads = $field->value()->value();
+			foreach (is_array($uploads) ? $uploads : [] as $upload) {
+				if ($upload['error'] === UPLOAD_ERR_OK && is_uploaded_file($upload['tmp_name'])) {
 					$attachments[] = [
-						'path' => $file['tmp_name'],
-						'name' => F::safeName($file['name'])
+						'path' => $upload['tmp_name'],
+						'name' => F::safeName($upload['name'])
 					];
 				}
 			}
