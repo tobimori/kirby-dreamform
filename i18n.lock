@@ -196,17 +196,26 @@ checksums:
     license.activate.domain: 60279ccb033cac7af2bf5827101a9b2f
     license.activate.label: 2e58a0ed025360d2903f359e634a067f
     license.activate.local: 19e538686800fe694b986f0300744188
+    license.activated: b6cb6ee4c4dd2cbe0d5d6a0088dcd731
     license.buy: acef0f8f5f57d775b81a0b213b5bfcdc
     license.cta: 50d60ada81482af74d567a9c21a5853f
     license.demoMode: e67b1a68a2b9effb5eda64420ca875ca
+    license.expired: 440ba04e49730c14013b3b783d403887
+    license.revoked: 707ab1e44dfd8a0322000f78bf57a266
+    license.error.download: 46d21f58cc7b265c5a7dd42481e3ab3a
     license.error.email: 4157c206eb09e5f58cd1804be8689c55
+    license.error.forbidden: a8dcb814b8423ff72ee0cbf134767d9b
     license.error.key: a181da35bcb8a0e5876fbff82f8be0e9
+    license.error.plugin: daf400eee9be545080560c5590a59e81
+    license.error.server: c5bf6208369820fdd4bbf2a53eac344c
     license.error.submission: 2c008fe67967d7a8e0d303b0355c9bc0
-    license.key.help: ad04dd0dff9e7f9bdaf305569345eb40
+    license.key.help: 34df985ac3c152db1ee571671222d8f5
     license.key.label: 9e6c372f3ad766c856901a310fd712cc
     license.status.valid: 1fc3e06e2d8717e6e2c993801d999468
     license.status.demo: 27d6fdfbcca2dba6e8ba7440251a8c4c
     license.status.missing: a5e62f7cf50b8489eb5441e63512d509
+    license.status.expired: d191561b49c8ae6500b9508fc9cb2976
+    license.status.revoked: 9ae37015fa97a754fe7f95ade080c180
     settings: 8df6777277469c1fd88cc18dde2f1cc3
     static: b710755aa0f691b41165f72352cfbbf0
     submission: ff6c46274f54943672d1ad163e74bcb5
