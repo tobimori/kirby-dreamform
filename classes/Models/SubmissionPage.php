@@ -216,6 +216,38 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
+	 * Replaces `{{ key }}` placeholders in an editor-written template
+	 * with submitted values and plain page and form data
+	 */
+	public function replacePlaceholders(string|null $template, bool $escape = true): string
+	{
+		$page = $this->findRefererPage();
+		$data = [
+			...A::map($this->values()->toArray(), fn (Field|null $field) => $field?->value()),
+			'page' => $page ? [
+				'id' => $page->id(),
+				'title' => $page->title()->value(),
+				'url' => $page->url()
+			] : null,
+			'form' => [
+				'id' => $this->form()->id(),
+				'title' => $this->form()->title()->value()
+			]
+		];
+
+		// Kirby queries (Str::template, toString) can always reach global entries
+		// such as kirby, site or page("id"), so only plain array lookups are allowed
+		return preg_replace_callback('/{{\s*(.*?)\s*}}/', function (array $match) use ($data, $escape) {
+			$value = A::get($data, $match[1]);
+			if (!is_scalar($value)) {
+				return '';
+			}
+
+			return $escape ? Str::esc((string)$value, 'html') : (string)$value;
+		}, $template ?? '');
+	}
+
+	/**
 	 * Returns the error message for a field in the submission state
 	 */
 	public function errorFor(string|null $key = null, FormPage|null $form = null): string|null

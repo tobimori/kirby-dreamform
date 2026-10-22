@@ -7,7 +7,7 @@ Using the email action, you can send email from the configured SMTP credentials 
 
 ![Email action configuration](email-configuration.png)
 
-Write the message in the **Template** text field. You can use the Kirby Query Language and field keys in it, and in the **Subject**. A field with the key `name` is available with the placeholder `{{ name }}`. You can also insert field placeholders with the toolbar of the text field.
+Write the message in the **Template** text field. You can use field keys as placeholders in it, and in the **Subject**. A field with the key `name` is available with the placeholder `{{ name }}`. You can also insert field placeholders with the toolbar of the text field. The placeholders `{{ page.title }}`, `{{ page.url }}` and `{{ form.title }}` insert the title and URL of the page the form was submitted on and the title of the form. Placeholders do not support the Kirby Query Language.
 
 The **Template** select chooses the email template that renders the message. If you leave the text field empty, the **Default Template** included with DreamForm lists the values of all fields, except file uploads.
 
