@@ -5,8 +5,8 @@ description: Get started with using DreamForm
 
 ## Requirements
 
-- Kirby 5.0+ or later
-- PHP 8.3+ or later
+- Kirby 5 (5.0 or later, Kirby 6 is not supported yet)
+- PHP 8.3 or later
 - A valid Kirby license & DreamForm license
 - UUIDs enabled in your Kirby installation
 
@@ -14,9 +14,9 @@ description: Get started with using DreamForm
 
 If you're using any of the following plugins, make sure you're at least on the specified version to make them work with DreamForm.
 
-- Blade Templates by Lukas Leitsch: Version 3.0.1+ or later
-- Twig Templates by JUST: Version 5.0.2+ or later
-- Kirby SEO: Version 1.0.0+ or later
+- Blade Templates by Lukas Leitsch: Version 3.0.1 or later
+- Twig Templates by JUST: Version 5.0.2 or later
+- Kirby SEO: Version 1.0.0 or later
 
 ## Installation
 
@@ -32,7 +32,7 @@ After opening the panel, the plugin should automatically create the "forms" page
 
 ### Manual Installation
 
-If you want to customize the path your forms folder is stored in, you can also choose to create the form automatically, by following the steps:
+You can also create the forms page manually, for example to store it at a different path. The folder can have any name, as long as it uses the `forms` template and has the UUID `forms`. If you use a different UUID, set the `page` option. Follow these steps:
 
 1. Go into your sites' `content` folder, and create a new folder called `forms`
 2. Inside `/forms` create a file named `forms.txt` or `forms.en.txt` if you're using a multi-lang setup, respectively. If your default language is different than `en`, replace the respective code in the file name.
@@ -97,3 +97,11 @@ return [
   ],
 ];
 ```
+
+## Where to go from here
+
+- [Using Forms](1_using-forms.md): Add forms to your blueprints and templates
+- [Configuration](2_configuration.md): Change the default options of DreamForm
+- [Form Builder](../0_general/1_form-builder.md): Learn how to build forms in the Panel
+- [Fields](../2_fields/0_what-are-fields.md), [Actions](../3_actions/0_what-are-actions.md) and [Guards](../4_guards/0_what-are-guards.md): See all building blocks of a form
+- [Going Live](../5_developers/6_going-live.md): Check your setup before you deploy to production

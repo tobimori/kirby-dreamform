@@ -44,9 +44,9 @@ use tobimori\DreamForm\Guards\Guard;
 
 class CalcGuard extends Guard
 {
-  public function run()
+  public function run(): void
   {
-    // $this->cancel('error message!');
+    // $this->cancel('error message!', public: true);
   }
 
   public static function hasSnippet(): bool
@@ -84,14 +84,14 @@ public function generate(): string
 In our `run()` method, we're accessing the result, check if the submitted value is correct, and if not cancel the submission.
 
 ```php
-public function run()
+public function run(): void
 {
   $result = App::instance()->session()->pull('calc-guard-result'); // Get result from session, and remove it
   $value = SubmissionPage::valueFromBody('calc'); // Get Field value
 
   // Check if the value doesn't exists or is not equal to the result
   if (empty($value) || $result !== (int) $value) {
-    $this->cancel('Sorry, think again! 🤔');
+    $this->cancel('Sorry, think again! 🤔', public: true);
   }
 }
 ```
@@ -109,13 +109,13 @@ use tobimori\DreamForm\Models\SubmissionPage;
 
 class CalcGuard extends Guard
 {
-  public function run()
+  public function run(): void
   {
     $result = App::instance()->session()->pull('calc-guard-result');
     $value = SubmissionPage::valueFromBody('calc');
 
     if ($result !== (int) $value) {
-      $this->cancel('Sorry, think again! 🤔');
+      $this->cancel('Sorry, think again! 🤔', public: true);
     }
   }
 
@@ -191,9 +191,11 @@ DreamForm automatically uses the type returned by `type()`, and we can use that 
 // site/config/config.php
 
 return [
-  'tobimori.dreamform.guards' => [
-    'available' => ['calc', 'csrf', 'honeypot'],
-  ]
+  'tobimori.dreamform' => [
+    'guards' => [
+      'available' => ['calc', 'csrf', 'honeypot'],
+    ],
+  ],
 ];
 ```
 
@@ -204,3 +206,5 @@ Your form should now correctly render the calc input before the button Field. Le
 ![Custom guard example](custom-guard-example.png)
 
 Congrats, you've created your first guard! If you think it's useful to others, consider publishing it as a Kirby plugin.
+
+A simple calc guard like this one can stop many bot submissions. If the form is part of a login or sign-up process, it can fail WCAG 2.2 AA, specifically [Success Criterion 3.3.8 Accessible Authentication (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/accessible-authentication-minimum.html). This is why DreamForm does not include such a guard.

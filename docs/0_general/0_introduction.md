@@ -4,6 +4,9 @@ title: Introduction
 
 **DreamForm** is an opiniated form builder plugin for Kirby CMS 5+ that makes forms work like magic.
 
+If you want to use DreamForm with Kirby 4, use [Version 1.4.1](https://github.com/tobimori/kirby-dreamform/releases/tag/1.4.1).
+If you want to use DreamForm with Kirby 5, use [Version 2.x](https://github.com/tobimori/kirby-dreamform/releases).
+
 ### Key features
 
 - ✨ Create single or multi-step forms from the panel
@@ -13,6 +16,10 @@ title: Introduction
 - 🚀 Build your own fields & actions using the simple and intuitive API
 - ♻️ Compatible with any frontend, use API submissions or server-side rendering
 - 🎨 No overriding of styles with !important, no outdated & proprietary JavaScript
+
+**Fully translated languages:** English, Deutsch, Français, Čeština, Español, Suomi, Italiano, Nederlands, Português (Brasil)
+
+Your language isn't supported yet? DreamForm is [open for contributions](https://github.com/tobimori/kirby-dreamform)!
 
 ![A screenshot of the example form from the DreamForm Demo.](./application-form.png)
 
@@ -38,3 +45,5 @@ Months passed and I kept working on DreamForm after delivering the site, and mad
 - **Power to the editors:** Editors should be able to do everything they want in the Panel, without touching code or breaking the site as a whole
 
 Excited to try DreamForm now? I'm glad to be with you on your journey! 🚀
+
+[Get started with the installation](../setup/installation)

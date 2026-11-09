@@ -3,7 +3,7 @@ title: Custom Fields
 description: Creating custom fields for DreamForm
 ---
 
-Extending DreamForm by creating custom fields is easy. In this guide, we're creating a custom LinkedIn field. This field validates that the entered content is a valid LinkedIn URL. If you don't know what a field is yet, check out ["What are fields?"](https://plugins.andkindness.com/dreamform/docs/fields/what-are-fields).
+Extending DreamForm by creating custom fields is easy. In this guide, we're creating a custom LinkedIn field. This field validates that the entered content is a valid LinkedIn URL. If you don't know what a field is yet, check out ["What are fields?"](0_what-are-fields.md).
 
 ## When to choose a field
 

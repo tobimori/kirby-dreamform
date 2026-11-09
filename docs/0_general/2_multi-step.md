@@ -4,7 +4,7 @@ title: Multi-step forms
 
 If your form is **complex and has lot of fields**, you may need to create additional pages, and split fields over multiple steps. The users have to submit each page manually. DreamForm has **built-in support for Multi-step forms.**
 
-When users submit a multi-step form, a submission in the panel will be created with completing the first step and is shown as partial as indicated by the draft icon in the submissions list.
+If partial submissions are enabled, DreamForm saves the submission in the panel after each step. Until the last step is submitted, it is shown as partial, as indicated by the draft icon in the submissions list. Without partial submissions, the submission is only saved after the last step.
 
 When a multi-step form is submitted, guards are executed on each step and the visible fields from the current step are validated. Actions however are only executed at the end of a submission and will not be executed for partial submissions that are never completed.
 

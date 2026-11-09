@@ -7,7 +7,7 @@ description: Subscribe users to Buttondown newsletters
 
 With the Buttondown action, you can integrate DreamForm with the Buttondown API and let senders subscribe to a Buttondown newsletter.
 
-This action uses the Buttondown API which requires a **Basic subscription** to Buttondown.
+This action uses the Buttondown API. Assigning tags and updating existing subscribers requires a **Basic subscription** to Buttondown. On the free plan, enable `simpleMode` (see the options below).
 
 ## Get started
 
@@ -29,8 +29,8 @@ Ideally, you should not commit this key to your repository, but instead load it 
 
 | Option | Default | Accepts | Description |
 | --- | --- | --- | --- |
-| tobimori.dreamform.fields.buttondown.apiKey | `null` | `string|callback` | The API key to communicate with Buttondown |
-| tobimori.dreamform.fields.buttondown.simpleMode | `false` | `boolean` | Simple mode works with the free tier, but does not support updating user data or tags |
+| tobimori.dreamform.actions.buttondown.apiKey | `null` | `string|callback` | The API key to communicate with Buttondown |
+| tobimori.dreamform.actions.buttondown.simpleMode | `false` | `boolean` | Simple mode works with the free tier, but does not support updating user data or tags |
 
 ## Adding the action to your form
 

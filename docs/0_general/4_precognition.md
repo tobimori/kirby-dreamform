@@ -38,7 +38,7 @@ Remove the `htmx` block, or set its version to `2`, when your site uses HTMX 2.
 - Fields validate automatically as the user enters or changes values.
 - Text fields wait 500 milliseconds after input stops.
 - Select, radio, and checkbox fields validate immediately.
-- DreamForm validates only the field that caused the request.
+- DreamForm validates all fields of the current step, but only returns the field that caused the request.
 - Precognitive validation does not complete the form submission.
 - HTMX 2 uses Idiomorph to keep input focus. HTMX 4 uses its built-in `outerMorph` swap.
 

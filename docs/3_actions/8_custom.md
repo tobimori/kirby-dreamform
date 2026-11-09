@@ -3,7 +3,7 @@ title: Custom Actions
 description: Creating custom actions for DreamForm
 ---
 
-Extending DreamForm by creating custom actions is easy. In this guide, we're creating a custom action for sending messages to Discord using their webhook feature. If you don't know what an action is yet, check out ["What are actions?"](what-are-actions.md).
+Extending DreamForm by creating custom actions is easy. In this guide, we're creating a custom action for sending messages to Discord using their webhook feature. If you don't know what an action is yet, check out ["What are actions?"](0_what-are-actions.md).
 
 ## When to choose an action
 
