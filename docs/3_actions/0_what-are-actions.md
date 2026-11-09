@@ -19,6 +19,10 @@ Combining these actions, you can create complex, multi-dimensional workflows for
 * [Webhook](6_webhook.md) - Send form data to third-party services via webhooks
 * [Buttondown](7_buttondown.md) - Subscribe users to Buttondown newsletters
 * [MailerLite](9_mailerlite.md) - Create or update MailerLite subscribers
+* [Mailchimp](10_mailchimp.md) - Subscribe users to Mailchimp audiences
+* [Brevo](11_brevo.md) - Subscribe users to Brevo contact lists
+* [Loops](12_loops.md) - Create or update Loops contacts
+* [Plausible](13_plausible.md) - Track form submissions as Plausible events
 
 ### Creating Custom Actions
 
@@ -49,3 +53,5 @@ return [
 | Option | Default | Accepts | Description |
 | --- | --- | --- | --- |
 | tobimori.dreamform.actions.available | `true` | `boolean|array` | Available actions, true enables all actions |
+
+The array uses the type of each action: `abort`, `conditional`, `discord-webhook`, `email`, `redirect`, `webhook`, `buttondown`, `mailerlite`, `mailchimp`, `brevo`, `loops` and `plausible`. Actions that need an API key or other configuration are only available when it is set, also if they are in the array.
