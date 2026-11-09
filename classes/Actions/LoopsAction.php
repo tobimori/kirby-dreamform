@@ -104,7 +104,7 @@ class LoopsAction extends Action
 		// subscribe or update the user
 		$request = static::request('PUT', "/contacts/update", array_merge([
 			'email' => $email,
-			'subscribed' => $this->block()->subscribed()->toBool() ?? null,
+			'subscribed' => $this->block()->subscribed()->isEmpty() ? null : $this->block()->subscribed()->toBool(),
 			'mailingLists' => $mailingLists
 		], $values));
 
