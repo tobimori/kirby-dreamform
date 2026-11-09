@@ -146,13 +146,13 @@ class BrevoAction extends Action
 
 		// get data for merge fields from the submission
 		$attributes = [];
-		foreach ($mapping->data() as $attribute => $fieldData) {
-			if ($attribute === 'email' || empty($fieldData['field'])) {
+		foreach (array_keys($mapping->data()) as $attribute) {
+			if ($attribute === 'email') {
 				continue;
 			}
 
-			$field = $this->submission()->content()->get($fieldData['field']);
-			if ($field && $value = $this->submission()->valueForDynamicField($field)?->value()) {
+			$value = $this->submission()->valueForDynamicField($mapping->$attribute())?->value();
+			if ($value !== null && $value !== '') {
 				$attributes[Str::upper($attribute)] = $value;
 			}
 		}
