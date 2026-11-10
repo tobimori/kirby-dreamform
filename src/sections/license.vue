@@ -1,11 +1,20 @@
 <script setup>
-import { ref, useApp, usePanel, useSection } from "kirbyuse"
+import { computed, ref, useApp, usePanel, useSection } from "kirbyuse"
 import { section } from "kirbyuse/props"
 
 const props = defineProps(section)
 
-const activated = ref(true)
+const STORAGE_KEY = "kirby$dreamform$license$banner"
+
+const state = ref("active")
 const local = ref(false)
+const isClosed = ref(window.sessionStorage.getItem(STORAGE_KEY) === "true")
+
+const message = computed(() => {
+	if (["expired", "revoked"].includes(state.value))
+		return `dreamform.license.${state.value}`
+	return local.value ? "dreamform.license.cta" : "dreamform.license.demoMode"
+})
 
 const loadSection = async () => {
 	const { load } = useSection()
@@ -14,8 +23,13 @@ const loadSection = async () => {
 		name: props.name
 	})
 
-	activated.value = response.activated
+	state.value = response.state
 	local.value = response.local
+}
+
+const close = () => {
+	window.sessionStorage.setItem(STORAGE_KEY, "true")
+	isClosed.value = true
 }
 
 const app = useApp()
@@ -36,34 +50,44 @@ loadSection()
 </script>
 
 <template>
-	<k-section v-if="!activated" class="df-license-section">
+	<k-section
+		v-if="state !== 'active' && (!local || !isClosed)"
+		class="df-license-section"
+	>
 		<div class="df-license-section-wrapper">
 			<a
-				href="https://plugins.andkindness.com/dreamform"
+				href="https://www.andkindness.com/dreamform"
 				target="_blank"
 				class="df-logo"
 			>
 				<k-icon type="dreamform" class="" />
 				<h1>DreamForm</h1>
 			</a>
-			<h2
-				v-text="
-					$t(local ? 'dreamform.license.cta' : 'dreamform.license.demoMode')
-				"
-			></h2>
+			<h2 v-text="$t(message)"></h2>
 		</div>
-		<a href="https://plugins.andkindness.com/dreamform/pricing" target="_blank">
+		<a href="https://www.andkindness.com/buy?plugin=dreamform" target="_blank">
 			{{ $t("dreamform.license.buy") }}
 		</a>
-		<k-button
-			size="sm"
-			theme="info"
-			variant="filled"
-			icon="key"
-			@click="openDialog()"
-		>
-			{{ $t("dreamform.license.activate") }}
-		</k-button>
+		<k-button-group layout="collapsed">
+			<k-button
+				size="sm"
+				theme="info"
+				variant="filled"
+				icon="key"
+				@click="openDialog()"
+			>
+				{{ $t("dreamform.license.activate") }}
+			</k-button>
+			<k-button
+				v-if="local"
+				size="sm"
+				theme="info"
+				variant="filled"
+				icon="cancel-small"
+				:title="$t('close')"
+				@click="close()"
+			/>
+		</k-button-group>
 	</k-section>
 </template>
 
@@ -97,6 +121,10 @@ loadSection()
 		text-underline-offset: 0.125rem;
 		margin-right: 0.75rem;
 		margin-left: auto;
+	}
+
+	.k-button-group[data-layout="collapsed"] > .k-button {
+		--theme-color-border: var(--color-blue-300);
 	}
 }
 

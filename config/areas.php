@@ -45,7 +45,7 @@ return [
 								'theme' => ($isLocal = App::instance()->system()->isLocal()) ? 'warning' : 'info',
 								'text' => tt(
 									'dreamform.license.activate.' . ($isLocal ? 'local' : 'domain'),
-									['domain' => App::instance()->system()->indexUrl()]
+									['domain' => License::normalizeUrl(App::instance()->system()->indexUrl())]
 								),
 							],
 							'email' => Field::email(['required' => true]),
@@ -72,17 +72,13 @@ return [
 						throw new Exception(t('dreamform.license.error.email'));
 					}
 
-					if (!Str::startsWith($body->get('license'), 'DF-STD-') && !Str::startsWith($body->get('license'), 'DF-ENT-')) {
-						throw new Exception(t('dreamform.license.error.key'));
-					}
-
-					License::downloadLicense(
+					License::activate(
 						email: $body->get('email'),
-						license: $body->get('license')
+						license: trim($body->get('license', ''))
 					);
 
 					return [
-						'message' => 'License activated successfully!',
+						'message' => t('dreamform.license.activated'),
 					];
 				}
 			],
