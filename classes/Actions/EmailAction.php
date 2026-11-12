@@ -123,30 +123,12 @@ class EmailAction extends Action
 	}
 
 	/**
-	 * Returns the values for the query email template
-	 */
-	protected function templateValues(): array
-	{
-		return A::merge(
-			$this->submission()->values()->toArray(),
-			[
-				'page' => $this->submission()->findRefererPage(),
-				'submission' => $this->submission(),
-				'form' => $this->submission()->form(),
-			]
-		);
-	}
-
-	/**
 	 * Returns the body of the email
 	 */
 	protected function body(): array|null
 	{
 		if ($this->block()->fieldTemplate()->isNotEmpty()) {
-			$html = $this->submission()->toString(
-				$this->block()->fieldTemplate()->value(),
-				$this->templateValues()
-			);
+			$html = $this->submission()->replacePlaceholders($this->block()->fieldTemplate()->value());
 
 			return $this->formatEmailBody($html);
 		}
@@ -182,10 +164,7 @@ class EmailAction extends Action
 	 */
 	public function subject()
 	{
-		return $this->submission()->toString(
-			$this->block()->subject()->value(),
-			$this->templateValues()
-		);
+		return $this->submission()->replacePlaceholders($this->block()->subject()->value(), escape: false);
 	}
 
 	/**

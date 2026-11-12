@@ -9,13 +9,9 @@
  */
 
 use Kirby\Toolkit\A;
-use Kirby\Toolkit\Str;
 
 ?>
 
 <div <?= attr(A::merge($attr['success'] ?? [], ['id' => $form->elementId()])) ?>>
-	<?= $submission->toString(
-		$form->successMessage()->or(t('dreamform.form.successMessage.default'))->value(),
-		A::map($submission->values()->toArray(), fn ($str) => $str ? Str::esc($str, 'html') : "")
-	) ?>
+	<?= $submission->replacePlaceholders($form->successMessage()->or(t('dreamform.form.successMessage.default'))->value()) ?>
 </div>
