@@ -78,6 +78,7 @@ class ComposerStaticInitdf80cdc31e7a5bb7041a75e276bec03a
 		'tobimori\\DreamForm\\Models\\Log\\SubmissionLog' => __DIR__ . '/../..' . '/classes/Models/Log/SubmissionLog.php',
 		'tobimori\\DreamForm\\Models\\Log\\SubmissionLogEntry' => __DIR__ . '/../..' . '/classes/Models/Log/SubmissionLogEntry.php',
 		'tobimori\\DreamForm\\Models\\SubmissionHandling' => __DIR__ . '/../..' . '/classes/Models/SubmissionHandling.php',
+		'tobimori\\DreamForm\\Models\\SubmissionMetadata' => __DIR__ . '/../..' . '/classes/Models/SubmissionMetadata.php',
 		'tobimori\\DreamForm\\Models\\SubmissionPage' => __DIR__ . '/../..' . '/classes/Models/SubmissionPage.php',
 		'tobimori\\DreamForm\\Models\\SubmissionSession' => __DIR__ . '/../..' . '/classes/Models/SubmissionSession.php',
 		'tobimori\\DreamForm\\Performer' => __DIR__ . '/../..' . '/classes/Performer.php',
@@ -89,7 +90,6 @@ class ComposerStaticInitdf80cdc31e7a5bb7041a75e276bec03a
 		'tobimori\\DreamForm\\Support\\Htmx' => __DIR__ . '/../..' . '/classes/Support/Htmx.php',
 		'tobimori\\DreamForm\\Support\\License' => __DIR__ . '/../..' . '/classes/Support/License.php',
 		'tobimori\\DreamForm\\Support\\Menu' => __DIR__ . '/../..' . '/classes/Support/Menu.php',
-		'tobimori\\Dreamform\\Models\\SubmissionMetadata' => __DIR__ . '/../..' . '/classes/Models/SubmissionMetadata.php',
 	);
 
 	public static function getInitializer(ClassLoader $loader)

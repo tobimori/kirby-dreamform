@@ -55,6 +55,7 @@ return array(
 	'tobimori\\DreamForm\\Models\\Log\\SubmissionLog' => $baseDir . '/classes/Models/Log/SubmissionLog.php',
 	'tobimori\\DreamForm\\Models\\Log\\SubmissionLogEntry' => $baseDir . '/classes/Models/Log/SubmissionLogEntry.php',
 	'tobimori\\DreamForm\\Models\\SubmissionHandling' => $baseDir . '/classes/Models/SubmissionHandling.php',
+	'tobimori\\DreamForm\\Models\\SubmissionMetadata' => $baseDir . '/classes/Models/SubmissionMetadata.php',
 	'tobimori\\DreamForm\\Models\\SubmissionPage' => $baseDir . '/classes/Models/SubmissionPage.php',
 	'tobimori\\DreamForm\\Models\\SubmissionSession' => $baseDir . '/classes/Models/SubmissionSession.php',
 	'tobimori\\DreamForm\\Performer' => $baseDir . '/classes/Performer.php',
@@ -66,5 +67,4 @@ return array(
 	'tobimori\\DreamForm\\Support\\Htmx' => $baseDir . '/classes/Support/Htmx.php',
 	'tobimori\\DreamForm\\Support\\License' => $baseDir . '/classes/Support/License.php',
 	'tobimori\\DreamForm\\Support\\Menu' => $baseDir . '/classes/Support/Menu.php',
-	'tobimori\\Dreamform\\Models\\SubmissionMetadata' => $baseDir . '/classes/Models/SubmissionMetadata.php',
 );
