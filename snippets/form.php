@@ -10,6 +10,7 @@
  */
 
 use Kirby\Toolkit\A;
+use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
 
 $attr = A::merge([
@@ -103,7 +104,7 @@ if ($submission?->isFinished() && $submission->form()->is($form)) {
 	$formError = $submission?->errorFor(null, $form);
 $hideEmptyErrors = DreamForm::option('hideEmptyErrors');
 if (!$hideEmptyErrors || $formError) : ?>
-		<div <?= attr(A::merge(['data-error' => true, 'role' => 'alert', 'aria-atomic' => 'true'], $attr['error'])) ?>><?= $formError ?></div>
+		<div <?= attr(A::merge(['data-error' => true, 'role' => 'alert', 'aria-atomic' => 'true'], $attr['error'])) ?>><?= Str::esc($formError ?? '', 'html') ?></div>
 	<?php endif; ?>
 
 	<?php foreach ($form->currentLayouts() as $layoutRow) : ?>

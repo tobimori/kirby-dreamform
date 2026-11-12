@@ -10,6 +10,7 @@
  */
 
 use Kirby\Toolkit\A;
+use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
 
 $error = $submission?->errorFor($block->key(), $form);
@@ -25,6 +26,6 @@ if (!$hideEmptyErrors || $error) : ?>
 		'role' => 'alert',
 		'aria-atomic' => 'true'
 	]
-)) ?>><?= $error ?></span>
+)) ?>><?= Str::esc($error ?? '', 'html') ?></span>
 
 <?php endif; ?>
