@@ -2,8 +2,11 @@
 
 namespace tobimori\DreamForm\Models;
 
+use Closure;
 use DateTime;
 use IntlDateFormatter;
+use Kirby\Cache\Cache;
+use Kirby\Cache\NullCache;
 use Kirby\Cms\App;
 use Kirby\Cms\Blocks;
 use Kirby\Cms\Collection;
@@ -672,6 +675,42 @@ class SubmissionPage extends BasePage
 		]));
 
 		return null;
+	}
+
+	/**
+	 * Runs page actions without flushing the pages cache
+	 */
+	protected function commit(string $action, array $arguments, Closure $callback): mixed
+	{
+		return $this->withoutPagesCacheFlush(fn () => parent::commit($action, $arguments, $callback));
+	}
+
+	/**
+	 * Creates a file without flushing the pages cache
+	 */
+	public function createFile(array $props, bool $move = false): File
+	{
+		return $this->withoutPagesCacheFlush(fn () => parent::createFile($props, $move));
+	}
+
+	/**
+	 * Kirby flushes the pages cache after every model action, but submissions are not rendered content
+	 * @see https://github.com/getkirby/kirby/blob/main/src/Cms/ModelCommit.php
+	 */
+	private function withoutPagesCacheFlush(Closure $callback): mixed
+	{
+		$kirby = $this->kirby();
+		$cache = $kirby->cache('pages');
+		$swap = function (Cache $cache): void {
+			$this->caches['pages'] = $cache;
+		};
+
+		$swap->call($kirby, new NullCache());
+		try {
+			return $callback();
+		} finally {
+			$swap->call($kirby, $cache);
+		}
 	}
 
 	/**
