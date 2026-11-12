@@ -536,16 +536,16 @@ class FormPage extends BasePage
 			$overwrite
 		);
 
-		// check for duplicate keys
+		// check for duplicate and reserved keys, Kirby stores content keys in lowercase
 		$keys = [];
 		foreach ($clone->formFields() as $field) {
-			$key = $field->key();
-			if (in_array($key, $keys)) {
-				throw new Exception(tt('dreamform.form.error.duplicateKey', ['key' => $key]));
+			$key = strtolower($field->key());
+			if (in_array($key, $keys, true)) {
+				throw new Exception(tt('dreamform.form.error.duplicateKey', ['key' => $field->key()]));
 			}
 
-			if (Str::startsWith($key, 'dreamform')) {
-				throw new Exception(tt('dreamform.form.error.reservedKey', ['key' => $key]));
+			if (Str::startsWith($key, 'dreamform') || in_array($key, ['title', 'slug', 'uuid'], true)) {
+				throw new Exception(tt('dreamform.form.error.reservedKey', ['key' => $field->key()]));
 			}
 
 			$keys[] = $key;
