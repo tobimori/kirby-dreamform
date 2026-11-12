@@ -32,6 +32,9 @@ return [
 	],
 	'page' => 'page://forms', // Slug or URI to the page where the forms are located
 	'secret' => null, // Optional encryption secret; falls back to Kirby's configured content.salt
+	// allow all Kirby queries in success messages and email templates, not only field keys, page and form data
+	// disable with untrusted Panel users, queries can read any data, e.g. user emails
+	'kql' => true, // defaults to false in DreamForm 3
 	'marks' => ['bold', 'italic', 'underline', 'strike', 'link', 'email'], // Marks to be used in writer fields
 	'nodes' => [
 		'heading',

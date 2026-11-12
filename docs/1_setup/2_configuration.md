@@ -28,6 +28,7 @@ HTMX and API modes require either `tobimori.dreamform.secret` or an explicitly c
 | tobimori.dreamform.metadata.collect | `[]` | `array` | Metadata to store with each submission: `'ip'` and/or `'userAgent'` |
 | tobimori.dreamform.useDataAttributes | `false` | `boolean` | Output the form URL as `data-form-url` instead of the `action` attribute |
 | tobimori.dreamform.hideEmptyErrors | `false` | `boolean` | Do not render error elements when there is no error message |
+| tobimori.dreamform.kql | `true` | `boolean` | Allow all [Kirby queries](https://getkirby.com/docs/guide/blueprints/query-language) in success messages and email templates. When `false`, only field keys, `page.id`, `page.title`, `page.url`, `form.id` and `form.title` work. Set to `false` if you have untrusted Panel users. DreamForm 3 changes the default to `false` |
 | tobimori.dreamform.debug | `fn () => option('debug')` | `boolean|callable` | If enabled, sensitive errors are shown on form submission |
 | tobimori.dreamform.layouts | `['1/1', '1/2, 1/2']` | `array` | Enabled layouts for the form builder |
 | tobimori.dreamform.page | `'page://forms'` | `string` | The page where all forms are stored |

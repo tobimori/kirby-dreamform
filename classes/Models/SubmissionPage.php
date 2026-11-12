@@ -217,11 +217,27 @@ class SubmissionPage extends BasePage
 
 	/**
 	 * Replaces `{{ key }}` placeholders in an editor-written template
-	 * with submitted values and plain page and form data
+	 * with submitted values and plain page and form data.
+	 * The `kql` option allows all queries of the Kirby query language
 	 */
 	public function replacePlaceholders(string|null $template, bool $escape = true): string
 	{
+		$format = fn (mixed $value) => match (true) {
+			!is_scalar($value) => '',
+			$escape => Str::esc((string)$value, 'html'),
+			default => (string)$value
+		};
+
 		$page = $this->findRefererPage();
+		if (DreamForm::option('kql') === true) {
+			return $this->toString($template, [
+				...A::map($this->values()->toArray(), fn (Field|null $field) => $format($field?->value())),
+				'page' => $page,
+				'submission' => $this,
+				'form' => $this->form()
+			]);
+		}
+
 		$data = [
 			...A::map($this->values()->toArray(), fn (Field|null $field) => $field?->value()),
 			'page' => $page ? [
@@ -237,14 +253,11 @@ class SubmissionPage extends BasePage
 
 		// Kirby queries (Str::template, toString) can always reach global entries
 		// such as kirby, site or page("id"), so only plain array lookups are allowed
-		return preg_replace_callback('/{{\s*(.*?)\s*}}/', function (array $match) use ($data, $escape) {
-			$value = A::get($data, $match[1]);
-			if (!is_scalar($value)) {
-				return '';
-			}
-
-			return $escape ? Str::esc((string)$value, 'html') : (string)$value;
-		}, $template ?? '');
+		return preg_replace_callback(
+			'/{{\s*(.*?)\s*}}/',
+			fn (array $match) => $format(A::get($data, $match[1])),
+			$template ?? ''
+		);
 	}
 
 	/**

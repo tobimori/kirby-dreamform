@@ -7,7 +7,21 @@ Using the email action, you can send email from the configured SMTP credentials 
 
 ![Email action configuration](email-configuration.png)
 
-Write the message in the **Template** text field. You can use field keys as placeholders in it, and in the **Subject**. A field with the key `name` is available with the placeholder `{{ name }}`. You can also insert field placeholders with the toolbar of the text field. The placeholders `{{ page.title }}`, `{{ page.url }}` and `{{ form.title }}` insert the title and URL of the page the form was submitted on and the title of the form. Placeholders do not support the Kirby Query Language.
+Write the message in the **Template** text field. You can use field keys as placeholders in it, and in the **Subject**. A field with the key `name` is available with the placeholder `{{ name }}`. You can also insert field placeholders with the toolbar of the text field. The placeholders `{{ page.title }}`, `{{ page.url }}` and `{{ form.title }}` insert the title and URL of the page the form was submitted on and the title of the form.
+
+By default, placeholders also support all queries of the Kirby Query Language, for example `{{ site.title }}` or `{{ submission.date }}`. Editors can then call all query methods of your site in a template. A query can read data that the user cannot access otherwise, for example the email addresses of all users. If you have Panel users that you do not trust, disable queries with the `kql` option. Then only the placeholders above work.
+
+```php
+// site/config/config.php
+
+return [
+  'tobimori.dreamform' => [
+    'kql' => false,
+  ],
+];
+```
+
+DreamForm 3 changes the default of `kql` to `false`.
 
 The **Template** select chooses the email template that renders the message. If you leave the text field empty, the **Default Template** included with DreamForm lists the values of all fields, except file uploads.
 
