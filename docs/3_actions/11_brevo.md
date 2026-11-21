@@ -69,7 +69,3 @@ The action can run in the background if the form uses [background actions](../5_
 ## Caching
 
 DreamForm caches the lists, templates and attributes of your Brevo account for 10 minutes. If you add a list, template or attribute in Brevo, it can take up to 10 minutes until it shows up in the panel. The check for the IP authorization is not cached, but the empty result of a blocked request is. After you authorize the IP address in Brevo, it can take up to 10 minutes until your lists show up, unless you clear the cache.
-
-## Limitations
-
-- The action loads only the first 10 lists of your Brevo account, as DreamForm uses the default page size of the Brevo API.

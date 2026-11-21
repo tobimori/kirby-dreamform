@@ -193,10 +193,17 @@ class BrevoAction extends Action
 	 */
 	protected static function getLists(): array
 	{
-		$response = static::cache(
-			'lists',
-			fn () => static::request('GET', '/contacts/lists')?->json()
-		);
+		$response = static::cache('lists', function () {
+			$lists = [];
+
+			// the Brevo API returns at most 50 lists per page
+			do {
+				$page = static::request('GET', '/contacts/lists?limit=50&offset=' . count($lists))?->json();
+				$lists = [...$lists, ...($page['lists'] ?? [])];
+			} while (count($page['lists'] ?? []) === 50);
+
+			return ['lists' => $lists];
+		});
 
 		return $response['lists'] ?? [];
 	}
@@ -329,10 +336,12 @@ class BrevoAction extends Action
 		if ($response->code() === 401) {
 			$json = $response->json();
 			if (isset($json['code']) && $json['code'] === 'unauthorized' && Str::contains($json['message'] ?? '', 'IP address')) {
-				// extract ip address from message
-				preg_match('/IP address ([0-9.]+)/', $json['message'], $matches);
+				// extract the IPv4 or IPv6 address from the message, without the period that ends the sentence
+				preg_match('/IP address (\S+?)\.?(?:\s|$)/', $json['message'], $matches);
+				$ip = $matches[1] ?? null;
+
 				return [
-					'ip' => $matches[1] ?? 'unknown',
+					'ip' => $ip !== null && V::ip($ip) ? $ip : 'unknown',
 					'message' => $json['message']
 				];
 			}
