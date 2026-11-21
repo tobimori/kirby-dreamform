@@ -11,6 +11,7 @@ use Kirby\Cms\Page;
 use Kirby\Cms\Template;
 use Kirby\Content\Field;
 use Kirby\Content\ImmutableMemoryStorage;
+use Kirby\Content\Version;
 use Kirby\Content\VersionId;
 use Kirby\Data\Json;
 use Kirby\Http\Query;
@@ -34,11 +35,11 @@ use UnexpectedValueException;
  */
 class FormPage extends BasePage
 {
-	/** @var \Kirby\Cms\Collection[] */
-	private array $formFieldsCache;
+	/** @var array<string, \Kirby\Cms\Collection[]> by version and language */
+	private array $formFieldsCache = [];
 
-	/** @var \Kirby\Cms\Layouts[] */
-	private array $steps;
+	/** @var array<string, \Kirby\Cms\Layouts[]> by version and language */
+	private array $steps = [];
 
 	/**
 	 * Uses the known form template without scanning submission directories
@@ -129,14 +130,17 @@ class FormPage extends BasePage
 	 */
 	public function steps(VersionId|string|null $versionId = null): array
 	{
-		if (isset($this->steps)) {
-			return $this->steps;
+		$version = $this->formVersion($versionId);
+		$key = $this->formCacheKey($version);
+
+		if (isset($this->steps[$key])) {
+			return $this->steps[$key];
 		}
 
 		$steps = [];
 		$step = Layouts::factory([], ['parent' => $this]);
 
-		foreach ($this->version($versionId)->content('current')->get('fields')->toLayouts() as $layout) {
+		foreach ($version->content('current')->get('fields')->toLayouts() as $layout) {
 			if ($layout->columns()->first()->width() === 'dreamform-page') {
 				$steps[] = $step;
 				$step = Layouts::factory([], ['parent' => $this]);
@@ -146,7 +150,26 @@ class FormPage extends BasePage
 		}
 
 		$steps[] = $step;
-		return $this->steps = $steps;
+		return $this->steps[$key] = $steps;
+	}
+
+	/**
+	 * Unsaved changes fall back to the saved content when there are none
+	 */
+	private function formVersion(VersionId|string|null $versionId): Version
+	{
+		$version = $this->version($versionId);
+
+		if ($version->id()->is(VersionId::CHANGES) && !$version->exists('current')) {
+			return $this->version(VersionId::LATEST);
+		}
+
+		return $version;
+	}
+
+	private function formCacheKey(Version $version): string
+	{
+		return $version->id()->value() . ':' . ($this->kirby()->languageCode() ?? 'default');
 	}
 
 	/**
@@ -162,12 +185,14 @@ class FormPage extends BasePage
 	 */
 	public function formFields(int|null $step = null, VersionId|string|null $versionId = null): Collection
 	{
-		if (isset($step) && ($step < 1 || $step > count($this->steps()))) {
+		if (isset($step) && ($step < 1 || $step > count($this->steps($versionId)))) {
 			throw new Exception("Step {$step} does not exist");
 		}
 
-		if (isset($this->formFieldsCache)) {
-			return new Collection($step ? $this->formFieldsCache[$step - 1] : $this->formFieldsCache);
+		$key = $this->formCacheKey($this->formVersion($versionId));
+
+		if (isset($this->formFieldsCache[$key])) {
+			return new Collection($step ? $this->formFieldsCache[$key][$step - 1] : $this->formFieldsCache[$key]);
 		}
 
 		$steps = [];
@@ -185,7 +210,7 @@ class FormPage extends BasePage
 			$steps[] = new Collection($fields);
 		}
 
-		$this->formFieldsCache = $steps;
+		$this->formFieldsCache[$key] = $steps;
 		return new Collection($step ? $steps[$step - 1] : $steps);
 	}
 
@@ -507,7 +532,7 @@ class FormPage extends BasePage
 	): static {
 		// create a clone to avoid modifying the original
 		$clone = $this->clone();
-		unset($clone->steps, $clone->formFieldsCache); // reset layout calculations cache
+		$clone->steps = $clone->formFieldsCache = []; // reset layout calculations cache
 
 		// move the old model into memory
 		$this->changeStorage(
@@ -603,17 +628,13 @@ class FormPage extends BasePage
 	}
 
 	/**
-	 * Static function to get page fields based on the API request url for use in panel blueprints
+	 * Returns the fields with a value as options for blueprints, field ID => label.
+	 * Blueprints query it from the form page, e.g. `page.fieldOptions("email")`
 	 */
-	public static function getFields(string|null $filterByType = null): array
+	public function fieldOptions(string|null $filterByType = null): array
 	{
-		$page = DreamForm::currentPage();
-		if (!$page) {
-			return [];
-		}
-
 		$fields = [];
-		foreach ($page->formFields() as $field) {
+		foreach ($this->formFields(null, VersionId::CHANGES) as $field) {
 			if (!$field::hasValue()) {
 				continue;
 			}
@@ -627,6 +648,28 @@ class FormPage extends BasePage
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Returns the field options with the page the form was submitted on,
+	 * for actions that send submitted data (`page.exposedFieldOptions`)
+	 */
+	public function exposedFieldOptions(): array
+	{
+		return [
+			'dreamform-referer' => t('dreamform.actions.webhook.exposedFields.referer'),
+			...$this->fieldOptions()
+		];
+	}
+
+	/**
+	 * Returns the field options of the form page from the API request url
+	 */
+	public static function getFields(string|null $filterByType = null): array
+	{
+		$page = DreamForm::currentPage();
+
+		return $page instanceof self ? $page->fieldOptions($filterByType) : [];
 	}
 
 	/**

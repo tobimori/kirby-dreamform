@@ -9,7 +9,6 @@ use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\FileUploadField;
-use tobimori\DreamForm\Models\FormPage;
 
 use function is_string;
 use function is_array;
@@ -63,7 +62,10 @@ class EmailAction extends Action
 				'attachments' => [
 					'label' => t('dreamform.actions.email.attachments.label'),
 					'type' => 'multiselect',
-					'options' => FormPage::getFields('file-upload'),
+					'options' => [
+						'type' => 'query',
+						'query' => 'page.fieldOptions("file-upload")'
+					],
 					'width' => '1/2',
 				],
 			]
