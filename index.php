@@ -55,6 +55,14 @@ App::plugin(
 			\tobimori\DreamForm\Guards\RatelimitGuard::class,
 			\tobimori\DreamForm\Guards\AkismetGuard::class,
 		],
+		// Kirby Agents loads these classes only when it is installed
+		'tobimori.agents.fields' => [
+			'dreamform-dynamic-field' => \tobimori\DreamForm\Agents\DynamicField::class,
+			'dreamform-field-slug' => \tobimori\DreamForm\Agents\KeyField::class,
+			'dreamform-api-object' => \tobimori\DreamForm\Agents\ApiObjectField::class,
+			'dreamform-fields' => \tobimori\DreamForm\Agents\FieldsField::class,
+			'dreamform-writer' => \tobimori\DreamForm\Agents\WriterField::class,
+		],
 		'commands' => require __DIR__ . '/config/commands.php',
 		'options' => require __DIR__ . '/config/options.php',
 		'fields' => require __DIR__ . '/config/fields.php',
