@@ -1,10 +1,10 @@
 {
 	"name": "tobimori/kirby-dreamform",
-	"description": "Kirby DreamForm is an opiniated form builder plugin for Kirby CMS 4+ that makes forms work like magic",
+	"description": "Kirby DreamForm is an opiniated form builder plugin for Kirby CMS 6+ that makes forms work like magic",
 	"type": "kirby-plugin",
 	"license": "proprietary",
 	"homepage": "https://plugins.andkindness.com/dreamform",
-	"version": "2.3.0",
+	"version": "3.0.0-beta.1",
 	"authors": [
 		{
 			"name": "Tobias Möritz",
@@ -18,7 +18,7 @@
 	},
 	"minimum-stability": "RC",
 	"require": {
-		"php": ">=8.3.0",
+		"php": "~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0",
 		"getkirby/composer-installer": "^1.2.1"
 	},
 	"scripts": {
@@ -35,11 +35,14 @@
 		}
 	},
 	"extra": {
-		"kirby-cms-path": false
+		"kirby-cms-path": false,
+		"kirby": {
+			"compatible": "^6.0"
+		}
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.95",
-		"getkirby/cms": "^5",
+		"getkirby/cms": "^6.0",
 		"vimeo/psalm": "6.16.1"
 	}
 }

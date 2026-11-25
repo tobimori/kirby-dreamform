@@ -23,7 +23,7 @@ use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Exceptions\PerformerException;
 use tobimori\DreamForm\Exceptions\SuccessException;
 use tobimori\DreamForm\Guards\LicenseGuard;
-use tobimori\DreamForm\Permissions\FormPermissions;
+use tobimori\DreamForm\Permissions\FormGuards;
 use tobimori\DreamForm\Support\Htmx;
 use Throwable;
 use UnexpectedValueException;
@@ -65,17 +65,16 @@ class FormPage extends BasePage
 			return [];
 		}
 
-		$htmx = [
+		return [
 			'hx-post' => $this->url(),
-			(Htmx::isVersion(4) ? 'hx-disable:inherited' : 'hx-disabled-elt') => "[id='{$this->elementId()}'] button",
+			// not inherited, so Precognition requests of the fields do not disable the submit button
+			'hx-disable' => "[id='{$this->elementId()}'] button",
 			'hx-swap' => 'outerHTML show:top',
-			(Htmx::isVersion(4) ? 'hx-vals:inherited' : 'hx-vals') => Json::encode(array_filter([
+			'hx-vals:inherited' => Json::encode(array_filter([
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
 				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
 			], fn ($value) => $value !== null))
 		];
-
-		return $htmx;
 	}
 
 	/**
@@ -190,16 +189,16 @@ class FormPage extends BasePage
 		return new Collection($step ? $steps[$step - 1] : $steps);
 	}
 
-	private array $guards;
+	private array $formGuards;
 
 	/**
-	 * Returns all guards for the form
+	 * Returns all spam protection guards for the form
 	 * @return \tobimori\DreamForm\Guards\Guard[]
 	 */
-	public function guards(): array
+	public function formGuards(): array
 	{
-		if (isset($this->guards)) {
-			return $this->guards;
+		if (isset($this->formGuards)) {
+			return $this->formGuards;
 		}
 
 		$availableGuards = DreamForm::guards();
@@ -210,7 +209,7 @@ class FormPage extends BasePage
 		}
 
 		$guards[] = new LicenseGuard($this);
-		return $this->guards = $guards;
+		return $this->formGuards = $guards;
 	}
 
 	/**
@@ -341,16 +340,6 @@ class FormPage extends BasePage
 	}
 
 	/**
-	 * Handles the form submission actions
-	 *
-	 * @deprecated Use $submission->handleActions() instead
-	 */
-	public function handleActions(SubmissionPage $submission): SubmissionPage
-	{
-		return $submission->handleActions();
-	}
-
-	/**
 	 * Runs the form handling, or renders a 404 page
 	 */
 	public function render(
@@ -443,7 +432,7 @@ class FormPage extends BasePage
 					}
 
 					/** @var \tobimori\DreamForm\Fields\Field|null $field */
-					$field = $fieldId ? $this->formFields()->find($fieldId) : null;
+					$field = $fieldId ? $this->formFields()->findByKey($fieldId) : null;
 					if (!$field) {
 						return t('dreamform.submission.error.generic');
 					}
@@ -602,9 +591,7 @@ class FormPage extends BasePage
 			return null;
 		}
 
-		// TODO: in next major version, use $field->sanitize(new Field($this, $key, $value)) directly
-		// it's breaking change, since it previously was a protected method
-		return $field->setValue(new Field($this, $key, $value))->value();
+		return $field->sanitize(new Field($this, $key, $value));
 	}
 
 	/**
@@ -643,11 +630,11 @@ class FormPage extends BasePage
 	}
 
 	/**
-	 * Returns the modified permissions object for the form
+	 * Returns the guards with the DreamForm permissions for the form
 	 */
-	public function permissions(): FormPermissions
+	public function guards(): FormGuards
 	{
-		return new FormPermissions($this);
+		return FormGuards::for($this);
 	}
 
 	/**

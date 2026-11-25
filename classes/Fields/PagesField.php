@@ -24,7 +24,7 @@ class PagesField extends Field
 						'placeholder' => 'dreamform/fields/placeholder',
 						'pages' => [
 							'label' => t('dreamform.common.options.label'),
-							'type' => 'pages',
+							'type' => 'pagepicker',
 							'query' => DreamForm::option('fields.pages.query'),
 							'width' => '1/2',
 						],
@@ -52,7 +52,7 @@ class PagesField extends Field
 	{
 		return [
 			'label' => $this->block()->label()->value() ?? t('dreamform.fields.pages.name'),
-			'type' => 'pages'
+			'type' => 'pagepicker'
 		];
 	}
 

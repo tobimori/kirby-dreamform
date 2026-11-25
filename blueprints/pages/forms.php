@@ -28,13 +28,13 @@ return fn () => [
 		'forms' => [
 			'label' => 'dreamform.forms',
 			'icon' => 'survey',
-			'sections' => [
+			'fields' => [
 				'license' => [
 					'type' => 'dreamform-license'
 				],
 				'forms' => [
 					'label' => 'dreamform.forms',
-					'type' => 'pages',
+					'type' => 'pagelist',
 					'empty' => 'dreamform.forms.empty',
 					'template' => 'form',
 					'image' => false
@@ -44,19 +44,19 @@ return fn () => [
 		'submissions' => App::instance()->user()?->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions') ? [
 			'label' => 'dreamform.submissions.recent',
 			'icon' => 'archive',
-			'sections' => [
-				'license' => [
+			'fields' => [
+				// fields share one namespace in the blueprint
+				'submissionsLicense' => [
 					'type' => 'dreamform-license'
 				],
 				'submissions' => [
 					'label' => 'dreamform.submissions.recent',
-					'type' => 'pages',
+					'type' => 'pagelist',
 					'empty' => 'dreamform.submissions.empty',
 					'template' => 'submission',
 					'layout' => 'table',
 					'create' => false,
-					'rawvalues' => true,
-					'text' => false,
+					'text' => '',
 					// TODO: cache the query as it seems to be slow on larger sites (> 1 sec)
 					'query' => "page.index.filterBy('intendedTemplate', 'submission').sortBy('sortDate', 'desc').limit(20)",
 					'columns' => [

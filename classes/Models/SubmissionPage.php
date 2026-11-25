@@ -27,7 +27,7 @@ use Kirby\Toolkit\V;
 use tobimori\DreamForm\DreamForm;
 use tobimori\DreamForm\Fields\Field as FormField;
 use tobimori\DreamForm\Models\Log\HasSubmissionLog;
-use tobimori\DreamForm\Permissions\SubmissionPermissions;
+use tobimori\DreamForm\Permissions\SubmissionGuards;
 use tobimori\DreamForm\Storage\SubmissionSessionStorage;
 use tobimori\DreamForm\Storage\SubmissionCacheStorage;
 use tobimori\DreamForm\Support\Htmx;
@@ -154,7 +154,7 @@ class SubmissionPage extends BasePage
 	public function valueForId(string $id): Field|null
 	{
 		/** @var tobimori\DreamForm\Fields\Field|null $field */
-		$field = $this->form()->formFields()->find($id);
+		$field = $this->form()->formFields()->findByKey($id);
 		if ($field) {
 			if (!($key = $field->key())) {
 				return null;
@@ -463,7 +463,7 @@ class SubmissionPage extends BasePage
 		// however when partial submissions are enabled, the action would be executed after the form has been partially saved already
 		// so when $saveToDisk is false, and partial submissions are enabled we save anyway (?)
 		// TBH: this might be unwanted behaviour - but i'm now sure how to handle this otherwise? delete the submission but keep partial?
-		// (this might also be an issue in previous versions with multi-step forms since they also save partials)
+		// multi-step forms also save partials, so they can have the same issue
 		if ($saveToDisk || $this->form()->partialSubmissions()->toBool() && DreamForm::option('partialSubmissions') === true) {
 			return $submission->saveSubmission();
 		}
@@ -570,7 +570,7 @@ class SubmissionPage extends BasePage
 		if (!$initial) {
 			// report the submission as spam to all guards
 			// submits false negatives to akismet, etc.
-			foreach ($this->form()->guards() as $guard) {
+			foreach ($this->form()->formGuards() as $guard) {
 				$guard->reportSubmissionAsSpam($this);
 			}
 		}
@@ -586,7 +586,7 @@ class SubmissionPage extends BasePage
 		if (!$initial) {
 			// report the submission as ham to all guards
 			// submits false positives to akismet, etc.
-			foreach ($this->form()->guards() as $guard) {
+			foreach ($this->form()->formGuards() as $guard) {
 				$guard->reportSubmissionAsHam($this);
 			}
 		}
@@ -771,11 +771,11 @@ class SubmissionPage extends BasePage
 	}
 
 	/**
-	 * Returns the permissions object for this page
+	 * Returns the guards with the DreamForm permissions for this page
 	 */
-	public function permissions(): SubmissionPermissions
+	public function guards(): SubmissionGuards
 	{
-		return new SubmissionPermissions($this);
+		return SubmissionGuards::for($this);
 	}
 
 	/**

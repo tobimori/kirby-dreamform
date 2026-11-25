@@ -1,22 +1,17 @@
-import { useApp, usePanel } from "kirbyuse"
+import { usePanel } from "kirbyuse"
 
 /**
- * Translates a log message to HTML. Kirby inserts template values without
- * escaping them, and log values can contain submitted data. Text without a
- * translation (e.g. exception messages) is escaped as plain text
+ * Translates a log message to trusted HTML. The template values are
+ * escaped, as log values can contain submitted data. Text without a
+ * translation (e.g. exception messages) stays a plain string, which
+ * `v-safe-html` and `k-box` escape
  */
 export function translateLog(key, template = {}) {
-	const { $esc } = useApp()
+	const panel = usePanel()
 
-	const escape = (value) => {
-		if (typeof value === "string") return $esc(value)
-		if (value && typeof value === "object") {
-			return Object.fromEntries(
-				Object.entries(value).map(([k, v]) => [k, escape(v)])
-			)
-		}
-		return value
+	if (panel.translation.data[key] === undefined) {
+		return key ?? ""
 	}
 
-	return usePanel().t(key, escape(template)) ?? $esc(key ?? "")
+	return panel.th(key, template)
 }

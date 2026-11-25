@@ -15,7 +15,7 @@ Download or clone the repository from GitHub and switch into the created directo
 git clone https://github.com/tobimori/dreamform-plainkit df-plainkit && cd df-plainkit
 ```
 
-Install Kirby 5, DreamForm and other utility plugins (like [DotEnv](https://getkirby.com/plugins/bnomei/dotenv) for environment variables & [Ray](https://getkirby.com/plugins/genxbe/ray) for debugging) using [Composer](https://getcomposer.org/). If you don't have Composer yet, follow the installation guide on the Composer website.
+Install Kirby, DreamForm and other utility plugins (like [DotEnv](https://getkirby.com/plugins/bnomei/dotenv) for environment variables & [Ray](https://getkirby.com/plugins/genxbe/ray) for debugging) using [Composer](https://getcomposer.org/). If you don't have Composer yet, follow the installation guide on the Composer website.
 
 ```bash
 composer install
@@ -76,34 +76,37 @@ The corresponding Page blueprint for that template [is located here](https://git
 ```yaml
 title: Default Page
 
+fields:
+  text:
+    toolbar:
+      inline: false
+    type: writer
+    inline: true
+  form: dreamform/fields/form
+  pages:
+    type: pagelist
+    template: default
+  files:
+    type: filelist
+
 columns:
   main:
     width: 2/3
-    sections:
-      fields:
-        type: fields
-        fields:
-          text:
-            toolbar:
-              inline: false
-            type: writer
-            inline: true
-          form: dreamform/fields/form
+    fields:
+      - text
+      - form
   sidebar:
     width: 1/3
-    sections:
-      pages:
-        type: pages
-        template: default
-      files:
-        type: files
+    fields:
+      - pages
+      - files
 ```
 
 ---
 
 ### `/site/blueprints/users/editor.yml`
 
-[This file is the user blueprint for the editor role.](https://github.com/tobimori/dreamform-plainkit/blob/main/site/blueprints/users/editor.yml) We want our editors to not be able to create or update forms, but they should be able to view submissions and forms. This is done by setting the DreamForm permissions here. By default, all users have access to all permissions. You can [read more about Permissions here.](4_permissions.md)
+[This file is the user blueprint for the editor role.](https://github.com/tobimori/dreamform-plainkit/blob/main/site/blueprints/users/editor.yml) We want our editors to not be able to create or update forms, but they should be able to view submissions and forms. This is done by setting the DreamForm permissions here. By default, all users have access to all permissions. You can [read more about Permissions here.](https://plugins.andkindness.com/dreamform/docs/developers/permissions)
 
 ```yaml
 title: Editor
@@ -136,7 +139,7 @@ permissions:
 
 ### `/site/plugins/dreamform-demo/LinkedInField.php`
 
-[This is a custom field](https://github.com/tobimori/dreamform-plainkit/blob/main/site/plugins/dreamform-demo/LinkedInField.php) that validates LinkedIn Profile URLs, used in our example Job application form. The HTML snippet can be found above. You can [read more about building your own custom fields here.](../2_fields/12_custom.md)
+[This is a custom field](https://github.com/tobimori/dreamform-plainkit/blob/main/site/plugins/dreamform-demo/LinkedInField.php) that validates LinkedIn Profile URLs, used in our example Job application form. The HTML snippet can be found above. You can [read more about building your own custom fields here.](https://plugins.andkindness.com/dreamform/docs/fields/custom)
 
 ---
 
@@ -148,4 +151,4 @@ permissions:
 
 ### `/site/config/config.php`
 
-[This is our Kirby config file.](https://github.com/tobimori/dreamform-plainkit/blob/main/site/config/config.php) It sets some important defaults for using DreamForm, such as our HTMX mode or removing the [CSRF guard](../4_guards/2_csrf.md) so we can be accept form submissions on cached websites.
+[This is our Kirby config file.](https://github.com/tobimori/dreamform-plainkit/blob/main/site/config/config.php) It sets some important defaults for using DreamForm, such as our HTMX mode or removing the [CSRF guard](https://plugins.andkindness.com/dreamform/docs/guards/csrf) so we can be accept form submissions on cached websites.

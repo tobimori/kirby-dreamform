@@ -13,7 +13,7 @@ use Kirby\Plugin\Plugin;
 use Kirby\Toolkit\Str;
 
 /**
- * DreamForm License implementation for Kirby 5
+ * DreamForm License implementation for Kirby
  *
  * If you're here to crack the plugin, please buy a license instead.
  * I'm an independent developer and this plugin helps fund my open-source work as well.
@@ -214,7 +214,7 @@ final class License extends KirbyLicense
 		]);
 
 		if ($request->code() !== 200) {
-			throw new \Exception('Invalid license');
+			throw new \Kirby\Exception\InvalidArgumentException('Invalid license');
 		}
 
 		$licenseData = $request->json();
@@ -225,7 +225,7 @@ final class License extends KirbyLicense
 		$newLicense = new static(App::instance()->plugin('tobimori/dreamform'));
 
 		if (!$newLicense->isValid()) {
-			throw new \Exception('Downloaded license is invalid');
+			throw new \Kirby\Exception\InvalidArgumentException('Downloaded license is invalid');
 		}
 
 		return $newLicense;

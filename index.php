@@ -9,10 +9,10 @@ use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
 
 if (
-	version_compare(App::version() ?? '0.0.0', '5.0.0-rc.3', '<') === true ||
-	version_compare(App::version() ?? '0.0.0', '6.0.0', '>') === true
+	version_compare(App::version() ?? '0.0.0', '6.0.0', '<') === true ||
+	version_compare(App::version() ?? '0.0.0', '7.0.0-alpha.1', '>=') === true
 ) {
-	throw new Exception('Kirby DreamForm requires Kirby 5');
+	throw new Exception('Kirby DreamForm requires Kirby 6');
 }
 
 // register plugin
@@ -56,9 +56,7 @@ App::plugin(
 			\tobimori\DreamForm\Guards\AkismetGuard::class,
 		],
 		'commands' => require __DIR__ . '/config/commands.php',
-		'api' => require __DIR__ . '/config/api.php',
 		'options' => require __DIR__ . '/config/options.php',
-		'sections' => require __DIR__ . '/config/sections.php',
 		'fields' => require __DIR__ . '/config/fields.php',
 		'areas' => require __DIR__ . '/config/areas.php',
 		'permissions' => [

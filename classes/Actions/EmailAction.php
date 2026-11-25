@@ -245,7 +245,7 @@ class EmailAction extends Action
 		// and uploads of the current request are attached
 		$attachments = [];
 		foreach ($this->block()->attachments()->split() as $id) {
-			$field = $this->submission()->form()->formFields()->find($id);
+			$field = $this->submission()->form()->formFields()->findByKey($id);
 			if (!($field instanceof FileUploadField)) {
 				continue;
 			}

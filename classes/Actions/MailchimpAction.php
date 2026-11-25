@@ -234,10 +234,10 @@ class MailchimpAction extends Action
 		]);
 
 		// Create and return the form fields based on the blueprint and page model
-		return (new Form([
-			'fields' => $blueprint,
-			'model' => $page
-		]))->fields()->toArray();
+		return (new Form(
+			fields: $blueprint,
+			model: $page
+		))->fields()->toProps();
 	}
 
 	/**

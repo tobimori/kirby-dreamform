@@ -5,18 +5,10 @@ description: Get started with using DreamForm
 
 ## Requirements
 
-- Kirby 5 (5.0 or later, Kirby 6 is not supported yet)
+- Kirby 6.0 or later
 - PHP 8.3 or later
 - A valid Kirby license & DreamForm license
 - UUIDs enabled in your Kirby installation
-
-### Compatibility with other plugins
-
-If you're using any of the following plugins, make sure you're at least on the specified version to make them work with DreamForm.
-
-- Blade Templates by Lukas Leitsch: Version 3.0.1 or later
-- Twig Templates by JUST: Version 5.0.2 or later
-- Kirby SEO: Version 1.0.0 or later
 
 ## Installation
 

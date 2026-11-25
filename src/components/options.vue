@@ -1,8 +1,9 @@
 <script setup>
 import Editable from "@/components/editable.vue"
-import { nextTick, onMounted, ref, useApp, watch } from "kirbyuse"
+import { useHelpers } from "kirbyuse"
+import { nextTick, onMounted, ref, watch } from "vue"
 
-const app = useApp()
+const helpers = useHelpers()
 
 const props = defineProps({
 	classMod: String,
@@ -15,15 +16,28 @@ const props = defineProps({
 const items = ref([])
 const setItems = (options) => {
 	items.value = options.map((option) => ({
-		_id: app.$helper.uuid(),
+		_id: helpers.uuid(),
 		...option
 	}))
 }
 
+// the input to focus after the next options update, as the parent
+// can apply the update after the next tick
+let pendingFocus = null
+
 onMounted(() => setItems(props.options))
 watch(
 	() => props.options,
-	(options) => setItems(options)
+	(options) => {
+		setItems(options)
+
+		const focus = pendingFocus
+		pendingFocus = null
+		const last = items.value.at(-1)
+		if (focus && last) {
+			nextTick(() => focusInput(focus[last._id]))
+		}
+	}
 )
 
 // handle updating
@@ -38,25 +52,21 @@ const updateOption = (id, value) => {
 }
 
 const addOption = () => {
+	pendingFocus = labelInputs
 	update([...items.value, { value: "", label: "" }])
-	nextTick(() => focusLabel(items.value[items.value.length - 1]._id))
 }
 
 const removeOption = (id) => {
+	pendingFocus = valueInputs
 	update(items.value.filter((item) => item._id !== id))
-	nextTick(() => {
-		if (items.value.length) {
-			focusValue(items.value[items.value.length - 1]._id)
-		}
-	})
 }
 
-// handle focus
-const labelInputs = ref([])
-const valueInputs = ref([])
+// handle focus, refs are keyed by item id as Vue does not keep
+// the order of template ref arrays in v-for
+const labelInputs = {}
+const valueInputs = {}
 
 const focusEndOf = (el) => {
-	console.log(labelInputs.value, valueInputs.value)
 	if (!el) return
 
 	el.focus()
@@ -68,15 +78,11 @@ const focusEndOf = (el) => {
 	selection.addRange(range)
 }
 
-const focusLabel = (id) => {
-	const index = items.value.findIndex((item) => item._id === id)
-	focusEndOf(labelInputs.value[index].el)
-}
-
-const focusValue = (id) => {
-	const index = items.value.findIndex((item) => item._id === id)
-	focusEndOf(valueInputs.value[index].el)
-}
+// editable inputs expose their element, writer inputs a focus method
+const focusInput = (input) =>
+	input?.el ? focusEndOf(input.el) : input?.focus?.()
+const focusLabel = (id) => focusInput(labelInputs[id])
+const focusValue = (id) => focusInput(valueInputs[id])
 
 const focusNextOrAddOption = (id) => {
 	const index = items.value.findIndex((item) => item._id === id)
@@ -109,7 +115,7 @@ const focusNextOrAddOption = (id) => {
 					<component
 						:is="useWriter ? 'k-writer-input' : Editable"
 						v-bind="writerOptions"
-						ref="labelInputs"
+						:ref="(input) => (labelInputs[item._id] = input)"
 						:toolbar="{ inline: true }"
 						class="df-option-label"
 						tag="div"
@@ -118,18 +124,18 @@ const focusNextOrAddOption = (id) => {
 						:model-value="item.label"
 						:value="item.label"
 						@input="updateOption(item._id, { label: $event })"
-						@update:modelValue="updateOption(item._id, { label: $event })"
+						@update:model-value="updateOption(item._id, { label: $event })"
 						@backspace="removeOption(item._id)"
 						@enter="focusValue(item._id)"
 					/>
 					<editable
-						ref="valueInputs"
+						:ref="(input) => (valueInputs[item._id] = input)"
 						tag="code"
 						class="df-option-value"
 						:class="{ 'is-invalid': !item.value }"
 						:placeholder="$t('dreamform.common.options.value.label')"
 						:model-value="item.value"
-						@update:modelValue="updateOption(item._id, { value: $event })"
+						@update:model-value="updateOption(item._id, { value: $event })"
 						@backspace="focusLabel(item._id)"
 						@enter="focusNextOrAddOption(item._id)"
 					/>
@@ -214,7 +220,7 @@ const focusNextOrAddOption = (id) => {
 	white-space: nowrap;
 
 	&.is-invalid {
-		background: var(--color-red);
+		background: var(--color-red-600);
 		color: var(--color-white);
 	}
 }
@@ -239,6 +245,6 @@ const focusNextOrAddOption = (id) => {
 }
 
 .df-option-label.is-invalid {
-	color: var(--color-red);
+	color: var(--color-red-600);
 }
 </style>

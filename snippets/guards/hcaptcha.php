@@ -21,7 +21,7 @@ if (
 
 	<?php if (Htmx::isActive()) : ?>
 		<script>
-			htmx.on("<?= Htmx::eventName('afterSettle') ?>", () => {
+			htmx.on("htmx:after:settle", () => {
 				const el = document.querySelector(".h-captcha");
 				if (el && typeof hcaptcha !== 'undefined') {
 					<?php if ($isCustomTheme) : ?>
@@ -35,7 +35,7 @@ if (
 					<?php endif; ?>
 				}
 			});
-			htmx.on("<?= Htmx::eventName('beforeSwap') ?>", () => {
+			htmx.on("htmx:before:swap", () => {
 				if (typeof hcaptcha !== 'undefined') hcaptcha.reset();
 			});
 		</script>

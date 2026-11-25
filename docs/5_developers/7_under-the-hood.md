@@ -70,6 +70,6 @@ When [Precognition](../0_general/4_precognition.md) is enabled in HTMX mode, eac
 4. **Field validation:** DreamForm sets and validates all fields of the current step, and updates the errors in the submission state.
 5. **Partial submission storage:** If partial submissions are enabled, DreamForm saves the submission to disk.
 6. **Session storage:** DreamForm stores the submission in the session.
-7. **Response:** DreamForm returns only the HTML of the field that sent the request. It finds this field from the `HX-Source` header (HTMX 4) or the `HX-Trigger` header (HTMX 2). If the request did not include a session, the response also includes the session snippet.
+7. **Response:** DreamForm returns only the HTML of the field that sent the request. It finds this field from the `HX-Source` header. If the request did not include a session, the response also includes the session snippet.
 
 Precognitive requests do not run the `dreamform.submit:before` or `dreamform.submit:after` hooks, the post-validation guards, the actions, or the after-submit fields. They do not move to the next step. They also do not finish the submission, except when a guard calls `silentCancel()` in `precognitiveRun()`, as the honeypot guard does. In this case, DreamForm finishes the submission and runs the `dreamform.submit:after` hook.

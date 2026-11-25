@@ -23,17 +23,16 @@ return function () {
 	return [
 		'label' => t('dreamform.submissions'),
 		'icon' =>  'archive',
-		'sections' => ['submissions' => [
+		'fields' => ['submissions' => [
 			'label' => t('dreamform.submissions'),
-			'type' => 'pages',
+			'type' => 'pagelist',
 			'empty' => 'dreamform.submissions.empty',
 			'template' => 'submission',
 			'layout' => 'table',
 			'create' => false,
-			'image' => DreamForm::option('integrations.gravatar'),
-			'text' => false,
+			'image' => DreamForm::option('integrations.gravatar') ? null : false,
+			'text' => '',
 			'search' => true,
-			'rawvalues' => true,
 			'sortBy' => 'sortDate desc',
 			'batch' => true,
 			'columns' => A::merge([

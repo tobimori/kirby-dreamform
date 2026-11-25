@@ -1,8 +1,8 @@
 <script setup>
-import { props as blockProps } from "@/utils/block"
+import { block } from "kirbyuse/props"
 import Editable from "@/components/editable.vue"
 
-const props = defineProps(blockProps)
+const props = defineProps(block)
 
 const emit = defineEmits(["update", "open"])
 </script>
@@ -20,7 +20,7 @@ const emit = defineEmits(["update", "open"])
 				:slugify="true"
 				:placeholder="$t('dreamform.fields.hidden.placeholder')"
 				:model-value="content.key"
-				@update:modelValue="emit('update', { ...props.content, key: $event })"
+				@update:model-value="emit('update', { ...props.content, key: $event })"
 			/>
 		</div>
 	</div>
@@ -47,7 +47,7 @@ const emit = defineEmits(["update", "open"])
 	padding-left: var(--spacing-3) !important;
 
 	&.is-invalid {
-		outline-color: var(--color-red);
+		outline-color: var(--color-red-600);
 	}
 }
 </style>

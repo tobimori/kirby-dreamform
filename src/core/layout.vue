@@ -9,6 +9,7 @@ similar to https://github.com/tobimori/kirby-icon-field.
 
 <template>
 	<section
+		:data-disabled="disabled"
 		:data-selected="isSelected"
 		class="k-layout"
 		:class="{
@@ -23,6 +24,7 @@ similar to https://github.com/tobimori/kirby-icon-field.
 				:key="column.id"
 				v-bind="{
 					...column,
+					disabled,
 					endpoints,
 					fieldsetGroups,
 					fieldsets
@@ -41,6 +43,8 @@ similar to https://github.com/tobimori/kirby-icon-field.
 			{{ $t("dreamform.form.nextPage") }}
 		</div>
 		<nav v-if="!disabled" class="k-layout-toolbar">
+			<k-sort-handle />
+
 			<k-button
 				v-if="settings && !isPageIndicator"
 				:title="$t('settings')"
@@ -54,8 +58,8 @@ similar to https://github.com/tobimori/kirby-icon-field.
 				icon="angle-down"
 				@click="$refs.options.toggle()"
 			/>
-			<k-dropdown-content ref="options" :options="options" align-x="end" />
-			<k-sort-handle />
+
+			<k-dropdown ref="options" :options="options" align-x="end" />
 		</nav>
 	</section>
 </template>
@@ -63,6 +67,7 @@ similar to https://github.com/tobimori/kirby-icon-field.
 <script>
 export default {
 	extends: "k-layout",
+	emits: ["select", "updateColumn"],
 	computed: {
 		isPageIndicator: {
 			get() {
@@ -103,7 +108,7 @@ export default {
 	width: 100%;
 	padding-right: var(--layout-toolbar-width);
 	background: var(--block-color-back);
-	--icon-color: var(--color-icon);
+	--icon-color: var(--color-text-dimmed);
 	color: var(--color-text-dimmed);
 	font-weight: var(--font-semi);
 	gap: var(--spacing-2);
@@ -118,9 +123,5 @@ body:has(.k-page-view[data-template="form"]) {
 	.k-layout-toolbar {
 		padding-bottom: 0;
 	}
-}
-
-.k-layout-df-page .k-layout-column {
-	min-height: 4rem;
 }
 </style>

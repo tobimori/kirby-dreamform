@@ -1,9 +1,9 @@
 <script setup>
-import { props as blockProps } from "@/utils/block"
+import { block } from "kirbyuse/props"
 import FieldError from "@/components/field-error.vue"
 import FieldHeader from "@/components/field-header.vue"
 
-const props = defineProps(blockProps)
+const props = defineProps(block)
 
 const emit = defineEmits(["update", "open"])
 const update = (value) => emit("update", { ...props.content, ...value })

@@ -14,7 +14,7 @@ return function () {
 
 	return [
 		'label' => t('dreamform.form'),
-		'type' => 'pages',
+		'type' => 'pagepicker',
 		'query' => "page('{$page}').children.listed.filterBy('intendedTemplate', 'form')",
 		'empty' => t('dreamform.form.empty'),
 		'multiple' => false

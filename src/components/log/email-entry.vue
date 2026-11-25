@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from "kirbyuse"
+import { computed, onMounted, onUnmounted, ref } from "vue"
 
 const props = defineProps({
 	template: {
@@ -64,9 +64,9 @@ const meta = computed(() => [
 				}}</span>
 			</div>
 			<div class="df-log-email-entry-body">
-				<template v-for="(section, index) in sections">
-					<hr v-if="index > 0" :key="`hr-${index}`" />
-					<span :key="index">{{ section }}</span>
+				<template v-for="(section, index) in sections" :key="index">
+					<hr v-if="index > 0" />
+					<span>{{ section }}</span>
 				</template>
 			</div>
 		</div>
@@ -163,7 +163,7 @@ const meta = computed(() => [
 	color: var(--color-text);
 
 	&:not([data-type="subject"]) {
-		background: var(--field-color-back);
+		background: light-dark(var(--color-gray-200), var(--color-gray-800));
 		border-radius: 9999px;
 		padding-inline: var(--spacing-2);
 	}

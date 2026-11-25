@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from "kirbyuse"
-import { ref, usePanel } from "kirbyuse"
+import { usePanel } from "kirbyuse"
+import { computed, ref } from "vue"
 import {
 	autofocus,
 	disabled,
@@ -37,7 +37,7 @@ const props = defineProps({
 	}
 })
 
-const { $t } = usePanel()
+const { t: $t } = usePanel()
 
 const changeType = (type) => {
 	emit("input", {
@@ -88,7 +88,7 @@ const fields = ref(null)
 </script>
 
 <template>
-	<k-field v-bind="props" :input="id" class="df-dynamic-field">
+	<k-field v-bind="props" :input="props.id" class="df-dynamic-field">
 		<k-input v-bind="props" :invalid="isInvalid" :icon="false">
 			<div class="k-link-input-header df-dynamic-field-input-header">
 				<!-- Type selector -->
@@ -102,7 +102,7 @@ const fields = ref(null)
 				>
 					{{ currentType.label }}
 				</k-button>
-				<k-dropdown-content
+				<k-dropdown
 					ref="types"
 					:options="
 						typeOptions.map((obj) => ({
@@ -129,7 +129,7 @@ const fields = ref(null)
 								: $t("dreamform.common.noFields")
 						}}
 					</k-button>
-					<k-dropdown-content
+					<k-dropdown
 						v-if="props.options.length > 0"
 						ref="fields"
 						:options="
@@ -150,7 +150,7 @@ const fields = ref(null)
 
 				<k-text-input
 					v-else
-					:id="id"
+					:id="props.id"
 					ref="input"
 					:disabled="props.disabled"
 					:value="props.value?.value ?? ''"

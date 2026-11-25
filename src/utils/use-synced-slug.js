@@ -1,12 +1,5 @@
-import {
-	onMounted,
-	onUnmounted,
-	ref,
-	useApp,
-	useContent,
-	usePanel,
-	watch
-} from "kirbyuse"
+import { useContent, useHelpers, usePanel } from "kirbyuse"
+import { onMounted, onUnmounted, ref, watch } from "vue"
 
 /**
  * Composable for syncing slug values with auto-generation and uniqueness
@@ -24,7 +17,7 @@ export function useSyncedSlug({
 	syncSource,
 	onUpdate
 }) {
-	const app = useApp()
+	const helpers = useHelpers()
 	const panel = usePanel()
 	const { currentContent } = useContent()
 
@@ -93,7 +86,7 @@ export function useSyncedSlug({
 			() => syncSource[syncField],
 			(newValue) => {
 				if (shouldAutoGenerate.value && newValue) {
-					const baseSlug = app.$helper.slug(newValue)
+					const baseSlug = helpers.slug(newValue)
 					const uniqueSlug = ensureUniqueSlug(baseSlug)
 					slug.value = uniqueSlug
 					onUpdate?.(uniqueSlug)

@@ -17,7 +17,7 @@ const emit = defineEmits(["update"])
 			class="df-placeholder"
 			:placeholder="placeholder ?? $t('dreamform.common.placeholder.label')"
 			:model-value="content.placeholder"
-			@update:modelValue="emit('update', { ...content, placeholder: $event })"
+			@update:model-value="emit('update', { ...content, placeholder: $event })"
 		/>
 		<k-icon v-if="icon" :type="icon" />
 	</div>

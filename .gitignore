@@ -5,7 +5,7 @@
 
 node_modules
 /tests
-index.dev.mjs
+index.dev.*
 /.repos/
 /.playground/
 

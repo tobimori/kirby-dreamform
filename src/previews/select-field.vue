@@ -3,9 +3,9 @@ import FieldError from "@/components/field-error.vue"
 import FieldHeader from "@/components/field-header.vue"
 import FieldInput from "@/components/field-input.vue"
 import Options from "@/components/options.vue"
-import { props as blockProps } from "@/utils/block"
+import { block } from "kirbyuse/props"
 
-const props = defineProps(blockProps)
+const props = defineProps(block)
 
 const emit = defineEmits(["update", "open"])
 const update = (value) => emit("update", { ...props.content, ...value })

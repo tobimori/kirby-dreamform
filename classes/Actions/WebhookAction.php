@@ -67,7 +67,7 @@ class WebhookAction extends Action
 				continue;
 			}
 
-			$field = $this->form()->formFields()->find($fieldId);
+			$field = $this->form()->formFields()->findByKey($fieldId);
 			$value = $this->submission()->valueForId($fieldId);
 
 			if ($field && $value?->isNotEmpty()) {

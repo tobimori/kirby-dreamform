@@ -29,7 +29,7 @@ const { handleManualInput } = useSyncedSlug({
 				:placeholder="fieldset.name"
 				:class="{ 'is-invalid': !content.label && requireLabel }"
 				:model-value="content.label"
-				@update:modelValue="update({ label: $event })"
+				@update:model-value="update({ label: $event })"
 			/>
 			<button
 				type="button"
@@ -56,7 +56,7 @@ const { handleManualInput } = useSyncedSlug({
 				:slugify="true"
 				:placeholder="$t('dreamform.common.key.label')"
 				:model-value="content.key"
-				@update:modelValue="handleManualInput"
+				@update:model-value="handleManualInput"
 			/>
 			<k-icon type="key" />
 		</div>
@@ -77,7 +77,7 @@ const { handleManualInput } = useSyncedSlug({
 	}
 
 	.df-field-label.is-invalid {
-		color: var(--color-red);
+		color: var(--color-red-600);
 	}
 }
 
@@ -93,7 +93,7 @@ const { handleManualInput } = useSyncedSlug({
 	align-items: center;
 
 	&.is-invalid {
-		background: var(--color-red);
+		background: var(--color-red-600);
 		color: var(--color-white);
 	}
 }
@@ -105,7 +105,7 @@ const { handleManualInput } = useSyncedSlug({
 	margin-left: var(--spacing-1);
 
 	&.is-active {
-		color: var(--color-blue);
+		color: var(--color-blue-600);
 
 		&:hover {
 			color: var(--color-blue-500);

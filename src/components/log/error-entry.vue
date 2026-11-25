@@ -18,6 +18,5 @@ const text = translateLog(props.text, props.template)
 		:text="text"
 		theme="negative"
 		icon="alert"
-		:html="true"
 	/>
 </template>

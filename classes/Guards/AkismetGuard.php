@@ -48,7 +48,7 @@ class AkismetGuard extends Guard
 				'referrer' => $request->header("Referer"),
 
 				// send honeypot if used
-				'honeypot_field_name' => $honeypotField = A::find($this->form()->guards(), fn ($guard) => $guard instanceof HoneypotGuard)?->fieldName(),
+				'honeypot_field_name' => $honeypotField = A::find($this->form()->formGuards(), fn ($guard) => $guard instanceof HoneypotGuard)?->fieldName(),
 				'hidden_honeypot_field' => $honeypotField ? SubmissionPage::valueFromBody($honeypotField) : null,
 			], $this->contentForSubmission($submission)));
 

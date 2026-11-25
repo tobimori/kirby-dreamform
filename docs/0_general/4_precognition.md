@@ -7,11 +7,7 @@ Precognition validates fields as a user enters data. It is available only in HTM
 
 ## Prerequisites
 
-- **HTMX mode:** Set the DreamForm mode to `htmx`.
-- **HTMX 4:** No morph extension is necessary because morphing is part of HTMX 4.
-- **HTMX 2:** Install the [Idiomorph extension](https://htmx.org/extensions/idiomorph/).
-
-See the [HTMX support guide](../developers/htmx-support) for the version-specific installation instructions.
+- **HTMX mode:** Set the DreamForm mode to `htmx` and install HTMX 4. See the [HTMX support guide](../developers/htmx-support).
 
 ## Configuration
 
@@ -23,15 +19,10 @@ Enable Precognition in your config:
 return [
   'tobimori.dreamform' => [
     'mode' => 'htmx',
-    'htmx' => [
-      'version' => 4,
-    ],
     'precognition' => true,
   ],
 ];
 ```
-
-Remove the `htmx` block, or set its version to `2`, when your site uses HTMX 2.
 
 ## How it works
 
@@ -40,7 +31,7 @@ Remove the `htmx` block, or set its version to `2`, when your site uses HTMX 2.
 - Select, radio, and checkbox fields validate immediately.
 - DreamForm validates all fields of the current step, but only returns the field that caused the request.
 - Precognitive validation does not complete the form submission.
-- HTMX 2 uses Idiomorph to keep input focus. HTMX 4 uses its built-in `outerMorph` swap.
+- DreamForm uses the `outerMorph` swap of HTMX to keep input focus.
 
 ## Partial submissions
 

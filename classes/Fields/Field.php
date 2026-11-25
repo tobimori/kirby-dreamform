@@ -112,7 +112,7 @@ abstract class Field
 	/**
 	 * Returns the sanitzed value of the field
 	 */
-	protected function sanitize(ContentField $value): ContentField
+	public function sanitize(ContentField $value): ContentField
 	{
 		return $value;
 	}
@@ -155,22 +155,14 @@ abstract class Field
 			return [];
 		}
 
-		$htmx = [
+		return [
 			'hx-post' => $form->url(precognition: true),
 
 			// we want to show the error in the last moment (on blur)
 			// but we want to remove the error as soon as possible (on change)
 			'hx-trigger' => $this->validate() === true ? "change" : "change, input changed delay:500ms",
-
-			// HTMX 4 includes morphing; HTMX 2 uses the Idiomorph extension
-			'hx-swap' => Htmx::isVersion(4) ? 'outerMorph' : 'morph:{ignoreActiveValue:true}'
+			'hx-swap' => 'outerMorph'
 		];
-
-		if (Htmx::isVersion(2)) {
-			$htmx['hx-ext'] = 'morph';
-		}
-
-		return $htmx;
 	}
 
 	/**

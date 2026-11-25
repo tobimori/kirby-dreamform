@@ -50,8 +50,9 @@ return function () {
 			],
 			'sidebar' => [
 				'width' => '1/3',
-				'sections' => [
-					'submission' => [
+				'fields' => [
+					// fields share one namespace with the form fields in the main column
+					'dreamformSubmission' => [
 						'type' => 'dreamform-submission'
 					]
 				]

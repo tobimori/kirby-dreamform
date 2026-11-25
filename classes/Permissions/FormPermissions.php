@@ -2,47 +2,21 @@
 
 namespace tobimori\DreamForm\Permissions;
 
-use Kirby\Cms\PagePermissions;
-
-class FormPermissions extends PagePermissions
+/**
+ * Applies the DreamForm role permissions to form pages
+ */
+class FormPermissions extends PluginPermissions
 {
-	protected function canAccess(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'accessForms');
-	}
-
-	protected function canCreate(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'createForms');
-	}
-
-	protected function canUpdate(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'updateForms');
-	}
-
-	protected function canDelete(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'deleteForms');
-	}
-
-	protected function canDuplicate(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'duplicateForms');
-	}
-
-	protected function canChangeTitle(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'changeFormTitle');
-	}
-
-	protected function canChangeStatus(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'changeFormStatus');
-	}
-
-	protected function canChangeSlug(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'changeFormSlug');
-	}
+	protected const array PERMISSIONS = [
+		'access' => 'accessForms',
+		'create' => 'createForms',
+		'update' => 'updateForms',
+		'delete' => 'deleteForms',
+		'duplicate' => 'duplicateForms',
+		'changeTitle' => 'changeFormTitle',
+		'changeStatus' => 'changeFormStatus',
+		'changeStatusToDraft' => 'changeFormStatus',
+		'publish' => 'changeFormStatus',
+		'changeSlug' => 'changeFormSlug',
+	];
 }

@@ -16,15 +16,12 @@ return [
 		]
 	],
 	'useDataAttributes' => false, // uses data-form-url instead of action
-	'mode' => 'prg', // prg / api / htmx
-	'htmx' => [
-		'version' => 2 // 2 / 4; HTMX 4 is opt-in in DreamForm 2
-	],
+	'mode' => 'prg', // prg / api / htmx (requires HTMX 4)
 	'hideEmptyErrors' => false, // hide error elements when there's no error message
 	'multiStep' => true, // Enable multi-step forms
 	'storeSubmissions' => true, // Store submissions in the content folder
 	'partialSubmissions' => true, // Allow partial submissions toggle in panel (requires precognition)
-	'precognition' => false, // HTMX mode only; HTMX 2 also requires the Idiomorph extension
+	'precognition' => false, // HTMX mode only
 	'debug' => fn () => App::instance()->option('debug'),
 	'layouts' => [ // https://getkirby.com/docs/reference/panel/fields/layout#defining-your-own-layouts
 		'1/1',
@@ -33,8 +30,8 @@ return [
 	'page' => 'page://forms', // Slug or URI to the page where the forms are located
 	'secret' => null, // Optional encryption secret; falls back to Kirby's configured content.salt
 	// allow all Kirby queries in success messages and email templates, not only field keys, page and form data
-	// disable with untrusted Panel users, queries can read any data, e.g. user emails
-	'kql' => true, // defaults to false in DreamForm 3
+	// only enable with trusted Panel users, queries can read any data, e.g. user emails
+	'kql' => false,
 	'marks' => ['bold', 'italic', 'underline', 'strike', 'link', 'email'], // Marks to be used in writer fields
 	'nodes' => [
 		'heading',

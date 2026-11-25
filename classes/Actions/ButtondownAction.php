@@ -131,7 +131,7 @@ class ButtondownAction extends Action
 	{
 		$metadata = [];
 		foreach ($this->block()->exposeMetadata()->split() as $fieldId) {
-			$field = $this->form()->formFields()->find($fieldId);
+			$field = $this->form()->formFields()->findByKey($fieldId);
 			if ($field) {
 				$metadata[$field->key()] = $this->submission()->valueForId($fieldId)->value();
 			}

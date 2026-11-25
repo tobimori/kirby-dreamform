@@ -40,7 +40,7 @@ Let's create a new file for our class, `LinkedInField.php`. A basic field class 
 
 * `public function validate(): true|string`   
   Validates the field value (`$this->value()`), returns the error message as string or true if the validation was successful
-* `protected function sanitize(\Kirby\Content\Field $field): \Kirby\Content\Field`  
+* `public function sanitize(\Kirby\Content\Field $field): \Kirby\Content\Field`  
   Returns the sanitized field value
 * `public function afterSubmit(SubmissionPage $submission): void`   
   Run logic after the submission, such as uploading files

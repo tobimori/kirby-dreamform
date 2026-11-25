@@ -11,7 +11,7 @@ use Kirby\Toolkit\A;
  */
 class SubmissionLog extends Items
 {
-	public const ITEM_CLASS = SubmissionLogEntry::class;
+	public const string ITEM_CLASS = SubmissionLogEntry::class;
 
 	/**
 	 * Convert the items to an array

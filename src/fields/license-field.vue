@@ -1,43 +1,21 @@
 <script setup>
-import { ref, useApp, usePanel, useSection } from "kirbyuse"
-import { section } from "kirbyuse/props"
+import { usePanel } from "kirbyuse"
 
-const props = defineProps(section)
+defineOptions({ inheritAttrs: false })
 
-const activated = ref(true)
-const local = ref(false)
+defineProps({
+	activated: Boolean,
+	local: Boolean
+})
 
-const loadSection = async () => {
-	const { load } = useSection()
-	const response = await load({
-		parent: props.parent,
-		name: props.name
-	})
-
-	activated.value = response.activated
-	local.value = response.local
-}
-
-const app = useApp()
+// the default dialog success handler shows the message and reloads the view
 const panel = usePanel()
-const openDialog = () => {
-	app.$dialog("dreamform/activate", {
-		on: {
-			success(t) {
-				panel.dialog.close()
-				panel.notification.success(t.message)
-				loadSection()
-			}
-		}
-	})
-}
-
-loadSection()
+const openDialog = () => panel.dialog.open("dreamform/activate")
 </script>
 
 <template>
-	<k-section v-if="!activated" class="df-license-section">
-		<div class="df-license-section-wrapper">
+	<div v-if="!activated" class="df-license-field">
+		<div class="df-license-field-wrapper">
 			<a
 				href="https://plugins.andkindness.com/dreamform"
 				target="_blank"
@@ -64,7 +42,7 @@ loadSection()
 		>
 			{{ $t("dreamform.license.activate") }}
 		</k-button>
-	</k-section>
+	</div>
 </template>
 
 <style>
@@ -82,7 +60,7 @@ loadSection()
 	}
 }
 
-.df-license-section {
+.df-license-field {
 	background: var(--color-blue-300);
 	padding: var(--spacing-1) var(--spacing-1);
 	border-radius: var(--rounded-lg);
@@ -100,13 +78,13 @@ loadSection()
 	}
 }
 
-.df-license-section,
-.df-license-section-wrapper {
+.df-license-field,
+.df-license-field-wrapper {
 	display: flex;
 	align-items: center;
 }
 
-.df-license-section-wrapper {
+.df-license-field-wrapper {
 	padding: var(--spacing-1);
 }
 </style>

@@ -80,7 +80,7 @@ export default {
 		return {
 			id: this.name,
 			icon: "input-field",
-			label: window.panel.$t("dreamform.writerNodes.formField"),
+			label: window.panel.t("dreamform.writerNodes.formField"),
 			name: this.name,
 			inline: true
 		}

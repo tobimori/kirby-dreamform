@@ -1,78 +1,44 @@
 <script setup>
-import { useSection, ref, useApp, usePanel } from "kirbyuse"
-import { section } from "kirbyuse/props"
+import { useHelpers, usePanel } from "kirbyuse"
 
 import EntryBase from "@/components/log/entry-base.vue"
 
-const props = defineProps(section)
+defineOptions({ inheritAttrs: false })
 
-const app = useApp()
+const props = defineProps({
+	path: String,
+	isSpam: Boolean,
+	isPartial: Boolean,
+	log: {
+		type: Array,
+		default: () => []
+	}
+})
+
+// the default dialog success handler shows the message and reloads the view
 const panel = usePanel()
-
-const didLoad = ref(false)
-const isSpam = ref(false)
-const isPartial = ref(false)
-const log = ref([])
-
-const loadSection = async () => {
-	const { load } = useSection()
-	const response = await load({
-		parent: props.parent,
-		name: props.name
-	})
-
-	didLoad.value = true
-	isSpam.value = response.isSpam
-	isPartial.value = response.isPartial
-	log.value = response.log
-	console.log(log.value)
-}
-
-const toggleSpam = () => {
-	app.$dialog(
-		`submission/${props.parent.split("/")[2]}/mark-as-${
-			isSpam.value ? "ham" : "spam"
-		}`,
-		{
-			on: {
-				success(res) {
-					panel.dialog.close()
-					panel.notification.success(res.message)
-					loadSection()
-				}
-			}
-		}
+const toggleSpam = () =>
+	panel.dialog.open(
+		`submission/${props.path}/mark-as-${props.isSpam ? "ham" : "spam"}`
 	)
-}
+const runActions = () =>
+	panel.dialog.open(`submission/${props.path}/run-actions`)
 
-const runActions = () => {
-	app.$dialog(`submission/${props.parent.split("/")[2]}/run-actions`, {
-		on: {
-			success(res) {
-				panel.dialog.close()
-				panel.notification.success(res.message)
-				loadSection()
-			}
-		}
-	})
-}
-
-const exists = (type) => app.$helper.isComponent(`df-log-${type}-entry`)
-
-loadSection()
+const helpers = useHelpers()
+const exists = (type) => helpers.isComponent(`df-log-${type}-entry`)
 </script>
 
 <template>
-	<k-section v-if="didLoad" :headline="$t('dreamform.submission')">
-		<k-button
-			slot="options"
-			icon="play"
-			size="xs"
-			variant="filled"
-			@click="runActions"
-		>
-			{{ $t("dreamform.submission.runActions.button") }}
-		</k-button>
+	<k-field
+		:input="false"
+		:label="$t('dreamform.submission')"
+		class="df-submission-field"
+	>
+		<template #options>
+			<k-button icon="play" size="xs" variant="filled" @click="runActions">
+				{{ $t("dreamform.submission.runActions.button") }}
+			</k-button>
+		</template>
 		<div class="df-submission-section">
 			<div v-if="!isPartial" class="df-stat">
 				{{ $t("dreamform.submission.markedAs").split("…")[0] }}
@@ -111,10 +77,9 @@ loadSection()
 			</k-button>
 		</div>
 		<div class="df-submission-log">
-			<template v-for="entry in log">
+			<template v-for="entry in log" :key="entry.id">
 				<EntryBase
 					v-if="exists(entry.type) || entry.type === 'none'"
-					:key="entry.id"
 					:template="entry.data?.template"
 					:timestamp="entry.timestamp"
 					:title="entry.title"
@@ -128,14 +93,13 @@ loadSection()
 				</EntryBase>
 				<k-box
 					v-else
-					:key="`${entry.id}-error`"
 					:text="$t('dreamform.submission.error.logType', { type: entry.type })"
 					icon="alert"
 					theme="negative"
 				/>
 			</template>
 		</div>
-	</k-section>
+	</k-field>
 </template>
 
 <style>
@@ -147,7 +111,7 @@ loadSection()
 	margin-bottom: 0.125rem;
 
 	.k-button {
-		padding: var(--spacing-4) var(--spacing-5);
+		padding: var(--spacing-4) 1.25rem;
 		width: 100%;
 		justify-content: flex-start;
 		border-radius: var(--rounded-sm);

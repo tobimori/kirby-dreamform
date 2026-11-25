@@ -1,8 +1,8 @@
 <script setup>
 import Editable from "@/components/editable.vue"
-import { props as blockProps } from "@/utils/block"
+import { block } from "kirbyuse/props"
 
-const props = defineProps(blockProps)
+const props = defineProps(block)
 const emit = defineEmits(["update"])
 </script>
 
@@ -13,8 +13,7 @@ const emit = defineEmits(["update"])
 			class="df-button-input"
 			:placeholder="$t('dreamform.fields.button.label.label')"
 			:model-value="content.label"
-			@update:modelValue="emit('update', { ...props.content, label: $event })"
-			@dblClick="open"
+			@update:model-value="emit('update', { ...props.content, label: $event })"
 		/>
 	</div>
 </template>

@@ -5,8 +5,8 @@
  * text fields in the form builder
  */
 
-import { watch, useApp, usePanel } from "kirbyuse"
-import { onMounted, ref } from "kirbyuse"
+import { useHelpers, usePanel } from "kirbyuse"
+import { onMounted, ref, watch } from "vue"
 
 const props = defineProps({
 	tag: String,
@@ -19,7 +19,7 @@ const el = ref()
 defineExpose({ el })
 
 const panel = usePanel()
-const app = useApp()
+const helpers = useHelpers()
 
 // set the initial value on mount
 onMounted(() => {
@@ -40,7 +40,7 @@ const handleUpdate = () => {
 
 	// Slugify the value
 	const value = props.slugify
-		? app.$helper.slug(
+		? helpers.slug(
 				el.value.textContent,
 				[panel.language.rules ?? panel.system.slugs, panel.system.ascii],
 				"a-zA-Z0-9_"

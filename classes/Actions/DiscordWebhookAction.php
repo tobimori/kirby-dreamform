@@ -69,7 +69,7 @@ class DiscordWebhookAction extends Action
 		// get the values & keys of the exposed fields
 		$content = '';
 		foreach ($exposed as $fieldId) {
-			$field = $this->form()->formFields()->find($fieldId);
+			$field = $this->form()->formFields()->findByKey($fieldId);
 			$value = $this->submission()->valueForId($fieldId);
 
 			if ($field && $value?->isNotEmpty()) {

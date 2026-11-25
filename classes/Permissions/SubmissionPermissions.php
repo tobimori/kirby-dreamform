@@ -2,17 +2,13 @@
 
 namespace tobimori\DreamForm\Permissions;
 
-use Kirby\Cms\PagePermissions;
-
-class SubmissionPermissions extends PagePermissions
+/**
+ * Applies the DreamForm role permissions to submission pages
+ */
+class SubmissionPermissions extends PluginPermissions
 {
-	protected function canAccess(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'accessSubmissions');
-	}
-
-	protected function canDelete(): bool
-	{
-		return static::user()->role()->permissions()->for('tobimori.dreamform', 'deleteSubmissions');
-	}
+	protected const array PERMISSIONS = [
+		'access' => 'accessSubmissions',
+		'delete' => 'deleteSubmissions',
+	];
 }

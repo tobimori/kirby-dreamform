@@ -2,6 +2,5 @@ label: dreamform.common.key.label
 type: dreamform-field-slug
 required: true
 width: 1/2
-icon: false # none would show an empty icon which cuts of the input too early
 allow: a-zA-Z0-9_ # we need to allow underscores for url params
 sync: label

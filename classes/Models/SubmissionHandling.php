@@ -40,7 +40,7 @@ trait SubmissionHandling
 	 */
 	public function handlePrecognitiveGuards(): SubmissionPage
 	{
-		foreach ($this->form()->guards() as $guard) {
+		foreach ($this->form()->formGuards() as $guard) {
 			$guard->precognitiveRun();
 		}
 
@@ -53,7 +53,7 @@ trait SubmissionHandling
 	 */
 	public function handleGuards(bool $postValidation = false): SubmissionPage
 	{
-		foreach ($this->form()->guards() as $guard) {
+		foreach ($this->form()->formGuards() as $guard) {
 			$postValidation ? $guard->postValidation($this) : $guard->run();
 		}
 

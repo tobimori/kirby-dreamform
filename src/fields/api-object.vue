@@ -1,6 +1,6 @@
 <script setup>
-import { watch } from "kirbyuse"
-import { ref, useApi } from "kirbyuse"
+import { usePanel } from "kirbyuse"
+import { ref, watch } from "vue"
 import {
 	after,
 	autofocus,
@@ -42,14 +42,14 @@ const emit = defineEmits(["input"])
 
 const fields = ref([])
 
-const api = useApi()
+const panel = usePanel()
 const loadRemoteFields = async () => {
 	if (!props.formData[props.sync]) return
 
-	const response = await api.get(
-		`/dreamform/object/mailchimp/${props.endpoints.model}/${
-			props.formData[props.sync]
-		}`
+	// the model endpoint starts with a slash, e.g. `/pages/forms+contact`
+	const model = props.endpoints.model.replace(/^\//, "")
+	const response = await panel.get(
+		`dreamform/mailchimp/${model}/lists/${props.formData[props.sync]}/fields`
 	)
 
 	fields.value = Object.fromEntries(

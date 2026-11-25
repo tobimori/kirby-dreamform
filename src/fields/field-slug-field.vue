@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from "kirbyuse"
+import { computed, ref, watch } from "vue"
 import {
 	after,
 	autofocus,
@@ -89,7 +89,7 @@ defineExpose({
 		v-bind="fieldProps"
 		:class="['k-slug-field', 'df-field-slug-field']"
 		:help="preview"
-		:input="id"
+		:input="props.id"
 	>
 		<k-input
 			ref="input"

@@ -10,7 +10,7 @@ use Kirby\Cms\Item;
  */
 class SubmissionLogEntry extends Item
 {
-	public const ITEMS_CLASS = SubmissionLog::class;
+	public const string ITEMS_CLASS = SubmissionLog::class;
 
 	protected int $timestamp;
 	protected array $data;

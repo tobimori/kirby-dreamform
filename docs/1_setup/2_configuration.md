@@ -19,8 +19,7 @@ HTMX and API modes require either `tobimori.dreamform.secret` or an explicitly c
 
 | Option | Default | Accepts | Description |
 | --- | --- | --- | --- |
-| tobimori.dreamform.mode | `'prg'` | `'prg'|'api'|'htmx'` | Set the submission mode for all form submissions |
-| tobimori.dreamform.htmx.version | `2` | `2|4` | Select the HTMX major version; HTMX 4 is opt-in |
+| tobimori.dreamform.mode | `'prg'` | `'prg'|'api'|'htmx'` | Set the submission mode for all form submissions; `htmx` requires [HTMX 4](../5_developers/1_htmx-support.md) |
 | tobimori.dreamform.precognition | `false` | `boolean` | Validate fields while the user fills in the form; HTMX mode only, see [Precognition](../0_general/4_precognition.md) |
 | tobimori.dreamform.partialSubmissions | `true` | `boolean` | Show the partial submissions toggle in the form settings; requires `htmx` mode, `precognition` and stored submissions |
 | tobimori.dreamform.multiStep | `true` | `boolean` | Enable or disable multi-step forms |
@@ -28,7 +27,7 @@ HTMX and API modes require either `tobimori.dreamform.secret` or an explicitly c
 | tobimori.dreamform.metadata.collect | `[]` | `array` | Metadata to store with each submission: `'ip'` and/or `'userAgent'` |
 | tobimori.dreamform.useDataAttributes | `false` | `boolean` | Output the form URL as `data-form-url` instead of the `action` attribute |
 | tobimori.dreamform.hideEmptyErrors | `false` | `boolean` | Do not render error elements when there is no error message |
-| tobimori.dreamform.kql | `true` | `boolean` | Allow all [Kirby queries](https://getkirby.com/docs/guide/blueprints/query-language) in success messages and email templates. When `false`, only field keys, `page.id`, `page.title`, `page.url`, `form.id` and `form.title` work. Set to `false` if you have untrusted Panel users. DreamForm 3 changes the default to `false` |
+| tobimori.dreamform.kql | `false` | `boolean` | Allow all [Kirby queries](https://getkirby.com/docs/guide/blueprints/query-language) in success messages and email templates. When `false`, only field keys, `page.id`, `page.title`, `page.url`, `form.id` and `form.title` work. Enable it only if you trust all Panel users |
 | tobimori.dreamform.debug | `fn () => option('debug')` | `boolean|callable` | If enabled, sensitive errors are shown on form submission |
 | tobimori.dreamform.layouts | `['1/1', '1/2, 1/2']` | `array` | Enabled layouts for the form builder |
 | tobimori.dreamform.page | `'page://forms'` | `string` | The page where all forms are stored |
@@ -48,9 +47,6 @@ return [
   ],
   'tobimori.dreamform' => [
     'mode' => 'htmx',
-    'htmx' => [
-      'version' => 4,
-    ],
     'debug' => false,
     'layouts' => ['1/1', '1/2, 1/2', '1/3, 1/3, 1/3'],
     'guards' => [

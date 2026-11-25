@@ -119,7 +119,7 @@ class FileUploadField extends Field
 	}
 
 	// abusing the sanitize method to get the file from the request
-	protected function sanitize(ContentField $value): ContentField
+	public function sanitize(ContentField $value): ContentField
 	{
 		$file = App::instance()->request()->files()->get($this->block()->key()->or($this->id())->value());
 
@@ -207,7 +207,7 @@ class FileUploadField extends Field
 	{
 		return [
 			'label' => $this->block()->label()->value() ?? t('dreamform.fields.upload.name'),
-			'type' => 'files'
+			'type' => 'filepicker'
 		];
 	}
 

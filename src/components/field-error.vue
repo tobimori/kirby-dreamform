@@ -15,7 +15,7 @@ const emit = defineEmits(["update"])
 			tag="span"
 			:placeholder="$t('dreamform.fields.error.required')"
 			:model-value="content.errormessage"
-			@update:modelValue="emit('update', { ...content, errormessage: $event })"
+			@update:model-value="emit('update', { ...content, errormessage: $event })"
 		/>
 	</div>
 </template>

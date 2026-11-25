@@ -85,7 +85,7 @@ class CheckboxField extends Field
 		return true;
 	}
 
-	protected function sanitize(ContentField $value): ContentField
+	public function sanitize(ContentField $value): ContentField
 	{
 		return new ContentField($this->block()->parent(), $this->key(), A::join($value->value() ?? [], ','));
 	}

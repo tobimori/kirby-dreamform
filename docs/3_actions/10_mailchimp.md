@@ -75,7 +75,7 @@ The Mailchimp action supports background processing. If the workflow runs in a q
 
 DreamForm caches the data from the Mailchimp API in the `tobimori.dreamform.performer` cache for 10 minutes. This includes the API key check, the lists, the merge fields and the tags of each list. If you add a list, merge field or tag in Mailchimp, it can take up to 10 minutes until it shows up in the Panel. Clear the Kirby cache to see the changes immediately.
 
-The Panel loads the field mapping from the `dreamform/object/mailchimp` API route, which returns the merge fields and tags for the selected list.
+The Panel loads the field mapping from the `dreamform/mailchimp/pages/(:any)/lists/(:any)/fields` Panel request route, which returns the merge fields and tags for the selected list.
 
 ## Limitations
 

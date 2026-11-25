@@ -13,14 +13,13 @@ const text = translateLog(props.text, props.template)
 </script>
 
 <template>
-	<!-- eslint-disable-next-line vue/no-v-html -- values are escaped -->
-	<div class="df-log-info-entry" v-html="text"></div>
+	<div v-safe-html="text" class="df-log-info-entry"></div>
 </template>
 
 <style>
 .df-log-info-entry {
 	padding: var(--spacing-2) var(--spacing-3);
-	background: var(--color-white);
+	background: var(--item-color-back);
 	border-radius: var(--rounded);
 	box-shadow: var(--shadow);
 	line-height: var(--leading-normal);

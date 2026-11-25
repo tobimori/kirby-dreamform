@@ -12,6 +12,8 @@ import LayoutSelector from "@/core/layout-selector.vue"
 import ApiObject from "@/fields/api-object.vue"
 import DynamicField from "@/fields/dynamic-field.vue"
 import FieldSlugField from "@/fields/field-slug-field.vue"
+import LicenseField from "@/fields/license-field.vue"
+import SubmissionField from "@/fields/submission-field.vue"
 import formFieldNode from "@/nodes/form-field.js"
 import ButtonField from "@/previews/button-field.vue"
 import ChoicesField from "@/previews/choices-field.vue"
@@ -19,8 +21,6 @@ import FileUploadField from "@/previews/file-upload-field.vue"
 import HiddenField from "@/previews/hidden-field.vue"
 import SelectField from "@/previews/select-field.vue"
 import TextField from "@/previews/text-field.vue"
-import License from "@/sections/license.vue"
-import Submission from "@/sections/submission.vue"
 
 panel.plugin("tobimori/dreamform", {
 	icons: {
@@ -73,11 +73,9 @@ panel.plugin("tobimori/dreamform", {
 	fields: {
 		"dreamform-api-object": ApiObject,
 		"dreamform-dynamic-field": DynamicField,
-		"dreamform-field-slug": FieldSlugField
-	},
-	sections: {
-		"dreamform-license": License,
-		"dreamform-submission": Submission
+		"dreamform-field-slug": FieldSlugField,
+		"dreamform-license": LicenseField,
+		"dreamform-submission": SubmissionField
 	},
 	writerNodes: {
 		dreamformFormField: formFieldNode

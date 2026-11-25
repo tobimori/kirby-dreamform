@@ -22,8 +22,7 @@ const title = translateLog(props.title, props.template)
 		<span class="df-log-entry-line"></span>
 		<div class="df-log-entry-content">
 			<div class="df-log-entry-heading">
-				<!-- eslint-disable-next-line vue/no-v-html -- values are escaped -->
-				<span v-html="title"></span>
+				<span v-safe-html="title"></span>
 				<span> • {{ date }}</span>
 			</div>
 			<div v-if="$slots.default" class="df-log-entry-details">

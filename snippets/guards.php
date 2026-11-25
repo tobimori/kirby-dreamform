@@ -8,7 +8,7 @@
  * @var array|null $attr
  */
 
-foreach ($form->guards() as $guard) {
+foreach ($form->formGuards() as $guard) {
 	if ($guard::hasSnippet()) {
 		snippet(
 			"dreamform/guards/{$guard->type()}",
