@@ -67,13 +67,19 @@ class FormPage extends BasePage
 
 		$htmx = [
 			'hx-post' => $this->url(),
-			(Htmx::isVersion(4) ? 'hx-disable:inherited' : 'hx-disabled-elt') => "[id='{$this->elementId()}'] button",
+			// not inherited, so Precognition requests of the fields do not disable the submit button
+			(Htmx::isVersion(4) ? 'hx-disable' : 'hx-disabled-elt') => "[id='{$this->elementId()}'] button",
 			'hx-swap' => 'outerHTML show:top',
 			(Htmx::isVersion(4) ? 'hx-vals:inherited' : 'hx-vals') => Json::encode(array_filter([
 				'dreamform:page' => Htmx::encrypt($page->uuid()->toString()),
 				'dreamform:attr' => Htmx::encrypt(Json::encode($attr))
 			], fn ($value) => $value !== null))
 		];
+
+		// HTMX 2 inherits all attributes implicitly
+		if (Htmx::isVersion(2)) {
+			$htmx['hx-disinherit'] = 'hx-disabled-elt';
+		}
 
 		return $htmx;
 	}
