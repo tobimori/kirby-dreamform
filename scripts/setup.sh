@@ -34,6 +34,11 @@ else
 		"getkirby/cms:$kirby_version"
 fi
 
+# Kirby Agents 1 is a release candidate, so the constraint must allow it
+if ! grep -q '"tobimori/kirby-agents": "^1' "$playground/composer.json"; then
+	composer require --working-dir="$playground" --no-interaction --no-security-blocking "tobimori/kirby-agents:^1.0.0-rc.1"
+fi
+
 mkdir -p "$playground/site/plugins"
 ln -sfn ../../.. "$playground/site/plugins/dreamform"
 
@@ -54,6 +59,7 @@ return [
 		'site' => Menu::site(),
 		'forms' => Menu::forms(),
 		'users',
+		'agents',
 		'system'
 	],
 	'tobimori.dreamform' => [

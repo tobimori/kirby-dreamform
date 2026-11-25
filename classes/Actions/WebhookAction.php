@@ -39,7 +39,8 @@ class WebhookAction extends Action
 							'extends' => 'dreamform/fields/field',
 							'type' => 'multiselect',
 							'options' => [
-								'dreamform-referer' => t('dreamform.actions.webhook.exposedFields.referer'),
+								'type' => 'query',
+								'query' => 'page.exposedFieldOptions'
 							]
 						]
 					]

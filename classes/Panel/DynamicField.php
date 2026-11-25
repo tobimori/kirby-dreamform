@@ -79,6 +79,7 @@ class DynamicField extends InputField
 
 				$fields[] = [
 					'id' => $field->id(),
+					'key' => $field->key(),
 					'label' => $field->block()->label()->or($field->key())->value(),
 					'icon' => $blueprint['icon'] ?? 'input-cursor-move',
 					'type' => $blueprint['name'] ?? "",
@@ -129,7 +130,7 @@ class DynamicField extends InputField
 				}
 
 				if (($value['type'] ?? null) === 'dynamic' && ($value['field'] ?? null)) {
-					foreach ($this->selectableFields($this->model()->formFields()) as $field) {
+					foreach ($this->selectableFields($this->model()->formFields(null, VersionId::CHANGES)) as $field) {
 						if ($field->id() === $value['field']) {
 							return;
 						}

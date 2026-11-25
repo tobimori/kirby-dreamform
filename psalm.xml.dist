@@ -37,6 +37,13 @@
 		<UnusedForeachValue errorLevel="suppress" />
 		<UnusedVariable errorLevel="suppress" />
 		<UndefinedClass errorLevel="suppress" />
+		<!-- Kirby Agents is optional, classes/Agents only loads with it -->
+		<MissingDependency>
+			<errorLevel type="suppress">
+				<directory name="classes/Agents" />
+				<file name="index.php" />
+			</errorLevel>
+		</MissingDependency>
 
 		<UnusedConstructor>
 			<errorLevel type="suppress">
