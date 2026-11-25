@@ -20,7 +20,7 @@ const text = translateLog(props.text, props.template)
 <style>
 .df-log-info-entry {
 	padding: var(--spacing-2) var(--spacing-3);
-	background: var(--color-white);
+	background: var(--item-color-back);
 	border-radius: var(--rounded);
 	box-shadow: var(--shadow);
 	line-height: var(--leading-normal);

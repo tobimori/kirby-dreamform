@@ -163,7 +163,7 @@ const meta = computed(() => [
 	color: var(--color-text);
 
 	&:not([data-type="subject"]) {
-		background: var(--field-color-back);
+		background: light-dark(var(--color-gray-200), var(--color-gray-800));
 		border-radius: 9999px;
 		padding-inline: var(--spacing-2);
 	}
